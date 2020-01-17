@@ -4,6 +4,10 @@
 class SNAudioManager
 {
 public:
+	//When adding sounds and music 
+	//1. Create a Mix variable and a path variable
+	//2. Init the sound in InitSounds
+
 	Mix_Music* music;
 	char* musicPath;
 	
