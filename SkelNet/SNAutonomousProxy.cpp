@@ -1,15 +1,15 @@
-#include "Fighter.h"
-#include "World.h"
-#include "Engine.h"
-#include "Animator.h"
+#include "SNAutonomousProxy.h"
+#include "SNWorld.h"
+#include "SNEngine.h"
+#include "SNAnimator.h"
 
-void Fighter::Spawn(Vector2 initPos, World& world)
+void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
 	this->world = &world;
 }
 
-void Fighter::Draw()
+void SNAutonomousProxy::Draw()
 {
 	if (position.x != previousPosition.x)
 	{
@@ -33,13 +33,13 @@ void Fighter::Draw()
 	engSetColor(0, 0, 0);
 }
 
-void Fighter::Update()
+void SNAutonomousProxy::Update()
 {
 	CheckInput();
 	UpdatePosition();
 }
 
-void Fighter::UpdatePosition()
+void SNAutonomousProxy::UpdatePosition()
 {
 	previousPosition = position;
 	position += velocity;
@@ -49,12 +49,12 @@ void Fighter::UpdatePosition()
 	}
 }
 
-void Fighter::SetPosition(Vector2 newPosition)
+void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
 	position = newPosition;
 }
 
-void Fighter::CheckInput()
+void SNAutonomousProxy::CheckInput()
 {
 	if (engGetKey(Key::Left))
 	{

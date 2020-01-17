@@ -1,13 +1,13 @@
 #include <SDL.h>
 #include <SDL_net.h>
-#include "Server.h"
+#include "SNServer.h"
 #include <string.h>
-#include "World.h"
+#include "SNWorld.h"
 #include "DataPacket.h"
 
 //https://gist.github.com/psqq/b92243f2149fcf4dd46370d4c0b5fef9
 
-void Server::Setup()
+void SNServer::Setup()
 {
 	SDLNet_Init();
 
@@ -22,7 +22,7 @@ void Server::Setup()
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 }
 
-void Server::AcceptConnection()
+void SNServer::AcceptConnection()
 {
 	client = SDLNet_TCP_Accept(server);
 	if (!client)
@@ -41,7 +41,7 @@ void Server::AcceptConnection()
 	SDLNet_TCP_AddSocket(socketSet, client);
 }
 
-bool Server::RecvData()
+bool SNServer::RecvData()
 {
 	int numReady;
 	numReady = SDLNet_CheckSockets(socketSet, RECV_TIMEOUT_MS);
@@ -81,7 +81,7 @@ bool Server::RecvData()
 }
 
 // TODO: Decouple data from server and client
-void Server::SendData(/* DataPacket dataToSend */)
+void SNServer::SendData(/* DataPacket dataToSend */)
 {
 	char buffer[1024];
 
@@ -103,7 +103,7 @@ void Server::SendData(/* DataPacket dataToSend */)
 	}
 }
 
-void Server::Close()
+void SNServer::Close()
 {
 	SDLNet_FreeSocketSet(socketSet);
 	SDLNet_TCP_Close(client);

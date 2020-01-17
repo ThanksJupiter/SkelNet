@@ -1,5 +1,4 @@
-#include "Engine.h"
-#include "Keys.h"
+#include "SNEngine.h"
 #include <SDL.h>
 #undef main
 #include <SDL_image.h>
@@ -55,15 +54,15 @@ void engInit()
 
 	TTF_Init();
 
-	StandardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24);
+	standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24);
 
-	if (!StandardFont) {
+	if (!standardFont) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 		// handle error
 	}
 }
 
-SDL_Texture* LoadTexture(char* path)
+SDL_Texture* LoadTexture(const char* path)
 {
 	SDL_Surface* image = IMG_Load(path);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
@@ -100,7 +99,7 @@ void engRender()
 
 void engUpdate()
 {
-	engDrawString(100, 100, "remoulad");
+	engDrawString({ 100, 100 }, "remoulad");
 	currentFrameNum++;
 
 	SDL_Event e;
@@ -272,25 +271,25 @@ bool engGetMouseButtonDown(MouseButton inButton)
 
 void engSetTextColor(Uint8 Red, Uint8 Green, Uint8 Blue)
 {
-	CurrentColor.r = Red;
-	CurrentColor.g = Green;
-	CurrentColor.b = Blue;
-	CurrentColor.a = 255;
+	currentColor.r = Red;
+	currentColor.g = Green;
+	currentColor.b = Blue;
+	currentColor.a = 255;
 }
 
-void engDrawString(int X, int Y, const char* String)
+void engDrawString(Vector2 position, const char* string)
 {
 	// Render text onto surface
-	SDL_Surface* MsgSurface = TTF_RenderText_Solid(StandardFont, String, CurrentColor);
-	SDL_Texture* MsgTexture = SDL_CreateTextureFromSurface(renderer, MsgSurface);
+	SDL_Surface* msgSurface = TTF_RenderText_Solid(standardFont, string, currentColor);
+	SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(renderer, msgSurface);
 
 	// Find out dimensions
-	int MsgW = 0, MsgH = 0;
-	TTF_SizeText(StandardFont, String, &MsgW, &MsgH);
+	int msgW = 0, msgH = 0;
+	TTF_SizeText(standardFont, string, &msgW, &msgH);
 
 	// Copy that bad boy
-	SDL_Rect MessageRect = { X, Y, MsgW, MsgH };
-	SDL_RenderCopy(renderer, MsgTexture, NULL, &MessageRect);
+	SDL_Rect messageRect = { position.x, position.y, msgW, msgH };
+	SDL_RenderCopy(renderer, msgTexture, NULL, &messageRect);
 
 	// Remember to clean up
 	SDL_FreeSurface(msgSurface);

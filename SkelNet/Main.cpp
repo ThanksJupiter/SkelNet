@@ -7,19 +7,19 @@
 #include <time.h>
 #include <vector>
 
-#include "Engine.h"
+#include "SNEngine.h"
 #include "Vector.h"
-#include "World.h"
-#include "Server.h"
-#include "Client.h"
+#include "SNWorld.h"
+#include "SNServer.h"
+#include "SNClient.h"
 #include "Key.h"
-#include "UIElement.h"
-#include "Canvas.h"
+#include "SNUIElement.h"
+#include "SNCanvas.h"
 
-World world;
+SNWorld world;
 bool waiting = true;
 
-Canvas canvas;
+SNCanvas canvas;
 
 void Print()
 {
@@ -37,8 +37,9 @@ int main()
 
 	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
 	canvas.drawDebug = true;
-	UIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
+	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
 	canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
+	canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, {20.f, 60.f});
 
 		while (!engShouldQuit())
 		{
@@ -56,6 +57,11 @@ int main()
 				if (engGetKeyDown(Key::A) && world.isServer == true)
 				{
 					world.server.AcceptConnection();
+				}
+
+				if (engGetKeyDown(Key::D))
+				{
+					canvas.drawDebug = !canvas.drawDebug;
 				}
 			}
 			else
