@@ -4,6 +4,10 @@
 class SNAudioManager
 {
 public:
+	//When adding sounds and music 
+	//1. Create a Mix variable and a path variable
+	//2. Init the sound in InitSounds
+
 	Mix_Music* music;
 	char* musicPath;
 	
@@ -14,6 +18,6 @@ public:
 	char* hitSoundPath;
 
 	void InitSounds();
-	void PlayChunk(Mix_Chunk* chunk);
-	void PlayMusic(Mix_Music* song);
+	void PlayChunkOnce(Mix_Chunk* chunk);
+	void PlayMusicLoop(Mix_Music* song);
 };
