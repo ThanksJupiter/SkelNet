@@ -138,9 +138,7 @@
   <ItemGroup>
     <ClCompile Include="SNAnchor.cpp" />
     <ClCompile Include="SNAnimator.cpp" />
-    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="SNSimulatedProxy.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="SNCanvas.cpp" />
     <ClCompile Include="SNClient.cpp" />
     <ClCompile Include="SNEngine.cpp" />
@@ -148,25 +146,20 @@
     <ClCompile Include="SNFloor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SNServer.cpp" />
-    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SNUIElement.cpp" />
     <ClCompile Include="SNWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimator.h" />
-    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="SNSimulatedProxy.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="SNCanvas.h" />
     <ClInclude Include="SNClient.h" />
     <ClInclude Include="SNEngine.h" />
     <ClInclude Include="SNAutonomousProxy.h" />
     <ClInclude Include="SNFloor.h" />
     <ClInclude Include="Key.h" />
-    <ClInclude Include="Keys.h" />
     <ClInclude Include="SNServer.h" />
-    <ClInclude Include="Ship.h" />
     <ClInclude Include="SNUIElement.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="SNWorld.h" />
