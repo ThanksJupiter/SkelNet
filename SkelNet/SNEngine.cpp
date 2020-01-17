@@ -26,7 +26,7 @@ const Uint8* state = SDL_GetKeyboardState(NULL);
 bool quit = false;
 
 //Sounds
-SNAudioManager* Manager;
+SNAudioManager* audioManager;
 
 struct InputState
 {
@@ -65,8 +65,8 @@ void engInit()
 	}
 
 	//Init audio manager
-	Manager = new SNAudioManager;
-	Manager->InitSounds();
+	audioManager = new SNAudioManager;
+	audioManager->InitSounds();
 }
 
 SDL_Texture* LoadTexture(const char* path)
