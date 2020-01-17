@@ -1,17 +1,17 @@
-#include "Floor.h"
-#include "Engine.h"
+#include "SNFloor.h"
+#include "SNEngine.h"
 #include "Vector.h"
-#include "World.h"
+#include "SNWorld.h"
 #include <math.h>
 
 
-void Floor::Spawn(Vector2 pos, Vector2 size)
+void SNFloor::Spawn(Vector2 pos, Vector2 size)
 {
 	position = pos;
 	this->size = size;
 }
 
-void Floor::Draw()
+void SNFloor::Draw()
 {
 	engSetColor(255, 0, 0);
 	engDrawRect(size.x, size.y, position.x, position.y);

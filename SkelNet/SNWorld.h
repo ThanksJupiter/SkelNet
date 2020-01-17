@@ -1,31 +1,31 @@
 #pragma once
 #include <vector>
-#include "AutonomousProxy.h"
+#include "SNAutonomousProxy.h"
 #include "Vector.h"
-#include "Floor.h"
-#include "SimulatedProxy.h"
-#include "Server.h"
-#include "Client.h"
+#include "SNFloor.h"
+#include "SNSimulatedProxy.h"
+#include "SNServer.h"
+#include "SNClient.h"
 
-class World
+class SNWorld
 {
 public:
-	AutonomousProxy player;
-	SimulatedProxy autonomousProxy;
+	SNAutonomousProxy player;
+	SNSimulatedProxy autonomousProxy;
 
-	Server server;
-	Client client;
+	SNServer server;
+	SNClient client;
 
 	Vector2 worldSize;
 	
-	Floor floors[3];
+	SNFloor floors[3];
 
 	bool isServer;
 
 	void Update();
 	void Draw();
 
-	void SpawnPlayer(World& worldptr);
+	void SpawnPlayer(SNWorld& worldptr);
 	void SpawnAutonomousProxy();
 	void SpawnFloor(Vector2 position, Vector2 size);
 

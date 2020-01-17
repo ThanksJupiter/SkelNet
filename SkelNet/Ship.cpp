@@ -1,11 +1,11 @@
 #include "Ship.h"
-#include "Engine.h"
+#include "SNEngine.h"
 #include "Vector.h"
-#include "World.h"
+#include "SNWorld.h"
 #include "Bullet.h"
 #include <math.h>
 
-void Ship::Spawn(Vector2 initPos, World& world)
+void Ship::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
 	velocity = {0, 0};

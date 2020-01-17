@@ -1,12 +1,12 @@
 #pragma once
 #include "Vector.h"
-#include "Anchor.h"
+#include "SNAnchor.h"
 #include <functional>
 
-class UIElement
+class SNUIElement
 {
 public:
-	UIElement() {};
+	SNUIElement() {};
 
 	void Draw();
 	void CheckInteractedWith();
@@ -24,7 +24,7 @@ public:
 	bool isClickable;
 	bool drawRect;
 
-	Anchor anchor;
+	SNAnchor anchor;
 	Vector2 size;
 	Vector2 position;
 	Vector2 anchorOffset;

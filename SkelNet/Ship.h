@@ -1,12 +1,12 @@
 #pragma once
 #include "Vector.h"
 
-class World;
+class SNWorld;
 
 class Ship
 {
 public:
-	void Spawn(Vector2 initPos, World& world);
+	void Spawn(Vector2 initPos, SNWorld& world);
 	void Accelerate();
 	void Deaccelerate();
 	void UpdatePosition();
@@ -26,5 +26,5 @@ public:
 	float breakCoef = .001f;
 	float rotateSpeed = .005f;
 
-	World* world;
+	SNWorld* world;
 };

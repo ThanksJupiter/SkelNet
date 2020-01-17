@@ -1,14 +1,14 @@
-#include "Anchor.h"
-#include "Engine.h"
+#include "SNAnchor.h"
+#include "SNEngine.h"
 #include <stdio.h>
 
-void Anchor::SetParent(Anchor& anchor)
+void SNAnchor::SetParent(SNAnchor& anchor)
 {
 	parent = &anchor;
 	parent->AddChild(*this);
 }
 
-void Anchor::AddChild(Anchor& child)
+void SNAnchor::AddChild(SNAnchor& child)
 {
 	if (CONNECTED_CHILDREN >= MAX_CONNECTED_CHILDREN)
 		return;
@@ -24,7 +24,7 @@ void Anchor::AddChild(Anchor& child)
 	}
 }
 
-void Anchor::UpdatePosition()
+void SNAnchor::UpdatePosition()
 {
 	if (parent != nullptr)
 	{
@@ -40,12 +40,12 @@ void Anchor::UpdatePosition()
 	}
 }
 
-void Anchor::SetParentOffset(Vector2 offset)
+void SNAnchor::SetParentOffset(Vector2 offset)
 {
 	parentOffset = offset;
 }
 
-void Anchor::SetAbsolutePosition(Vector2 position)
+void SNAnchor::SetAbsolutePosition(Vector2 position)
 {
 	absolutePosition = position;
 	if (parent != nullptr)
@@ -54,17 +54,17 @@ void Anchor::SetAbsolutePosition(Vector2 position)
 	}
 }
 
-void Anchor::SetRelativePosition(Vector2 position)
+void SNAnchor::SetRelativePosition(Vector2 position)
 {
 	absolutePosition = parent->GetAbsolutePosition() + position;
 }
 
-Vector2 Anchor::GetAbsolutePosition()
+Vector2 SNAnchor::GetAbsolutePosition()
 {
 	return absolutePosition;
 }
 
-void Anchor::DrawDebug(bool drawDebugInChildren)
+void SNAnchor::DrawDebug(bool drawDebugInChildren)
 {
 
 	if (parent != nullptr)

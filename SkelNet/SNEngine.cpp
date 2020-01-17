@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "SNEngine.h"
 #include "Keys.h"
 #include <SDL.h>
 #undef main

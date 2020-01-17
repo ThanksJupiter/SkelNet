@@ -1,13 +1,13 @@
-#include "Canvas.h"
-#include "Engine.h"
+#include "SNCanvas.h"
+#include "SNEngine.h"
 
-void Canvas::Setup(Vector2 size, Vector2 anchorPos)
+void SNCanvas::Setup(Vector2 size, Vector2 anchorPos)
 {
 	anchor.SetAbsolutePosition(anchorPos);
 	this->size = size;
 }
 
-void Canvas::CheckInteraction()
+void SNCanvas::CheckInteraction()
 {
 	for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 	{
@@ -18,7 +18,7 @@ void Canvas::CheckInteraction()
 	}
 }
 
-void Canvas::Draw()
+void SNCanvas::Draw()
 {
 	for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 	{
@@ -56,7 +56,7 @@ void Canvas::Draw()
 	engSetColor(0, 0, 0);
 }
 
-UIElement* Canvas::CreateRect(Vector2 position, Vector2 size, Anchor* parentElement, Vector2 anchorOffset)
+SNUIElement* SNCanvas::CreateRect(Vector2 position, Vector2 size, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
 		return nullptr;
@@ -93,7 +93,7 @@ UIElement* Canvas::CreateRect(Vector2 position, Vector2 size, Anchor* parentElem
 	}
 }
 
-UIElement* Canvas::CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, Anchor* parentElement, Vector2 anchorOffset)
+SNUIElement* SNCanvas::CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
 		return nullptr;
@@ -132,12 +132,12 @@ UIElement* Canvas::CreateButton(Vector2 position, Vector2 size, bool isClickable
 	}
 }
 
-UIElement* Canvas::CreateImage(Vector2 position, Vector2 size, Anchor* parentElement, Vector2 anchorOffset)
+SNUIElement* SNCanvas::CreateImage(Vector2 position, Vector2 size, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	return nullptr;
 }
 
-UIElement* Canvas::CreateText(Vector2 position, const char* text, Anchor* parentElement, Vector2 anchorOffset)
+SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
 		return nullptr;

@@ -1,15 +1,15 @@
-#include "AutonomousProxy.h"
-#include "World.h"
-#include "Engine.h"
-#include "Animator.h"
+#include "SNAutonomousProxy.h"
+#include "SNWorld.h"
+#include "SNEngine.h"
+#include "SNAnimator.h"
 
-void AutonomousProxy::Spawn(Vector2 initPos, World& world)
+void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
 	this->world = &world;
 }
 
-void AutonomousProxy::Draw()
+void SNAutonomousProxy::Draw()
 {
 	if (position.x != previousPosition.x)
 	{
@@ -29,13 +29,13 @@ void AutonomousProxy::Draw()
 	engSetColor(0, 0, 0);
 }
 
-void AutonomousProxy::Update()
+void SNAutonomousProxy::Update()
 {
 	CheckInput();
 	UpdatePosition();
 }
 
-void AutonomousProxy::UpdatePosition()
+void SNAutonomousProxy::UpdatePosition()
 {
 	previousPosition = position;
 	position += velocity;
@@ -45,12 +45,12 @@ void AutonomousProxy::UpdatePosition()
 	}
 }
 
-void AutonomousProxy::SetPosition(Vector2 newPosition)
+void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
 	position = newPosition;
 }
 
-void AutonomousProxy::CheckInput()
+void SNAutonomousProxy::CheckInput()
 {
 	if (engGetKey(Key::Left))
 	{

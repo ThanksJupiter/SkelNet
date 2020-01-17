@@ -1,7 +1,7 @@
-#include "UIElement.h"
-#include "Engine.h"
+#include "SNUIElement.h"
+#include "SNEngine.h"
 
-void UIElement::Draw()
+void SNUIElement::Draw()
 {
 	if (drawRect)
 	{
@@ -17,7 +17,7 @@ void UIElement::Draw()
 	}
 }
 
-void UIElement::CheckInteractedWith()
+void SNUIElement::CheckInteractedWith()
 {
 	if (!isClickable)
 		return;
@@ -34,29 +34,29 @@ void UIElement::CheckInteractedWith()
 	}
 }
 
-void UIElement::SetAbsolutePosition(Vector2 position)
+void SNUIElement::SetAbsolutePosition(Vector2 position)
 {
 	this->position = position;
 	anchorOffset = anchor.GetAbsolutePosition() - position;
 }
 
-void UIElement::SetRelativePosition(Vector2 position)
+void SNUIElement::SetRelativePosition(Vector2 position)
 {
 	this->position = anchor.GetAbsolutePosition() + position;
 	anchorOffset = this->position - anchor.GetAbsolutePosition();
 }
 
-void UIElement::SetAnchorPosition(Vector2 position)
+void SNUIElement::SetAnchorPosition(Vector2 position)
 {
 	anchor.SetRelativePosition(position);
 }
 
-void UIElement::UpdatePosition()
+void SNUIElement::UpdatePosition()
 {
 	this->position = anchor.GetAbsolutePosition() + anchorOffset;
 }
 
-void UIElement::DrawDebug()
+void SNUIElement::DrawDebug()
 {
 	engSetColor(0, 255, 0);
 	engDrawLine(position,

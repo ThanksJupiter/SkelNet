@@ -1,14 +1,14 @@
-#include "SimulatedProxy.h"
-#include "World.h"
-#include "Engine.h"
-#include "Animator.h"
+#include "SNSimulatedProxy.h"
+#include "SNWorld.h"
+#include "SNEngine.h"
+#include "SNAnimator.h"
 
-void SimulatedProxy::Spawn(Vector2 initPos)
+void SNSimulatedProxy::Spawn(Vector2 initPos)
 {
 	position = initPos;
 }
 
-void SimulatedProxy::Draw()
+void SNSimulatedProxy::Draw()
 {
 	if (position.x != previousPosition.x)
 	{
@@ -29,7 +29,7 @@ void SimulatedProxy::Draw()
 	engSetColor(0, 0, 0);
 }
 
-void SimulatedProxy::SetPosition(Vector2 newPosition)
+void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 {
 	previousPosition = position;
 	position = newPosition;
