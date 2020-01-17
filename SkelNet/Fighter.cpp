@@ -1,15 +1,15 @@
-#include "SNAutonomousProxy.h"
-#include "SNWorld.h"
-#include "SNEngine.h"
-#include "SNAnimator.h"
+#include "Fighter.h"
+#include "World.h"
+#include "Engine.h"
+#include "Animator.h"
 
-void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
+void Fighter::Spawn(Vector2 initPos, World& world)
 {
 	position = initPos;
 	this->world = &world;
 }
 
-void SNAutonomousProxy::Draw()
+void Fighter::Draw()
 {
 	if (position.x != previousPosition.x)
 	{
@@ -26,16 +26,20 @@ void SNAutonomousProxy::Draw()
 	engSetColor(0, 255, 0);
 	animator->DrawAnimation(position, flip);
 
+	//engDrawRect(20, 60, position.x - 10, position.y - 60);
+	//engSetColor(0, 0, 255);
+	//engDrawRect(10, 10, position.x - 5, position.y - 5);
+
 	engSetColor(0, 0, 0);
 }
 
-void SNAutonomousProxy::Update()
+void Fighter::Update()
 {
 	CheckInput();
 	UpdatePosition();
 }
 
-void SNAutonomousProxy::UpdatePosition()
+void Fighter::UpdatePosition()
 {
 	previousPosition = position;
 	position += velocity;
@@ -45,12 +49,12 @@ void SNAutonomousProxy::UpdatePosition()
 	}
 }
 
-void SNAutonomousProxy::SetPosition(Vector2 newPosition)
+void Fighter::SetPosition(Vector2 newPosition)
 {
 	position = newPosition;
 }
 
-void SNAutonomousProxy::CheckInput()
+void Fighter::CheckInput()
 {
 	if (engGetKey(Key::Left))
 	{

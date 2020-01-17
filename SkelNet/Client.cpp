@@ -1,12 +1,12 @@
 #include <SDL.h>
 #include <SDL_net.h>
-#include "SNClient.h"
+#include "Client.h"
 #include <string.h>
 #include <stdio.h>
 #include "DataPacket.h"
-#include "SNWorld.h"
+#include "World.h"
 
-void SNClient::Setup()
+void Client::Setup()
 {
 	SDLNet_Init();
 
@@ -27,7 +27,7 @@ void SNClient::Setup()
 	SDLNet_TCP_AddSocket(socketSet, tcpsock);
 }
 
-bool SNClient::RecvData()
+bool Client::RecvData()
 {
 	int numReady;
 	numReady = SDLNet_CheckSockets(socketSet, RECV_TIMEOUT_MS);
@@ -66,7 +66,7 @@ bool SNClient::RecvData()
 	return false;
 }
 
-void SNClient::SendData()
+void Client::SendData()
 {
 	char buffer[1024];
 
@@ -85,7 +85,7 @@ void SNClient::SendData()
 	}
 }
 
-void SNClient::Close()
+void Client::Close()
 {
 	SDLNet_FreeSocketSet(socketSet);
 	SDLNet_TCP_Close(tcpsock);

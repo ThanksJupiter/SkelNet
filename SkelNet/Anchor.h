@@ -1,11 +1,11 @@
 #pragma once
 #include "Vector.h"
 
-class SNAnchor
+class Anchor
 {
 public:
-	void SetParent(SNAnchor& anchor);
-	void AddChild(SNAnchor& child);
+	void SetParent(Anchor& anchor);
+	void AddChild(Anchor& child);
 
 	void SetAbsolutePosition(Vector2 position);
 	void SetRelativePosition(Vector2 position);
@@ -14,11 +14,11 @@ public:
 	Vector2 GetAbsolutePosition();
 	void DrawDebug(bool drawDebugInChildren);
 
-	SNAnchor* parent;
+	Anchor* parent;
 
 	static const int MAX_CONNECTED_CHILDREN = 5;
 	static const int CONNECTED_CHILDREN = 0;
-	SNAnchor* children[MAX_CONNECTED_CHILDREN];
+	Anchor* children[MAX_CONNECTED_CHILDREN];
 
 	Vector2 absolutePosition;
 	Vector2 parentOffset;

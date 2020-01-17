@@ -1,4 +1,5 @@
-#include "SNEngine.h"
+#include "Engine.h"
+#include "Keys.h"
 #include <SDL.h>
 #undef main
 #include <SDL_image.h>
@@ -11,7 +12,6 @@
 #include <array>
 #include "Key.h"
 #include "SDL_ttf.h"
-#include "SDL_mixer.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -38,21 +38,6 @@ void engInit()
 {
 	SDL_Init(SDL_INIT_VIDEO);
 
-	//SOUND
-	{
-		if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0)
-		{
-			fprintf(stderr, "Unable to initialize audio: %s\n", Mix_GetError()); exit(1);
-		}
-
-		Mix_Music* Music;
-		if (!(Music = Mix_LoadMUS("Song.wav")))
-		{
-			fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
-		}
-	
-		Mix_PlayMusic(Music, -1);
-	}
 	if (!IMG_Init(IMG_INIT_PNG))
 	{
 		std::cerr << "IMG_Init: " << IMG_GetError() << std::endl;
@@ -70,9 +55,9 @@ void engInit()
 
 	TTF_Init();
 
-	standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24);
+	StandardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24);
 
-	if (!standardFont) {
+	if (!StandardFont) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 		// handle error
 	}
@@ -115,7 +100,7 @@ void engRender()
 
 void engUpdate()
 {
-	engDrawString({ 100, 100 }, "remoulad");
+	engDrawString(100, 100, "remoulad");
 	currentFrameNum++;
 
 	SDL_Event e;
@@ -285,27 +270,27 @@ bool engGetMouseButtonDown(MouseButton inButton)
 	return state.pressed && state.frameNum == currentFrameNum;
 }
 
-void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue)
+void engSetTextColor(Uint8 Red, Uint8 Green, Uint8 Blue)
 {
-	currentColor.r = red;
-	currentColor.g = green;
-	currentColor.b = blue;
-	currentColor.a = 255;
+	CurrentColor.r = Red;
+	CurrentColor.g = Green;
+	CurrentColor.b = Blue;
+	CurrentColor.a = 255;
 }
 
-void engDrawString(Vector2 position, const char* string)
+void engDrawString(int X, int Y, const char* String)
 {
 	// Render text onto surface
-	SDL_Surface* msgSurface = TTF_RenderText_Solid(standardFont, string, currentColor);
-	SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(renderer, msgSurface);
+	SDL_Surface* MsgSurface = TTF_RenderText_Solid(StandardFont, String, CurrentColor);
+	SDL_Texture* MsgTexture = SDL_CreateTextureFromSurface(renderer, MsgSurface);
 
 	// Find out dimensions
-	int msgW = 0, msgH = 0;
-	TTF_SizeText(standardFont, string, &msgW, &msgH);
+	int MsgW = 0, MsgH = 0;
+	TTF_SizeText(StandardFont, String, &MsgW, &MsgH);
 
 	// Copy that bad boy
-	SDL_Rect messageRect = { position.x, position.y, msgW, msgH };
-	SDL_RenderCopy(renderer, msgTexture, NULL, &messageRect);
+	SDL_Rect MessageRect = { X, Y, MsgW, MsgH };
+	SDL_RenderCopy(renderer, MsgTexture, NULL, &MessageRect);
 
 	// Remember to clean up
 	SDL_FreeSurface(msgSurface);
@@ -319,4 +304,3 @@ Vector2 engGetTextSize(const char* string)
 
 	return { (float)msgW, (float)msgH };
 }
-

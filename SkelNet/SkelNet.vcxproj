@@ -136,33 +136,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SNAnchor.cpp" />
-    <ClCompile Include="SNAnimator.cpp" />
-    <ClCompile Include="SNSimulatedProxy.cpp" />
-    <ClCompile Include="SNCanvas.cpp" />
-    <ClCompile Include="SNClient.cpp" />
-    <ClCompile Include="SNEngine.cpp" />
-    <ClCompile Include="SNAutonomousProxy.cpp" />
-    <ClCompile Include="SNFloor.cpp" />
+    <ClCompile Include="Anchor.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="SNAudioManager.cpp" />
+    <ClCompile Include="AutonomousProxy.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SNServer.cpp" />
-    <ClCompile Include="SNUIElement.cpp" />
-    <ClCompile Include="SNWorld.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SNAnchor.h" />
-    <ClInclude Include="SNAnimator.h" />
-    <ClInclude Include="SNSimulatedProxy.h" />
-    <ClInclude Include="SNCanvas.h" />
-    <ClInclude Include="SNClient.h" />
-    <ClInclude Include="SNEngine.h" />
-    <ClInclude Include="SNAutonomousProxy.h" />
-    <ClInclude Include="SNFloor.h" />
+    <ClInclude Include="Anchor.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="SNAudioManager.h" />
+    <ClInclude Include="AutonomousProxy.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Fighter.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="Key.h" />
-    <ClInclude Include="SNServer.h" />
-    <ClInclude Include="SNUIElement.h" />
+    <ClInclude Include="Keys.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="SNWorld.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

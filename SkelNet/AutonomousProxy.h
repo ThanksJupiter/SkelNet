@@ -3,10 +3,10 @@
 
 #include "Vector.h"
 
-class SNWorld;
-class SNAnimator;
+class World;
+class Animator;
 
-class SNSimulatedProxy
+class AutonomousProxy
 {
 public:
 	void Spawn(Vector2 initPos);
@@ -19,7 +19,7 @@ public:
 	Vector2 position;
 	Vector2 velocity;
 
-	SNWorld* world;
+	World* world;
 
-	SNAnimator* animator;
+	Animator* animator;
 };

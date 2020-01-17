@@ -1,11 +1,11 @@
-#include "SNWorld.h"
-#include "SNEngine.h"
+#include "World.h"
+#include "Engine.h"
 #include "DataPacket.h"
 #include <math.h>
 #include <vector>
-#include "SNAnimator.h"
+#include "Animator.h"
 
-void SNWorld::Update()
+void World::Update()
 {
 	player.Update();
 
@@ -30,7 +30,7 @@ void SNWorld::Update()
 	}
 }
 
-void SNWorld::Draw()
+void World::Draw()
 {
 	player.Draw();
 	autonomousProxy.Draw();
@@ -38,33 +38,33 @@ void SNWorld::Draw()
 	floors[0].Draw();
 }
 
-void SNWorld::SpawnPlayer(SNWorld& worldptr)
+void World::SpawnPlayer(World& worldptr)
 {
 	Vector2 initPos;
 	initPos.x = worldSize.x / 2;
 	initPos.y = (worldSize.y / 3) * 2;
 
 	player.Spawn({ initPos.x + 50, initPos.y }, worldptr);
-	player.animator = &SNAnimator();
+	player.animator = &Animator();
 }
 
-void SNWorld::SpawnAutonomousProxy()
+void World::SpawnAutonomousProxy()
 {
 	Vector2 initPos;
 	initPos.x = worldSize.x / 2;
 	initPos.y = (worldSize.y / 3) * 2;
 
 	autonomousProxy.Spawn(initPos);
-	autonomousProxy.animator = &SNAnimator();
+	autonomousProxy.animator = &Animator();
 }
 
-void SNWorld::SpawnFloor(Vector2 position, Vector2 size)
+void World::SpawnFloor(Vector2 position, Vector2 size)
 {
 	floors[0].position = position;
 	floors[0].size = size;
 }
 
-void SNWorld::SendTransform(Vector2 position)
+void World::SendTransform(Vector2 position)
 {
 	if (!isServer)
 	{
@@ -86,7 +86,7 @@ void SNWorld::SendTransform(Vector2 position)
 	}
 }
 
-void SNWorld::CheckCollisions()
+void World::CheckCollisions()
 {
 
 }

@@ -3,10 +3,10 @@
 struct AnimationInstance;
 class Vector2;
 
-class SNAnimator
+class Animator
 {
 public:
-	SNAnimator();
+	Animator();
 
 	int direction = 0;
 	void SetCurrentAnimationIndex(int index);
