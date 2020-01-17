@@ -13,7 +13,7 @@
 *.log
 *.tlog
 .vs/
-*.vcxproj
-*.filters
 *.lastbuildstate
 *.exe
+*.enc
+*.txt
