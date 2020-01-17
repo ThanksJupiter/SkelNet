@@ -139,6 +139,7 @@
     <ClCompile Include="Anchor.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="SNAudioManager.cpp" />
     <ClCompile Include="AutonomousProxy.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Canvas.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Anchor.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="SNAudioManager.h" />
     <ClInclude Include="AutonomousProxy.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Canvas.h" />

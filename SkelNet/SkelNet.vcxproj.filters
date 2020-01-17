@@ -60,6 +60,9 @@
     <ClCompile Include="Anchor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SNAudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Anchor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNAudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
