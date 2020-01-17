@@ -83,28 +83,6 @@ int main()
 			if (engGetKeyDown(Key::S))
 			{
 				world.server.Setup();
-				waiting = false;
-
-				world.isServer = true;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy();
-			}
-
-			if (engGetKeyDown(Key::C))
-			{
-				world.client.Setup();
-				waiting = false;
-
-				world.isServer = false;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy();
-			}
-		}
-		else
-		{
-			if (engGetKeyDown(Key::S))
-			{
-				world.server.Setup();
 				//world.server.printDebug = true;
 				world.isServer = true;
 				world.SpawnPlayer(world);
