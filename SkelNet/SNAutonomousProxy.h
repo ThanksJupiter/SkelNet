@@ -2,13 +2,13 @@
 
 #include "Vector.h"
 
-class World;
-class Animator;
+class SNWorld;
+class SNAnimator;
 
-class Fighter
+class SNAutonomousProxy
 {
 public:
-	void Spawn(Vector2 initPos, World& world);
+	void Spawn(Vector2 initPos, SNWorld& world);
 
 	void UpdatePosition();
 	void SetPosition(Vector2 newPosition);
@@ -21,8 +21,8 @@ public:
 	Vector2 position;
 	Vector2 velocity;
 
-	World* world;
+	SNWorld* world;
 	
-	Animator* animator;
+	SNAnimator* animator;
 
 };

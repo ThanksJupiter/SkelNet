@@ -1,15 +1,13 @@
 #pragma once
 #include "Vector.h"
-#include "Anchor.h"
+#include "SNAnchor.h"
 #include <functional>
 
-class UIElement
+class SNUIElement
 {
 public:
-	UIElement() {};
+	SNUIElement() {};
 
-	UIElement(Vector2 position, Vector2 size);
-	UIElement(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked);
 	void Draw();
 	void CheckInteractedWith();
 
@@ -22,9 +20,11 @@ public:
 
 	std::function<void()> OnClicked;
 
-	Anchor anchor;
-
+	const char* textString;
 	bool isClickable;
+	bool drawRect;
+
+	SNAnchor anchor;
 	Vector2 size;
 	Vector2 position;
 	Vector2 anchorOffset;

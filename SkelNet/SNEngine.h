@@ -1,5 +1,4 @@
 #pragma once
-#include "Keys.h"
 #include "SDL.h"
 #include "Vector.h"
 #include "Key.h"
@@ -28,8 +27,8 @@ void engDrawArrow(Vector2 startPosition, Vector2 endPosition);
 void engDrawArrow(Vector2 startPosition, Vector2 direction, float length);
 
 // Text stuff
-static TTF_Font* StandardFont = nullptr;
-static SDL_Color CurrentColor = { 255, 255, 255, 255 };
+static TTF_Font* standardFont = nullptr;
+static SDL_Color currentColor = { 255, 255, 255, 255 };
 
 // Input
 bool engGetKey(Key inKey);
@@ -39,5 +38,6 @@ bool engGetMouseButton(MouseButton inButton);
 bool engGetMouseButtonDown(MouseButton inButton);
 
 // Text 
-void engSetTextColor(Uint8 Red, Uint8 Green, Uint8 Blue);
-void engDrawString(int X, int Y, const char* String);
+void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);
+void engDrawString(Vector2 position, const char* string);
+Vector2 engGetTextSize(const char* string);

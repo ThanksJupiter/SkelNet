@@ -1,21 +1,21 @@
-#include "Animator.h"
+#include "SNAnimator.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Vector.h"
-#include "Engine.h"
+#include "SNEngine.h"
 
 
-Animator::Animator()
+SNAnimator::SNAnimator()
 {
 
 }
 
-void Animator::SetCurrentAnimationIndex(int index)
+void SNAnimator::SetCurrentAnimationIndex(int index)
 {
 	
 }
 
-void Animator::DrawAnimation(Vector2 position, bool flipped)
+void SNAnimator::DrawAnimation(Vector2 position, bool flipped)
 {
 	Uint32 ticks = SDL_GetTicks();
 	Uint32 seconds = ticks / 200;

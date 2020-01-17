@@ -1,13 +1,13 @@
-#include "Canvas.h"
-#include "Engine.h"
+#include "SNCanvas.h"
+#include "SNEngine.h"
 
-void Canvas::Setup(Vector2 size, Vector2 anchorPos)
+void SNCanvas::Setup(Vector2 size, Vector2 anchorPos)
 {
 	anchor.SetAbsolutePosition(anchorPos);
 	this->size = size;
 }
 
-void Canvas::CheckInteraction()
+void SNCanvas::CheckInteraction()
 {
 	for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 	{
@@ -18,7 +18,7 @@ void Canvas::CheckInteraction()
 	}
 }
 
-void Canvas::Draw()
+void SNCanvas::Draw()
 {
 	for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 	{
@@ -34,6 +34,7 @@ void Canvas::Draw()
 
 		// Draw Anchor
 		engSetColor(255, 0, 0);
+		engDrawPoint(anchorPos, 15.f);
 
 		// Draw Outline
 		engSetColor(0, 255, 0);
@@ -55,7 +56,7 @@ void Canvas::Draw()
 	engSetColor(0, 0, 0);
 }
 
-UIElement* Canvas::CreateRect(Vector2 position, Vector2 size, Anchor* parentElement)
+SNUIElement* SNCanvas::CreateRect(Vector2 position, Vector2 size, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
 		return nullptr;
@@ -81,7 +82,7 @@ UIElement* Canvas::CreateRect(Vector2 position, Vector2 size, Anchor* parentElem
 					uiElements[i].anchor.SetParent(*parentElement);
 				}
 				uiElements[i].SetAnchorPosition(position);
-				uiElements[i].SetRelativePosition({ 0.f,0.f });
+				uiElements[i].SetRelativePosition(anchorOffset);
 				uiElements[i].size = size;
 				uiElements[i].isUsed = true;
 				NUM_UIELEMENTS++;
@@ -92,7 +93,7 @@ UIElement* Canvas::CreateRect(Vector2 position, Vector2 size, Anchor* parentElem
 	}
 }
 
-UIElement* Canvas::CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, Anchor* parentElement)
+SNUIElement* SNCanvas::CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
 		return nullptr;
@@ -118,7 +119,7 @@ UIElement* Canvas::CreateButton(Vector2 position, Vector2 size, bool isClickable
 					uiElements[i].anchor.SetParent(*parentElement);
 				}
 				uiElements[i].SetAnchorPosition(position);
-				uiElements[i].SetRelativePosition({ 0.f, 0.f });
+				uiElements[i].SetRelativePosition(anchorOffset);
 				uiElements[i].size = size;
 				uiElements[i].isClickable = isClickable;
 				uiElements[i].OnClicked = OnClicked;
@@ -131,12 +132,45 @@ UIElement* Canvas::CreateButton(Vector2 position, Vector2 size, bool isClickable
 	}
 }
 
-UIElement* Canvas::CreateImage(Vector2 position, Vector2 size, UIElement* parentElement)
+SNUIElement* SNCanvas::CreateImage(Vector2 position, Vector2 size, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	return nullptr;
 }
 
-UIElement* Canvas::CreateText(Vector2 position, Vector2 size, char* text, UIElement* parentElement)
+SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, SNAnchor* parentElement, Vector2 anchorOffset)
 {
-	return nullptr;
+	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
+		return nullptr;
+	else
+	{
+		Vector2 newAnchorPos;
+
+		if (parentElement == nullptr)
+			newAnchorPos = anchor.GetAbsolutePosition();
+		else
+			newAnchorPos = parentElement->absolutePosition;
+
+		for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
+		{
+			if (uiElements[i].isUsed == false)
+			{
+				if (parentElement == nullptr)
+				{
+					uiElements[i].anchor.SetParent(anchor);
+				}
+				else
+				{
+					uiElements[i].anchor.SetParent(*parentElement);
+				}
+				uiElements[i].SetAnchorPosition(position);
+				uiElements[i].SetRelativePosition(anchorOffset);
+				uiElements[i].textString = text;
+				uiElements[i].size = engGetTextSize(text);
+				uiElements[i].isUsed = true;
+				NUM_UIELEMENTS++;
+
+				return &uiElements[i];
+			}
+		}
+	}
 }

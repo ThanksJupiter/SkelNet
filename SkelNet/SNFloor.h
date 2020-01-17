@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector.h"
 
-class Floor
+class SNFloor
 {
 public:
 	void Spawn(Vector2 pos, Vector2 size);
