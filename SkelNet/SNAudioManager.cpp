@@ -21,14 +21,14 @@ void SNAudioManager::InitSounds()
 	Mix_PlayMusic(music, -1);
 }
 
-void SNAudioManager::PlayChunk(Mix_Chunk* chunk)
+void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
 {
 	if (Mix_PlayChannel(-1, chunk, 0) == -1)
 		printf("Mix_PlayChannel: %s\n", Mix_GetError());
 }
 
-void SNAudioManager::PlayMusic(Mix_Music* song)
+void SNAudioManager::PlayMusicLoop(Mix_Music* song)
 {
-	if (Mix_PlayMusic(song, 0) == -1)
+	if (Mix_PlayMusic(song, -1) == -1)
 		printf("Mix_PlayChannel: %s\n", Mix_GetError());
 }

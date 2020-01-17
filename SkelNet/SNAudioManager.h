@@ -18,6 +18,6 @@ public:
 	char* hitSoundPath;
 
 	void InitSounds();
-	void PlayChunk(Mix_Chunk* chunk);
-	void PlayMusic(Mix_Music* song);
+	void PlayChunkOnce(Mix_Chunk* chunk);
+	void PlayMusicLoop(Mix_Music* song);
 };
