@@ -1,14 +1,23 @@
-#include "UIElement.h"
-#include "Engine.h"
+#include "SNUIElement.h"
+#include "SNEngine.h"
 
-void UIElement::Draw()
+void SNUIElement::Draw()
 {
-	engSetColor(255, 0, 200);
-	engDrawRect(size.x, size.y, position.x, position.y);
-	engSetColor(0, 0, 0);
+	if (drawRect)
+	{
+		engSetColor(255, 0, 200);
+		engDrawRect(size.x, size.y, position.x, position.y);
+		engSetColor(0, 0, 0);
+	}
+
+
+	if (textString != nullptr)
+	{
+		engDrawString(position, textString);
+	}
 }
 
-void UIElement::CheckInteractedWith()
+void SNUIElement::CheckInteractedWith()
 {
 	if (!isClickable)
 		return;
@@ -25,29 +34,29 @@ void UIElement::CheckInteractedWith()
 	}
 }
 
-void UIElement::SetAbsolutePosition(Vector2 position)
+void SNUIElement::SetAbsolutePosition(Vector2 position)
 {
 	this->position = position;
 	anchorOffset = anchor.GetAbsolutePosition() - position;
 }
 
-void UIElement::SetRelativePosition(Vector2 position)
+void SNUIElement::SetRelativePosition(Vector2 position)
 {
 	this->position = anchor.GetAbsolutePosition() + position;
 	anchorOffset = this->position - anchor.GetAbsolutePosition();
 }
 
-void UIElement::SetAnchorPosition(Vector2 position)
+void SNUIElement::SetAnchorPosition(Vector2 position)
 {
 	anchor.SetRelativePosition(position);
 }
 
-void UIElement::UpdatePosition()
+void SNUIElement::UpdatePosition()
 {
 	this->position = anchor.GetAbsolutePosition() + anchorOffset;
 }
 
-void UIElement::DrawDebug()
+void SNUIElement::DrawDebug()
 {
 	engSetColor(0, 255, 0);
 	engDrawLine(position,
@@ -62,7 +71,11 @@ void UIElement::DrawDebug()
 	engDrawLine(position + size,
 		{ position.x, position.y + size.y });
 
-	//engSetColor(0, 0, 255);
-	//engDrawArrow(anchor.GetAbsolutePosition(), position);
+	if (Length(anchorOffset) > 1.f)
+	{
+		engSetColor(0, 0, 255);
+		engDrawArrow(anchor.GetAbsolutePosition(), position);
+	}
+
 	engSetColor(0, 0, 0);
 }

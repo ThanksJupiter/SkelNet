@@ -1,30 +1,29 @@
 #pragma once
 #include "Vector.h"
-#include "UIElement.h"
+#include "SNUIElement.h"
 #include <functional>
-#include "Anchor.h"
+#include "SNAnchor.h"
 
-// TODO: Make Canvas, Handles UI elements like World handles players
-class Canvas
+class SNCanvas
 {
 public:
-	Canvas() {};
+	SNCanvas() {};
 
 	void Setup(Vector2 size, Vector2 anchorPos);
 	void CheckInteraction();
 	void Draw();
 
 	// Create Elements
-	UIElement* CreateRect(Vector2 position, Vector2 size, Anchor* parentElement = nullptr);
-	UIElement* CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, Anchor* parentElement = nullptr);
-	UIElement* CreateImage(Vector2 position, Vector2 size, UIElement* parentElement = nullptr);
-	UIElement* CreateText(Vector2 position, Vector2 size, char* text, UIElement* parentElement = nullptr);
+	SNUIElement* CreateRect(Vector2 position, Vector2 size, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
+	SNUIElement* CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
+	SNUIElement* CreateImage(Vector2 position, Vector2 size, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
+	SNUIElement* CreateText(Vector2 position, const char* text, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 
 	static const int MAX_NUM_UIELEMENTS = 10;
 	int NUM_UIELEMENTS = 0;
-	UIElement uiElements[MAX_NUM_UIELEMENTS];
+	SNUIElement uiElements[MAX_NUM_UIELEMENTS];
 
-	Anchor anchor;
+	SNAnchor anchor;
 	Vector2 size;
 
 	bool drawDebug = false;
