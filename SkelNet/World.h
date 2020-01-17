@@ -1,17 +1,17 @@
 #pragma once
 #include <vector>
-#include "Fighter.h"
+#include "AutonomousProxy.h"
 #include "Vector.h"
 #include "Floor.h"
-#include "AutonomousProxy.h"
+#include "SimulatedProxy.h"
 #include "Server.h"
 #include "Client.h"
 
 class World
 {
 public:
-	Fighter player;
-	AutonomousProxy autonomousProxy;
+	AutonomousProxy player;
+	SimulatedProxy autonomousProxy;
 
 	Server server;
 	Client client;

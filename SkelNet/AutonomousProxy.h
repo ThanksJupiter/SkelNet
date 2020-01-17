@@ -1,5 +1,4 @@
-#pragma once
-#pragma once
+ #pragma once
 
 #include "Vector.h"
 
@@ -9,10 +8,13 @@ class Animator;
 class AutonomousProxy
 {
 public:
-	void Spawn(Vector2 initPos);
+	void Spawn(Vector2 initPos, World& world);
 
+	void UpdatePosition();
 	void SetPosition(Vector2 newPosition);
+	void CheckInput();
 	void Draw();
+	void Update();
 
 	bool flip;
 	Vector2 previousPosition;
@@ -20,6 +22,7 @@ public:
 	Vector2 velocity;
 
 	World* world;
-
+	
 	Animator* animator;
+
 };
