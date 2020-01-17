@@ -1,6 +1,10 @@
 #include "SNAudioManager.h"
 #include <stdio.h>
 
+SNAudioManager::SNAudioManager()
+{
+}
+
 void SNAudioManager::InitSounds()
 {
 	if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0)
@@ -17,8 +21,6 @@ void SNAudioManager::InitSounds()
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-
-	Mix_PlayMusic(music, -1);
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)

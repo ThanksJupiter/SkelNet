@@ -8,14 +8,13 @@ public:
 	//1. Create a Mix variable and a path variable
 	//2. Init the sound in InitSounds
 
+	SNAudioManager();
+
 	Mix_Music* music;
-	char* musicPath;
+	const char* musicPath = "Song.wav";
 	
 	Mix_Chunk* punch;
-	char* punchPath; 
-	
-	Mix_Chunk* hitSound;
-	char* hitSoundPath;
+	const char* punchPath = "PunchSound.wav";
 
 	void InitSounds();
 	void PlayChunkOnce(Mix_Chunk* chunk);

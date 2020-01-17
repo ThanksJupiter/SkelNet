@@ -23,4 +23,7 @@ public:
 	IPaddress* remoteIp;
 
 	SDLNet_SocketSet socketSet;
+
+	bool printDebug;
+	bool printErrors;
 };

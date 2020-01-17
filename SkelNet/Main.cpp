@@ -38,10 +38,9 @@ int main()
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
 
 	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
-	canvas.drawDebug = true;
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
 	canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
-	canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, {20.f, 60.f});
+	canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, { 20.f, 60.f });
 
 	Vector2 position = Vector2(0, 0);
 	Vector2 size = Vector2(32, 32);
@@ -52,6 +51,15 @@ int main()
 		// Move further down?
 		engRender();
 		engUpdate();
+
+		if (world.isServer)
+		{
+			engDrawString({ 10, 10 }, "SERVER");
+		}
+		else
+		{
+			engDrawString({ 10, 10 }, "Client");
+		}
 
 		if (!waiting)
 		{
@@ -90,6 +98,30 @@ int main()
 				world.isServer = false;
 				world.SpawnPlayer(world);
 				world.SpawnAutonomousProxy();
+			}
+		}
+		else
+		{
+			if (engGetKeyDown(Key::S))
+			{
+				world.server.Setup();
+				//world.server.printDebug = true;
+				world.isServer = true;
+				world.SpawnPlayer(world);
+				world.SpawnAutonomousProxy();
+
+				waiting = false;
+			}
+
+			if (engGetKeyDown(Key::C))
+			{
+				world.client.Setup();
+				//world.client.printDebug = true;
+				world.isServer = false;
+				world.SpawnPlayer(world);
+				world.SpawnAutonomousProxy();
+
+				waiting = false;
 			}
 		}
 		SDL_Delay(.5f);

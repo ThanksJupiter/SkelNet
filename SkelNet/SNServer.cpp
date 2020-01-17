@@ -14,10 +14,12 @@ void SNServer::Setup()
 	SDLNet_ResolveHost(&ip, NULL, 6969);
 
 	server = SDLNet_TCP_Open(&ip);
-	if (!server)
+	if (!server && printErrors)
 	{
 		printf("Server Open: %s\n", SDLNet_GetError());
 	}
+
+	printf("Server Setup!");
 
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 }
@@ -25,18 +27,21 @@ void SNServer::Setup()
 void SNServer::AcceptConnection()
 {
 	client = SDLNet_TCP_Accept(server);
-	if (!client)
+	if (!client && printErrors)
 	{
 		printf("Server Accept: %s\n", SDLNet_GetError());
 	}
 
 	remoteIp = SDLNet_TCP_GetPeerAddress(client);
-	if (!remoteIp)
+	if (!remoteIp && printErrors)
 	{
 		printf("Server Peer Address: %s\n", SDLNet_GetError());
 	}
 
-	printf("Accepted connection from: %d : %d\n", remoteIp->host, remoteIp->port);
+	if (printDebug)
+	{
+		printf("Accepted connection from: %d : %d\n", remoteIp->host, remoteIp->port);
+	}
 
 	SDLNet_TCP_AddSocket(socketSet, client);
 }
@@ -45,11 +50,11 @@ bool SNServer::RecvData()
 {
 	int numReady;
 	numReady = SDLNet_CheckSockets(socketSet, RECV_TIMEOUT_MS);
-	if (numReady == -1)
+	if (numReady == -1 && printErrors)
 	{
 		printf("Server Check Sockets: %s\n", SDLNet_GetError());
 	}
-	else if (numReady)
+	else if (numReady && printDebug)
 	{
 		printf("There are %d sockets ready!\n", numReady);
 	}
@@ -65,7 +70,7 @@ bool SNServer::RecvData()
 			char recvData[1024];
 			int len = SDLNet_TCP_Recv(client, recvData, 1024);
 
-			if (!len)
+			if (!len && printErrors)
 			{
 				printf("Server Recieve: %s\n", SDLNet_GetError());
 				return false;
@@ -81,23 +86,26 @@ bool SNServer::RecvData()
 }
 
 // TODO: Decouple data from server and client
-void SNServer::SendData(/* DataPacket dataToSend */)
+void SNServer::SendData()
 {
 	char buffer[1024];
 
 	sprintf_s(buffer, "%hu %hu %hu %hu", transformPack.id, transformPack.posX, transformPack.posY, transformPack.health);
-	int len = strlen(buffer);
 
+	int len = strlen(buffer);
 	if (client)
 	{
 		if (len)
 		{
 			int result;
 
-			printf("Server Sending Message: %.*s\n", len, buffer);
+			if (printDebug)
+			{
+				printf("Server Sending Message: %.*s\n", len, buffer);
+			}
 
 			result = SDLNet_TCP_Send(client, buffer, len);
-			if (result < len)
+			if (result < len && printErrors)
 				printf("Server Message Sent: %s\n", SDLNet_GetError());
 		}
 	}

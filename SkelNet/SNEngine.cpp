@@ -12,6 +12,7 @@
 #include "Key.h"
 #include "SDL_ttf.h"
 #include "SNSprite.h"
+#include "SNAudioManager.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -24,6 +25,9 @@ const int WINDOW_HEIGHT = 500;
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
 bool quit = false;
+
+//Sounds
+SNAudioManager* audioManager;
 
 struct InputState
 {
@@ -51,16 +55,17 @@ void engInit()
 	image = IMG_Load("spritesheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
 
-	// intialize animations (frames)
-
+	//intialize Text (frames)
 	TTF_Init();
 
-	standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24);
-
-	if (!standardFont) {
+	//init font
+	if (!(standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24))) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
-		// handle error
 	}
+
+	//Init audio manager
+	audioManager = new SNAudioManager;
+	audioManager->InitSounds();
 }
 
 SDL_Texture* LoadTexture(const char* path)
@@ -82,25 +87,12 @@ void engClose()
 
 void engRender()
 {
-	// access animators from here?
-
-	//animators.DisplayAnimation();
-
-	/*Uint32 ticks = SDL_GetTicks();
-	Uint32 seconds = ticks / 200;
-	Uint32 sprite = seconds % 2; // + offset for first frame & modulus for frames num
-
-	SDL_Rect srcrect = { sprite * 32, 0, 32, 32 };
-	SDL_Rect dstrect = { 0, 0, 128, 128 };
-
-	SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);*/
 	SDL_RenderPresent(renderer);
 	SDL_RenderClear(renderer);
 }
 
 void engUpdate()
 {
-	engDrawString({ 100, 100 }, "remoulad");
 	currentFrameNum++;
 
 	SDL_Event e;

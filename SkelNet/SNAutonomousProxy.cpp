@@ -25,11 +25,6 @@ void SNAutonomousProxy::Draw()
 
 	engSetColor(0, 255, 0);
 	animator->DrawAnimation(position, flip);
-
-	//engDrawRect(20, 60, position.x - 10, position.y - 60);
-	//engSetColor(0, 0, 255);
-	//engDrawRect(10, 10, position.x - 5, position.y - 5);
-
 	engSetColor(0, 0, 0);
 }
 
