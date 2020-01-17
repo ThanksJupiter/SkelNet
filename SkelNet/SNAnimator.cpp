@@ -4,7 +4,6 @@
 #include "Vector.h"
 #include "SNEngine.h"
 
-
 SNAnimator::SNAnimator()
 {
 

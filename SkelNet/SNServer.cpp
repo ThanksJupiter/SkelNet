@@ -86,7 +86,7 @@ bool SNServer::RecvData()
 }
 
 // TODO: Decouple data from server and client
-void SNServer::SendData(/* DataPacket dataToSend */)
+void SNServer::SendData()
 {
 	char buffer[1024];
 
