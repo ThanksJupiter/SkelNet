@@ -4,6 +4,8 @@
 #include "Key.h"
 #include "SDL_ttf.h"
 
+class SNSprite;
+
 const float PI = 3.14f;
 static int currentFrameNum = 1;
 
@@ -23,6 +25,7 @@ void engDrawLine(int x1, int y1, int x2, int y2);
 void engDrawLine(Vector2 pos1, Vector2 pos2);
 void engDrawPoint(Vector2 position, float radius);
 void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, bool flip);
+void engDrawSprite(SNSprite& image, Vector2 drawPosition, Vector2 drawScale, bool flip = false);
 void engDrawArrow(Vector2 startPosition, Vector2 endPosition);
 void engDrawArrow(Vector2 startPosition, Vector2 direction, float length);
 

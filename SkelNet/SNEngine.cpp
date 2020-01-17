@@ -11,6 +11,7 @@
 #include <array>
 #include "Key.h"
 #include "SDL_ttf.h"
+#include "SNSprite.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -219,6 +220,13 @@ void engDrawPoint(Vector2 position, float radius)
 void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, bool flip)
 {
 	SDL_RenderCopyEx(renderer, texture, &srcRect, &dstRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+}
+
+void engDrawSprite(SNSprite& image, Vector2 drawPosition, Vector2 drawScale, bool flip)
+{
+	SDL_Rect destinationRect = { drawPosition.x - drawScale.x, drawPosition.y - drawScale.y, drawScale.x, drawScale.y };
+
+	SDL_RenderCopyEx(renderer, image.texture, &image.sheetSourceRect, &destinationRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 void engDrawArrow(Vector2 startPosition, Vector2 endPosition)
