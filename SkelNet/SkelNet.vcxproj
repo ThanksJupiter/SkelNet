@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Anchor.cpp" />
+    <ClCompile Include="SNAnimation.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AutonomousProxy.cpp" />
@@ -149,11 +150,13 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SNSprite.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anchor.h" />
+    <ClInclude Include="SNAnimation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AutonomousProxy.h" />
@@ -167,6 +170,7 @@
     <ClInclude Include="Keys.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Ship.h" />
+    <ClInclude Include="SNSprite.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="World.h" />

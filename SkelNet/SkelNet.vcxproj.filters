@@ -60,6 +60,12 @@
     <ClCompile Include="Anchor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SNSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -111,6 +117,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Anchor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
