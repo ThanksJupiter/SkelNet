@@ -99,7 +99,7 @@ void engRender()
 
 void engUpdate()
 {
-	engDrawString({ 100, 100 }, "remoulad");
+	
 	currentFrameNum++;
 
 	SDL_Event e;

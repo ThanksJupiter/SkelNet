@@ -12,16 +12,18 @@ void SNClient::Setup()
 
 	int res;
 	res = SDLNet_ResolveHost(&ip, "127.0.0.1", 6969);
-	if (!res)
+	if (!res && printErrors)
 	{
 		printf("Client Connect: %s\n", SDLNet_GetError());
 	}
 
 	tcpsock = SDLNet_TCP_Open(&ip);
-	if (!tcpsock)
+	if (!tcpsock && printErrors)
 	{
 		printf("Client Open: %s\n", SDLNet_GetError());
 	}
+
+	printf("Client Setup!");
 
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 	SDLNet_TCP_AddSocket(socketSet, tcpsock);
@@ -31,11 +33,11 @@ bool SNClient::RecvData()
 {
 	int numReady;
 	numReady = SDLNet_CheckSockets(socketSet, RECV_TIMEOUT_MS);
-	if (numReady == -1)
+	if (numReady == -1 && printErrors)
 	{
 		printf("Client Check Sockets: %s\n", SDLNet_GetError());
 	}
-	else if (numReady)
+	else if (numReady && printDebug)
 	{
 		printf("There are %d sockets ready!\n", numReady);
 	}
@@ -71,16 +73,19 @@ void SNClient::SendData()
 	char buffer[1024];
 
 	sprintf_s(buffer, "%hu %hu %hu %hu", transformPack.id, transformPack.posX, transformPack.posY, transformPack.health);
-	int len = strlen(buffer);
 
+	int len = strlen(buffer);
 	if (len)
 	{
 		int result;
 
-		printf("Client Sending Message: %.*s\n", len, buffer);
+		if (printDebug)
+		{
+			printf("Client Sending Message: %.*s\n", len, buffer);
+		}
 
 		result = SDLNet_TCP_Send(tcpsock, buffer, len);
-		if (result < len)
+		if (result < len && printErrors)
 			printf("Client Message Sent: %s\n", SDLNet_GetError());
 	}
 }

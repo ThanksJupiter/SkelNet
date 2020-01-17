@@ -20,4 +20,7 @@ public:
 	IPaddress ip;
 
 	SDLNet_SocketSet socketSet;
+
+	bool printDebug;
+	bool printErrors;
 };
