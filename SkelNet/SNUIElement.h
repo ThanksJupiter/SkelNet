@@ -15,6 +15,7 @@ public:
 	void SetRelativePosition(Vector2 position);
 	void SetAnchorPosition(Vector2 position);
 	void UpdatePosition();
+	void UpdateText(const char* text);
 
 	void DrawDebug();
 

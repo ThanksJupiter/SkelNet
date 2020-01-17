@@ -10,7 +10,6 @@ void SNUIElement::Draw()
 		engSetColor(0, 0, 0);
 	}
 
-
 	if (textString != nullptr)
 	{
 		engDrawString(position, textString);
@@ -54,6 +53,11 @@ void SNUIElement::SetAnchorPosition(Vector2 position)
 void SNUIElement::UpdatePosition()
 {
 	this->position = anchor.GetAbsolutePosition() + anchorOffset;
+}
+
+void SNUIElement::UpdateText(const char* text)
+{
+	textString = text;
 }
 
 void SNUIElement::DrawDebug()

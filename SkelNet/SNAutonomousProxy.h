@@ -1,6 +1,8 @@
  #pragma once
 
 #include "Vector.h"
+#include "SNAnchor.h"
+#include "SNCanvas.h"
 
 class SNWorld;
 class SNAnimator;
@@ -12,6 +14,7 @@ public:
 
 	void UpdatePosition();
 	void SetPosition(Vector2 newPosition);
+	bool IsGrounded();
 	void CheckInput();
 	void Draw();
 	void Update();
@@ -24,5 +27,8 @@ public:
 	SNWorld* world;
 	
 	SNAnimator* animator;
-
+	SNUIElement* uiText;
+	SNAnchor anchor;
+	SNCanvas canvas;
+	bool drawDebug;
 };
