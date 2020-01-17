@@ -41,3 +41,6 @@ bool engGetMouseButtonDown(MouseButton inButton);
 void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);
 void engDrawString(Vector2 position, const char* string);
 Vector2 engGetTextSize(const char* string);
+
+// Image loading
+SDL_Texture* LoadTexture(std::string path);

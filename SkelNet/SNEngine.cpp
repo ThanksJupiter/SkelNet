@@ -66,6 +66,8 @@ void engInit()
 	image = IMG_Load("spritesheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
 
+	// intialize animations (frames)
+
 	TTF_Init();
 
 	standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24);
@@ -74,6 +76,14 @@ void engInit()
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 		// handle error
 	}
+}
+
+SDL_Texture* LoadTexture(char* path)
+{
+	SDL_Surface* image = IMG_Load(path);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+
+	return texture;
 }
 
 void engClose()
@@ -309,3 +319,4 @@ Vector2 engGetTextSize(const char* string)
 
 	return { (float)msgW, (float)msgH };
 }
+
