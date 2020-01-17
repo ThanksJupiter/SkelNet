@@ -3,9 +3,18 @@
 
 void UIElement::Draw()
 {
-	engSetColor(255, 0, 200);
-	engDrawRect(size.x, size.y, position.x, position.y);
-	engSetColor(0, 0, 0);
+	if (drawRect)
+	{
+		engSetColor(255, 0, 200);
+		engDrawRect(size.x, size.y, position.x, position.y);
+		engSetColor(0, 0, 0);
+	}
+	
+
+	if (textString != nullptr)
+	{
+		engDrawString(position, textString);
+	}
 }
 
 void UIElement::CheckInteractedWith()
@@ -62,7 +71,11 @@ void UIElement::DrawDebug()
 	engDrawLine(position + size,
 		{ position.x, position.y + size.y });
 
-	//engSetColor(0, 0, 255);
-	//engDrawArrow(anchor.GetAbsolutePosition(), position);
+	if (Length(anchorOffset) > 1.f)
+	{
+		engSetColor(0, 0, 255);
+		engDrawArrow(anchor.GetAbsolutePosition(), position);
+	}
+
 	engSetColor(0, 0, 0);
 }

@@ -4,7 +4,6 @@
 #include <functional>
 #include "Anchor.h"
 
-// TODO: Make Canvas, Handles UI elements like World handles players
 class Canvas
 {
 public:
@@ -15,10 +14,10 @@ public:
 	void Draw();
 
 	// Create Elements
-	UIElement* CreateRect(Vector2 position, Vector2 size, Anchor* parentElement = nullptr);
-	UIElement* CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, Anchor* parentElement = nullptr);
-	UIElement* CreateImage(Vector2 position, Vector2 size, UIElement* parentElement = nullptr);
-	UIElement* CreateText(Vector2 position, Vector2 size, char* text, UIElement* parentElement = nullptr);
+	UIElement* CreateRect(Vector2 position, Vector2 size, Anchor* parentElement = nullptr, Vector2 anchorOffset = {0.f,0.f});
+	UIElement* CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, Anchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
+	UIElement* CreateImage(Vector2 position, Vector2 size, Anchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
+	UIElement* CreateText(Vector2 position, const char* text, Anchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 
 	static const int MAX_NUM_UIELEMENTS = 10;
 	int NUM_UIELEMENTS = 0;

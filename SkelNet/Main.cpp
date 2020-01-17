@@ -36,9 +36,10 @@ int main()
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
 
 	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
-	canvas.drawDebug = true;
+	
 	UIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
-	canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
+	canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor, {20.f, -15.f});
+	canvas.CreateText({ 80.f, 40.f }, "YeeHaa", &rect->anchor);
 
 		while (!engShouldQuit())
 		{
@@ -56,6 +57,11 @@ int main()
 				if (engGetKeyDown(Key::A) && world.isServer == true)
 				{
 					world.server.AcceptConnection();
+				}
+
+				if (engGetKeyDown(Key::D))
+				{
+					canvas.drawDebug = !canvas.drawDebug;
 				}
 			}
 			else
