@@ -12,7 +12,6 @@
 #include <array>
 #include "Key.h"
 #include "SDL_ttf.h"
-#include "SDL_mixer.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -39,21 +38,6 @@ void engInit()
 {
 	SDL_Init(SDL_INIT_VIDEO);
 
-	//SOUND
-	{
-		if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0)
-		{
-			fprintf(stderr, "Unable to initialize audio: %s\n", Mix_GetError()); exit(1);
-		}
-
-		Mix_Music* Music;
-		if (!(Music = Mix_LoadMUS("Song.wav")))
-		{
-			fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
-		}
-	
-		Mix_PlayMusic(Music, -1);
-	}
 	if (!IMG_Init(IMG_INIT_PNG))
 	{
 		std::cerr << "IMG_Init: " << IMG_GetError() << std::endl;
