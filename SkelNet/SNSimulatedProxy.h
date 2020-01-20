@@ -19,6 +19,8 @@ public:
 	Vector2 position;
 	Vector2 velocity;
 
+	int health;
+
 	SNWorld* world;
 
 	SNAnimator* animator;

@@ -22,11 +22,13 @@ void SNWorld::Update()
 	{
 		Vector2 newPosition = Vector2(server.recievedData.posX, server.recievedData.posY);
 		autonomousProxy.SetPosition(newPosition);
+		autonomousProxy.health = server.recievedData.health;
 	}
 	else
 	{
 		Vector2 newPosition = Vector2(client.recievedData.posX, client.recievedData.posY);
 		autonomousProxy.SetPosition(newPosition);
+		autonomousProxy.health = client.recievedData.health;
 	}
 }
 
