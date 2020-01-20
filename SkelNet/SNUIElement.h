@@ -16,12 +16,16 @@ public:
 	void SetAnchorPosition(Vector2 position);
 	void UpdatePosition();
 	void UpdateText(const char* text);
+	void UpdateText(std::string text);
+	void UpdateText(float value);
+	void UpdateText(int value);
+	void UpdateText(bool value);
 
 	void DrawDebug();
 
 	std::function<void()> OnClicked;
 
-	const char* textString;
+	std::string textString;
 	bool isClickable;
 	bool drawRect;
 
