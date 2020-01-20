@@ -6,6 +6,7 @@
 #include "SNSimulatedProxy.h"
 #include "SNServer.h"
 #include "SNClient.h"
+#include "SNAnimation.h"
 
 class SNWorld
 {
@@ -20,13 +21,17 @@ public:
 	
 	SNFloor floors[3];
 
+	SNAnimation* idleAnim;
+	SNAnimation* runAnim;
+	SNAnimation* attackAnim;
+
 	bool isServer;
 
 	void Update();
-	void Draw();
+	void Draw(float dt);
 
 	void SpawnPlayer(SNWorld& worldptr);
-	void SpawnAutonomousProxy();
+	void SpawnAutonomousProxy(SNWorld& worldptr);
 	void SpawnFloor(Vector2 position, Vector2 size);
 
 

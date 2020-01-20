@@ -30,10 +30,10 @@ void SNWorld::Update()
 	}
 }
 
-void SNWorld::Draw()
+void SNWorld::Draw(float dt)
 {
-	player.Draw();
-	autonomousProxy.Draw();
+	player.Draw(dt);
+	autonomousProxy.Draw(dt);
 
 	floors[0].Draw();
 }
@@ -44,18 +44,17 @@ void SNWorld::SpawnPlayer(SNWorld& worldptr)
 	initPos.x = worldSize.x / 2;
 	initPos.y = (worldSize.y / 3) * 2;
 
+	player = SNAutonomousProxy();
 	player.Spawn({ initPos.x + 50, initPos.y }, worldptr);
-	player.animator = &SNAnimator();
 }
 
-void SNWorld::SpawnAutonomousProxy()
+void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 {
 	Vector2 initPos;
 	initPos.x = worldSize.x / 2;
 	initPos.y = (worldSize.y / 3) * 2;
 
-	autonomousProxy.Spawn(initPos);
-	autonomousProxy.animator = &SNAnimator();
+	autonomousProxy.Spawn(initPos, worldptr);
 }
 
 void SNWorld::SpawnFloor(Vector2 position, Vector2 size)

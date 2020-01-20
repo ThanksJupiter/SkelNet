@@ -11,9 +11,11 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(position);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
 	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
+	animator = new SNAnimator();
+	animator->SetCurrentAnimation(world.idleAnim, world.idleAnim->frameCount);
 }
 
-void SNAutonomousProxy::Draw()
+void SNAutonomousProxy::Draw(float dt)
 {
 	if (position.x != previousPosition.x)
 	{
@@ -39,7 +41,7 @@ void SNAutonomousProxy::Draw()
 	}
 
 	engSetColor(0, 255, 0);
-	animator->DrawAnimation(position, flip);
+	animator->DrawAnimation(position, flip, dt);
 	engSetColor(0, 0, 0);
 }
 
@@ -84,15 +86,30 @@ void SNAutonomousProxy::CheckInput()
 {
 	if (engGetKey(Key::Left))
 	{
+		if (!animator->isWalking)
+		{
+			animator->SetCurrentAnimation(world->attackAnim, 4);
+			animator->isWalking = true;
+		}
 		velocity.x = -0.5f;
 		animator->direction = -1;
 	}
 	else if (engGetKey(Key::Right))
 	{
+		if (!animator->isWalking)
+		{
+			animator->SetCurrentAnimation(world->attackAnim, 4);
+			animator->isWalking = true;
+		}
 		velocity.x = 0.5f;
 		animator->direction = 1;
 	}
 	else {
+		if (animator->isWalking)
+		{
+			animator->SetCurrentAnimation(world->idleAnim, 4);
+			animator->isWalking = false;
+		}
 		velocity.x = 0.0f;
 		animator->direction = 0;
 	}
@@ -108,5 +125,3 @@ void SNAutonomousProxy::CheckInput()
 		drawDebug = !drawDebug;
 	}
 }
-
-

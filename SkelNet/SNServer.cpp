@@ -19,7 +19,7 @@ void SNServer::Setup()
 		printf("Server Open: %s\n", SDLNet_GetError());
 	}
 
-	printf("Server Setup!");
+	printf("Server Setup!\n");
 
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 }

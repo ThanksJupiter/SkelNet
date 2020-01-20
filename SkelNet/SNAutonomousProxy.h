@@ -16,7 +16,7 @@ public:
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 	void CheckInput();
-	void Draw();
+	void Draw(float dt);
 	void Update();
 
 	bool flip;

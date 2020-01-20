@@ -17,6 +17,8 @@
 #include "SNCanvas.h"
 #include "SpritesheetData.h"
 #include "SNSprite.h"
+#include "SNAnimator.h"
+#include "SNAutonomousProxy.h"
 
 SNWorld world;
 bool waiting = true;
@@ -42,15 +44,48 @@ int main()
 	//canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
 	//canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, { 20.f, 60.f });
 
-	Vector2 position = Vector2(0, 0);
-	Vector2 size = Vector2(32, 32);
-	SNSprite sprite = SNSprite(position, size, LoadTexture("spritesheet.png"));
+	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 11, 100, 30);
+	SpritesheetData idleSheet = SpritesheetData("SN_Skel_Idle-Sheet.png", 4, 32, 32);
+
+	SNSprite* idleSprites[4];
+	SNSprite* attackSprites[11];
+	for (int i = 0; i < idleSheet.numberOfFrames; i++)
+	{
+		idleSprites[i] = new SNSprite(
+			idleSheet.cellWidth,
+			idleSheet.cellHeight,
+			engLoadTexture(idleSheet.filePath),
+			i);
+	}
+
+	for (int i = 0; i < attackSheet.numberOfFrames; i++)
+	{
+		attackSprites[i] = new SNSprite(
+			attackSheet.cellWidth, 
+			attackSheet.cellHeight,
+			engLoadTexture(attackSheet.filePath),
+			i);
+	}
+
+	world.idleAnim = new SNAnimation(idleSprites, 4, engLoadTexture(idleSheet.filePath));
+	world.attackAnim = new SNAnimation(attackSprites, 11, engLoadTexture(attackSheet.filePath));
+
+	// delta time
+	uint64_t NOW = SDL_GetPerformanceCounter();
+	uint64_t LAST = 0;
+	double deltaTime = 0;
+	float timer = 0;
 
 	while (!engShouldQuit())
 	{
 		// Move further down?
 		engRender();
 		engUpdate();
+
+		LAST = NOW;
+		NOW = SDL_GetPerformanceCounter();
+
+		deltaTime = (double)((NOW - LAST) * 1000) / (double)SDL_GetPerformanceFrequency();
 
 		if (world.isServer)
 		{
@@ -64,7 +99,7 @@ int main()
 		if (!waiting)
 		{
 			world.Update();
-			world.Draw();
+			world.Draw(deltaTime * 0.001);
 			//canvas.CheckInteraction();
 			//canvas.Draw();
 
@@ -86,7 +121,7 @@ int main()
 				//world.server.printDebug = true;
 				world.isServer = true;
 				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy();
+				world.SpawnAutonomousProxy(world);
 
 				waiting = false;
 			}
@@ -97,7 +132,7 @@ int main()
 				//world.client.printDebug = true;
 				world.isServer = false;
 				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy();
+				world.SpawnAutonomousProxy(world);
 
 				waiting = false;
 			}
@@ -113,6 +148,7 @@ int main()
 	{
 		world.client.Close();
 	}
+
 	engClose();
 	return 0;
 }

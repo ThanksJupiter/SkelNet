@@ -3,12 +3,15 @@
 #include "SNEngine.h"
 #include "SNAnimator.h"
 
-void SNSimulatedProxy::Spawn(Vector2 initPos)
+void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
+	this->world = &world;
 	position = initPos;
+	animator = new SNAnimator();
+	animator->SetCurrentAnimation(world.idleAnim, world.idleAnim->frameCount);
 }
 
-void SNSimulatedProxy::Draw()
+void SNSimulatedProxy::Draw(float dt)
 {
 	if (position.x != previousPosition.x)
 	{
@@ -24,7 +27,7 @@ void SNSimulatedProxy::Draw()
 
 	engSetColor(0, 255, 255);
 
-	animator->DrawAnimation(position, flip);
+	animator->DrawAnimation(position, flip, dt);
 
 	engSetColor(0, 0, 0);
 }
