@@ -70,6 +70,9 @@ bool SNClient::RecvData()
 
 void SNClient::SendData()
 {
+	if (tcpsock == nullptr)
+		return;
+
 	char buffer[1024];
 
 	sprintf_s(buffer, "%hu %hu %hu %hu", transformPack.id, transformPack.posX, transformPack.posY, transformPack.health);
@@ -84,7 +87,7 @@ void SNClient::SendData()
 			printf("Client Sending Message: %.*s\n", len, buffer);
 		}
 
-		result = SDLNet_TCP_Send(tcpsock, buffer, len);
+ 		result = SDLNet_TCP_Send(tcpsock, buffer, len);
 		if (result < len && printErrors)
 			printf("Client Message Sent: %s\n", SDLNet_GetError());
 	}

@@ -58,6 +58,7 @@ void SNAnchor::SetAbsolutePosition(Vector2 position)
 void SNAnchor::SetRelativePosition(Vector2 position)
 {
 	absolutePosition = parent->GetAbsolutePosition() + position;
+	SetParentOffset(absolutePosition - parent->GetAbsolutePosition());
 }
 
 Vector2 SNAnchor::GetAbsolutePosition()

@@ -1,5 +1,7 @@
 #include "SNUIElement.h"
 #include "SNEngine.h"
+#include <iomanip>
+#include <sstream>
 
 void SNUIElement::Draw()
 {
@@ -10,9 +12,9 @@ void SNUIElement::Draw()
 		engSetColor(0, 0, 0);
 	}
 
-	if (textString != nullptr)
+	if (!textString.empty())
 	{
-		engDrawString(position, textString);
+		engDrawString(position, textString.c_str());
 	}
 }
 
@@ -58,6 +60,28 @@ void SNUIElement::UpdatePosition()
 void SNUIElement::UpdateText(const char* text)
 {
 	textString = text;
+}
+
+void SNUIElement::UpdateText(std::string text)
+{
+	textString = text;
+}
+
+void SNUIElement::UpdateText(float value)
+{
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << value;
+	textString = stream.str();
+}
+
+void SNUIElement::UpdateText(int value)
+{
+	textString = std::to_string(value);
+}
+
+void SNUIElement::UpdateText(bool value)
+{
+	textString = std::to_string(value);
 }
 
 void SNUIElement::DrawDebug()

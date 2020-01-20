@@ -10,7 +10,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	this->world = &world;
 	anchor.SetAbsolutePosition(position);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
-	uiText = canvas.CreateText({50,50}, "100%");
+	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
 }
 
 void SNAutonomousProxy::Draw()
@@ -27,12 +27,8 @@ void SNAutonomousProxy::Draw()
 		}
 	}
 
-	std::string newText = std::to_string(uiText->anchor.GetAbsolutePosition().x);
-	const char* str = newText.c_str();
+	uiText->UpdateText(position.y);
 
-	uiText->UpdateText(str);
-
-	//anchor.SetAbsolutePosition(position);
 	anchor.UpdatePosition();
 	canvas.UpdatePosition();
 	canvas.Draw();
