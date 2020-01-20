@@ -9,6 +9,11 @@ void SNWorld::Update()
 {
 	player.Update();
 
+	for (int i = 0; i < numHitboxes; ++i)
+	{
+		hitbox[i].CheckCollision(player.hitBox);
+	}
+
 	if (isServer)
 	{
 		server.RecvData();
@@ -34,6 +39,11 @@ void SNWorld::Draw()
 {
 	player.Draw();
 	autonomousProxy.Draw();
+
+	for (int i = 0; i < numHitboxes; ++i)
+	{
+		hitbox[i].DrawDebug();
+	}
 
 	floors[0].Draw();
 }
@@ -62,6 +72,14 @@ void SNWorld::SpawnFloor(Vector2 position, Vector2 size)
 {
 	floors[0].position = position;
 	floors[0].size = size;
+}
+
+void SNWorld::SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
+{
+	hitbox[numHitboxes].Setup(position, size, offset, blocking, callDelegates, OnTriggerEnter, OnTriggerExit);
+	hitbox[numHitboxes].drawDebug = true;
+
+	numHitboxes++;
 }
 
 void SNWorld::SendTransform(Vector2 position)

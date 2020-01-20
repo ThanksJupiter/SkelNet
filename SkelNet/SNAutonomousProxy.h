@@ -3,6 +3,7 @@
 #include "Vector.h"
 #include "SNAnchor.h"
 #include "SNCanvas.h"
+#include "SNHitBox.h"
 
 class SNWorld;
 class SNAnimator;
@@ -31,4 +32,6 @@ public:
 	SNAnchor anchor;
 	SNCanvas canvas;
 	bool drawDebug;
+
+	SNHitBox hitBox;
 };

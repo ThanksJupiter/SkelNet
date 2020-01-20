@@ -20,6 +20,9 @@ public:
 	
 	SNFloor floors[3];
 
+	SNHitBox hitbox[20];
+	int numHitboxes;
+
 	bool isServer;
 
 	void Update();
@@ -28,7 +31,7 @@ public:
 	void SpawnPlayer(SNWorld& worldptr);
 	void SpawnAutonomousProxy();
 	void SpawnFloor(Vector2 position, Vector2 size);
-
+	void SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
 
 	// Networking
 	void SendTransform(Vector2 position);

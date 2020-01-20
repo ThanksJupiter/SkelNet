@@ -16,6 +16,8 @@ bool engShouldQuit();
 int engGetHeight();
 int engGetWidth();
 
+int engGetFrameNum();
+
 // Draw
 void engSetColor(unsigned char red, unsigned char green, unsigned char blue);
 void engDrawRect(int width, int height, int x, int y);

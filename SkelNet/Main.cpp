@@ -34,6 +34,7 @@ int main()
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
+	world.SpawnHitBox({ world.worldSize.x / 2, (world.worldSize.y / 3) }, {100, 50});
 
 	//canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
 	//SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
