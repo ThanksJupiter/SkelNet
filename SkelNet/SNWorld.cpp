@@ -66,14 +66,14 @@ void SNWorld::SpawnFloor(Vector2 position, Vector2 size)
 	floors[0].size = size;
 }
 
-void SNWorld::SendTransform(Vector2 position)
+void SNWorld::SendPlayerData(Vector2 position, int health)
 {
 	if (!isServer)
 	{
 		client.transformPack.posX = position.x;
 		client.transformPack.posY = position.y;
 		client.transformPack.id = 0;
-		client.transformPack.health = 50;
+		client.transformPack.health = health;
 
 		client.SendData();
 	}
@@ -82,7 +82,7 @@ void SNWorld::SendTransform(Vector2 position)
 		server.transformPack.posX = position.x;
 		server.transformPack.posY = position.y;
 		server.transformPack.id = 1;
-		server.transformPack.health = 50;
+		server.transformPack.health = health;
 
 		server.SendData();
 	}

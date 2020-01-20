@@ -13,6 +13,7 @@ public:
 	void Spawn(Vector2 initPos, SNWorld& world);
 
 	void UpdatePosition();
+	void SendData();
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 	void CheckInput();

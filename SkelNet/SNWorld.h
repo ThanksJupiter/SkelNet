@@ -29,9 +29,8 @@ public:
 	void SpawnAutonomousProxy();
 	void SpawnFloor(Vector2 position, Vector2 size);
 
-
 	// Networking
-	void SendTransform(Vector2 position);
+	void SendPlayerData(Vector2 position, int health);
 
 
 	void CheckCollisions();
