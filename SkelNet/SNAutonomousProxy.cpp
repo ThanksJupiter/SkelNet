@@ -11,6 +11,10 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(position);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
 	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
+
+	hitBox.Setup(initPos, { 50, 70 }, {-25, -70});
+	hitBox.drawDebug = true;
+	
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim, world.idleAnim->frameCount);
 }
@@ -43,6 +47,8 @@ void SNAutonomousProxy::Draw(float dt)
 	engSetColor(0, 255, 0);
 	animator->DrawAnimation(position, flip, dt);
 	engSetColor(0, 0, 0);
+
+	hitBox.DrawDebug();
 }
 
 void SNAutonomousProxy::Update()
@@ -71,6 +77,7 @@ void SNAutonomousProxy::UpdatePosition()
 	//}
 	//
 	anchor.SetAbsolutePosition(position);
+	hitBox.SetPosition(position);
 }
 
 void SNAutonomousProxy::SendData()

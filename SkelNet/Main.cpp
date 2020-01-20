@@ -28,7 +28,7 @@ SNCanvas canvas;
 void SetupServer()
 {
 	world.server.Setup();
-	world.server.printDebug = true;
+	world.server.printDebug = false;
 	world.isServer = true;
 	world.SpawnPlayer(world);
 	world.SpawnAutonomousProxy(world);
@@ -39,7 +39,7 @@ void SetupServer()
 void SetupClient()
 {
 	world.client.Setup();
-	world.client.printDebug = true;
+	world.client.printDebug = false;
 	world.isServer = false;
 	world.SpawnPlayer(world);
 	world.SpawnAutonomousProxy(world);
@@ -60,6 +60,7 @@ int main()
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
+	world.SpawnHitBox({ world.worldSize.x / 2, (world.worldSize.y / 3) }, { 100, 50 });
 
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 11, 100, 30);
 	SpritesheetData idleSheet = SpritesheetData("SN_Skel_Idle-Sheet.png", 4, 32, 32);
@@ -145,25 +146,15 @@ int main()
 		{
 			if (engGetKeyDown(Key::S))
 			{
-				world.server.Setup();
-				//world.server.printDebug = true;
-				world.isServer = true;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy(world);
-				if (engGetKeyDown(Key::C))
-				{
-					world.client.Setup();
-					//world.client.printDebug = true;
-					world.isServer = false;
-					world.SpawnPlayer(world);
-					world.SpawnAutonomousProxy(world);
-
-					waiting = false;
-				}
+				SetupServer();
+			}
+			if (engGetKeyDown(Key::C))
+			{
+				SetupClient();
 			}
 			SDL_Delay(.5f);
 		}
-
+	}
 		if (world.isServer)
 		{
 			world.server.Close();
@@ -172,8 +163,6 @@ int main()
 		{
 			world.client.Close();
 		}
-	}
-
 	engClose();
 	return 0;
 }

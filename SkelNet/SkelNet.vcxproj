@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SNHitBox.cpp" />
     <ClCompile Include="SNAnchor.cpp" />
     <ClCompile Include="SNAnimation.cpp" />
     <ClCompile Include="SNAnimator.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="SpritesheetData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimation.h" />
     <ClInclude Include="SNAnimator.h" />

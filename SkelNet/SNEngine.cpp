@@ -151,6 +151,11 @@ int engGetWidth()
 	return WINDOW_WIDTH;
 }
 
+int engGetFrameNum()
+{
+	return currentFrameNum;
+}
+
 void engSetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
 	SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
