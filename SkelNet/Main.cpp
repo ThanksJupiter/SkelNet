@@ -28,10 +28,10 @@ SNCanvas canvas;
 void SetupServer()
 {
 	world.server.Setup();
-	world.server.printDebug = true;
+	world.server.printDebug = false;
 	world.isServer = true;
 	world.SpawnPlayer(world);
-	world.SpawnAutonomousProxy();
+	world.SpawnAutonomousProxy(world);
 
 	waiting = false;
 }
@@ -39,10 +39,10 @@ void SetupServer()
 void SetupClient()
 {
 	world.client.Setup();
-	world.client.printDebug = true;
+	world.client.printDebug = false;
 	world.isServer = false;
 	world.SpawnPlayer(world);
-	world.SpawnAutonomousProxy();
+	world.SpawnAutonomousProxy(world);
 
 	waiting = false;
 }
@@ -60,7 +60,7 @@ int main()
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
-	world.SpawnHitBox({ world.worldSize.x / 2, (world.worldSize.y / 3) }, {100, 50});
+	world.SpawnHitBox({ world.worldSize.x / 2, (world.worldSize.y / 3) }, { 100, 50 });
 
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 11, 100, 30);
 	SpritesheetData idleSheet = SpritesheetData("SN_Skel_Idle-Sheet.png", 4, 32, 32);
@@ -79,7 +79,7 @@ int main()
 	for (int i = 0; i < attackSheet.numberOfFrames; i++)
 	{
 		attackSprites[i] = new SNSprite(
-			attackSheet.cellWidth, 
+			attackSheet.cellWidth,
 			attackSheet.cellHeight,
 			engLoadTexture(attackSheet.filePath),
 			i);
@@ -91,7 +91,7 @@ int main()
 
 	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
-	SNUIElement* hostButton =  canvas.CreateButton({ 0.f, 40.f }, { 50.f,30.f }, true, SetupServer, &rect->anchor);
+	SNUIElement* hostButton = canvas.CreateButton({ 0.f, 40.f }, { 50.f,30.f }, true, SetupServer, &rect->anchor);
 	SNUIElement* joinButton = canvas.CreateButton({ 0.f, 100.f }, { 50.f,30.f }, true, SetupClient, &rect->anchor);
 	canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
 	canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
@@ -147,20 +147,11 @@ int main()
 		{
 			if (engGetKeyDown(Key::S))
 			{
-				world.server.Setup();
-				//world.server.printDebug = true;
-				world.isServer = true;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy(world);
+				SetupServer();
+			}
 			if (engGetKeyDown(Key::C))
 			{
-				world.client.Setup();
-				//world.client.printDebug = true;
-				world.isServer = false;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy(world);
-
-				waiting = false;
+				SetupClient();
 			}
 		}
 		SDL_Delay(.5f);
@@ -174,7 +165,6 @@ int main()
 	{
 		world.client.Close();
 	}
-
 	engClose();
 	return 0;
 }

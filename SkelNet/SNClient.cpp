@@ -23,7 +23,7 @@ void SNClient::Setup()
 		printf("Client Open: %s\n", SDLNet_GetError());
 	}
 
-	printf("Client Setup!");
+	printf("Client Setup!\n");
 
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 	SDLNet_TCP_AddSocket(socketSet, tcpsock);
