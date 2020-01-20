@@ -21,6 +21,11 @@ void SNAudioManager::InitSounds()
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
+
+	if (!(hit = Mix_LoadWAV(hitPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
