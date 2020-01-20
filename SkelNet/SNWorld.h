@@ -6,6 +6,7 @@
 #include "SNSimulatedProxy.h"
 #include "SNServer.h"
 #include "SNClient.h"
+#include "SNAnimation.h"
 
 class SNWorld
 {
@@ -17,26 +18,31 @@ public:
 	SNClient client;
 
 	Vector2 worldSize;
-	
+
 	SNFloor floors[3];
 
 	SNHitBox hitbox[20];
 	int numHitboxes;
 
+	SNAnimation* idleAnim;
+	SNAnimation* runAnim;
+	SNAnimation* attackAnim;
+
 	bool isServer;
 
 	void Update();
-	void Draw();
+	void Draw(float dt);
 
 	void SpawnPlayer(SNWorld& worldptr);
-	void SpawnAutonomousProxy();
+	void SpawnAutonomousProxy(SNWorld& worldptr);
 	void SpawnFloor(Vector2 position, Vector2 size);
+
 	void SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
 
 	// Networking
-	void SendTransform(Vector2 position);
+	void SendPlayerData(Vector2 position, int health);
 
 
 	void CheckCollisions();
-	
+
 };

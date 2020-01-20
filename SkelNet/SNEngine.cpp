@@ -11,6 +11,7 @@
 #include <array>
 #include "Key.h"
 #include "SDL_ttf.h"
+#include "SNSprite.h"
 #include "SNAudioManager.h"
 
 SDL_Renderer* renderer;
@@ -51,7 +52,7 @@ void engInit()
 	if (!renderer)
 		std::cout << SDL_Error << std::endl;
 
-	image = IMG_Load("spritesheet.png");
+	image = IMG_Load("SN_Skel_Attack-Sheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
 
 	//intialize Text (frames)
@@ -67,7 +68,7 @@ void engInit()
 	audioManager->InitSounds();
 }
 
-SDL_Texture* LoadTexture(const char* path)
+SDL_Texture* engLoadTexture(const char* path)
 {
 	SDL_Surface* image = IMG_Load(path);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
@@ -216,6 +217,18 @@ void engDrawPoint(Vector2 position, float radius)
 void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, bool flip)
 {
 	SDL_RenderCopyEx(renderer, texture, &srcRect, &dstRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+}
+
+void engDrawSprite(SNSprite& image, Vector2 drawPosition, Vector2 drawScale, bool flip)
+{
+	SDL_Rect destinationRect = { drawPosition.x - drawScale.x, drawPosition.y - drawScale.y, drawScale.x, drawScale.y };
+
+	SDL_RenderCopyEx(renderer, image.texture, &image.sheetSourceRect, &destinationRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+}
+
+void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, SDL_Texture* inTex, bool flip)
+{
+	SDL_RenderCopyEx(renderer, inTex, &srcRect, &dstRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 void engDrawArrow(Vector2 startPosition, Vector2 endPosition)

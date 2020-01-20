@@ -55,6 +55,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SNHitBox.cpp">
+    <ClCompile Include="SNSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpritesheetData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,6 +109,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SNHitBox.h">
+    <ClInclude Include="SNSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritesheetData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

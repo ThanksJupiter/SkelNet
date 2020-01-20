@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="SNHitBox.cpp" />
     <ClCompile Include="SNAnchor.cpp" />
+    <ClCompile Include="SNAnimation.cpp" />
     <ClCompile Include="SNAnimator.cpp" />
     <ClCompile Include="SNAudioManager.cpp" />
     <ClCompile Include="SNSimulatedProxy.cpp" />
@@ -148,12 +149,15 @@
     <ClCompile Include="SNFloor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SNServer.cpp" />
+    <ClCompile Include="SNSprite.cpp" />
     <ClCompile Include="SNUIElement.cpp" />
     <ClCompile Include="SNWorld.cpp" />
+    <ClCompile Include="SpritesheetData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
+    <ClInclude Include="SNAnimation.h" />
     <ClInclude Include="SNAnimator.h" />
     <ClInclude Include="SNAudioManager.h" />
     <ClInclude Include="SNSimulatedProxy.h" />
@@ -164,7 +168,9 @@
     <ClInclude Include="SNFloor.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="SNServer.h" />
+    <ClInclude Include="SNSprite.h" />
     <ClInclude Include="SNUIElement.h" />
+    <ClInclude Include="SpritesheetData.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="SNWorld.h" />
   </ItemGroup>

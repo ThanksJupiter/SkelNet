@@ -14,9 +14,12 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	hitBox.Setup(initPos, { 50, 70 }, {-25, -70});
 	hitBox.drawDebug = true;
+	
+	animator = new SNAnimator();
+	animator->SetCurrentAnimation(world.idleAnim, world.idleAnim->frameCount);
 }
 
-void SNAutonomousProxy::Draw()
+void SNAutonomousProxy::Draw(float dt)
 {
 	if (position.x != previousPosition.x)
 	{
@@ -42,7 +45,7 @@ void SNAutonomousProxy::Draw()
 	}
 
 	engSetColor(0, 255, 0);
-	animator->DrawAnimation(position, flip);
+	animator->DrawAnimation(position, flip, dt);
 	engSetColor(0, 0, 0);
 
 	hitBox.DrawDebug();
@@ -52,6 +55,7 @@ void SNAutonomousProxy::Update()
 {
 	CheckInput();
 	UpdatePosition();
+	SendData();
 }
 
 void SNAutonomousProxy::UpdatePosition()
@@ -67,13 +71,18 @@ void SNAutonomousProxy::UpdatePosition()
 
 	previousPosition = position;
 	position += velocity;
-	if ((velocity.x != 0 || velocity.y != 0))
-	{
-		world->SendTransform(position);
-	}
-
+	//if ((velocity.x != 0 || velocity.y != 0))
+	//{
+	//	world->SendPlayerData(position, health);
+	//}
+	//
 	anchor.SetAbsolutePosition(position);
 	hitBox.SetPosition(position);
+}
+
+void SNAutonomousProxy::SendData()
+{
+	world->SendPlayerData(position, health);
 }
 
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)
@@ -90,15 +99,30 @@ void SNAutonomousProxy::CheckInput()
 {
 	if (engGetKey(Key::Left))
 	{
+		if (!animator->isWalking)
+		{
+			animator->SetCurrentAnimation(world->attackAnim, 4);
+			animator->isWalking = true;
+		}
 		velocity.x = -0.5f;
 		animator->direction = -1;
 	}
 	else if (engGetKey(Key::Right))
 	{
+		if (!animator->isWalking)
+		{
+			animator->SetCurrentAnimation(world->attackAnim, 4);
+			animator->isWalking = true;
+		}
 		velocity.x = 0.5f;
 		animator->direction = 1;
 	}
 	else {
+		if (animator->isWalking)
+		{
+			animator->SetCurrentAnimation(world->idleAnim, 4);
+			animator->isWalking = false;
+		}
 		velocity.x = 0.0f;
 		animator->direction = 0;
 	}
@@ -114,5 +138,3 @@ void SNAutonomousProxy::CheckInput()
 		drawDebug = !drawDebug;
 	}
 }
-
-
