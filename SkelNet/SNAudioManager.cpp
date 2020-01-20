@@ -37,5 +37,5 @@ void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
 void SNAudioManager::PlayMusicLoop(Mix_Music* song)
 {
 	if (Mix_PlayMusic(song, -1) == -1)
-		printf("Mix_PlayChannel: %s\n", Mix_GetError());
+		printf("Mix_PlayMusic: %s\n", Mix_GetError());
 }

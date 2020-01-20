@@ -21,6 +21,28 @@ bool waiting = true;
 
 SNCanvas canvas;
 
+void SetupServer()
+{
+	world.server.Setup();
+	world.server.printDebug = true;
+	world.isServer = true;
+	world.SpawnPlayer(world);
+	world.SpawnAutonomousProxy();
+
+	waiting = false;
+}
+
+void SetupClient()
+{
+	world.client.Setup();
+	world.client.printDebug = true;
+	world.isServer = false;
+	world.SpawnPlayer(world);
+	world.SpawnAutonomousProxy();
+
+	waiting = false;
+}
+
 void Print()
 {
 	printf("Clicked on the button!\n");
@@ -35,21 +57,25 @@ int main()
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
 
-	//canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
-	//SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
-	//canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
-	//canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, { 20.f, 60.f });
-
+	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
+	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
+	SNUIElement* hostButton =  canvas.CreateButton({ 0.f, 40.f }, { 50.f,30.f }, true, SetupServer, &rect->anchor);
+	SNUIElement* joinButton = canvas.CreateButton({ 0.f, 100.f }, { 50.f,30.f }, true, SetupClient, &rect->anchor);
+	canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
+	canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
 
 	while (!engShouldQuit())
 	{
+		canvas.CheckInteraction();
+		canvas.Draw();
+
 		// Move further down?
 		engRender();
 		engUpdate();
 
 		if (world.isServer)
 		{
-			engDrawString({ 10, 10 }, "SERVER");
+			engDrawString({ 10, 10 }, "Server");
 		}
 		else
 		{
@@ -60,8 +86,8 @@ int main()
 		{
 			world.Update();
 			world.Draw();
-			//canvas.CheckInteraction();
-			//canvas.Draw();
+			canvas.CheckInteraction();
+			canvas.Draw();
 
 			if (engGetKeyDown(Key::A) && world.isServer == true)
 			{
@@ -70,33 +96,33 @@ int main()
 
 			if (engGetKeyDown(Key::D))
 			{
-				//canvas.drawDebug = !canvas.drawDebug;
+				canvas.drawDebug = !canvas.drawDebug;
 			}
 		}
-		else
-		{
-			if (engGetKeyDown(Key::S))
-			{
-				world.server.Setup();
-				//world.server.printDebug = true;
-				world.isServer = true;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy();
-
-				waiting = false;
-			}
-
-			if (engGetKeyDown(Key::C))
-			{
-				world.client.Setup();
-				//world.client.printDebug = true;
-				world.isServer = false;
-				world.SpawnPlayer(world);
-				world.SpawnAutonomousProxy();
-
-				waiting = false;
-			}
-		}
+		//else
+		//{
+		//	if (engGetKeyDown(Key::S))
+		//	{
+		//		world.server.Setup();
+		//		world.server.printDebug = true;
+		//		world.isServer = true;
+		//		world.SpawnPlayer(world);
+		//		world.SpawnAutonomousProxy();
+		//
+		//		waiting = false;
+		//	}
+		//
+		//	if (engGetKeyDown(Key::C))
+		//	{
+		//		world.client.Setup();
+		//		world.client.printDebug = true;
+		//		world.isServer = false;
+		//		world.SpawnPlayer(world);
+		//		world.SpawnAutonomousProxy();
+		//
+		//		waiting = false;
+		//	}
+		//}
 		SDL_Delay(.5f);
 	}
 

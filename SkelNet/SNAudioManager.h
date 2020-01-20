@@ -6,7 +6,7 @@ class SNAudioManager
 public:
 	//When adding sounds and music 
 	//1. Create a Mix variable and a path variable
-	//2. Init the sound in InitSounds
+	//2. Init the sound in InitSounds by loading the path
 
 	SNAudioManager();
 
