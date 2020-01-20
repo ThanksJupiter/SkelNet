@@ -49,6 +49,7 @@ void SNAutonomousProxy::Update()
 {
 	CheckInput();
 	UpdatePosition();
+	SendData();
 }
 
 void SNAutonomousProxy::UpdatePosition()
@@ -64,12 +65,17 @@ void SNAutonomousProxy::UpdatePosition()
 
 	previousPosition = position;
 	position += velocity;
-	if ((velocity.x != 0 || velocity.y != 0))
-	{
-		world->SendTransform(position);
-	}
-
+	//if ((velocity.x != 0 || velocity.y != 0))
+	//{
+	//	world->SendPlayerData(position, health);
+	//}
+	//
 	anchor.SetAbsolutePosition(position);
+}
+
+void SNAutonomousProxy::SendData()
+{
+	world->SendPlayerData(position, health);
 }
 
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)
