@@ -37,10 +37,10 @@ int main()
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
 
-	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
-	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
-	canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
-	canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, { 20.f, 60.f });
+	//canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
+	//SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
+	//canvas.CreateButton({ 60.f, 80.f }, { 50.f,30.f }, true, Print, &rect->anchor);
+	//canvas.CreateText({ 60.f, 80.f }, "Heasasass", &rect->anchor, { 20.f, 60.f });
 
 	Vector2 position = Vector2(0, 0);
 	Vector2 size = Vector2(32, 32);
@@ -65,8 +65,8 @@ int main()
 		{
 			world.Update();
 			world.Draw();
-			canvas.CheckInteraction();
-			canvas.Draw();
+			//canvas.CheckInteraction();
+			//canvas.Draw();
 
 			if (engGetKeyDown(Key::A) && world.isServer == true)
 			{
@@ -75,7 +75,7 @@ int main()
 
 			if (engGetKeyDown(Key::D))
 			{
-				canvas.drawDebug = !canvas.drawDebug;
+				//canvas.drawDebug = !canvas.drawDebug;
 			}
 		}
 		else

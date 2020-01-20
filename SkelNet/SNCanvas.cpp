@@ -1,10 +1,20 @@
 #include "SNCanvas.h"
 #include "SNEngine.h"
 
-void SNCanvas::Setup(Vector2 size, Vector2 anchorPos)
+void SNCanvas::Setup(Vector2 size, Vector2 initPos, SNAnchor* parentElement, Vector2 anchorOffset)
 {
-	anchor.SetAbsolutePosition(anchorPos);
+	anchor.SetAbsolutePosition(initPos);
 	this->size = size;
+
+	if (parentElement == nullptr)
+	{
+		anchor.SetParent(anchor);
+	}
+	else
+	{
+		anchor.SetParent(*parentElement);
+	}
+	SetAnchorPosition(initPos);
 }
 
 void SNCanvas::CheckInteraction()
@@ -14,6 +24,23 @@ void SNCanvas::CheckInteraction()
 		if (uiElements[i].isUsed)
 		{
 			uiElements[i].CheckInteractedWith();
+		}
+	}
+}
+
+void SNCanvas::SetAnchorPosition(Vector2 position)
+{
+	anchor.SetAbsolutePosition(position);
+}
+
+void SNCanvas::UpdatePosition()
+{
+	for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
+	{
+		if (uiElements[i].isUsed)
+		{
+			uiElements[i].anchor.UpdatePosition();
+			uiElements[i].UpdatePosition();
 		}
 	}
 }
@@ -62,13 +89,6 @@ SNUIElement* SNCanvas::CreateRect(Vector2 position, Vector2 size, SNAnchor* pare
 		return nullptr;
 	else
 	{
-		Vector2 newAnchorPos;
-
-		if (parentElement == nullptr)
-			newAnchorPos = anchor.GetAbsolutePosition();
-		else
-			newAnchorPos = parentElement->GetAbsolutePosition();
-
 		for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 		{
 			if (uiElements[i].isUsed == false)
@@ -81,7 +101,7 @@ SNUIElement* SNCanvas::CreateRect(Vector2 position, Vector2 size, SNAnchor* pare
 				{
 					uiElements[i].anchor.SetParent(*parentElement);
 				}
-				uiElements[i].SetAnchorPosition(position);
+				uiElements[i].SetAnchorPosition(uiElements[i].anchor.parent->GetAbsolutePosition() + position);
 				uiElements[i].SetRelativePosition(anchorOffset);
 				uiElements[i].size = size;
 				uiElements[i].isUsed = true;
@@ -99,13 +119,6 @@ SNUIElement* SNCanvas::CreateButton(Vector2 position, Vector2 size, bool isClick
 		return nullptr;
 	else
 	{
-		Vector2 newAnchorPos;
-
-		if (parentElement == nullptr)
-			newAnchorPos = anchor.GetAbsolutePosition();
-		else
-			newAnchorPos = parentElement->absolutePosition;
-
 		for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 		{
 			if (uiElements[i].isUsed == false)
@@ -118,7 +131,7 @@ SNUIElement* SNCanvas::CreateButton(Vector2 position, Vector2 size, bool isClick
 				{
 					uiElements[i].anchor.SetParent(*parentElement);
 				}
-				uiElements[i].SetAnchorPosition(position);
+				uiElements[i].SetAnchorPosition(uiElements[i].anchor.parent->GetAbsolutePosition() + position);
 				uiElements[i].SetRelativePosition(anchorOffset);
 				uiElements[i].size = size;
 				uiElements[i].isClickable = isClickable;
@@ -144,13 +157,6 @@ SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, SNAnchor* 
 		return nullptr;
 	else
 	{
-		Vector2 newAnchorPos;
-
-		if (parentElement == nullptr)
-			newAnchorPos = anchor.GetAbsolutePosition();
-		else
-			newAnchorPos = parentElement->absolutePosition;
-
 		for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
 		{
 			if (uiElements[i].isUsed == false)

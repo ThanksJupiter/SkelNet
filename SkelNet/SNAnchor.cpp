@@ -18,7 +18,8 @@ void SNAnchor::AddChild(SNAnchor& child)
 		if (children[i] == nullptr)
 		{
 			children[i] = &child;
-			children[i]->SetParentOffset(children[i]->GetAbsolutePosition() - absolutePosition);
+			children[i]->SetParentOffset(children[i]->parent->GetAbsolutePosition() - absolutePosition); // TODO: Offset is 0
+			children[i]->isUsed = true;
 			return;
 		}
 	}
@@ -33,7 +34,7 @@ void SNAnchor::UpdatePosition()
 
 	for (int i = 0; i < MAX_CONNECTED_CHILDREN; ++i)
 	{
-		if (children[i]->isUsed)
+		if (children[i] != nullptr && children[i]->isUsed)
 		{
 			children[i]->UpdatePosition();
 		}

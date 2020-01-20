@@ -9,8 +9,10 @@ class SNCanvas
 public:
 	SNCanvas() {};
 
-	void Setup(Vector2 size, Vector2 anchorPos);
+	void Setup(Vector2 size, Vector2 initPos, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 	void CheckInteraction();
+	void SetAnchorPosition(Vector2 position);
+	void UpdatePosition();
 	void Draw();
 
 	// Create Elements
