@@ -8,13 +8,17 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
 	this->world = &world;
-	anchor.SetAbsolutePosition(position);
+	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
 	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
 
-	hitBox.Setup(initPos, { 50, 70 }, {-25, -70});
-	hitBox.drawDebug = true;
-	
+	hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70} );
+	attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
+	attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -110, -40 });
+	hitBox->drawDebug = true;
+	attackBoxR->drawDebug = true;
+	attackBoxL->drawDebug = true;
+
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 }
@@ -47,8 +51,6 @@ void SNAutonomousProxy::Draw(float dt)
 	engSetColor(0, 255, 0);
 	animator->DrawAnimation(position, flip, dt);
 	engSetColor(0, 0, 0);
-
-	hitBox.DrawDebug();
 }
 
 void SNAutonomousProxy::Update()
@@ -71,13 +73,11 @@ void SNAutonomousProxy::UpdatePosition()
 
 	previousPosition = position;
 	position += velocity;
-	//if ((velocity.x != 0 || velocity.y != 0))
-	//{
-	//	world->SendPlayerData(position, health);
-	//}
-	//
+
 	anchor.SetAbsolutePosition(position);
-	hitBox.SetPosition(position);
+	hitBox->UpdatePosition(position);
+	attackBoxR->UpdatePosition(position);
+	attackBoxL->UpdatePosition(position);
 }
 
 void SNAutonomousProxy::SendData()

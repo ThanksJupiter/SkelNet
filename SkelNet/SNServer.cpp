@@ -5,8 +5,6 @@
 #include "SNWorld.h"
 #include "DataPacket.h"
 
-//https://gist.github.com/psqq/b92243f2149fcf4dd46370d4c0b5fef9
-
 void SNServer::Setup()
 {
 	SDLNet_Init();

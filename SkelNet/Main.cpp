@@ -137,8 +137,6 @@ int main()
 		{
 			world.Update();
 			world.Draw(deltaTime);
-			//canvas.CheckInteraction();
-			//canvas.Draw();
 			canvas.CheckInteraction();
 			canvas.Draw();
 
@@ -165,14 +163,16 @@ int main()
 			SDL_Delay(.5f);
 		}
 	}
-		if (world.isServer)
-		{
-			world.server.Close();
-		}
-		else
-		{
-			world.client.Close();
-		}
+
+	if (world.isServer)
+	{
+		world.server.Close();
+	}
+	else
+	{
+		world.client.Close();
+	}
+
 	engClose();
 	return 0;
 }

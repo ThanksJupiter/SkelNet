@@ -1,13 +1,8 @@
 #include "SNHitBox.h"
 #include "SNEngine.h"
 
-struct TriggerState
-{
-	bool isTriggered;
-	int frameNum;
-};
 
-TriggerState lastState;
+
 
 void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
 {
@@ -30,42 +25,35 @@ bool SNHitBox::CheckCollision(SNHitBox otherHitBox)
 		position.y + size.y >= otherHitBox.position.y &&
 		position.y <= otherHitBox.position.y + otherHitBox.size.y)
 	{
-		if (lastState.isTriggered == false)
+		if (!lastState.isTriggered)
 		{
 			printf("OnTriggerEnter\n");
 			if (callDelegates)
 			{
 				OnTriggerEnter();
 			}
-			lastState.isTriggered = true;
-			isColliding = true;
 		}
-
+		currentState.isTriggered = true;
+		currentState.frameNum = engGetFrameNum();
 		return true;
 	}
-	else
+	/*else // TODO: Enable if hell breaks loose (and fix it)
 	{
-		if (lastState.isTriggered == true)
+		if (lastState.isTriggered)
 		{
-			printf("OnTriggerExit\n");
+			printf("OnTriggerExit: %i-%i\n", n1, n2);
 			if (callDelegates)
 			{
 				OnTriggerExit();
 			}
-			lastState.isTriggered = false;
-			isColliding = false;
+			//currentState.isTriggered = false;
 		}
-
+		currentState.frameNum = engGetFrameNum();
 		return false;
-	}
+	}*/
 }
 
-void SNHitBox::CheckCollisions(const SNHitBox* hitBoxArray, const int numHitBoxes)
-{
-
-}
-
-void SNHitBox::SetPosition(Vector2 position)
+void SNHitBox::UpdatePosition(Vector2 position)
 {
 	this->position = position + offset;
 }
@@ -78,7 +66,7 @@ void SNHitBox::SetOffset(Vector2 offset)
 void SNHitBox::DrawDebug()
 {
 	engSetColor(0, 0, 255);
-	if (isColliding)
+	if (lastState.isTriggered)
 	{
 		engSetColor(255, 0, 0);
 	}

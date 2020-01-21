@@ -21,7 +21,8 @@ public:
 
 	SNFloor floors[3];
 
-	SNHitBox hitbox[20];
+	static const int MAX_NUM_HITBOXES = 20;
+	SNHitBox hitboxes[MAX_NUM_HITBOXES];
 	int numHitboxes;
 
 	SNAnimation* idleAnim;
@@ -38,7 +39,7 @@ public:
 	void SpawnAutonomousProxy(SNWorld& worldptr);
 	void SpawnFloor(Vector2 position, Vector2 size);
 
-	void SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
+	SNHitBox* SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
 
 	// Networking
 	void SendPlayerData(Vector2 position, int health);

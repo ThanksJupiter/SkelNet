@@ -36,5 +36,7 @@ public:
 	SNCanvas canvas;
 	bool drawDebug;
 
-	SNHitBox hitBox;
+	SNHitBox* hitBox;
+	SNHitBox* attackBoxR;
+	SNHitBox* attackBoxL;
 };

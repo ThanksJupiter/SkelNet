@@ -11,7 +11,20 @@ void SNWorld::Update()
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
-		hitbox[i].CheckCollision(player.hitBox);
+		hitboxes[i].lastState = hitboxes[i].currentState;
+		hitboxes[i].currentState.isTriggered = false;
+		hitboxes[i].currentState.frameNum = engGetFrameNum();
+	}
+
+	for (int i = 0; i < numHitboxes; ++i)
+	{
+		for (int j = 0; j < numHitboxes; ++j)
+		{
+			if (i == j)
+				continue;
+
+			hitboxes[i].CheckCollision(hitboxes[j]);
+		}
 	}
 
 	if (isServer)
@@ -44,7 +57,7 @@ void SNWorld::Draw(float dt)
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
-		hitbox[i].DrawDebug();
+		hitboxes[i].DrawDebug();
 	}
 
 	floors[0].Draw();
@@ -75,12 +88,14 @@ void SNWorld::SpawnFloor(Vector2 position, Vector2 size)
 	floors[0].size = size;
 }
 
-void SNWorld::SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
+SNHitBox* SNWorld::SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
 {
-	hitbox[numHitboxes].Setup(position, size, offset, blocking, callDelegates, OnTriggerEnter, OnTriggerExit);
-	hitbox[numHitboxes].drawDebug = true;
+	hitboxes[numHitboxes].Setup(position, size, offset, blocking, callDelegates, OnTriggerEnter, OnTriggerExit);
+	hitboxes[numHitboxes].drawDebug = true;
 
 	numHitboxes++;
+
+	return &hitboxes[numHitboxes - 1];
 }
 
 void SNWorld::SendPlayerData(Vector2 position, int health)
