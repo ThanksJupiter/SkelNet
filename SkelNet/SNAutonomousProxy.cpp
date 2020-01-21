@@ -10,7 +10,9 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	this->world = &world;
 	anchor.SetAbsolutePosition(position);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
-	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
+	//uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
+	accText = canvas.CreateText({ 50, -100 }, "100%", nullptr, { -50, 0 });
+	velText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
 
 	hitBox.Setup(initPos, { 50, 70 }, {-25, -70});
 	hitBox.drawDebug = true;
@@ -33,7 +35,9 @@ void SNAutonomousProxy::Draw(float dt)
 		}
 	}
 
-	uiText->UpdateText(position.y);
+	//uiText->UpdateText(position.y);
+	accText->UpdateText(acceleration.x);
+	velText->UpdateText(velocity.x);
 
 	anchor.UpdatePosition();
 	canvas.UpdatePosition();
@@ -53,31 +57,31 @@ void SNAutonomousProxy::Draw(float dt)
 
 void SNAutonomousProxy::Update(float dt)
 {
-	CheckInput();
+	CheckInput(dt);
 	UpdatePosition(dt);
 	SendData();
 }
 
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	if (position.y < 333)
-	{
-		velocity.y += 0.001f;
-	}
-	else if (velocity.y > 0)
-	{
-		velocity.y = 0;
-	}
-
 	previousPosition = position;
-	position += velocity;
-	//if ((velocity.x != 0 || velocity.y != 0))
-	//{
-	//	world->SendPlayerData(position, health);
-	//}
-	//
+
+	velocity += acceleration * dt;
+	position += velocity * dt;
+
 	anchor.SetAbsolutePosition(position);
 	hitBox.SetPosition(position);
+
+	if (position.y < 333)
+	{
+		acceleration.y = gravity * gravityMult;
+	}
+
+	if (velocity.y > 0 && position.y > 333)
+	{
+		position.y = 333;
+		velocity.y = 0;
+	}
 }
 
 void SNAutonomousProxy::SendData()
@@ -95,7 +99,7 @@ bool SNAutonomousProxy::IsGrounded()
 	return position.y > 332;
 }
 
-void SNAutonomousProxy::CheckInput()
+void SNAutonomousProxy::CheckInput(float dt)
 {
 	if (!animator->movementLocked)
 	{
@@ -106,7 +110,21 @@ void SNAutonomousProxy::CheckInput()
 				animator->SetCurrentAnimation(world->walkAnim);
 				animator->isWalking = true;
 			}
-			velocity.x = -0.3f;
+				
+			if (velocity.x > -minVelocitySpeed && IsGrounded())
+			{
+				velocity.x = -minVelocitySpeed;
+			}
+
+			if (velocity.x > -maxVelocitySpeed)
+			{
+				acceleration.x = -accelerationSpeed;
+			}
+			else
+			{
+				acceleration.x = 0.0f;
+			}
+
 			animator->direction = -1;
 		}
 		else if (engGetKey(Key::Right))
@@ -116,7 +134,21 @@ void SNAutonomousProxy::CheckInput()
 				animator->SetCurrentAnimation(world->walkAnim);
 				animator->isWalking = true;
 			}
-			velocity.x = 0.3f;
+
+			if (velocity.x < minVelocitySpeed && IsGrounded())
+			{
+				velocity.x = minVelocitySpeed;
+			}
+
+			if (velocity.x < maxVelocitySpeed)
+			{
+				acceleration.x = accelerationSpeed;
+			}
+			else
+			{
+				acceleration.x = 0.0f;
+			}
+
 			animator->direction = 1;
 		}
 		else {
@@ -125,14 +157,21 @@ void SNAutonomousProxy::CheckInput()
 				animator->SetCurrentAnimation(world->idleAnim);
 				animator->isWalking = false;
 			}
-			velocity.x = 0.0f;
+
+			if (IsGrounded())
+			{
+				velocity.x = 0;
+			}
+
+			acceleration.x = 0;
 			animator->direction = 0;
 		}
 	}
 
 	if (engGetKeyDown(Key::Space) && IsGrounded() && !animator->movementLocked)
 	{
-		velocity.y -= 0.5f;
+		acceleration.x = 0.0f;
+		velocity.y = -200.0f;
 	}
 
 	if (engGetKeyDown(Key::X) && IsGrounded() && !animator->movementLocked)
@@ -141,6 +180,7 @@ void SNAutonomousProxy::CheckInput()
 		animator->isWalking = false;
 		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
+		acceleration.x = 0.0f;
 		animator->direction = 0;
 	}
 
