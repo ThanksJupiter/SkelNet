@@ -112,7 +112,7 @@ int main()
 		LAST = NOW;
 		NOW = SDL_GetPerformanceCounter();
 
-		deltaTime = (double)((NOW - LAST) * 1000) / (double)SDL_GetPerformanceFrequency();
+		deltaTime = ((double)((NOW - LAST) * 1000) / (double)SDL_GetPerformanceFrequency()) * 0.001;
 
 		if (world.isServer)
 		{
@@ -126,7 +126,7 @@ int main()
 		if (!waiting)
 		{
 			world.Update();
-			world.Draw(deltaTime * 0.001);
+			world.Draw(deltaTime);
 			//canvas.CheckInteraction();
 			//canvas.Draw();
 			canvas.CheckInteraction();
