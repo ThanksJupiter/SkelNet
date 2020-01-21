@@ -5,9 +5,9 @@
 #include <vector>
 #include "SNAnimator.h"
 
-void SNWorld::Update()
+void SNWorld::Update(float dt)
 {
-	player.Update();
+	player.Update(dt);
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
