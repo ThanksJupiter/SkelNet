@@ -130,21 +130,18 @@ void SNAutonomousProxy::CheckInput()
 		}
 	}
 
-	if (engGetKeyDown(Key::Space) && IsGrounded())
+	if (engGetKeyDown(Key::Space) && IsGrounded() && !animator->movementLocked)
 	{
 		velocity.y -= 0.5f;
 	}
 
-	if (engGetKeyDown(Key::X) && IsGrounded())
+	if (engGetKeyDown(Key::X) && IsGrounded() && !animator->movementLocked)
 	{
 		animator->movementLocked = true;
 		animator->isWalking = false;
 		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		animator->direction = 0;
-		// attack
-		// lock movement
-		// regain movement when animation is done playing
 	}
 
 	if (engGetKeyDown(Key::S))
