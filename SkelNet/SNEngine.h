@@ -5,6 +5,7 @@
 #include "SDL_ttf.h"
 
 class SNSprite;
+class SNWorld;
 
 const float PI = 3.14f;
 static int currentFrameNum = 1;
@@ -50,3 +51,4 @@ Vector2 engGetTextSize(const char* string);
 
 // Image loading
 SDL_Texture* engLoadTexture(const char* path);
+void engLoadAnimationsToWorld(SNWorld& world);

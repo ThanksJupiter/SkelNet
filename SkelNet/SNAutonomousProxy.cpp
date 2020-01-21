@@ -142,9 +142,6 @@ void SNAutonomousProxy::CheckInput()
 		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		animator->direction = 0;
-		// attack
-		// lock movement
-		// regain movement when animation is done playing
 	}
 
 	if (engGetKeyDown(Key::S))

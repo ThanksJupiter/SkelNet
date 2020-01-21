@@ -13,6 +13,9 @@
 #include "SDL_ttf.h"
 #include "SNSprite.h"
 #include "SNAudioManager.h"
+#include "SpritesheetData.h"
+#include "SNAnimation.h"
+#include "SNWorld.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -74,6 +77,45 @@ SDL_Texture* engLoadTexture(const char* path)
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
 
 	return texture;
+}
+
+void engLoadAnimationsToWorld(SNWorld& world)
+{
+	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 12, 100, 30);
+	SpritesheetData idleSheet = SpritesheetData("SN_Skel_Idle-Sheet.png", 4, 32, 32);
+	SpritesheetData walkSheet = SpritesheetData("SN_Skel_Walk-Sheet.png", 4, 32, 32);
+
+	SNSprite* idleSprites[4];
+	SNSprite* attackSprites[12];
+	SNSprite* walkSprites[4];
+	for (int i = 0; i < idleSheet.numberOfFrames; i++)
+	{
+		idleSprites[i] = new SNSprite(
+			idleSheet.cellWidth,
+			idleSheet.cellHeight,
+			engLoadTexture(idleSheet.filePath),
+			i);
+	}
+	for (int i = 0; i < attackSheet.numberOfFrames; i++)
+	{
+		attackSprites[i] = new SNSprite(
+			attackSheet.cellWidth,
+			attackSheet.cellHeight,
+			engLoadTexture(attackSheet.filePath),
+			i);
+	}
+	for (int i = 0; i < walkSheet.numberOfFrames; i++)
+	{
+		walkSprites[i] = new SNSprite(
+			walkSheet.cellWidth,
+			walkSheet.cellHeight,
+			engLoadTexture(walkSheet.filePath),
+			i);
+	}
+
+	world.idleAnim = new SNAnimation(idleSprites, 4, engLoadTexture(idleSheet.filePath), .25);
+	world.attackAnim = new SNAnimation(attackSprites, 11, engLoadTexture(attackSheet.filePath), .15);
+	world.walkAnim = new SNAnimation(walkSprites, 4, engLoadTexture(walkSheet.filePath), .25);
 }
 
 void engClose()
