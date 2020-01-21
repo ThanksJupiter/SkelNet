@@ -8,7 +8,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	this->world = &world;
 	position = initPos;
 	animator = new SNAnimator();
-	animator->SetCurrentAnimation(world.idleAnim, world.idleAnim->frameCount);
+	animator->SetCurrentAnimation(world.idleAnim);
 }
 
 void SNSimulatedProxy::Draw(float dt)

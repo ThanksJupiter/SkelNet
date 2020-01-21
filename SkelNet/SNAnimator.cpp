@@ -27,6 +27,12 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 		else
 		{
 			currentAnimFrame = 0;
+			movementLocked = false;
+			if (returnToPreviousAnimWhenDone)
+			{
+				SetCurrentAnimation(previousAnimation);
+				returnToPreviousAnimWhenDone = false;
+			}
 		}
 	}
 
@@ -49,6 +55,7 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 		currentAnimation->sprites[currentAnimFrame]->height * scale
 	};
 
+	// debug square
 	/*engDrawRect
 	(
 		attackAnimSprites[currentAnimFrame]->width * scale,
@@ -60,8 +67,19 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrame]->texture, flipped);
 }
 
-void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, int frameCount)
+void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false*/)
 {
+	if (oneShot)
+	{
+		previousAnimation = currentAnimation;
+		returnToPreviousAnimWhenDone = true;
+	}
+
 	currentAnimFrame = 0;
 	currentAnimation = inAnim;
+}
+
+bool SNAnimator::IsCurrentAnimationDonePlaying()
+{
+	return currentAnimFrame == currentAnimation->frameCount - 1;
 }

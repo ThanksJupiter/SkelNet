@@ -27,6 +27,7 @@ public:
 	SNAnimation* idleAnim;
 	SNAnimation* runAnim;
 	SNAnimation* attackAnim;
+	SNAnimation* walkAnim;
 
 	bool isServer;
 

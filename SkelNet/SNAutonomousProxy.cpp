@@ -16,7 +16,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	hitBox.drawDebug = true;
 	
 	animator = new SNAnimator();
-	animator->SetCurrentAnimation(world.idleAnim, world.idleAnim->frameCount);
+	animator->SetCurrentAnimation(world.idleAnim);
 }
 
 void SNAutonomousProxy::Draw(float dt)
@@ -97,39 +97,54 @@ bool SNAutonomousProxy::IsGrounded()
 
 void SNAutonomousProxy::CheckInput()
 {
-	if (engGetKey(Key::Left))
+	if (!animator->movementLocked)
 	{
-		if (!animator->isWalking)
+		if (engGetKey(Key::Left))
 		{
-			animator->SetCurrentAnimation(world->attackAnim, 4);
-			animator->isWalking = true;
+			if (!animator->isWalking)
+			{
+				animator->SetCurrentAnimation(world->walkAnim);
+				animator->isWalking = true;
+			}
+			velocity.x = -0.3f;
+			animator->direction = -1;
 		}
-		velocity.x = -0.5f;
-		animator->direction = -1;
-	}
-	else if (engGetKey(Key::Right))
-	{
-		if (!animator->isWalking)
+		else if (engGetKey(Key::Right))
 		{
-			animator->SetCurrentAnimation(world->attackAnim, 4);
-			animator->isWalking = true;
+			if (!animator->isWalking)
+			{
+				animator->SetCurrentAnimation(world->walkAnim);
+				animator->isWalking = true;
+			}
+			velocity.x = 0.3f;
+			animator->direction = 1;
 		}
-		velocity.x = 0.5f;
-		animator->direction = 1;
-	}
-	else {
-		if (animator->isWalking)
-		{
-			animator->SetCurrentAnimation(world->idleAnim, 4);
-			animator->isWalking = false;
+		else {
+			if (animator->isWalking)
+			{
+				animator->SetCurrentAnimation(world->idleAnim);
+				animator->isWalking = false;
+			}
+			velocity.x = 0.0f;
+			animator->direction = 0;
 		}
-		velocity.x = 0.0f;
-		animator->direction = 0;
 	}
 
 	if (engGetKeyDown(Key::Space) && IsGrounded())
 	{
 		velocity.y -= 0.5f;
+	}
+
+	if (engGetKeyDown(Key::X) && IsGrounded())
+	{
+		animator->movementLocked = true;
+		animator->isWalking = false;
+		animator->SetCurrentAnimation(world->attackAnim, true);
+		velocity.x = 0.0f;
+		animator->direction = 0;
+		// attack
+		// lock movement
+		// regain movement when animation is done playing
 	}
 
 	if (engGetKeyDown(Key::S))
