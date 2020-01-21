@@ -10,7 +10,17 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	this->world = &world;
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
-	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
+
+	//uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
+	accText = canvas.CreateText({ 50, -100 }, "100%", nullptr, { -50, 0 });
+	velText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
+
+	hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70} );
+	attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
+	attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -110, -40 });
+	hitBox->drawDebug = true;
+	attackBoxR->drawDebug = true;
+	attackBoxL->drawDebug = true;
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -40,7 +50,9 @@ void SNAutonomousProxy::Draw(float dt)
 		}
 	}
 
-	uiText->UpdateText(position.y);
+	//uiText->UpdateText(position.y);
+	accText->UpdateText(acceleration.x);
+	velText->UpdateText(velocity.x);
 
 	anchor.UpdatePosition();
 	canvas.UpdatePosition();
@@ -56,30 +68,32 @@ void SNAutonomousProxy::Draw(float dt)
 	engSetColor(0, 0, 0);
 }
 
-void SNAutonomousProxy::Update()
+void SNAutonomousProxy::Update(float dt)
 {
-	CheckInput();
-	UpdatePosition();
+	CheckInput(dt);
+	UpdatePosition(dt);
 	SendData();
 
 	serverAttacked = false;
 }
 
-void SNAutonomousProxy::UpdatePosition()
+void SNAutonomousProxy::UpdatePosition(float dt)
 {
+	previousPosition = position;
+
+	velocity += acceleration * dt;
+	position += velocity * dt;
+
 	if (position.y < 333)
 	{
-		velocity.y += 0.001f;
+		acceleration.y = gravity * gravityMult;
 	}
-	else if (velocity.y > 0)
+
+	if (velocity.y > 0 && position.y > 333)
 	{
+		position.y = 333;
 		velocity.y = 0;
 	}
-
-	previousPosition = position;
-	position += velocity;
-
-	anchor.SetAbsolutePosition(position);
 
 	if (world->isServer)
 	{
@@ -104,7 +118,7 @@ bool SNAutonomousProxy::IsGrounded()
 	return position.y > 332;
 }
 
-void SNAutonomousProxy::CheckInput()
+void SNAutonomousProxy::CheckInput(float dt)
 {
 	if (!animator->movementLocked)
 	{
@@ -115,7 +129,21 @@ void SNAutonomousProxy::CheckInput()
 				animator->SetCurrentAnimation(world->walkAnim);
 				animator->isWalking = true;
 			}
-			velocity.x = -0.3f;
+
+			if (velocity.x > -minVelocitySpeed && IsGrounded())
+			{
+				velocity.x = -minVelocitySpeed;
+			}
+
+			if (velocity.x > -maxVelocitySpeed)
+			{
+				acceleration.x = -accelerationSpeed;
+			}
+			else
+			{
+				acceleration.x = 0.0f;
+			}
+
 			animator->direction = -1;
 			facingRight = false;
 		}
@@ -126,7 +154,21 @@ void SNAutonomousProxy::CheckInput()
 				animator->SetCurrentAnimation(world->walkAnim);
 				animator->isWalking = true;
 			}
-			velocity.x = 0.3f;
+
+			if (velocity.x < minVelocitySpeed && IsGrounded())
+			{
+				velocity.x = minVelocitySpeed;
+			}
+
+			if (velocity.x < maxVelocitySpeed)
+			{
+				acceleration.x = accelerationSpeed;
+			}
+			else
+			{
+				acceleration.x = 0.0f;
+			}
+
 			animator->direction = 1;
 			facingRight = true;
 		}
@@ -136,14 +178,21 @@ void SNAutonomousProxy::CheckInput()
 				animator->SetCurrentAnimation(world->idleAnim);
 				animator->isWalking = false;
 			}
-			velocity.x = 0.0f;
+
+			if (IsGrounded())
+			{
+				velocity.x = 0;
+			}
+
+			acceleration.x = 0;
 			animator->direction = 0;
 		}
 	}
 
 	if (engGetKeyDown(Key::Space) && IsGrounded() && !animator->movementLocked)
 	{
-		velocity.y -= 0.5f;
+		acceleration.x = 0.0f;
+		velocity.y = -200.0f;
 	}
 
 	if (engGetKeyDown(Key::X) && IsGrounded() && !animator->movementLocked)
@@ -171,6 +220,7 @@ void SNAutonomousProxy::Attack()
 		animator->isWalking = false;
 		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
+		acceleration.x = 0.0f;
 		animator->direction = 0;
 
 		if (facingRight)
@@ -178,7 +228,7 @@ void SNAutonomousProxy::Attack()
 			if (attackBoxR->currentState.isTriggered)
 			{
 				// Send hit data
-				
+
 				serverAttacked = true;
 				world->simulatedProxy.TakeDamage();
 			}

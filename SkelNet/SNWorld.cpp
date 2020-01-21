@@ -5,9 +5,9 @@
 #include <vector>
 #include "SNAnimator.h"
 
-void SNWorld::Update()
+void SNWorld::Update(float dt)
 {
-	autonomousProxy.Update();
+	autonomousProxy.Update(dt);
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
