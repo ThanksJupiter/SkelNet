@@ -11,8 +11,8 @@
 class SNWorld
 {
 public:
-	SNAutonomousProxy player;
-	SNSimulatedProxy autonomousProxy;
+	SNAutonomousProxy autonomousProxy;
+	SNSimulatedProxy simulatedProxy;
 
 	SNServer server;
 	SNClient client;
@@ -35,14 +35,14 @@ public:
 	void Update();
 	void Draw(float dt);
 
-	void SpawnPlayer(SNWorld& worldptr);
 	void SpawnAutonomousProxy(SNWorld& worldptr);
+	void SpawnSimulatedProxy(SNWorld& worldptr);
 	void SpawnFloor(Vector2 position, Vector2 size);
 
 	SNHitBox* SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
 
 	// Networking
-	void SendPlayerData(Vector2 position, int health);
+	void SendPlayerData(Vector2 position, int health, bool serverAttacked, bool serverWasHit, bool clientAttacked, bool clientWasHit);
 
 
 	void CheckCollisions();

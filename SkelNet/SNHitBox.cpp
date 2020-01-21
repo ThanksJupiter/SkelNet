@@ -27,7 +27,6 @@ bool SNHitBox::CheckCollision(SNHitBox otherHitBox)
 	{
 		if (!lastState.isTriggered)
 		{
-			printf("OnTriggerEnter\n");
 			if (callDelegates)
 			{
 				OnTriggerEnter();
@@ -41,7 +40,6 @@ bool SNHitBox::CheckCollision(SNHitBox otherHitBox)
 	{
 		if (lastState.isTriggered)
 		{
-			printf("OnTriggerExit: %i-%i\n", n1, n2);
 			if (callDelegates)
 			{
 				OnTriggerExit();

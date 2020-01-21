@@ -30,8 +30,8 @@ void SetupServer()
 	world.server.Setup();
 	world.server.printDebug = false;
 	world.isServer = true;
-	world.SpawnPlayer(world);
 	world.SpawnAutonomousProxy(world);
+	world.SpawnSimulatedProxy(world);
 
 	waiting = false;
 }
@@ -41,8 +41,8 @@ void SetupClient()
 	world.client.Setup();
 	world.client.printDebug = false;
 	world.isServer = false;
-	world.SpawnPlayer(world);
 	world.SpawnAutonomousProxy(world);
+	world.SpawnSimulatedProxy(world);
 
 	waiting = false;
 }

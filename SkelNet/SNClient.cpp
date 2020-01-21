@@ -3,7 +3,7 @@
 #include "SNClient.h"
 #include <string.h>
 #include <stdio.h>
-#include "DataPacket.h"
+#include "SNDataPacket.h"
 #include "SNWorld.h"
 
 void SNClient::Setup()
@@ -60,7 +60,7 @@ bool SNClient::RecvData()
 			}
 			else if (len != -1)
 			{
-				sscanf_s(recvData, "%hu %hu %hu %hu", &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health);
+				sscanf_s(recvData, "%hu %hu %hu %hu %c", &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health, &recievedData.serverAttacked, &recievedData.serverWasHit, &recievedData.clientAttacked, &recievedData.clientWasHit);
 				return true;
 			}
 		}
@@ -75,7 +75,7 @@ void SNClient::SendData()
 
 	char buffer[1024];
 
-	sprintf_s(buffer, "%hu %hu %hu %hu", transformPack.id, transformPack.posX, transformPack.posY, transformPack.health);
+	sprintf_s(buffer, "%hu %hu %hu %hu %c ", statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.serverAttacked, statePack.serverWasHit, statePack.clientAttacked, statePack.clientWasHit);
 
 	int len = strlen(buffer);
 	if (len)

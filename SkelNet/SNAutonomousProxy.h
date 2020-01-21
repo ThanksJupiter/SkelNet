@@ -18,6 +18,8 @@ public:
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 	void CheckInput();
+	void Attack();
+	void TakeDamage();
 	void Draw(float dt);
 	void Update();
 
@@ -25,6 +27,7 @@ public:
 	Vector2 previousPosition;
 	Vector2 position;
 	Vector2 velocity;
+	bool facingRight;
 
 	int health;
 
@@ -39,4 +42,9 @@ public:
 	SNHitBox* hitBox;
 	SNHitBox* attackBoxR;
 	SNHitBox* attackBoxL;
+	bool serverAttacked;
+	bool serverWasHit;
+
+	bool clientAttacked;
+	bool clientWasHit;
 };

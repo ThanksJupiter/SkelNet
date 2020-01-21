@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL_net.h>
-#include "DataPacket.h"
+#include "SNDataPacket.h"
 
 class SNClient
 {
@@ -13,8 +13,8 @@ public:
 	void SendData();
 	void Close();
 
-	DataPacket transformPack;
-	DataPacket recievedData;
+	SNDataPacket statePack;
+	SNDataPacket recievedData;
 
 	TCPsocket tcpsock;
 	IPaddress ip;

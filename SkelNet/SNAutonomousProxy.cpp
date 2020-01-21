@@ -10,17 +10,20 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	this->world = &world;
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
-	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
-
-	hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70} );
-	attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
-	attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -110, -40 });
-	hitBox->drawDebug = true;
-	attackBoxR->drawDebug = true;
-	attackBoxL->drawDebug = true;
+	uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
+
+	if (world.isServer)
+	{
+		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -140, -40 });
+		hitBox->drawDebug = true;
+		attackBoxR->drawDebug = true;
+		attackBoxL->drawDebug = true;
+	}
 }
 
 void SNAutonomousProxy::Draw(float dt)
@@ -58,6 +61,8 @@ void SNAutonomousProxy::Update()
 	CheckInput();
 	UpdatePosition();
 	SendData();
+
+	serverAttacked = false;
 }
 
 void SNAutonomousProxy::UpdatePosition()
@@ -75,14 +80,18 @@ void SNAutonomousProxy::UpdatePosition()
 	position += velocity;
 
 	anchor.SetAbsolutePosition(position);
-	hitBox->UpdatePosition(position);
-	attackBoxR->UpdatePosition(position);
-	attackBoxL->UpdatePosition(position);
+
+	if (world->isServer)
+	{
+		hitBox->UpdatePosition(position);
+		attackBoxR->UpdatePosition(position);
+		attackBoxL->UpdatePosition(position);
+	}
 }
 
 void SNAutonomousProxy::SendData()
 {
-	world->SendPlayerData(position, health);
+	world->SendPlayerData(position, health, serverAttacked, serverWasHit, clientAttacked, clientWasHit);
 }
 
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)
@@ -108,6 +117,7 @@ void SNAutonomousProxy::CheckInput()
 			}
 			velocity.x = -0.3f;
 			animator->direction = -1;
+			facingRight = false;
 		}
 		else if (engGetKey(Key::Right))
 		{
@@ -118,6 +128,7 @@ void SNAutonomousProxy::CheckInput()
 			}
 			velocity.x = 0.3f;
 			animator->direction = 1;
+			facingRight = true;
 		}
 		else {
 			if (animator->isWalking)
@@ -137,11 +148,7 @@ void SNAutonomousProxy::CheckInput()
 
 	if (engGetKeyDown(Key::X) && IsGrounded() && !animator->movementLocked)
 	{
-		animator->movementLocked = true;
-		animator->isWalking = false;
-		animator->SetCurrentAnimation(world->attackAnim, true);
-		velocity.x = 0.0f;
-		animator->direction = 0;
+		Attack();
 	}
 
 	if (engGetKeyDown(Key::S))
@@ -149,4 +156,63 @@ void SNAutonomousProxy::CheckInput()
 		canvas.drawDebug = !canvas.drawDebug;
 		drawDebug = !drawDebug;
 	}
+}
+
+void SNAutonomousProxy::Attack()
+{
+	/* if Server */
+	// play attack anim
+	// check if hit simulated proxy
+	// send if hit to client
+
+	if (world->isServer)
+	{
+		animator->movementLocked = true;
+		animator->isWalking = false;
+		animator->SetCurrentAnimation(world->attackAnim, true);
+		velocity.x = 0.0f;
+		animator->direction = 0;
+
+		if (facingRight)
+		{
+			if (attackBoxR->currentState.isTriggered)
+			{
+				// Send hit data
+				
+				serverAttacked = true;
+				world->simulatedProxy.TakeDamage();
+			}
+		}
+		else
+		{
+			if (attackBoxL->currentState.isTriggered)
+			{
+				// Send hit data
+
+				serverAttacked = true;
+				world->simulatedProxy.TakeDamage();
+			}
+		}
+	}
+	else
+	{
+		animator->movementLocked = true;
+		animator->isWalking = false;
+		animator->SetCurrentAnimation(world->attackAnim, true);
+		velocity.x = 0.0f;
+		animator->direction = 0;
+
+		clientAttacked = true;
+	}
+
+	/* if Client*/
+	// play attack anim
+	// send attack to server
+	// get if attack hit from server
+	// call TakeDamage on simulated proxy
+}
+
+void SNAutonomousProxy::TakeDamage()
+{
+	printf("Took Damage\n");
 }

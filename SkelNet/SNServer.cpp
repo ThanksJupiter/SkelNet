@@ -3,7 +3,7 @@
 #include "SNServer.h"
 #include <string.h>
 #include "SNWorld.h"
-#include "DataPacket.h"
+#include "SNDataPacket.h"
 
 void SNServer::Setup()
 {
@@ -24,7 +24,6 @@ void SNServer::Setup()
 
 void SNServer::AcceptConnection()
 {
-
 	client = SDLNet_TCP_Accept(server);
 	if (!client && printErrors)
 	{
@@ -80,7 +79,7 @@ bool SNServer::RecvData()
 			}
 			else if (len != -1)
 			{
-				sscanf_s(recvData, "%hu %hu %hu %hu", &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health);
+				sscanf_s(recvData, "%hu %hu %hu %hu %c", &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health, &recievedData.serverAttacked, &recievedData.serverWasHit, &recievedData.clientAttacked, &recievedData.clientWasHit);
 				return true;
 			}
 		}
@@ -93,7 +92,7 @@ void SNServer::SendData()
 {
 	char buffer[1024];
 
-	sprintf_s(buffer, "%hu %hu %hu %hu", transformPack.id, transformPack.posX, transformPack.posY, transformPack.health);
+	sprintf_s(buffer, "%hu %hu %hu %hu %c ", statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.serverAttacked, statePack.serverWasHit, statePack.clientAttacked, statePack.clientWasHit);
 
 	int len = strlen(buffer);
 	if (client)

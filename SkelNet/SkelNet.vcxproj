@@ -155,6 +155,7 @@
     <ClCompile Include="SpritesheetData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SNDataPacket.h" />
     <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimation.h" />
