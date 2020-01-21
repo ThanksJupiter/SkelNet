@@ -101,7 +101,7 @@ int main()
 
 		if (!waiting)
 		{
-			world.Update();
+			world.Update(deltaTime);
 			world.Draw(deltaTime);
 			//canvas.CheckInteraction();
 			//canvas.Draw();

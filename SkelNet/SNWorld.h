@@ -31,7 +31,7 @@ public:
 
 	bool isServer;
 
-	void Update();
+	void Update(float dt);
 	void Draw(float dt);
 
 	void SpawnPlayer(SNWorld& worldptr);

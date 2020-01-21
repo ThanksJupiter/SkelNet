@@ -13,13 +13,13 @@ class SNAutonomousProxy
 public:
 	void Spawn(Vector2 initPos, SNWorld& world);
 
-	void UpdatePosition();
+	void UpdatePosition(float dt);
 	void SendData();
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 	void CheckInput();
 	void Draw(float dt);
-	void Update();
+	void Update(float dt);
 
 	bool flip;
 	Vector2 previousPosition;

@@ -51,14 +51,14 @@ void SNAutonomousProxy::Draw(float dt)
 	hitBox.DrawDebug();
 }
 
-void SNAutonomousProxy::Update()
+void SNAutonomousProxy::Update(float dt)
 {
 	CheckInput();
-	UpdatePosition();
+	UpdatePosition(dt);
 	SendData();
 }
 
-void SNAutonomousProxy::UpdatePosition()
+void SNAutonomousProxy::UpdatePosition(float dt)
 {
 	if (position.y < 333)
 	{
