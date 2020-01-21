@@ -130,12 +130,12 @@ void SNAutonomousProxy::CheckInput()
 		}
 	}
 
-	if (engGetKeyDown(Key::Space) && IsGrounded())
+	if (engGetKeyDown(Key::Space) && IsGrounded() && !animator->movementLocked)
 	{
 		velocity.y -= 0.5f;
 	}
 
-	if (engGetKeyDown(Key::X) && IsGrounded())
+	if (engGetKeyDown(Key::X) && IsGrounded() && !animator->movementLocked)
 	{
 		animator->movementLocked = true;
 		animator->isWalking = false;
