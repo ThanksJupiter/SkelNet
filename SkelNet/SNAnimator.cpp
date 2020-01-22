@@ -20,13 +20,18 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 	{
 		timer = 0.0;
 		
-		if (currentAnimFrame < currentAnimation->frameCount - 1)
+		if (currentAnimFrameCount < currentAnimation->frameCount - 1)
 		{
-			currentAnimFrame++;
+			currentAnimFrameCount++;
+
+			if (currentAnimation->sprites[currentAnimFrameCount]->shouldNotifyWhenPlayed)
+			{
+				currentAnimation->sprites[currentAnimFrameCount]->Notify();
+			}
 		}
 		else
 		{
-			currentAnimFrame = 0;
+			currentAnimFrameCount = 0;
 			movementLocked = false;
 			if (returnToPreviousAnimWhenDone)
 			{
@@ -36,23 +41,23 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 		}
 	}
 
-	int width = currentAnimation->sprites[currentAnimFrame]->width;
+	int width = currentAnimation->sprites[currentAnimFrameCount]->width;
 	SDL_Rect sourceRect = 
 	{ 
 		0, 
-		currentAnimation->sprites[currentAnimFrame]->height * currentAnimFrame,
-		currentAnimation->sprites[currentAnimFrame]->width, 
-		currentAnimation->sprites[currentAnimFrame]->height 
+		currentAnimation->sprites[currentAnimFrameCount]->height * currentAnimFrameCount,
+		currentAnimation->sprites[currentAnimFrameCount]->width, 
+		currentAnimation->sprites[currentAnimFrameCount]->height 
 	};
 
 	SDL_Rect destinationRect = 
 	{ 
 		// position
-		position.x - (currentAnimation->sprites[currentAnimFrame]->width * scale) / 2,
-		position.y - currentAnimation->sprites[currentAnimFrame]->height * scale,
+		position.x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
+		position.y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
 		// size
-		currentAnimation->sprites[currentAnimFrame]->width * scale,
-		currentAnimation->sprites[currentAnimFrame]->height * scale
+		currentAnimation->sprites[currentAnimFrameCount]->width * scale,
+		currentAnimation->sprites[currentAnimFrameCount]->height * scale
 	};
 
 	// debug square
@@ -64,7 +69,7 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 		position.y - attackAnimSprites[currentAnimFrame]->height * scale
 	);*/
 
-	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrame]->texture, flipped);
+	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped);
 }
 
 void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false*/)
@@ -75,11 +80,11 @@ void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false
 		returnToPreviousAnimWhenDone = true;
 	}
 
-	currentAnimFrame = 0;
+	currentAnimFrameCount = 0;
 	currentAnimation = inAnim;
 }
 
 bool SNAnimator::IsCurrentAnimationDonePlaying()
 {
-	return currentAnimFrame == currentAnimation->frameCount - 1;
+	return currentAnimFrameCount == currentAnimation->frameCount - 1;
 }

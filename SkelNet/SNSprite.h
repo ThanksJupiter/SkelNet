@@ -2,6 +2,7 @@
 
 #include "SDL_rect.h"
 #include "Vector.h"
+#include <functional>
 
 struct SDL_Texture;
 
@@ -14,6 +15,10 @@ public:
 	int width;
 	int height;
 	
+	bool shouldNotifyWhenPlayed = false;
+	std::function<void()> OnAnimNotify;
+	void Notify();
+
 	SDL_Rect sheetSourceRect;
 	SDL_Texture* texture;
 };

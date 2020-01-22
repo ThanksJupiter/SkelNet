@@ -92,6 +92,9 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, 4, engLoadTexture(idleSheet.filePath), .25);
 	world.attackAnim = attackSheet.CreateAnimation(attackSprites, 12, engLoadTexture(attackSheet.filePath), .15);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, 4, engLoadTexture(walkSheet.filePath), .25);
+
+	world.attackAnim->sprites[8]->shouldNotifyWhenPlayed = true;
+	world.attackAnim->sprites[8]->OnAnimNotify = PrintHugeImportantMessage;
 }
 
 void engClose()
@@ -172,6 +175,11 @@ int engGetWidth()
 int engGetFrameNum()
 {
 	return currentFrameNum;
+}
+
+void PrintHugeImportantMessage()
+{
+	std::cout << "xsdddd!! :D (xd)" << std::endl;
 }
 
 void engSetColor(unsigned char red, unsigned char green, unsigned char blue)

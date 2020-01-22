@@ -20,7 +20,7 @@ class SNAnimator
 public:
 	SNAnimator();
 
-	int currentAnimFrame = 0;
+	int currentAnimFrameCount = 0;
 
 	double timer = 0.0f;
 	double nextFrameDelay = 0.25;

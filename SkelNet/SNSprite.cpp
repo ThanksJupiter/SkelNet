@@ -10,3 +10,8 @@ SNSprite::SNSprite(int inWidth, int inHeight, SDL_Texture* inTex, int spriteInde
 	int pos = height * spriteIndex;
 	sheetSourceRect = { 0, pos, width, height };
 }
+
+void SNSprite::Notify()
+{
+	OnAnimNotify();
+}

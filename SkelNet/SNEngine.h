@@ -21,6 +21,8 @@ int engGetWidth();
 
 int engGetFrameNum();
 
+void PrintHugeImportantMessage();
+
 // Draw
 void engSetColor(unsigned char red, unsigned char green, unsigned char blue);
 void engDrawRect(int width, int height, int x, int y);
