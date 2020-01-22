@@ -115,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNInput.h" />
+    <ClInclude Include="SNFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

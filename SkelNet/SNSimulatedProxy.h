@@ -15,7 +15,7 @@ public:
 	void SetPosition(Vector2 newPosition);
 	void Draw(float dt);
 
-	void ServerCheckAttack();
+	bool ServerCheckAttack();
 	void PlayAttackAnim();
 	void TakeDamage();
 
@@ -36,6 +36,6 @@ public:
 	SNHitBox* hitBox;
 	SNHitBox* attackBoxR;
 	SNHitBox* attackBoxL;
-	bool wasHit;
+	bool didHit;
 	
 };

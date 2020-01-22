@@ -50,7 +50,7 @@ void engInit()
 
 	for (int i = 0; i < SDL_NumJoysticks(); i++)
 	{
-		printf("    %s\n", SDL_JoystickName(i));
+		//printf("    %s\n", SDL_JoystickName(i));
 	}
 
 	if (!IMG_Init(IMG_INIT_PNG))

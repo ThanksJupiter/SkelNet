@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include "SNAnimator.h"
+#include "SNFlags.h"
 
 void SNWorld::Update(float dt)
 {
@@ -42,10 +43,23 @@ void SNWorld::Update(float dt)
 		simulatedProxy.SetPosition(newPosition);
 		simulatedProxy.health = server.recievedData.health;
 
-		autonomousProxy.serverAttacked = server.recievedData.serverAttacked;
-		autonomousProxy.serverWasHit = server.recievedData.serverWasHit;
-		autonomousProxy.clientAttacked = server.recievedData.clientAttacked;
-		autonomousProxy.clientWasHit = server.recievedData.clientWasHit;
+		autonomousProxy.serverAttacked = GetFlag(server.recievedData.flags, 0);
+		autonomousProxy.serverWasHit = GetFlag(server.recievedData.flags, 1);
+		autonomousProxy.clientAttacked = GetFlag(server.recievedData.flags, 2);
+		autonomousProxy.clientWasHit = GetFlag(server.recievedData.flags, 3);
+
+		if (autonomousProxy.clientAttacked)
+		{
+			simulatedProxy.PlayAttackAnim();
+			autonomousProxy.clientAttacked = false;
+
+			if (simulatedProxy.ServerCheckAttack())
+			{
+				autonomousProxy.TakeDamage();
+				autonomousProxy.serverWasHit = true;
+			}
+		}
+
 	}
 	else
 	{
@@ -53,22 +67,26 @@ void SNWorld::Update(float dt)
 		simulatedProxy.SetPosition(newPosition);
 		simulatedProxy.health = client.recievedData.health;
 
-		autonomousProxy.serverAttacked = client.recievedData.serverAttacked;
-		autonomousProxy.serverWasHit = client.recievedData.serverWasHit;
-		autonomousProxy.clientAttacked = client.recievedData.clientAttacked;
-		autonomousProxy.clientWasHit = client.recievedData.clientWasHit;
+		autonomousProxy.serverAttacked = GetFlag(client.recievedData.flags, 0);
+		autonomousProxy.serverWasHit = GetFlag(client.recievedData.flags, 1);
+		autonomousProxy.clientAttacked = GetFlag(client.recievedData.flags, 2);
+		autonomousProxy.clientWasHit = GetFlag(client.recievedData.flags, 3);
 
-		if (client.recievedData.clientWasHit == 1)
+		if (autonomousProxy.clientWasHit)
 		{
 			autonomousProxy.TakeDamage();
+			autonomousProxy.clientWasHit = false;
 		}
-		if (client.recievedData.serverWasHit == 1)
+		if (autonomousProxy.serverWasHit)
 		{
 			simulatedProxy.TakeDamage();
+			autonomousProxy.serverWasHit = false;
 		}
-		if (client.recievedData.serverAttacked == 1)
+		if (autonomousProxy.serverAttacked)
 		{
 			simulatedProxy.PlayAttackAnim();
+			autonomousProxy.serverAttacked = false;
+
 		}
 	}
 }
@@ -123,33 +141,63 @@ SNHitBox* SNWorld::SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset, b
 
 void SNWorld::SendPlayerData(Vector2 position, int health, bool serverAttacked, bool serverWasHit, bool clientAttacked, bool clientWasHit)
 {
-	if (!isServer)
-	{
-		client.statePack.posX = position.x;
-		client.statePack.posY = position.y;
-		client.statePack.id = 0;
-		client.statePack.health = health;
-
-		client.statePack.serverAttacked = serverAttacked ? 1 : 0;
-		client.statePack.serverWasHit = serverWasHit ? 1 : 0;
-		client.statePack.clientAttacked = clientAttacked ? 1 : 0;
-		client.statePack.clientWasHit = clientWasHit ? 1 : 0;
-
-		client.SendData();
-	}
-	else
+	if (isServer)
 	{
 		server.statePack.posX = position.x;
 		server.statePack.posY = position.y;
 		server.statePack.id = 1;
 		server.statePack.health = health;
 
-		server.statePack.serverAttacked = serverAttacked ? 1 : 0;
-		server.statePack.serverWasHit = serverWasHit ? 1 : 0;
-		server.statePack.clientAttacked = clientAttacked ? 1 : 0;
-		server.statePack.clientWasHit = clientWasHit ? 1 : 0;
+		if (serverAttacked)
+			SetFlag(server.statePack.flags, 0);
+		else
+			UnsetFlag(server.statePack.flags, 0);
+
+		if (serverWasHit)
+			SetFlag(server.statePack.flags, 1);
+		else
+			UnsetFlag(server.statePack.flags, 1);
+
+		if (clientAttacked)
+			SetFlag(server.statePack.flags, 2);
+		else
+			UnsetFlag(server.statePack.flags, 2);
+
+		if (clientWasHit)
+			SetFlag(server.statePack.flags, 3);
+		else
+			UnsetFlag(server.statePack.flags, 3);
 
 		server.SendData();
+	}
+	else
+	{
+		client.statePack.posX = position.x;
+		client.statePack.posY = position.y;
+		client.statePack.id = 0;
+		client.statePack.health = health;
+
+		if (serverAttacked)
+			SetFlag(client.statePack.flags, 0);
+		else
+			UnsetFlag(client.statePack.flags, 0);
+
+		if (serverWasHit)
+			SetFlag(client.statePack.flags, 1);
+		else
+			UnsetFlag(client.statePack.flags, 1);
+
+		if (clientAttacked)
+			SetFlag(client.statePack.flags, 2);
+		else
+			UnsetFlag(client.statePack.flags, 2);
+
+		if (clientWasHit)
+			SetFlag(client.statePack.flags, 3);
+		else
+			UnsetFlag(client.statePack.flags, 3);
+
+		client.SendData();
 	}
 }
 
