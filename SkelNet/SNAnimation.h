@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 class SNSprite;
 struct SDL_Texture;
@@ -14,4 +15,6 @@ struct SNAnimation
 	SDL_Texture* texture;
 	int frameCount;
 	float nextFrameDelay = .2f;
+
+	void AddDelegateToFrame(int index, std::function<void()> funct);
 };

@@ -96,8 +96,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
 	world.attackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 
-	world.attackAnim->sprites[8]->shouldNotifyWhenPlayed = true;
-	world.attackAnim->sprites[8]->OnAnimNotify = PrintHugeImportantMessage;
+	world.attackAnim->AddDelegateToFrame(8, PrintHugeImportantMessage);
 }
 
 void engClose()
