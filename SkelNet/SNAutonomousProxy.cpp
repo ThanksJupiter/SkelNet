@@ -39,9 +39,9 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 void SNAutonomousProxy::Draw(float dt)
 {
-	if (position.x != previousPosition.x)
+	if (animator->direction != 0)
 	{
-		if (position.x > previousPosition.x)
+		if (animator->direction > 0)
 		{
 			flip = false;
 		}
@@ -197,10 +197,23 @@ void SNAutonomousProxy::CheckInput(float dt)
 			if (IsGrounded())
 			{
 				velocity.x = 0;
+				animator->direction = 0;
 			}
 
 			acceleration.x = 0;
-			animator->direction = 0;
+		}
+	}
+
+	if (!IsGrounded())
+	{
+		if (engGetKey(Key::Left))
+		{
+			animator->direction = -1;
+		}
+
+		if (engGetKey(Key::Right))
+		{
+			animator->direction = 1;
 		}
 	}
 
@@ -233,6 +246,7 @@ void SNAutonomousProxy::Attack()
 	{
 		animator->movementLocked = true;
 		animator->isWalking = false;
+		animator->isRunning = false;
 		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		acceleration.x = 0.0f;

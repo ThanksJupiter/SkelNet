@@ -9,6 +9,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	position = initPos;
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
+	animator->defaultAnimation = world.idleAnim;
 
 	if (world.isServer)
 	{

@@ -11,8 +11,9 @@ typedef enum
 {
 	ANIMS_IDLE = 0x00000001,
 	ANIMS_WALK = 0x00000002,
-	ANIMS_ATTACK = 0x00000004,
-	ANIMS_KNOCKBACK = 0x00000008
+	NIMS_RUN = 0x00000004,
+	ANIMS_ATTACK = 0x00000008,
+	ANIMS_KNOCKBACK = 0x000000016
 } ANIM_State;
 
 class SNAnimator
@@ -41,5 +42,4 @@ public:
 
 	void DrawAnimation(Vector2 position, bool flipped, float dt);
 	void SetCurrentAnimation(SNAnimation* inAnim, bool oneShot = false);
-	bool IsCurrentAnimationDonePlaying();
 };

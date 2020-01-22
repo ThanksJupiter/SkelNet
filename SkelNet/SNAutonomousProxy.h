@@ -33,8 +33,8 @@ public:
 	Vector2 acceleration;
 
 	int health;
-	float accelerationSpeed = 150.0f;
-	float minVelocitySpeed = 100.0f;
+	float accelerationSpeed = 200.0f;
+	float minVelocitySpeed = 50.0f;
 	float maxVelocitySpeed = 250.0f;
 	float minRunSpeed = 160.0f;
 	float gravity = 9.82f;

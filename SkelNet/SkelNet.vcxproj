@@ -136,11 +136,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNHitBox.cpp" />
     <ClCompile Include="SNAnchor.cpp" />
     <ClCompile Include="SNAnimation.cpp" />
     <ClCompile Include="SNAnimator.cpp" />
     <ClCompile Include="SNAudioManager.cpp" />
+    <ClCompile Include="SNInput.cpp" />
     <ClCompile Include="SNSimulatedProxy.cpp" />
     <ClCompile Include="SNCanvas.cpp" />
     <ClCompile Include="SNClient.cpp" />
@@ -155,12 +157,14 @@
     <ClCompile Include="SpritesheetData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNDataPacket.h" />
     <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimation.h" />
     <ClInclude Include="SNAnimator.h" />
     <ClInclude Include="SNAudioManager.h" />
+    <ClInclude Include="SNInput.h" />
     <ClInclude Include="SNSimulatedProxy.h" />
     <ClInclude Include="SNCanvas.h" />
     <ClInclude Include="SNClient.h" />

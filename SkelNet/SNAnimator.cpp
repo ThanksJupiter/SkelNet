@@ -84,8 +84,3 @@ void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false
 	currentAnimFrameCount = 0;
 	currentAnimation = inAnim;
 }
-
-bool SNAnimator::IsCurrentAnimationDonePlaying()
-{
-	return currentAnimFrameCount == currentAnimation->frameCount - 1;
-}

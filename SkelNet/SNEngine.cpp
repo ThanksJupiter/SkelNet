@@ -43,7 +43,15 @@ static InputState mouseStates[3];
 
 void engInit()
 {
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
+
+	printf("%i joysticks were found.\n\n", SDL_NumJoysticks());
+	printf("The names of the joysticks are:\n");
+
+	for (int i = 0; i < SDL_NumJoysticks(); i++)
+	{
+		printf("    %s\n", SDL_JoystickName(i));
+	}
 
 	if (!IMG_Init(IMG_INIT_PNG))
 	{
