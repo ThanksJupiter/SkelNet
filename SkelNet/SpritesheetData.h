@@ -2,6 +2,9 @@
 
 class SNSprite;
 struct SDL_Texture;
+struct SNAnimation;
+
+
 class SpritesheetData
 {
 public:
@@ -10,4 +13,6 @@ public:
 	const char* filePath;
 	int numberOfFrames;
 	int cellWidth, cellHeight;
+
+	SNAnimation* CreateAnimation(SNSprite* sprites[], int frameCount, SDL_Texture* inTex, float frameDelay);
 };
