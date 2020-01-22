@@ -6,9 +6,10 @@ typedef struct
 	Uint16 posX;
 	Uint16 posY;
 	Uint16 health;
-	bool serverAttacked;
-	bool serverWasHit;
 
-	bool clientAttacked;
-	bool clientWasHit;
+	Uint8 serverAttacked;
+	Uint8 serverWasHit;
+
+	Uint8 clientAttacked;
+	Uint8 clientWasHit;
 } SNDataPacket;
