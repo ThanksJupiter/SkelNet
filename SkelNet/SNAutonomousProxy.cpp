@@ -188,7 +188,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 			facingRight = true;
 		}
 		else {
-			if (animator->isWalking)
+			if (animator->isWalking || animator->isRunning)
 			{
 				animator->SetCurrentAnimation(world->idleAnim);
 				animator->isWalking = false;
