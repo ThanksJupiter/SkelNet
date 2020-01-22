@@ -60,7 +60,6 @@ int main()
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
-	world.SpawnHitBox({ world.worldSize.x / 2, (world.worldSize.y / 3) }, { 100, 50 });
 
 	engLoadAnimationsToWorld(world);
 

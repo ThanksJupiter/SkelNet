@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNDataPacket.h" />
+    <ClInclude Include="SNFlags.h" />
     <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimation.h" />

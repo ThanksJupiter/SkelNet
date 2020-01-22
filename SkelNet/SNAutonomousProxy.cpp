@@ -15,13 +15,6 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	accText = canvas.CreateText({ 50, -100 }, "100%", nullptr, { -50, 0 });
 	velText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
 
-	hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70} );
-	attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
-	attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -110, -40 });
-	hitBox->drawDebug = true;
-	attackBoxR->drawDebug = true;
-	attackBoxL->drawDebug = true;
-
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
@@ -35,6 +28,8 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
 	}
+
+	//world.attackAnim->AddDelegateToFrame(8, Attack);
 }
 
 void SNAutonomousProxy::Draw(float dt)
@@ -73,9 +68,13 @@ void SNAutonomousProxy::Update(float dt)
 {
 	CheckInput(dt);
 	UpdatePosition(dt);
+
 	SendData();
 
 	serverAttacked = false;
+	clientAttacked = false;
+	clientWasHit = false;
+	serverWasHit = false;
 }
 
 void SNAutonomousProxy::UpdatePosition(float dt)
@@ -135,7 +134,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 			{
 				animator->isRunning = false;
 				velocity.x = -minVelocitySpeed;
-			} 
+			}
 
 			if (velocity.x > -maxVelocitySpeed)
 			{
@@ -252,14 +251,15 @@ void SNAutonomousProxy::Attack()
 		acceleration.x = 0.0f;
 		animator->direction = 0;
 
+		serverAttacked = true;
+
 		if (facingRight)
 		{
 			if (attackBoxR->currentState.isTriggered)
 			{
 				// Send hit data
-
-				serverAttacked = true;
-				world->simulatedProxy.TakeDamage();
+				clientWasHit = true;
+				world->simulatedProxy.PlayAttackAnim();
 			}
 		}
 		else
@@ -267,9 +267,8 @@ void SNAutonomousProxy::Attack()
 			if (attackBoxL->currentState.isTriggered)
 			{
 				// Send hit data
-
-				serverAttacked = true;
-				world->simulatedProxy.TakeDamage();
+				clientWasHit = true;
+				world->simulatedProxy.PlayAttackAnim();
 			}
 		}
 	}
@@ -293,5 +292,5 @@ void SNAutonomousProxy::Attack()
 
 void SNAutonomousProxy::TakeDamage()
 {
-	printf("Took Damage\n");
+	printf("AutonomousProxy: Took Damage\n");
 }

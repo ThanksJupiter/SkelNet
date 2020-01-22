@@ -45,10 +45,10 @@ void SNSimulatedProxy::Draw(float dt)
 	engSetColor(0, 0, 0);
 }
 
-void SNSimulatedProxy::ServerCheckAttack()
+bool SNSimulatedProxy::ServerCheckAttack()
 {
 	if (!world->isServer)
-		return;
+		return false;
 
 	isAttacking = true;
 	PlayAttackAnim();
@@ -57,32 +57,44 @@ void SNSimulatedProxy::ServerCheckAttack()
 	{
 		if (attackBoxR->currentState.isTriggered)
 		{
-			wasHit = true;
+			didHit = true;
 		}
 	}
 	else
 	{
 		if (attackBoxL->currentState.isTriggered)
 		{
-			wasHit = true;
+			didHit = true;
 		}
 	}
+
+	return didHit;
 }
 
 void SNSimulatedProxy::PlayAttackAnim()
-{
+{ // TODO: Play DoAttack(TakeDamage) after animation, Only works on client->server atm
+	//world->attackAnim->AddDelegateToFrame(8, DoAttack);
 	animator->SetCurrentAnimation(world->attackAnim, true);
+}
+
+void SNSimulatedProxy::DoAttack()
+{
+	if (ServerCheckAttack())
+	{
+		world->autonomousProxy.TakeDamage();
+		world->autonomousProxy.serverWasHit = true;
+	}
 }
 
 void SNSimulatedProxy::TakeDamage()
 {
-
+	printf("SimulatedProxy: Took Damage\n");
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 {
-	if (isAttacking)
-		return;
+	//if (isAttacking)
+		//return;
 
 	previousPosition = position;
 	position = newPosition;
@@ -90,5 +102,7 @@ void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 	if (world->isServer)
 	{
 		hitBox->UpdatePosition(position);
+		attackBoxR->UpdatePosition(position);
+		attackBoxL->UpdatePosition(position);
 	}
 }
