@@ -24,6 +24,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
+	animator->defaultAnimation = world.idleAnim;
 
 	if (world.isServer)
 	{
@@ -124,7 +125,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 	{
 		if (engGetKey(Key::Left))
 		{
-			if (!animator->isWalking)
+			if (!animator->isWalking && !animator->isRunning)
 			{
 				animator->SetCurrentAnimation(world->walkAnim);
 				animator->isWalking = true;
@@ -132,12 +133,19 @@ void SNAutonomousProxy::CheckInput(float dt)
 
 			if (velocity.x > -minVelocitySpeed && IsGrounded())
 			{
+				animator->isRunning = false;
 				velocity.x = -minVelocitySpeed;
-			}
+			} 
 
 			if (velocity.x > -maxVelocitySpeed)
 			{
 				acceleration.x = -accelerationSpeed;
+				if (!animator->isRunning && velocity.x < -minRunSpeed)
+				{
+					animator->SetCurrentAnimation(world->runAnim);
+					animator->isRunning = true;
+					animator->isWalking = false;
+				}
 			}
 			else
 			{
@@ -149,7 +157,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 		}
 		else if (engGetKey(Key::Right))
 		{
-			if (!animator->isWalking)
+			if (!animator->isWalking && !animator->isRunning)
 			{
 				animator->SetCurrentAnimation(world->walkAnim);
 				animator->isWalking = true;
@@ -157,12 +165,19 @@ void SNAutonomousProxy::CheckInput(float dt)
 
 			if (velocity.x < minVelocitySpeed && IsGrounded())
 			{
+				animator->isRunning = false;
 				velocity.x = minVelocitySpeed;
 			}
 
 			if (velocity.x < maxVelocitySpeed)
 			{
 				acceleration.x = accelerationSpeed;
+				if (!animator->isRunning && velocity.x > minRunSpeed)
+				{
+					animator->SetCurrentAnimation(world->runAnim);
+					animator->isRunning = true;
+					animator->isWalking = false;
+				}
 			}
 			else
 			{

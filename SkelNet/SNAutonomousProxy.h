@@ -36,6 +36,7 @@ public:
 	float accelerationSpeed = 150.0f;
 	float minVelocitySpeed = 100.0f;
 	float maxVelocitySpeed = 250.0f;
+	float minRunSpeed = 160.0f;
 	float gravity = 9.82f;
 	float gravityMult = 30;
 

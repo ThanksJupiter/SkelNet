@@ -1,6 +1,7 @@
 #include "SpritesheetData.h"
 #include "SNAnimation.h"
 #include "SNSprite.h"
+#include "SNEngine.h"
 
 SpritesheetData::SpritesheetData(const char* inPath, int inFrameNo, int inWidth, int inHeight)
 {
@@ -10,16 +11,18 @@ SpritesheetData::SpritesheetData(const char* inPath, int inFrameNo, int inWidth,
 	cellHeight = inHeight;
 }
 
-SNAnimation* SpritesheetData::CreateAnimation(SNSprite* inSprites[], int frameCount, SDL_Texture* inTex, float frameDelay)
+SNAnimation* SpritesheetData::CreateAnimation(SNSprite* inSprites[], float frameDelay)
 {
-	for (int i = 0; i < frameCount; i++)
+	SDL_Texture* texture = engLoadTexture(filePath);
+
+	for (int i = 0; i < numberOfFrames; i++)
 	{
 		inSprites[i] = new SNSprite(
 			cellWidth,
 			cellHeight,
-			inTex,
+			texture,
 			i);
 	}
 
-	return new SNAnimation(inSprites, frameCount, inTex, frameDelay);
+	return new SNAnimation(inSprites, numberOfFrames, texture, frameDelay);
 }

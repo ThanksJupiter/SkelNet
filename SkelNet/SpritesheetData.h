@@ -14,5 +14,5 @@ public:
 	int numberOfFrames;
 	int cellWidth, cellHeight;
 
-	SNAnimation* CreateAnimation(SNSprite* sprites[], int frameCount, SDL_Texture* inTex, float frameDelay);
+	SNAnimation* CreateAnimation(SNSprite* sprites[], float frameDelay);
 };

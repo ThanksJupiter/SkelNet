@@ -83,15 +83,18 @@ void engLoadAnimationsToWorld(SNWorld& world)
 {
 	SpritesheetData idleSheet = SpritesheetData("SN_Skel_Idle-Sheet.png", 4, 32, 32);
 	SpritesheetData walkSheet = SpritesheetData("SN_Skel_Walk-Sheet.png", 4, 32, 32);
+	SpritesheetData runSheet = SpritesheetData("SN_Skel_Run-Sheet.png", 6, 32, 32);
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 12, 100, 30);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
+	SNSprite* runSprites[6];
 	SNSprite* attackSprites[12];
 
-	world.idleAnim = idleSheet.CreateAnimation(idleSprites, 4, engLoadTexture(idleSheet.filePath), .25);
-	world.attackAnim = attackSheet.CreateAnimation(attackSprites, 12, engLoadTexture(attackSheet.filePath), .15);
-	world.walkAnim = walkSheet.CreateAnimation(walkSprites, 4, engLoadTexture(walkSheet.filePath), .25);
+	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
+	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
+	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
+	world.attackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 
 	world.attackAnim->sprites[8]->shouldNotifyWhenPlayed = true;
 	world.attackAnim->sprites[8]->OnAnimNotify = PrintHugeImportantMessage;

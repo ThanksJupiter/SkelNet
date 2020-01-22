@@ -33,10 +33,10 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 		{
 			currentAnimFrameCount = 0;
 			movementLocked = false;
-			if (returnToPreviousAnimWhenDone)
+			if (returnToDefaultAnimWhenDone)
 			{
-				SetCurrentAnimation(previousAnimation);
-				returnToPreviousAnimWhenDone = false;
+				SetCurrentAnimation(defaultAnimation);
+				returnToDefaultAnimWhenDone = false;
 			}
 		}
 	}
@@ -78,7 +78,7 @@ void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false
 	if (oneShot)
 	{
 		previousAnimation = currentAnimation;
-		returnToPreviousAnimWhenDone = true;
+		returnToDefaultAnimWhenDone = true;
 	}
 
 	currentAnimFrameCount = 0;

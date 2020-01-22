@@ -27,14 +27,16 @@ public:
 
 	ANIM_State currentState;
 	bool movementLocked = false;
-	bool returnToPreviousAnimWhenDone = false;
+	bool returnToDefaultAnimWhenDone = false;
 
 	float scale = 3.0;
 
 	bool isWalking = false;
+	bool isRunning = false;
 
 	SNAnimation* currentAnimation;
 	SNAnimation* previousAnimation;
+	SNAnimation* defaultAnimation;
 	int direction = 0;
 
 	void DrawAnimation(Vector2 position, bool flipped, float dt);
