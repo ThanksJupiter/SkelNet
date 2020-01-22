@@ -16,6 +16,7 @@
 #include "SpritesheetData.h"
 #include "SNAnimation.h"
 #include "SNWorld.h"
+#include "SDL_joystick.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -50,7 +51,8 @@ void engInit()
 
 	for (int i = 0; i < SDL_NumJoysticks(); i++)
 	{
-		printf("    %s\n", SDL_JoystickName(i));
+		SDL_Joystick* joystick = SDL_JoystickOpen(i);
+		printf("    %s\n", SDL_JoystickName(joystick));
 	}
 
 	if (!IMG_Init(IMG_INIT_PNG))
@@ -93,16 +95,19 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData walkSheet = SpritesheetData("SN_Skel_Walk-Sheet.png", 4, 32, 32);
 	SpritesheetData runSheet = SpritesheetData("SN_Skel_Run-Sheet.png", 6, 32, 32);
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 12, 100, 30);
+	SpritesheetData jumpSheet = SpritesheetData("SN_Skel_Jump-Sheet.png", 3, 32, 32);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
 	SNSprite* runSprites[6];
 	SNSprite* attackSprites[12];
+	SNSprite* jumpSprites[3];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
 	world.attackAnim = attackSheet.CreateAnimation(attackSprites, .15);
+	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, .25);
 
 	world.attackAnim->AddDelegateToFrame(8, PrintHugeImportantMessage);
 }
