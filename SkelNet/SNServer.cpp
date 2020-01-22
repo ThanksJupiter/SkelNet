@@ -92,7 +92,7 @@ void SNServer::SendData()
 {
 	char buffer[1024];
 
-	sprintf_s(buffer, "%hu %hu %hu %hu %i %i", statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.serverAttacked, statePack.serverWasHit, statePack.clientAttacked, statePack.clientAttacked);
+	sprintf_s(buffer, "%hu %hu %hu %hu %i %i %i %i", statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.serverAttacked, statePack.serverWasHit, statePack.clientAttacked, statePack.clientAttacked);
 
 	int len = strlen(buffer);
 	if (client)
