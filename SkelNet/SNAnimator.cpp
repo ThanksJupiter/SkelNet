@@ -61,12 +61,13 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 	};
 
 	// debug square
-	/*engDrawRect
+	/*SNSprite* curSprite = currentAnimation->sprites[currentAnimFrameCount];
+	engDrawRect
 	(
-		attackAnimSprites[currentAnimFrame]->width * scale,
-		attackAnimSprites[currentAnimFrame]->height * scale,
-		position.x - (attackAnimSprites[currentAnimFrame]->width * scale) / 2,
-		position.y - attackAnimSprites[currentAnimFrame]->height * scale
+		curSprite->width * scale,
+		curSprite->height * scale,
+		position.x - (curSprite->width * scale) / 2,
+		position.y - curSprite->height * scale
 	);*/
 
 	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped);
