@@ -157,3 +157,11 @@ void SNWorld::CheckCollisions()
 {
 
 }
+
+void SNWorld::RestartGame()
+{
+	//Reset damage
+	//Reset positions
+	//Reset animations
+	//Reset UI
+}
