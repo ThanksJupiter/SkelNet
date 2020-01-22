@@ -17,6 +17,7 @@ public:
 
 	bool ServerCheckAttack();
 	void PlayAttackAnim();
+	void DoAttack();
 	void TakeDamage();
 
 	bool flip;

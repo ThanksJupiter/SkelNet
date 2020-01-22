@@ -72,8 +72,18 @@ bool SNSimulatedProxy::ServerCheckAttack()
 }
 
 void SNSimulatedProxy::PlayAttackAnim()
-{
+{ // TODO: Play DoAttack(TakeDamage) after animation, Only works on client->server atm
+	//world->attackAnim->AddDelegateToFrame(8, DoAttack);
 	animator->SetCurrentAnimation(world->attackAnim, true);
+}
+
+void SNSimulatedProxy::DoAttack()
+{
+	if (ServerCheckAttack())
+	{
+		world->autonomousProxy.TakeDamage();
+		world->autonomousProxy.serverWasHit = true;
+	}
 }
 
 void SNSimulatedProxy::TakeDamage()

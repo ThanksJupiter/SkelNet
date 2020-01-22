@@ -28,6 +28,8 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
 	}
+
+	//world.attackAnim->AddDelegateToFrame(8, Attack);
 }
 
 void SNAutonomousProxy::Draw(float dt)
@@ -66,10 +68,13 @@ void SNAutonomousProxy::Update(float dt)
 {
 	CheckInput(dt);
 	UpdatePosition(dt);
+
 	SendData();
 
 	serverAttacked = false;
 	clientAttacked = false;
+	clientWasHit = false;
+	serverWasHit = false;
 }
 
 void SNAutonomousProxy::UpdatePosition(float dt)
@@ -129,7 +134,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 			{
 				animator->isRunning = false;
 				velocity.x = -minVelocitySpeed;
-			} 
+			}
 
 			if (velocity.x > -maxVelocitySpeed)
 			{
@@ -235,9 +240,6 @@ void SNAutonomousProxy::Attack()
 	// play attack anim
 	// check if hit simulated proxy
 	// send if hit to client
-	
-	clientWasHit = false;
-	serverWasHit = false;
 
 	if (world->isServer)
 	{
@@ -257,7 +259,7 @@ void SNAutonomousProxy::Attack()
 			{
 				// Send hit data
 				clientWasHit = true;
-				world->simulatedProxy.TakeDamage();
+				world->simulatedProxy.PlayAttackAnim();
 			}
 		}
 		else
@@ -266,7 +268,7 @@ void SNAutonomousProxy::Attack()
 			{
 				// Send hit data
 				clientWasHit = true;
-				world->simulatedProxy.TakeDamage();
+				world->simulatedProxy.PlayAttackAnim();
 			}
 		}
 	}

@@ -43,21 +43,15 @@ void SNWorld::Update(float dt)
 		simulatedProxy.SetPosition(newPosition);
 		simulatedProxy.health = server.recievedData.health;
 
-		autonomousProxy.serverAttacked = GetFlag(server.recievedData.flags, 0);
-		autonomousProxy.serverWasHit = GetFlag(server.recievedData.flags, 1);
+		//autonomousProxy.serverAttacked = GetFlag(server.recievedData.flags, 0);
+		//autonomousProxy.serverWasHit = GetFlag(server.recievedData.flags, 1);
 		autonomousProxy.clientAttacked = GetFlag(server.recievedData.flags, 2);
-		autonomousProxy.clientWasHit = GetFlag(server.recievedData.flags, 3);
+		//autonomousProxy.clientWasHit = GetFlag(server.recievedData.flags, 3);
 
 		if (autonomousProxy.clientAttacked)
 		{
 			simulatedProxy.PlayAttackAnim();
 			autonomousProxy.clientAttacked = false;
-
-			if (simulatedProxy.ServerCheckAttack())
-			{
-				autonomousProxy.TakeDamage();
-				autonomousProxy.serverWasHit = true;
-			}
 		}
 
 	}
@@ -69,7 +63,7 @@ void SNWorld::Update(float dt)
 
 		autonomousProxy.serverAttacked = GetFlag(client.recievedData.flags, 0);
 		autonomousProxy.serverWasHit = GetFlag(client.recievedData.flags, 1);
-		autonomousProxy.clientAttacked = GetFlag(client.recievedData.flags, 2);
+		//autonomousProxy.clientAttacked = GetFlag(client.recievedData.flags, 2);
 		autonomousProxy.clientWasHit = GetFlag(client.recievedData.flags, 3);
 
 		if (autonomousProxy.clientWasHit)
@@ -86,7 +80,6 @@ void SNWorld::Update(float dt)
 		{
 			simulatedProxy.PlayAttackAnim();
 			autonomousProxy.serverAttacked = false;
-
 		}
 	}
 }
@@ -153,15 +146,17 @@ void SNWorld::SendPlayerData(Vector2 position, int health, bool serverAttacked, 
 		else
 			UnsetFlag(server.statePack.flags, 0);
 
+		autonomousProxy.serverAttacked = false;
+
 		if (serverWasHit)
 			SetFlag(server.statePack.flags, 1);
 		else
 			UnsetFlag(server.statePack.flags, 1);
 
-		if (clientAttacked)
+		/*if (clientAttacked)
 			SetFlag(server.statePack.flags, 2);
 		else
-			UnsetFlag(server.statePack.flags, 2);
+			UnsetFlag(server.statePack.flags, 2);*/
 
 		if (clientWasHit)
 			SetFlag(server.statePack.flags, 3);
@@ -177,25 +172,25 @@ void SNWorld::SendPlayerData(Vector2 position, int health, bool serverAttacked, 
 		client.statePack.id = 0;
 		client.statePack.health = health;
 
-		if (serverAttacked)
+		/*if (serverAttacked)
 			SetFlag(client.statePack.flags, 0);
 		else
-			UnsetFlag(client.statePack.flags, 0);
+			UnsetFlag(client.statePack.flags, 0);*/
 
-		if (serverWasHit)
+		/*if (serverWasHit)
 			SetFlag(client.statePack.flags, 1);
 		else
-			UnsetFlag(client.statePack.flags, 1);
+			UnsetFlag(client.statePack.flags, 1);*/
 
 		if (clientAttacked)
 			SetFlag(client.statePack.flags, 2);
 		else
 			UnsetFlag(client.statePack.flags, 2);
 
-		if (clientWasHit)
+		/*if (clientWasHit)
 			SetFlag(client.statePack.flags, 3);
 		else
-			UnsetFlag(client.statePack.flags, 3);
+			UnsetFlag(client.statePack.flags, 3);*/
 
 		client.SendData();
 	}
