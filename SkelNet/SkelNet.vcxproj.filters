@@ -54,6 +54,7 @@
     </ClCompile>
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNInput.cpp" />
+    <ClCompile Include="SNParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNAnchor.h">
@@ -118,6 +119,7 @@
     <ClInclude Include="SNFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SNParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

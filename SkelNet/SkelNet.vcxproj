@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
+    <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNHitBox.cpp" />
     <ClCompile Include="SNAnchor.cpp" />
     <ClCompile Include="SNAnimation.cpp" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
+    <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />
     <ClInclude Include="SNFlags.h" />
     <ClInclude Include="SNHitBox.h" />
