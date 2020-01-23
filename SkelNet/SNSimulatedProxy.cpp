@@ -25,12 +25,12 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
 		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
 		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
-		hitBox->drawDebug = true;
-		attackBoxR->drawDebug = true;
-		attackBoxL->drawDebug = true;
+		//hitBox->drawDebug = true;
+		//attackBoxR->drawDebug = true;
+		//attackBoxL->drawDebug = true;
 	}
 
-	flyBackDirection = {-2, -3};
+	flyBackDirection = {-1, -1};
 }
 
 void SNSimulatedProxy::Draw(float dt)
@@ -89,12 +89,13 @@ void SNSimulatedProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
 	FlyBack();
+	health += 30;
 	printf("SimulatedProxy: Took Damage\n");
 }
 
 void SNSimulatedProxy::FlyBack()
 {
-	Vector2 newFlyback = Normalize(flyBackDirection) * minFlyBack;
+	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
 	//newFlyback = newFlyback * health;
 
 	if (world->simulatedProxy.position.x < position.x)

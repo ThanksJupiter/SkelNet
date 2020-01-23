@@ -42,7 +42,7 @@ public:
 	float gravity = 9.82f;
 	float gravityMult = 30;
 	
-	float minFlyBack = 500.f;
+	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;
 
 	SNWorld* world;

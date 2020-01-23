@@ -26,12 +26,12 @@ public:
 	Vector2 velocity;
 	bool facingRight;
 
-	float minFlyBack = 500.f;
+	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;
 
 	bool isAttacking;
 
-	int health;
+	int health = 1;
 
 	SNWorld* world;
 
