@@ -109,7 +109,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.attackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, .25);
 
-	world.attackAnim->AddDelegateToFrame(8, PrintHugeImportantMessage);
+	//world.attackAnim->AddDelegateToFrame(8, PrintHugeImportantMessage);
 }
 
 void engClose()

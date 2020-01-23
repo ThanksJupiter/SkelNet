@@ -15,9 +15,8 @@ public:
 	void SetPosition(Vector2 newPosition);
 	void Draw(float dt);
 
-	bool ServerCheckAttack();
+	void ServerCheckAttack();
 	void PlayAttackAnim();
-	void DoAttack();
 	void TakeDamage();
 
 	bool flip;

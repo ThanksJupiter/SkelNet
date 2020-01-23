@@ -3,6 +3,14 @@
 #include "SNEngine.h"
 #include "SNAnimator.h"
 
+void SPDoAttack(SNWorld* world)
+{
+	if (world->isServer)
+	{
+		world->simulatedProxy.ServerCheckAttack();
+	}
+}
+
 void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	this->world = &world;
@@ -10,6 +18,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
+	animator->world = &world;
 
 	if (world.isServer)
 	{
@@ -45,45 +54,33 @@ void SNSimulatedProxy::Draw(float dt)
 	engSetColor(0, 0, 0);
 }
 
-bool SNSimulatedProxy::ServerCheckAttack()
+void SNSimulatedProxy::ServerCheckAttack()
 {
 	if (!world->isServer)
-		return false;
-
-	isAttacking = true;
-	PlayAttackAnim();
+		return;
 
 	if (facingRight)
 	{
 		if (attackBoxR->currentState.isTriggered)
 		{
-			didHit = true;
+			world->autonomousProxy.TakeDamage();
+			world->autonomousProxy.serverWasHit = true;
 		}
 	}
 	else
 	{
 		if (attackBoxL->currentState.isTriggered)
 		{
-			didHit = true;
+			world->autonomousProxy.TakeDamage();
+			world->autonomousProxy.serverWasHit = true;
 		}
 	}
-
-	return didHit;
 }
 
 void SNSimulatedProxy::PlayAttackAnim()
 { // TODO: Play DoAttack(TakeDamage) after animation, Only works on client->server atm
-	//world->attackAnim->AddDelegateToFrame(8, DoAttack);
+	world->attackAnim->AddDelegateToFrame(8, SPDoAttack);
 	animator->SetCurrentAnimation(world->attackAnim, true);
-}
-
-void SNSimulatedProxy::DoAttack()
-{
-	if (ServerCheckAttack())
-	{
-		world->autonomousProxy.TakeDamage();
-		world->autonomousProxy.serverWasHit = true;
-	}
 }
 
 void SNSimulatedProxy::TakeDamage()
@@ -106,3 +103,4 @@ void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 		attackBoxL->UpdatePosition(position);
 	}
 }
+

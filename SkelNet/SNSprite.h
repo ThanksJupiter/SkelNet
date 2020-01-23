@@ -3,6 +3,7 @@
 #include "SDL_rect.h"
 #include "Vector.h"
 #include <functional>
+#include "SNWorld.h"
 
 struct SDL_Texture;
 
@@ -16,8 +17,8 @@ public:
 	int height;
 	
 	bool shouldNotifyWhenPlayed = false;
-	std::function<void()> OnAnimNotify;
-	void Notify();
+	std::function<void(SNWorld*)> OnAnimNotify;
+	void Notify(SNWorld* world);
 
 	SDL_Rect sheetSourceRect;
 	SDL_Texture* texture;

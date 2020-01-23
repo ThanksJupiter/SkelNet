@@ -6,6 +6,7 @@ class Vector2;
 class SNSprite;
 struct SNAnimation;
 struct SDL_Texture;
+class SNWorld;
 
 typedef enum
 {
@@ -39,6 +40,8 @@ public:
 	SNAnimation* previousAnimation;
 	SNAnimation* defaultAnimation;
 	int direction = 0;
+
+	SNWorld* world;
 
 	void DrawAnimation(Vector2 position, bool flipped, float dt);
 	void SetCurrentAnimation(SNAnimation* inAnim, bool oneShot = false);

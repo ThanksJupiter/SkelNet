@@ -4,6 +4,11 @@
 #include "SNAnimator.h"
 #include <string>
 
+void APDoAttack(SNWorld* world)
+{
+	world->autonomousProxy.CheckAttack();
+}
+
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
@@ -18,6 +23,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
+	animator->world = &world;
 
 	if (world.isServer)
 	{
@@ -246,41 +252,26 @@ void SNAutonomousProxy::Attack()
 		animator->movementLocked = true;
 		animator->isWalking = false;
 		animator->isRunning = false;
-		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		acceleration.x = 0.0f;
 		animator->direction = 0;
 
 		serverAttacked = true;
 
-		if (facingRight)
-		{
-			if (attackBoxR->currentState.isTriggered)
-			{
-				// Send hit data
-				clientWasHit = true;
-				world->simulatedProxy.PlayAttackAnim();
-			}
-		}
-		else
-		{
-			if (attackBoxL->currentState.isTriggered)
-			{
-				// Send hit data
-				clientWasHit = true;
-				world->simulatedProxy.PlayAttackAnim();
-			}
-		}
+		world->attackAnim->AddDelegateToFrame(8, APDoAttack);
+		animator->SetCurrentAnimation(world->attackAnim, true);
+		
 	}
 	else
 	{
 		animator->movementLocked = true;
 		animator->isWalking = false;
-		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		animator->direction = 0;
 
 		clientAttacked = true;
+
+		animator->SetCurrentAnimation(world->attackAnim, true);
 	}
 
 	/* if Client*/
@@ -288,6 +279,28 @@ void SNAutonomousProxy::Attack()
 	// send attack to server
 	// get if attack hit from server
 	// call TakeDamage on simulated proxy
+}
+
+void SNAutonomousProxy::CheckAttack()
+{
+	if (facingRight)
+	{
+		if (attackBoxR->currentState.isTriggered)
+		{
+			// Send hit data
+			clientWasHit = true;
+			world->simulatedProxy.TakeDamage();
+		}
+	}
+	else
+	{
+		if (attackBoxL->currentState.isTriggered)
+		{
+			// Send hit data
+			clientWasHit = true;
+			world->simulatedProxy.TakeDamage();
+		}
+	}
 }
 
 void SNAutonomousProxy::TakeDamage()

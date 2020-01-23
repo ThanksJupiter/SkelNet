@@ -19,6 +19,7 @@ public:
 	bool IsGrounded();
 
 	void Attack();
+	void CheckAttack();
 	void TakeDamage();
 	void CheckInput(float dt);
 	void Draw(float dt);
