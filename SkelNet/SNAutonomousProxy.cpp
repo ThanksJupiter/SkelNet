@@ -35,7 +35,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 		attackBoxL->drawDebug = true;
 	}
 
-	//world.attackAnim->AddDelegateToFrame(8, Attack);
+	flyBackDirection = { -2, -3 };
 }
 
 void SNAutonomousProxy::Draw(float dt)
@@ -81,6 +81,20 @@ void SNAutonomousProxy::Update(float dt)
 	clientAttacked = false;
 	clientWasHit = false;
 	serverWasHit = false;
+}
+
+void SNAutonomousProxy::FlyBack()
+{
+	Vector2 newFlyback = Normalize(flyBackDirection) * minFlyBack;
+	//newFlyback = newFlyback * health;
+
+	if (world->simulatedProxy.position.x < position.x)
+	{
+		newFlyback.x = -newFlyback.x;
+	}
+
+	position.y -= 5;
+	velocity = newFlyback;
 }
 
 void SNAutonomousProxy::UpdatePosition(float dt)
@@ -306,5 +320,7 @@ void SNAutonomousProxy::CheckAttack()
 void SNAutonomousProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+	
+	FlyBack();
 	printf("AutonomousProxy: Took Damage\n");
 }

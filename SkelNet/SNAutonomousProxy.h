@@ -24,6 +24,7 @@ public:
 	void CheckInput(float dt);
 	void Draw(float dt);
 	void Update(float dt);
+	void FlyBack();
 
 	bool flip;
 	Vector2 previousPosition;
@@ -33,13 +34,16 @@ public:
 	bool facingRight;
 	Vector2 acceleration;
 
-	int health;
+	int health = 1;
 	float accelerationSpeed = 200.0f;
 	float minVelocitySpeed = 50.0f;
 	float maxVelocitySpeed = 250.0f;
 	float minRunSpeed = 160.0f;
 	float gravity = 9.82f;
 	float gravityMult = 30;
+	
+	float minFlyBack = 500.f;
+	Vector2 flyBackDirection;
 
 	SNWorld* world;
 

@@ -18,12 +18,16 @@ public:
 	void ServerCheckAttack();
 	void PlayAttackAnim();
 	void TakeDamage();
+	void FlyBack();
 
 	bool flip;
 	Vector2 previousPosition;
 	Vector2 position;
 	Vector2 velocity;
 	bool facingRight;
+
+	float minFlyBack = 500.f;
+	Vector2 flyBackDirection;
 
 	bool isAttacking;
 

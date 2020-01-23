@@ -29,6 +29,8 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
 	}
+
+	flyBackDirection = {-2, -3};
 }
 
 void SNSimulatedProxy::Draw(float dt)
@@ -86,7 +88,23 @@ void SNSimulatedProxy::PlayAttackAnim()
 void SNSimulatedProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+	FlyBack();
 	printf("SimulatedProxy: Took Damage\n");
+}
+
+void SNSimulatedProxy::FlyBack()
+{
+	Vector2 newFlyback = Normalize(flyBackDirection) * minFlyBack;
+	//newFlyback = newFlyback * health;
+
+	if (world->simulatedProxy.position.x < position.x)
+	{
+		newFlyback.x = -newFlyback.x;
+	}
+
+	position.y -= 5;
+
+	velocity = newFlyback;
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)
