@@ -12,7 +12,6 @@
 #include "Key.h"
 #include "SDL_ttf.h"
 #include "SNSprite.h"
-#include "SNAudioManager.h"
 #include "SpritesheetData.h"
 #include "SNAnimation.h"
 #include "SNWorld.h"
@@ -29,9 +28,6 @@ const int WINDOW_HEIGHT = 500;
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
 bool quit = false;
-
-//Sounds
-SNAudioManager* audioManager;
 
 struct InputState
 {
@@ -75,10 +71,6 @@ void engInit()
 	if (!(standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24))) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 	}
-
-	//Init audio manager
-	audioManager = new SNAudioManager;
-	audioManager->InitSounds();
 }
 
 SDL_Texture* engLoadTexture(const char* path)
@@ -106,10 +98,9 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
-	world.attackAnim = attackSheet.CreateAnimation(attackSprites, .15);
+	world.spAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
+	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, .25);
-
-	world.attackAnim->AddDelegateToFrame(8, PrintHugeImportantMessage);
 }
 
 void engClose()

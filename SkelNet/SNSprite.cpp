@@ -11,7 +11,7 @@ SNSprite::SNSprite(int inWidth, int inHeight, SDL_Texture* inTex, int spriteInde
 	sheetSourceRect = { 0, pos, width, height };
 }
 
-void SNSprite::Notify()
+void SNSprite::Notify(SNWorld* world)
 {
-	OnAnimNotify();
+	OnAnimNotify(world);
 }

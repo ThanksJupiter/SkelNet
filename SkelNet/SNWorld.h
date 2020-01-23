@@ -7,10 +7,13 @@
 #include "SNServer.h"
 #include "SNClient.h"
 #include "SNAnimation.h"
+#include "SNAudioManager.h"
 
 class SNWorld
 {
 public:
+	SNAudioManager* audioManager;
+
 	SNAutonomousProxy autonomousProxy;
 	SNSimulatedProxy simulatedProxy;
 
@@ -27,12 +30,14 @@ public:
 
 	SNAnimation* idleAnim;
 	SNAnimation* runAnim;
-	SNAnimation* attackAnim;
+	SNAnimation* spAttackAnim;
+	SNAnimation* apAttackAnim;
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
 
 	bool isServer;
 
+	void Setup();
 	void Update(float dt);
 	void Draw(float dt);
 

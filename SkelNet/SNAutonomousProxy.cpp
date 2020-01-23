@@ -8,6 +8,11 @@
 #include "SNInput.h"
 
 
+void APDoAttack(SNWorld* world)
+{
+	world->autonomousProxy.CheckAttack();
+}
+
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
@@ -23,21 +28,23 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
+	animator->world = &world;
 
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -140, -40 });
-		hitBox->drawDebug = true;
-		attackBoxR->drawDebug = true;
-		attackBoxL->drawDebug = true;
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
+		//hitBox->drawDebug = true;
+		//attackBoxR->drawDebug = true;
+		//attackBoxL->drawDebug = true;
 	}
-
+	
 	playerInput = new SNInput();
 	InitializeFSM();
 
 	//world.attackAnim->AddDelegateToFrame(8, Attack);
+	flyBackDirection = { -1, -1 };
 }
 
 void SNAutonomousProxy::Draw(float dt)
@@ -55,7 +62,7 @@ void SNAutonomousProxy::Draw(float dt)
 	}
 
 	//uiText->UpdateText(position.y);
-	accText->UpdateText(acceleration.x);
+	accText->UpdateText(health);
 	velText->UpdateText(velocity.x);
 	stateText->UpdateText(stateMachine->currentState->stateName);
 
@@ -87,6 +94,20 @@ void SNAutonomousProxy::Update(float dt)
 	clientAttacked = false;
 	clientWasHit = false;
 	serverWasHit = false;
+}
+
+void SNAutonomousProxy::FlyBack()
+{
+	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
+	//newFlyback = newFlyback * health;
+
+	if (world->simulatedProxy.position.x < position.x)
+	{
+		newFlyback.x = -newFlyback.x;
+	}
+
+	position.y -= 5;
+	velocity = newFlyback;
 }
 
 void SNAutonomousProxy::SetDirection()
@@ -181,41 +202,26 @@ void SNAutonomousProxy::Attack()
 		animator->movementLocked = true;
 		animator->isWalking = false;
 		animator->isRunning = false;
-		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		acceleration.x = 0.0f;
 		animator->direction = 0;
 
 		serverAttacked = true;
 
-		if (facingRight)
-		{
-			if (attackBoxR->currentState.isTriggered)
-			{
-				// Send hit data
-				clientWasHit = true;
-				world->simulatedProxy.PlayAttackAnim();
-			}
-		}
-		else
-		{
-			if (attackBoxL->currentState.isTriggered)
-			{
-				// Send hit data
-				clientWasHit = true;
-				world->simulatedProxy.PlayAttackAnim();
-			}
-		}
+		world->apAttackAnim->AddDelegateToFrame(8, APDoAttack);
+		animator->SetCurrentAnimation(world->apAttackAnim, true);
+		
 	}
 	else
 	{
 		animator->movementLocked = true;
 		animator->isWalking = false;
-		animator->SetCurrentAnimation(world->attackAnim, true);
 		velocity.x = 0.0f;
 		animator->direction = 0;
 
 		clientAttacked = true;
+
+		animator->SetCurrentAnimation(world->apAttackAnim, true);
 	}
 
 	/* if Client*/
@@ -225,7 +231,34 @@ void SNAutonomousProxy::Attack()
 	// call TakeDamage on simulated proxy
 }
 
+void SNAutonomousProxy::CheckAttack()
+{
+	if (facingRight)
+	{
+		if (attackBoxR->currentState.isTriggered)
+		{
+			// Send hit data
+			clientWasHit = true;
+			world->simulatedProxy.TakeDamage();
+		}
+	}
+	else
+	{
+		if (attackBoxL->currentState.isTriggered)
+		{
+			// Send hit data
+			clientWasHit = true;
+			world->simulatedProxy.TakeDamage();
+		}
+	}
+}
+
 void SNAutonomousProxy::TakeDamage()
 {
+	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+	
+	FlyBack();
+
+	health += 30;
 	printf("AutonomousProxy: Took Damage\n");
 }

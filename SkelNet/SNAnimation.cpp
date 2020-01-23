@@ -1,6 +1,7 @@
 #include "SNAnimation.h"
 #include "SNSprite.h"
 
+
 SNAnimation::SNAnimation(SNSprite* inSprites[], int inFrameCount, SDL_Texture* inTex, float inDelay)
 {
 	for (int i = 0; i < inFrameCount; i++)
@@ -16,7 +17,7 @@ SNAnimation::SNAnimation(SNSprite* inSprites[], int inFrameCount, SDL_Texture* i
 SNAnimation::~SNAnimation()
 {}
 
-void SNAnimation::AddDelegateToFrame(int index, std::function<void()> funct)
+void SNAnimation::AddDelegateToFrame(int index, std::function<void(SNWorld*)> funct)
 {
 	sprites[index]->shouldNotifyWhenPlayed = true;
 	sprites[index]->OnAnimNotify = funct;

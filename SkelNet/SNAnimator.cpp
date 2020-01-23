@@ -26,7 +26,7 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 
 			if (currentAnimation->sprites[currentAnimFrameCount]->shouldNotifyWhenPlayed)
 			{
-				currentAnimation->sprites[currentAnimFrameCount]->Notify();
+				currentAnimation->sprites[currentAnimFrameCount]->Notify(world);
 			}
 		}
 		else

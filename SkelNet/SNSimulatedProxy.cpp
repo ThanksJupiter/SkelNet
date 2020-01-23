@@ -3,6 +3,14 @@
 #include "SNEngine.h"
 #include "SNAnimator.h"
 
+void SPDoAttack(SNWorld* world)
+{
+	if (world->isServer)
+	{
+		world->simulatedProxy.ServerCheckAttack();
+	}
+}
+
 void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	this->world = &world;
@@ -10,16 +18,19 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
+	animator->world = &world;
 
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -140, -40 });
-		hitBox->drawDebug = true;
-		attackBoxR->drawDebug = true;
-		attackBoxL->drawDebug = true;
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
+		//hitBox->drawDebug = true;
+		//attackBoxR->drawDebug = true;
+		//attackBoxL->drawDebug = true;
 	}
+
+	flyBackDirection = {-1, -1};
 }
 
 void SNSimulatedProxy::Draw(float dt)
@@ -45,57 +56,60 @@ void SNSimulatedProxy::Draw(float dt)
 	engSetColor(0, 0, 0);
 }
 
-bool SNSimulatedProxy::ServerCheckAttack()
+void SNSimulatedProxy::ServerCheckAttack()
 {
 	if (!world->isServer)
-		return false;
-
-	isAttacking = true;
-	PlayAttackAnim();
+		return;
 
 	if (facingRight)
 	{
 		if (attackBoxR->currentState.isTriggered)
 		{
-			didHit = true;
+			world->autonomousProxy.TakeDamage();
+			world->autonomousProxy.serverWasHit = true;
 		}
 	}
 	else
 	{
 		if (attackBoxL->currentState.isTriggered)
 		{
-			didHit = true;
+			world->autonomousProxy.TakeDamage();
+			world->autonomousProxy.serverWasHit = true;
 		}
 	}
-
-	return didHit;
 }
 
 void SNSimulatedProxy::PlayAttackAnim()
-{ // TODO: Play DoAttack(TakeDamage) after animation, Only works on client->server atm
-	//world->attackAnim->AddDelegateToFrame(8, DoAttack);
-	animator->SetCurrentAnimation(world->attackAnim, true);
-}
-
-void SNSimulatedProxy::DoAttack()
 {
-	if (ServerCheckAttack())
-	{
-		world->autonomousProxy.TakeDamage();
-		world->autonomousProxy.serverWasHit = true;
-	}
+	world->spAttackAnim->AddDelegateToFrame(8, SPDoAttack);
+	animator->SetCurrentAnimation(world->spAttackAnim, true);
 }
 
 void SNSimulatedProxy::TakeDamage()
 {
+	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+	FlyBack();
+	health += 30;
 	printf("SimulatedProxy: Took Damage\n");
+}
+
+void SNSimulatedProxy::FlyBack()
+{
+	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
+	//newFlyback = newFlyback * health;
+
+	if (world->simulatedProxy.position.x < position.x)
+	{
+		newFlyback.x = -newFlyback.x;
+	}
+
+	position.y -= 5;
+
+	velocity = newFlyback;
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 {
-	//if (isAttacking)
-		//return;
-
 	previousPosition = position;
 	position = newPosition;
 

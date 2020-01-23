@@ -15,10 +15,10 @@ public:
 	void SetPosition(Vector2 newPosition);
 	void Draw(float dt);
 
-	bool ServerCheckAttack();
+	void ServerCheckAttack();
 	void PlayAttackAnim();
-	void DoAttack();
 	void TakeDamage();
+	void FlyBack();
 
 	bool flip;
 	Vector2 previousPosition;
@@ -26,9 +26,12 @@ public:
 	Vector2 velocity;
 	bool facingRight;
 
+	float minFlyBack = 200.f;
+	Vector2 flyBackDirection;
+
 	bool isAttacking;
 
-	int health;
+	int health = 1;
 
 	SNWorld* world;
 

@@ -3,6 +3,7 @@
 
 class SNSprite;
 struct SDL_Texture;
+class SNWorld;
 
 const static int MAX_FRAME_NUM = 30;
 
@@ -16,5 +17,5 @@ struct SNAnimation
 	int frameCount;
 	float nextFrameDelay = .2f;
 
-	void AddDelegateToFrame(int index, std::function<void()> funct);
+	void AddDelegateToFrame(int index, std::function<void(SNWorld*)> funct);
 };
