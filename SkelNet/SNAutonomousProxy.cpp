@@ -241,6 +241,8 @@ void SNAutonomousProxy::Attack()
 	// check if hit simulated proxy
 	// send if hit to client
 
+	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+
 	if (world->isServer)
 	{
 		animator->movementLocked = true;
@@ -292,5 +294,6 @@ void SNAutonomousProxy::Attack()
 
 void SNAutonomousProxy::TakeDamage()
 {
+	world->audioManager->PlayChunkOnce(world->audioManager->hit);
 	printf("AutonomousProxy: Took Damage\n");
 }

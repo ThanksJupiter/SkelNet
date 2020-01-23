@@ -7,10 +7,13 @@
 #include "SNServer.h"
 #include "SNClient.h"
 #include "SNAnimation.h"
+#include "SNAudioManager.h"
 
 class SNWorld
 {
 public:
+	SNAudioManager* audioManager;
+
 	SNAutonomousProxy autonomousProxy;
 	SNSimulatedProxy simulatedProxy;
 

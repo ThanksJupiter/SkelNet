@@ -81,6 +81,7 @@ void SNSimulatedProxy::DoAttack()
 {
 	if (ServerCheckAttack())
 	{
+		world->audioManager->PlayChunkOnce(world->audioManager->punch);
 		world->autonomousProxy.TakeDamage();
 		world->autonomousProxy.serverWasHit = true;
 	}
@@ -88,6 +89,7 @@ void SNSimulatedProxy::DoAttack()
 
 void SNSimulatedProxy::TakeDamage()
 {
+	world->audioManager->PlayChunkOnce(world->audioManager->hit);
 	printf("SimulatedProxy: Took Damage\n");
 }
 
