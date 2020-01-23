@@ -7,7 +7,6 @@ void SPDoAttack(SNWorld* world)
 {
 	if (world->isServer)
 	{
-		world->audioManager->PlayChunkOnce(world->audioManager->punch);
 		world->simulatedProxy.ServerCheckAttack();
 	}
 }
@@ -24,8 +23,8 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -140, -40 });
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
 		hitBox->drawDebug = true;
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
@@ -79,22 +78,19 @@ void SNSimulatedProxy::ServerCheckAttack()
 }
 
 void SNSimulatedProxy::PlayAttackAnim()
-{ // TODO: Play DoAttack(TakeDamage) after animation, Only works on client->server atm
-	world->attackAnim->AddDelegateToFrame(8, SPDoAttack);
-	animator->SetCurrentAnimation(world->attackAnim, true);
+{
+	world->spAttackAnim->AddDelegateToFrame(8, SPDoAttack);
+	animator->SetCurrentAnimation(world->spAttackAnim, true);
 }
 
 void SNSimulatedProxy::TakeDamage()
 {
-	world->audioManager->PlayChunkOnce(world->audioManager->hit);
+	world->audioManager->PlayChunkOnce(world->audioManager->punch);
 	printf("SimulatedProxy: Took Damage\n");
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 {
-	//if (isAttacking)
-		//return;
-
 	previousPosition = position;
 	position = newPosition;
 

@@ -98,7 +98,8 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
-	world.attackAnim = attackSheet.CreateAnimation(attackSprites, .15);
+	world.spAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
+	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, .25);
 
 	//world.attackAnim->AddDelegateToFrame(8, PrintHugeImportantMessage);

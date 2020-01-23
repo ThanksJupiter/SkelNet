@@ -30,7 +30,8 @@ public:
 
 	SNAnimation* idleAnim;
 	SNAnimation* runAnim;
-	SNAnimation* attackAnim;
+	SNAnimation* spAttackAnim;
+	SNAnimation* apAttackAnim;
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
 

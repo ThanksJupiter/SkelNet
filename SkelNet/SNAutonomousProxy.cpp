@@ -28,8 +28,8 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 110, -40 });
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -140, -40 });
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
 		hitBox->drawDebug = true;
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
@@ -247,8 +247,6 @@ void SNAutonomousProxy::Attack()
 	// check if hit simulated proxy
 	// send if hit to client
 
-	world->audioManager->PlayChunkOnce(world->audioManager->punch);
-
 	if (world->isServer)
 	{
 		animator->movementLocked = true;
@@ -260,8 +258,8 @@ void SNAutonomousProxy::Attack()
 
 		serverAttacked = true;
 
-		world->attackAnim->AddDelegateToFrame(8, APDoAttack);
-		animator->SetCurrentAnimation(world->attackAnim, true);
+		world->apAttackAnim->AddDelegateToFrame(8, APDoAttack);
+		animator->SetCurrentAnimation(world->apAttackAnim, true);
 		
 	}
 	else
@@ -273,7 +271,7 @@ void SNAutonomousProxy::Attack()
 
 		clientAttacked = true;
 
-		animator->SetCurrentAnimation(world->attackAnim, true);
+		animator->SetCurrentAnimation(world->apAttackAnim, true);
 	}
 
 	/* if Client*/
@@ -307,6 +305,6 @@ void SNAutonomousProxy::CheckAttack()
 
 void SNAutonomousProxy::TakeDamage()
 {
-	world->audioManager->PlayChunkOnce(world->audioManager->hit);
+	world->audioManager->PlayChunkOnce(world->audioManager->punch);
 	printf("AutonomousProxy: Took Damage\n");
 }
