@@ -7,6 +7,9 @@
 
 class SNWorld;
 class SNAnimator;
+class SNFiniteStateMachine;
+class SNInput;
+struct SNFSMData;
 
 class SNAutonomousProxy
 {
@@ -23,6 +26,13 @@ public:
 	void CheckInput(float dt);
 	void Draw(float dt);
 	void Update(float dt);
+	void SetDirection();
+
+	void InitializeFSM();
+
+	SNFiniteStateMachine* stateMachine;
+	SNFSMData* fsmData;
+	SNInput* playerInput;
 
 	bool flip;
 	Vector2 previousPosition;
@@ -39,6 +49,7 @@ public:
 	float minRunSpeed = 160.0f;
 	float gravity = 9.82f;
 	float gravityMult = 30;
+	float airControlMult = .6f;
 
 	SNWorld* world;
 
@@ -46,6 +57,7 @@ public:
 	SNUIElement* uiText;
 	SNUIElement* accText;
 	SNUIElement* velText;
+	SNUIElement* stateText;
 	SNAnchor anchor;
 	SNCanvas canvas;
 	bool drawDebug;

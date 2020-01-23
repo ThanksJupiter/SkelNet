@@ -3,6 +3,10 @@
 #include "SNEngine.h"
 #include "SNAnimator.h"
 #include <string>
+#include "SNFiniteStateMachine.h"
+#include "SNFSMData.h"
+#include "SNInput.h"
+
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -14,6 +18,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	//uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
 	accText = canvas.CreateText({ 50, -100 }, "100%", nullptr, { -50, 0 });
 	velText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
+	stateText = canvas.CreateText({ 0, -200 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -28,6 +33,9 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
 	}
+
+	playerInput = new SNInput();
+	InitializeFSM();
 
 	//world.attackAnim->AddDelegateToFrame(8, Attack);
 }
@@ -49,9 +57,11 @@ void SNAutonomousProxy::Draw(float dt)
 	//uiText->UpdateText(position.y);
 	accText->UpdateText(acceleration.x);
 	velText->UpdateText(velocity.x);
+	stateText->UpdateText(stateMachine->currentState->stateName);
 
 	anchor.UpdatePosition();
 	canvas.UpdatePosition();
+	stateText->UpdatePosition();
 	canvas.Draw();
 
 	if (drawDebug)
@@ -69,6 +79,8 @@ void SNAutonomousProxy::Update(float dt)
 	CheckInput(dt);
 	UpdatePosition(dt);
 
+	stateMachine->Update(dt);
+
 	SendData();
 
 	serverAttacked = false;
@@ -77,13 +89,41 @@ void SNAutonomousProxy::Update(float dt)
 	serverWasHit = false;
 }
 
+void SNAutonomousProxy::SetDirection()
+{
+	animator->direction = playerInput->leftStickDirection.x;
+
+	if (engGetKey(Key::Left))
+	{
+		animator->direction = -1;
+	}
+
+	if (engGetKey(Key::Right))
+	{
+		animator->direction = 1;
+	}
+}
+
+void SNAutonomousProxy::InitializeFSM()
+{
+	fsmData = new SNFSMData(
+		world, this, &world->simulatedProxy, playerInput);
+
+	fsmData->availableStates[IDLE_STATE] = new SNFSMIdleState("Idle");
+	fsmData->availableStates[WALK_STATE] = new SNFSMWalkState("Walk");
+	fsmData->availableStates[RUN_STATE] = new SNFSMRunState("Run");
+	fsmData->availableStates[ATTACK_STATE] = new SNFSMAttackState("Attack");
+	fsmData->availableStates[JUMP_STATE] = new SNFSMJumpState("Jump");
+	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMJumpState("Knockback");
+
+	stateMachine = new SNFiniteStateMachine(fsmData);
+	fsmData->stateMachine = stateMachine;
+
+	stateMachine->EnterState(fsmData->availableStates[0]);
+}
+
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	previousPosition = position;
-
-	velocity += acceleration * dt;
-	position += velocity * dt;
-
 	if (position.y < 333)
 	{
 		acceleration.y = gravity * gravityMult;
@@ -120,112 +160,7 @@ bool SNAutonomousProxy::IsGrounded()
 
 void SNAutonomousProxy::CheckInput(float dt)
 {
-	if (!animator->movementLocked)
-	{
-		if (engGetKey(Key::Left))
-		{
-			if (!animator->isWalking && !animator->isRunning)
-			{
-				animator->SetCurrentAnimation(world->walkAnim);
-				animator->isWalking = true;
-			}
-
-			if (velocity.x > -minVelocitySpeed && IsGrounded())
-			{
-				animator->isRunning = false;
-				velocity.x = -minVelocitySpeed;
-			}
-
-			if (velocity.x > -maxVelocitySpeed)
-			{
-				acceleration.x = -accelerationSpeed;
-				if (!animator->isRunning && velocity.x < -minRunSpeed)
-				{
-					animator->SetCurrentAnimation(world->runAnim);
-					animator->isRunning = true;
-					animator->isWalking = false;
-				}
-			}
-			else
-			{
-				acceleration.x = 0.0f;
-			}
-
-			animator->direction = -1;
-			facingRight = false;
-		}
-		else if (engGetKey(Key::Right))
-		{
-			if (!animator->isWalking && !animator->isRunning)
-			{
-				animator->SetCurrentAnimation(world->walkAnim);
-				animator->isWalking = true;
-			}
-
-			if (velocity.x < minVelocitySpeed && IsGrounded())
-			{
-				animator->isRunning = false;
-				velocity.x = minVelocitySpeed;
-			}
-
-			if (velocity.x < maxVelocitySpeed)
-			{
-				acceleration.x = accelerationSpeed;
-				if (!animator->isRunning && velocity.x > minRunSpeed)
-				{
-					animator->SetCurrentAnimation(world->runAnim);
-					animator->isRunning = true;
-					animator->isWalking = false;
-				}
-			}
-			else
-			{
-				acceleration.x = 0.0f;
-			}
-
-			animator->direction = 1;
-			facingRight = true;
-		}
-		else {
-			if (animator->isWalking || animator->isRunning)
-			{
-				animator->SetCurrentAnimation(world->idleAnim);
-				animator->isWalking = false;
-			}
-
-			if (IsGrounded())
-			{
-				velocity.x = 0;
-				animator->direction = 0;
-			}
-
-			acceleration.x = 0;
-		}
-	}
-
-	if (!IsGrounded())
-	{
-		if (engGetKey(Key::Left))
-		{
-			animator->direction = -1;
-		}
-
-		if (engGetKey(Key::Right))
-		{
-			animator->direction = 1;
-		}
-	}
-
-	if (engGetKeyDown(Key::Space) && IsGrounded() && !animator->movementLocked)
-	{
-		acceleration.x = 0.0f;
-		velocity.y = -200.0f;
-	}
-
-	if (engGetKeyDown(Key::X) && IsGrounded() && !animator->movementLocked)
-	{
-		Attack();
-	}
+	playerInput->SetInput();
 
 	if (engGetKeyDown(Key::S))
 	{
