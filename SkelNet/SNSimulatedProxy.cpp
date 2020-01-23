@@ -7,6 +7,7 @@ void SPDoAttack(SNWorld* world)
 {
 	if (world->isServer)
 	{
+		world->audioManager->PlayChunkOnce(world->audioManager->punch);
 		world->simulatedProxy.ServerCheckAttack();
 	}
 }
@@ -85,6 +86,7 @@ void SNSimulatedProxy::PlayAttackAnim()
 
 void SNSimulatedProxy::TakeDamage()
 {
+	world->audioManager->PlayChunkOnce(world->audioManager->hit);
 	printf("SimulatedProxy: Took Damage\n");
 }
 
@@ -103,4 +105,3 @@ void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 		attackBoxL->UpdatePosition(position);
 	}
 }
-

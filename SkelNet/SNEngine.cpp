@@ -12,7 +12,6 @@
 #include "Key.h"
 #include "SDL_ttf.h"
 #include "SNSprite.h"
-#include "SNAudioManager.h"
 #include "SpritesheetData.h"
 #include "SNAnimation.h"
 #include "SNWorld.h"
@@ -29,9 +28,6 @@ const int WINDOW_HEIGHT = 500;
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
 bool quit = false;
-
-//Sounds
-SNAudioManager* audioManager;
 
 struct InputState
 {
@@ -75,10 +71,6 @@ void engInit()
 	if (!(standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24))) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 	}
-
-	//Init audio manager
-	audioManager = new SNAudioManager;
-	audioManager->InitSounds();
 }
 
 SDL_Texture* engLoadTexture(const char* path)

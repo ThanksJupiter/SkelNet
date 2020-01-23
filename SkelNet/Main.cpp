@@ -58,6 +58,8 @@ int main()
 
 	engInit();
 
+	world.Setup();
+
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
 

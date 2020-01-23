@@ -6,6 +6,12 @@
 #include "SNAnimator.h"
 #include "SNFlags.h"
 
+void SNWorld::Setup()
+{
+	audioManager = new SNAudioManager;
+	audioManager->InitSounds();
+}
+
 void SNWorld::Update(float dt)
 {
 	autonomousProxy.Update(dt);
@@ -177,10 +183,10 @@ void SNWorld::SendPlayerData(Vector2 position, int health, bool serverAttacked, 
 		else
 			UnsetFlag(client.statePack.flags, 0);*/
 
-		/*if (serverWasHit)
-			SetFlag(client.statePack.flags, 1);
-		else
-			UnsetFlag(client.statePack.flags, 1);*/
+			/*if (serverWasHit)
+				SetFlag(client.statePack.flags, 1);
+			else
+				UnsetFlag(client.statePack.flags, 1);*/
 
 		if (clientAttacked)
 			SetFlag(client.statePack.flags, 2);
