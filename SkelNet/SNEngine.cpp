@@ -66,12 +66,6 @@ void engInit()
 
 	//intialize Text (frames)
 	TTF_Init();
-	
-	//todo: add audio init
-	/*
-	Manager = new SNAudioManager;
-	Manager->InitSounds();
-	*/
 
 	//init font
 	if (!(standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24))) {

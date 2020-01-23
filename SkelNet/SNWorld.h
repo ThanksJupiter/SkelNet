@@ -36,6 +36,7 @@ public:
 
 	bool isServer;
 
+	void Setup();
 	void Update(float dt);
 	void Draw(float dt);
 
