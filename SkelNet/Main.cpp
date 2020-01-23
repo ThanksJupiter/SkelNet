@@ -39,6 +39,7 @@ void SetupServer()
 
 }
 
+//todo: client freezes on startup
 void SetupClient()
 {
 	world.client.Setup();
@@ -46,7 +47,6 @@ void SetupClient()
 	world.isServer = false;
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
-
 	waiting = false;
 }
 
@@ -122,7 +122,9 @@ int main()
 			{
 				canvas.drawDebug = !canvas.drawDebug;
 			}
-			particleSystem.PlayParticleEffect(deltaTime);
+
+			if (&particleSystem)
+				particleSystem.PlayParticleEffect(deltaTime);
 		}
 		else
 		{
