@@ -8,11 +8,6 @@
 #include "SNInput.h"
 
 
-void APDoAttack(SNWorld* world)
-{
-	world->autonomousProxy.CheckAttack();
-}
-
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
@@ -135,7 +130,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[RUN_STATE] = new SNFSMRunState("Run");
 	fsmData->availableStates[ATTACK_STATE] = new SNFSMAttackState("Attack");
 	fsmData->availableStates[JUMP_STATE] = new SNFSMJumpState("Jump");
-	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMJumpState("Knockback");
+	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMKnockbackState("Knockback");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -199,25 +194,25 @@ void SNAutonomousProxy::Attack()
 
 	if (world->isServer)
 	{
-		animator->movementLocked = true;
-		animator->isWalking = false;
-		animator->isRunning = false;
-		velocity.x = 0.0f;
-		acceleration.x = 0.0f;
-		animator->direction = 0;
+		//animator->movementLocked = true;
+		//animator->isWalking = false;
+		//animator->isRunning = false;
+		//velocity.x = 0.0f;
+		//acceleration.x = 0.0f;
+		//animator->direction = 0;
 
 		serverAttacked = true;
 
-		world->apAttackAnim->AddDelegateToFrame(8, APDoAttack);
-		animator->SetCurrentAnimation(world->apAttackAnim, true);
+		//world->apAttackAnim->AddDelegateToFrame(8, APDoAttack);
+		//animator->SetCurrentAnimation(world->apAttackAnim, true);
 		
 	}
 	else
 	{
-		animator->movementLocked = true;
-		animator->isWalking = false;
-		velocity.x = 0.0f;
-		animator->direction = 0;
+		//animator->movementLocked = true;
+		//animator->isWalking = false;
+		//velocity.x = 0.0f;
+		//animator->direction = 0;
 
 		clientAttacked = true;
 
@@ -233,7 +228,7 @@ void SNAutonomousProxy::Attack()
 
 void SNAutonomousProxy::CheckAttack()
 {
-	if (facingRight)
+	if (!flip)
 	{
 		if (attackBoxR->currentState.isTriggered)
 		{
@@ -257,8 +252,14 @@ void SNAutonomousProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
 	
+	stateMachine->EnterState(fsmData->availableStates[KNOCKBACK_STATE]);
 	FlyBack();
 
 	health += 30;
 	printf("AutonomousProxy: Took Damage\n");
+}
+
+void APDoAttack(SNWorld* world)
+{
+	world->autonomousProxy.CheckAttack();
 }

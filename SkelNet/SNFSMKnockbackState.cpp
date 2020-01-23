@@ -3,10 +3,21 @@
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
+#include "SNServer.h"
+#include "SNDataPacket.h"
 
 void SNFSMKnockbackState::Enter(SNFSMData* fsmData)
 {
-	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->runAnim);
+	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
+
+	if (fsmData->world->isServer)
+	{
+		fsmData->world->server.statePack.animState = KNOCKBACK_ANIM;
+	}
+	else
+	{
+		fsmData->world->client.statePack.animState = KNOCKBACK_ANIM;
+	}
 }
 
 void SNFSMKnockbackState::Update(float dt, SNFSMData* fsmData)

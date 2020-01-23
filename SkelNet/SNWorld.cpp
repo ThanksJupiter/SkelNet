@@ -54,12 +54,17 @@ void SNWorld::Update(float dt)
 		autonomousProxy.clientAttacked = GetFlag(server.recievedData.flags, 2);
 		//autonomousProxy.clientWasHit = GetFlag(server.recievedData.flags, 3);
 
+		if (simulatedProxy.animState != server.recievedData.animState && server.recievedData.animState < 7)
+		{
+			simulatedProxy.animState = server.recievedData.animState;
+			simulatedProxy.SetAnimation(simulatedProxy.animState);
+		}
+
 		if (autonomousProxy.clientAttacked)
 		{
 			simulatedProxy.PlayAttackAnim();
 			autonomousProxy.clientAttacked = false;
 		}
-
 	}
 	else
 	{
@@ -71,6 +76,13 @@ void SNWorld::Update(float dt)
 		autonomousProxy.serverWasHit = GetFlag(client.recievedData.flags, 1);
 		//autonomousProxy.clientAttacked = GetFlag(client.recievedData.flags, 2);
 		autonomousProxy.clientWasHit = GetFlag(client.recievedData.flags, 3);
+
+		if (simulatedProxy.animState != client.recievedData.animState && client.recievedData.animState < 7)
+		{
+			simulatedProxy.animState = client.recievedData.animState;
+			simulatedProxy.SetAnimation(simulatedProxy.animState);
+		}
+		
 
 		if (autonomousProxy.clientWasHit)
 		{

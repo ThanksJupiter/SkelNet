@@ -1,21 +1,20 @@
 #pragma once
 #include "SDL_config.h"
 
+#define IDLE_ANIM 0
+#define WALK_ANIM 1
+#define RUN_ANIM 2
+#define ATTACK_ANIM 3
+#define JUMP_ANIM 4
+#define KNOCKBACK_ANIM 5
+#define MAX_ANIM 6;
+
 struct AnimationInstance;
 class Vector2;
 class SNSprite;
 struct SNAnimation;
 struct SDL_Texture;
 class SNWorld;
-
-typedef enum
-{
-	ANIMS_IDLE = 0x00000001,
-	ANIMS_WALK = 0x00000002,
-	NIMS_RUN = 0x00000004,
-	ANIMS_ATTACK = 0x00000008,
-	ANIMS_KNOCKBACK = 0x000000016
-} ANIM_State;
 
 class SNAnimator
 {
@@ -27,7 +26,6 @@ public:
 	double timer = 0.0f;
 	double nextFrameDelay = 0.25;
 
-	ANIM_State currentState;
 	bool movementLocked = false;
 	bool returnToDefaultAnimWhenDone = false;
 

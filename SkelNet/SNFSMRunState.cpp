@@ -7,6 +7,15 @@
 void SNFSMRunState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->runAnim);
+
+	if (fsmData->world->isServer)
+	{
+		fsmData->world->server.statePack.animState = RUN_ANIM;
+	}
+	else
+	{
+		fsmData->world->client.statePack.animState = RUN_ANIM;
+	}
 }
 
 void SNFSMRunState::Update(float dt, SNFSMData* fsmData)

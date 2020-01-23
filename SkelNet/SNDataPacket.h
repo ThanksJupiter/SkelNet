@@ -7,5 +7,6 @@ typedef struct
 	Uint16 posX;
 	Uint16 posY;
 	Uint16 health;
+	Uint16 animState;
 
 } SNDataPacket;

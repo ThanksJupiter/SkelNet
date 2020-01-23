@@ -9,6 +9,15 @@
 void SNFSMWalkState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->walkAnim);
+
+	if (fsmData->world->isServer)
+	{
+		fsmData->world->server.statePack.animState = WALK_ANIM;
+	}
+	else
+	{
+		fsmData->world->client.statePack.animState = WALK_ANIM;
+	}
 }
 
 void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)

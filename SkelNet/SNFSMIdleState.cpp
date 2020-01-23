@@ -7,6 +7,15 @@ void SNFSMIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
 	fsmData->autonomousProxy->velocity.x = 0;
+
+	if (fsmData->world->isServer)
+	{
+		fsmData->world->server.statePack.animState = IDLE_ANIM;
+	}
+	else
+	{
+		fsmData->world->client.statePack.animState = IDLE_ANIM;
+	}
 }
 
 void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
