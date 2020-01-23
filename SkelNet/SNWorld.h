@@ -34,6 +34,7 @@ public:
 	SNAnimation* apAttackAnim;
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
+	SNAnimation* knockbackAnim;
 
 	bool isServer;
 

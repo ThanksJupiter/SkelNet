@@ -55,6 +55,30 @@
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNInput.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
+    <ClCompile Include="SNInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMIdleState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMWalkState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFiniteStateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMRunState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAttackState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMJumpState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMKnockbackState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNAnchor.h">
@@ -115,11 +139,40 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AnimationBehaviour.h" />
-    <ClInclude Include="SNInput.h" />
     <ClInclude Include="SNFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SNParticleSystem.h" />
+    <ClInclude Include="SNFSMState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMIdleState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMWalkState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFiniteStateMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMRunState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAttackState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMJumpState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMKnockbackState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

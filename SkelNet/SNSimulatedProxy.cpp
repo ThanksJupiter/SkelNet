@@ -2,6 +2,8 @@
 #include "SNWorld.h"
 #include "SNEngine.h"
 #include "SNAnimator.h"
+#include <iomanip>
+#include <sstream>
 
 void SPDoAttack(SNWorld* world)
 {
@@ -14,11 +16,13 @@ void SPDoAttack(SNWorld* world)
 void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	this->world = &world;
+
 	position = initPos;
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
 	animator->world = &world;
+	
 
 	if (world.isServer)
 	{
@@ -47,12 +51,19 @@ void SNSimulatedProxy::Draw(float dt)
 			flip = true;
 			facingRight = false;
 		}
+
+		velocity.x = position.x - previousPosition.x;
 	}
 
+
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(3) << velocity.x;
+
+	engDrawString({ 50, 30 }, stream.str().c_str());
+
+
 	engSetColor(0, 255, 255);
-
 	animator->DrawAnimation(position, flip, dt);
-
 	engSetColor(0, 0, 0);
 }
 
@@ -106,6 +117,44 @@ void SNSimulatedProxy::FlyBack()
 	position.y -= 5;
 
 	velocity = newFlyback;
+}
+
+void SNSimulatedProxy::SetAnimation(int index)
+{
+	SNAnimation* newAnim;
+
+	switch (index)
+	{
+		case IDLE_ANIM:
+			animator->SetCurrentAnimation(world->idleAnim);
+			break;
+
+		case WALK_ANIM:
+			animator->SetCurrentAnimation(world->walkAnim);
+			break;
+
+		case RUN_ANIM:
+			animator->SetCurrentAnimation(world->runAnim);
+			break;
+
+		case ATTACK_ANIM:
+			animator->SetCurrentAnimation(world->spAttackAnim);
+			break;
+
+		case JUMP_ANIM:
+			animator->SetCurrentAnimation(world->jumpAnim);
+			break;
+
+		case KNOCKBACK_ANIM:
+			animator->SetCurrentAnimation(world->knockbackAnim);
+			break;
+
+		default:
+			break;
+		/*case KNOCKBACK_ANIM:
+			animator->SetCurrentAnimation(world->knock);
+			break;*/
+	}
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)

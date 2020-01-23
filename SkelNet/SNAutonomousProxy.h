@@ -7,6 +7,9 @@
 
 class SNWorld;
 class SNAnimator;
+class SNFiniteStateMachine;
+class SNInput;
+struct SNFSMData;
 
 class SNAutonomousProxy
 {
@@ -24,6 +27,14 @@ public:
 	void CheckInput(float dt);
 	void Draw(float dt);
 	void Update(float dt);
+
+	void SetDirection();
+
+	void InitializeFSM();
+
+	SNFiniteStateMachine* stateMachine;
+	SNFSMData* fsmData;
+	SNInput* playerInput;
 	void FlyBack();
 
 	bool flip;
@@ -41,6 +52,7 @@ public:
 	float minRunSpeed = 160.0f;
 	float gravity = 9.82f;
 	float gravityMult = 30;
+	float airControlMult = .6f;
 	
 	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;
@@ -51,6 +63,7 @@ public:
 	SNUIElement* uiText;
 	SNUIElement* accText;
 	SNUIElement* velText;
+	SNUIElement* stateText;
 	SNAnchor anchor;
 	SNCanvas canvas;
 	bool drawDebug;
@@ -64,3 +77,5 @@ public:
 	bool clientAttacked;
 	bool clientWasHit;
 };
+
+void APDoAttack(SNWorld* world);

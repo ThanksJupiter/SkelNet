@@ -20,6 +20,8 @@ public:
 	void TakeDamage();
 	void FlyBack();
 
+	void SetAnimation(int index);
+
 	bool flip;
 	Vector2 previousPosition;
 	Vector2 position;
@@ -36,6 +38,7 @@ public:
 	SNWorld* world;
 
 	SNAnimator* animator;
+	uint16_t animState = 6;
 
 	SNHitBox* hitBox;
 	SNHitBox* attackBoxR;
@@ -43,3 +46,5 @@ public:
 	bool didHit;
 	
 };
+
+void SPDoAttack(SNWorld* world);

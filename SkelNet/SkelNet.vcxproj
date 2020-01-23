@@ -138,6 +138,13 @@
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
+    <ClCompile Include="SNFiniteStateMachine.cpp" />
+    <ClCompile Include="SNFSMAttackState.cpp" />
+    <ClCompile Include="SNFSMIdleState.cpp" />
+    <ClCompile Include="SNFSMJumpState.cpp" />
+    <ClCompile Include="SNFSMKnockbackState.cpp" />
+    <ClCompile Include="SNFSMRunState.cpp" />
+    <ClCompile Include="SNFSMWalkState.cpp" />
     <ClCompile Include="SNHitBox.cpp" />
     <ClCompile Include="SNAnchor.cpp" />
     <ClCompile Include="SNAnimation.cpp" />
@@ -161,7 +168,16 @@
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />
+    <ClInclude Include="SNFiniteStateMachine.h" />
     <ClInclude Include="SNFlags.h" />
+    <ClInclude Include="SNFSMAttackState.h" />
+    <ClInclude Include="SNFSMData.h" />
+    <ClInclude Include="SNFSMIdleState.h" />
+    <ClInclude Include="SNFSMJumpState.h" />
+    <ClInclude Include="SNFSMKnockbackState.h" />
+    <ClInclude Include="SNFSMRunState.h" />
+    <ClInclude Include="SNFSMState.h" />
+    <ClInclude Include="SNFSMWalkState.h" />
     <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimation.h" />
