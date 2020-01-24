@@ -102,7 +102,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
 	world.spAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
-	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, .25);
+	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, 1);
 	world.knockbackAnim = knockbackSheet.CreateAnimation(knockbackSprites, 1);
 }
 

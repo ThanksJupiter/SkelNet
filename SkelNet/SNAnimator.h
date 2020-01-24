@@ -34,6 +34,8 @@ public:
 	bool isWalking = false;
 	bool isRunning = false;
 
+	bool doManualAnimationCycling = false;
+
 	SNAnimation* currentAnimation;
 	SNAnimation* previousAnimation;
 	SNAnimation* defaultAnimation;
@@ -42,5 +44,7 @@ public:
 	SNWorld* world;
 
 	void DrawAnimation(Vector2 position, bool flipped, float dt);
+	void DrawAnimation(Vector2 position, bool flipped);
+	void IncrementOneFrame();
 	void SetCurrentAnimation(SNAnimation* inAnim, bool oneShot = false);
 };

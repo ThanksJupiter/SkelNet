@@ -72,7 +72,16 @@ void SNAutonomousProxy::Draw(float dt)
 	}
 
 	engSetColor(0, 255, 0);
-	animator->DrawAnimation(position, flip, dt);
+	
+	if (animator->doManualAnimationCycling)
+	{
+		animator->DrawAnimation(position, flip);
+	}
+	else
+	{
+		animator->DrawAnimation(position, flip, dt);
+	}
+
 	engSetColor(0, 0, 0);
 }
 
