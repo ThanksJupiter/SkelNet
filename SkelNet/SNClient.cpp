@@ -11,7 +11,7 @@ void SNClient::Setup()
 	SDLNet_Init();
 
 	int res;
-	res = SDLNet_ResolveHost(&ip, "10.20.3.62", 6969);
+	res = SDLNet_ResolveHost(&ip, "127.0.0.1", 6969);
 	if (!res && printErrors)
 	{
 		printf("Client Connect: %s\n", SDLNet_GetError());
