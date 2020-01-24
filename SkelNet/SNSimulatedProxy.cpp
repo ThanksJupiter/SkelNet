@@ -55,28 +55,6 @@ void SNSimulatedProxy::Draw(float dt)
 		velocity.x = position.x - previousPosition.x;
 	}
 
-	if (!isGrounded())
-	{
-		if (isKnockbacked)
-		{
-			if (world->autonomousProxy.position.x < position.x)
-			{
-				rotation += 10 * dt;
-			}
-			else
-			{
-				rotation -= 10 * dt;
-			}
-			animator->rotation = rotation * (180.f / 3.14159f);
-		}
-	}
-	else
-	{
-		rotation = 0;
-		animator->rotation = 0;
-		isKnockbacked = false;
-	}
-
 
 	std::stringstream stream;
 	stream << std::fixed << std::setprecision(3) << position.y;
@@ -139,7 +117,6 @@ void SNSimulatedProxy::FlyBack()
 	position.y -= 5;
 
 	velocity = newFlyback;
-	isKnockbacked = true;
 }
 
 bool SNSimulatedProxy::isGrounded()

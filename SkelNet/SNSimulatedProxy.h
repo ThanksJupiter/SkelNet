@@ -31,8 +31,6 @@ public:
 
 	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;
-	float rotation = 0;
-	bool isKnockbacked;
 
 	bool isAttacking;
 

@@ -13,6 +13,4 @@ public:
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);
 	void Exit(SNFSMData* fsmData);
-
-	float angle = 0;
 };
