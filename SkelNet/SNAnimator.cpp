@@ -70,7 +70,8 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 		position.y - curSprite->height * scale
 	);*/
 
-	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation);
+	engDrawPoint({ (float)destinationRect.x + (destinationRect.w / 2), (float)destinationRect.y + destinationRect.h - 40}, 5);
+	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation, {destinationRect.w / 2, destinationRect.h - 40});
 }
 
 void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false*/)

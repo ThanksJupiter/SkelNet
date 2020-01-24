@@ -22,7 +22,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
 	animator->world = &world;
-	
+
 
 	if (world.isServer)
 	{
@@ -34,7 +34,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 		//attackBoxL->drawDebug = true;
 	}
 
-	flyBackDirection = {-1, -1};
+	flyBackDirection = { -1, -1 };
 }
 
 void SNSimulatedProxy::Draw(float dt)
@@ -55,9 +55,31 @@ void SNSimulatedProxy::Draw(float dt)
 		velocity.x = position.x - previousPosition.x;
 	}
 
+	if (!isGrounded())
+	{
+		if (isKnockbacked)
+		{
+			if (world->autonomousProxy.position.x < position.x)
+			{
+				rotation += 10 * dt;
+			}
+			else
+			{
+				rotation -= 10 * dt;
+			}
+			animator->rotation = rotation * (180.f / 3.14159f);
+		}
+	}
+	else
+	{
+		rotation = 0;
+		animator->rotation = 0;
+		isKnockbacked = false;
+	}
+
 
 	std::stringstream stream;
-	stream << std::fixed << std::setprecision(3) << velocity.x;
+	stream << std::fixed << std::setprecision(3) << position.y;
 
 	engDrawString({ 50, 30 }, stream.str().c_str());
 
@@ -117,6 +139,19 @@ void SNSimulatedProxy::FlyBack()
 	position.y -= 5;
 
 	velocity = newFlyback;
+	isKnockbacked = true;
+}
+
+bool SNSimulatedProxy::isGrounded()
+{
+	if (position.y > 332 && previousPosition.y < position.y)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void SNSimulatedProxy::SetAnimation(int index)
@@ -125,32 +160,32 @@ void SNSimulatedProxy::SetAnimation(int index)
 
 	switch (index)
 	{
-		case IDLE_ANIM:
-			animator->SetCurrentAnimation(world->idleAnim);
-			break;
+	case IDLE_ANIM:
+		animator->SetCurrentAnimation(world->idleAnim);
+		break;
 
-		case WALK_ANIM:
-			animator->SetCurrentAnimation(world->walkAnim);
-			break;
+	case WALK_ANIM:
+		animator->SetCurrentAnimation(world->walkAnim);
+		break;
 
-		case RUN_ANIM:
-			animator->SetCurrentAnimation(world->runAnim);
-			break;
+	case RUN_ANIM:
+		animator->SetCurrentAnimation(world->runAnim);
+		break;
 
-		case ATTACK_ANIM:
-			animator->SetCurrentAnimation(world->spAttackAnim);
-			break;
+	case ATTACK_ANIM:
+		animator->SetCurrentAnimation(world->spAttackAnim);
+		break;
 
-		case JUMP_ANIM:
-			animator->SetCurrentAnimation(world->jumpAnim);
-			break;
+	case JUMP_ANIM:
+		animator->SetCurrentAnimation(world->jumpAnim);
+		break;
 
-		case KNOCKBACK_ANIM:
-			animator->SetCurrentAnimation(world->knockbackAnim);
-			break;
+	case KNOCKBACK_ANIM:
+		animator->SetCurrentAnimation(world->knockbackAnim);
+		break;
 
-		default:
-			break;
+	default:
+		break;
 		/*case KNOCKBACK_ANIM:
 			animator->SetCurrentAnimation(world->knock);
 			break;*/

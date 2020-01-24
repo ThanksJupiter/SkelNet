@@ -19,6 +19,7 @@ public:
 	void PlayAttackAnim();
 	void TakeDamage();
 	void FlyBack();
+	bool isGrounded();
 
 	void SetAnimation(int index);
 
@@ -30,6 +31,8 @@ public:
 
 	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;
+	float rotation = 0;
+	bool isKnockbacked;
 
 	bool isAttacking;
 
