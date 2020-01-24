@@ -249,21 +249,9 @@ void engDrawPoint(Vector2 position, float radius)
 	}
 }
 
-void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, bool flip)
+void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, SDL_Texture* inTex, bool flip, float angle, const SDL_Point& rotPoint)
 {
-	SDL_RenderCopyEx(renderer, texture, &srcRect, &dstRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-}
-
-void engDrawSprite(SNSprite& image, Vector2 drawPosition, Vector2 drawScale, bool flip)
-{
-	SDL_Rect destinationRect = { drawPosition.x - drawScale.x, drawPosition.y - drawScale.y, drawScale.x, drawScale.y };
-
-	SDL_RenderCopyEx(renderer, image.texture, &image.sheetSourceRect, &destinationRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-}
-
-void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, SDL_Texture* inTex, bool flip)
-{
-	SDL_RenderCopyEx(renderer, inTex, &srcRect, &dstRect, 0, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, inTex, &srcRect, &dstRect, angle, &rotPoint, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 
 void engDrawArrow(Vector2 startPosition, Vector2 endPosition)

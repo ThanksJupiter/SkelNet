@@ -163,6 +163,7 @@
     <ClCompile Include="SNUIElement.cpp" />
     <ClCompile Include="SNWorld.cpp" />
     <ClCompile Include="SpritesheetData.cpp" />
+    <ClCompile Include="SNTrailRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="SNSprite.h" />
     <ClInclude Include="SNUIElement.h" />
     <ClInclude Include="SpritesheetData.h" />
+    <ClInclude Include="SNTrailRenderer.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="SNWorld.h" />
   </ItemGroup>

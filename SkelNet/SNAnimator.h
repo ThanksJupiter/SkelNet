@@ -30,6 +30,7 @@ public:
 	bool returnToDefaultAnimWhenDone = false;
 
 	float scale = 3.0;
+	float rotation = 0.f;
 
 	bool isWalking = false;
 	bool isRunning = false;
@@ -43,8 +44,8 @@ public:
 
 	SNWorld* world;
 
-	void DrawAnimation(Vector2 position, bool flipped, float dt);
 	void DrawAnimation(Vector2 position, bool flipped);
 	void IncrementOneFrame();
+	void DrawAnimation(Vector2 position, bool flipped, float dt, float angle = 0);
 	void SetCurrentAnimation(SNAnimation* inAnim, bool oneShot = false);
 };
