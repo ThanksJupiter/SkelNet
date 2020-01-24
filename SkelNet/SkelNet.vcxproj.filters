@@ -54,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNInput.cpp" />
+    <ClCompile Include="SNTrailRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SNAnchor.h">
@@ -116,6 +119,9 @@
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNInput.h" />
     <ClInclude Include="SNFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNTrailRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

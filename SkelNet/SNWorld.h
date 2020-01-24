@@ -8,6 +8,9 @@
 #include "SNClient.h"
 #include "SNAnimation.h"
 #include "SNAudioManager.h"
+#include "SNTrailRenderer.h"
+
+class SNTrail;
 
 class SNWorld
 {
@@ -34,6 +37,9 @@ public:
 	SNAnimation* apAttackAnim;
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
+
+
+	SNTrail* trail;
 
 	bool isServer;
 

@@ -29,9 +29,7 @@ void engDrawRect(int width, int height, int x, int y);
 void engDrawLine(int x1, int y1, int x2, int y2);
 void engDrawLine(Vector2 pos1, Vector2 pos2);
 void engDrawPoint(Vector2 position, float radius);
-void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, bool flip);
-void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, SDL_Texture* inTex, bool flip);
-void engDrawSprite(SNSprite& image, Vector2 drawPosition, Vector2 drawScale, bool flip = false);
+void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, SDL_Texture* inTex, bool flip = false, float angle = 0, const SDL_Point& rotPoint = {0,0});
 void engDrawArrow(Vector2 startPosition, Vector2 endPosition);
 void engDrawArrow(Vector2 startPosition, Vector2 direction, float length);
 

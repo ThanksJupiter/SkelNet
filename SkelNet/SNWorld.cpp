@@ -5,11 +5,17 @@
 #include <vector>
 #include "SNAnimator.h"
 #include "SNFlags.h"
+#include "SNTrailRenderer.h"
 
 void SNWorld::Setup()
 {
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
+
+	trail = new SNTrail();
+	SNSprite* trailSprite = new SNSprite(32, 32, nullptr, 0);
+	trailSprite->texture = engLoadTexture("SN_Skel_Walk-Sheet.png");
+	trail->Setup({ 70,70 }, 5, 10, 10, 5, *trailSprite);
 }
 
 void SNWorld::Update(float dt)
@@ -101,6 +107,8 @@ void SNWorld::Draw(float dt)
 	}
 
 	floors[0].Draw();
+
+	trail->Draw();
 }
 
 void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
