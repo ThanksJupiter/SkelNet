@@ -7,6 +7,9 @@
 
 void SNFSMRunState::Enter(SNFSMData* fsmData)
 {
+	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+	SNInput* input = fsmData->input;
+
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->runAnim);
 
 	if (fsmData->world->isServer)
@@ -21,6 +24,8 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->position,
 		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
+
+	autoProxy->velocity.x = 270.0f * input->leftStickDirection.x;
 }
 
 void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
