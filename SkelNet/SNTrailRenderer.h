@@ -19,5 +19,5 @@ public:
 	float endWidth;
 
 	SNSprite* sprite;
-	std::vector<Segment> segments;
+	//std::vector<Segment> segments;
 };

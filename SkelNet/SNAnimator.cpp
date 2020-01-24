@@ -12,7 +12,7 @@ SNAnimator::SNAnimator()
 	
 }
 
-void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
+void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float angle)
 {
 	timer += dt;
 
@@ -70,7 +70,7 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt)
 		position.y - curSprite->height * scale
 	);*/
 
-	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped);
+	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation);
 }
 
 void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false*/)

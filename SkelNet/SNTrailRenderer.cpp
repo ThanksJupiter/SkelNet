@@ -17,7 +17,7 @@ void SNTrail::Setup(Vector2 initPos, int numSegments, float length, float startW
 	this->endWidth = endWidth;
 	this->sprite = &sprite;
 
-	segments = std::vector<Segment>(numSegments);
+	//segments = std::vector<Segment>(numSegments);
 }
 
 void SNTrail::Draw()
@@ -34,10 +34,10 @@ void SNTrail::Draw()
 		//engDrawSprite(sprite->sheetSourceRect, dstRect, sprite->texture, false, segments[i].rotation, { 0,0 });
 
 
-		Vector2 pos1 = segments[i - 1].position;
-		Vector2 pos2 = segments[i].position;
+		//Vector2 pos1 = segments[i - 1].position;
+		//Vector2 pos2 = segments[i].position;
 
-		engDrawArrow(pos1, pos2);
+		//engDrawArrow(pos1, pos2);
 	}
 }
 

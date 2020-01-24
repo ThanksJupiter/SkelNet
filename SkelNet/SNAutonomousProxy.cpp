@@ -72,7 +72,7 @@ void SNAutonomousProxy::Draw(float dt)
 	}
 
 	engSetColor(0, 255, 0);
-	animator->DrawAnimation(position, flip, dt);
+	animator->DrawAnimation(position, flip, dt, animator->rotation);
 	engSetColor(0, 0, 0);
 }
 
