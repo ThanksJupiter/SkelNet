@@ -74,7 +74,40 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation, {destinationRect.w / 2, destinationRect.h - 40});
 }
 
-void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false*/)
+void SNAnimator::DrawAnimation(Vector2 position, bool flipped)
+{
+	SDL_Rect sourceRect =
+	{
+		0,
+		currentAnimation->sprites[currentAnimFrameCount]->height * currentAnimFrameCount,
+		currentAnimation->sprites[currentAnimFrameCount]->width,
+		currentAnimation->sprites[currentAnimFrameCount]->height
+	};
+
+	SDL_Rect destinationRect =
+	{
+		// position
+		position.x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
+		position.y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
+		// size
+		currentAnimation->sprites[currentAnimFrameCount]->width * scale,
+		currentAnimation->sprites[currentAnimFrameCount]->height * scale
+	};
+
+	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped);
+}
+
+void SNAnimator::IncrementOneFrame()
+{
+	currentAnimFrameCount++;
+
+	if (currentAnimFrameCount == currentAnimation->frameCount)
+	{
+		currentAnimFrameCount = currentAnimation->frameCount - 1;
+	}
+}
+
+void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot)
 {
 	if (oneShot)
 	{

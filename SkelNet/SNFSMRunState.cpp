@@ -3,9 +3,13 @@
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
+#include "SNParticleSystem.h"
 
 void SNFSMRunState::Enter(SNFSMData* fsmData)
 {
+	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+	SNInput* input = fsmData->input;
+
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->runAnim);
 
 	if (fsmData->world->isServer)
@@ -16,6 +20,12 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 	{
 		fsmData->world->client.statePack.animState = RUN_ANIM;
 	}
+
+	fsmData->world->particleSystem->StartParticleEffect(
+		fsmData->autonomousProxy->position,
+		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
+
+	autoProxy->velocity.x = 270.0f * input->leftStickDirection.x;
 }
 
 void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
