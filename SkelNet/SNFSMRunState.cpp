@@ -3,6 +3,7 @@
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
+#include "SNParticleSystem.h"
 
 void SNFSMRunState::Enter(SNFSMData* fsmData)
 {
@@ -16,6 +17,10 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 	{
 		fsmData->world->client.statePack.animState = RUN_ANIM;
 	}
+
+	fsmData->world->particleSystem->StartParticleEffect(
+		fsmData->autonomousProxy->position,
+		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 }
 
 void SNFSMRunState::Update(float dt, SNFSMData* fsmData)

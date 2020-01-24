@@ -106,7 +106,7 @@ void SNAnimator::IncrementOneFrame()
 	}
 }
 
-void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot /*= false*/)
+void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot)
 {
 	if (oneShot)
 	{

@@ -11,6 +11,7 @@
 #include "SNTrailRenderer.h"
 
 class SNTrail;
+class SNParticleSystem;
 
 class SNWorld
 {
@@ -39,8 +40,10 @@ public:
 	SNAnimation* jumpAnim;
 	SNAnimation* knockbackAnim;
 
+	SNAnimation* dashDustAnim;
 
 	SNTrail* trail;
+	SNParticleSystem* particleSystem;
 
 	bool isServer;
 

@@ -26,8 +26,6 @@ bool waiting = true;
 
 SNCanvas canvas;
 
-SNParticleSystem particleSystem;
-
 void SetupServer()
 {
 	world.server.Setup();
@@ -123,8 +121,10 @@ int main()
 				canvas.drawDebug = !canvas.drawDebug;
 			}
 
-			if (&particleSystem)
-				particleSystem.PlayParticleEffect(deltaTime);
+			if (world.particleSystem)
+			{
+				world.particleSystem->UpdateParticles(deltaTime);
+			}
 		}
 		else
 		{

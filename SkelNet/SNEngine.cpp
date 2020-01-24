@@ -89,6 +89,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 12, 100, 30);
 	SpritesheetData jumpSheet = SpritesheetData("SN_Skel_Jump-Sheet.png", 3, 32, 32);
 	SpritesheetData knockbackSheet = SpritesheetData("SN_Skel_Knockback-Sheet.png", 1, 32, 32);
+	SpritesheetData dashDustSheet = SpritesheetData("SN_SKel_Dash_Dust-Sheet.png", 8, 32, 32);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
@@ -96,6 +97,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* attackSprites[12];
 	SNSprite* jumpSprites[3];
 	SNSprite* knockbackSprites[1];
+	SNSprite* dashDustSprites[8];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
@@ -104,6 +106,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, 1);
 	world.knockbackAnim = knockbackSheet.CreateAnimation(knockbackSprites, 1);
+	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
 }
 
 void engClose()

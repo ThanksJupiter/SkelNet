@@ -6,11 +6,14 @@
 #include "SNAnimator.h"
 #include "SNFlags.h"
 #include "SNTrailRenderer.h"
+#include "SNParticleSystem.h"
 
 void SNWorld::Setup()
 {
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
+
+	particleSystem = new SNParticleSystem();
 
 	trail = new SNTrail();
 	SNSprite* trailSprite = new SNSprite(32, 32, nullptr, 0);

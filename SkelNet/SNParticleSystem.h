@@ -13,6 +13,8 @@ struct SNParticleEffect
 	float playDuration;
 	float currentPlayDuration;
 
+	bool flipped;
+
 	bool isUsed;
 };
 
@@ -22,10 +24,9 @@ public:
 	SNParticleSystem();
 
 	SNParticleEffect* ReuseParticleEffect();
-
-	SNParticleEffect* StartParticleEffect(Vector2 position, SNAnimation* animation, float duration);
 	
-	void PlayParticleEffect(float dt);
+	SNParticleEffect* StartParticleEffect(Vector2 position, SNAnimation* animation, float duration, bool flipped = false);
+	void UpdateParticles(float dt);
 	std::vector<SNParticleEffect*> particleEffects;
 
 };

@@ -7,7 +7,7 @@ SNParticleSystem::SNParticleSystem()
 
 SNParticleEffect* SNParticleSystem::ReuseParticleEffect()
 {
-	for (int i = 0; i < particleEffects.size(); i++)
+	/*for (int i = 0; i < particleEffects.size(); i++)
 	{
 		if (!&particleEffects[i])
 			continue;
@@ -20,12 +20,12 @@ SNParticleEffect* SNParticleSystem::ReuseParticleEffect()
 		{
 			return new SNParticleEffect();
 		}
-	}
+	}*/
 	return new SNParticleEffect();
 }
 
 //call when you want to start the playback of one animation for a set duration at a location
-SNParticleEffect* SNParticleSystem::StartParticleEffect(Vector2 position, SNAnimation* animation, float duration)
+SNParticleEffect* SNParticleSystem::StartParticleEffect(Vector2 position, SNAnimation* animation, float duration, bool flipped)
 {
 	SNParticleEffect* newEffect = ReuseParticleEffect();
 	if (newEffect)
@@ -34,6 +34,7 @@ SNParticleEffect* SNParticleSystem::StartParticleEffect(Vector2 position, SNAnim
 		newEffect->playDuration = duration;
 		newEffect->position = position;
 		newEffect->particleAnimation = animation;
+		newEffect->flipped = flipped;
 
 		newEffect->particleAnimator = SNAnimator();
 
@@ -44,7 +45,7 @@ SNParticleEffect* SNParticleSystem::StartParticleEffect(Vector2 position, SNAnim
 	}
 }
 
-void SNParticleSystem::PlayParticleEffect(float dt)
+void SNParticleSystem::UpdateParticles(float dt)
 {
 	for (int i = 0; i < particleEffects.size(); i++)
 	{
@@ -54,7 +55,7 @@ void SNParticleSystem::PlayParticleEffect(float dt)
 		particleEffects[i]->currentPlayDuration += dt;
 		if (particleEffects[i]->currentPlayDuration < particleEffects[i]->playDuration)
 		{
-			particleEffects[i]->particleAnimator.DrawAnimation(particleEffects[i]->position, false, dt);
+			particleEffects[i]->particleAnimator.DrawAnimation(particleEffects[i]->position, particleEffects[i]->flipped, dt);
 		}
 		else
 		{
