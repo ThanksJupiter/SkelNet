@@ -19,11 +19,14 @@
 #include "SNSprite.h"
 #include "SNAnimator.h"
 #include "SNAutonomousProxy.h"
+#include "SNParticleSystem.h"
 
 SNWorld world;
 bool waiting = true;
 
 SNCanvas canvas;
+
+SNParticleSystem particleSystem;
 
 void SetupServer()
 {
@@ -32,10 +35,11 @@ void SetupServer()
 	world.isServer = true;
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
-
 	waiting = false;
+
 }
 
+//todo: client freezes on startup
 void SetupClient()
 {
 	world.client.Setup();
@@ -43,7 +47,6 @@ void SetupClient()
 	world.isServer = false;
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
-
 	waiting = false;
 }
 
@@ -59,6 +62,9 @@ int main()
 	engInit();
 
 	world.Setup();
+
+	//init one particle System
+	//particleSystem.StartParticleEffect({ 100, 300 }, world.walkAnim, 2.f);
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
@@ -116,6 +122,9 @@ int main()
 			{
 				canvas.drawDebug = !canvas.drawDebug;
 			}
+
+			if (&particleSystem)
+				particleSystem.PlayParticleEffect(deltaTime);
 		}
 		else
 		{

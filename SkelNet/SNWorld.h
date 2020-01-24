@@ -37,6 +37,7 @@ public:
 	SNAnimation* apAttackAnim;
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
+	SNAnimation* knockbackAnim;
 
 
 	SNTrail* trail;

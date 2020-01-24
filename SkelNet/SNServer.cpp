@@ -79,7 +79,7 @@ bool SNServer::RecvData()
 			}
 			else if (len != -1)
 			{
-				sscanf_s(recvData, "%i %hu %hu %hu %hu", &recievedData.flags, &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health);
+				sscanf_s(recvData, "%i %hu %hu %hu %hu %hu", &recievedData.flags, &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health, &recievedData.animState);
 				return true;
 			}
 		}
@@ -92,7 +92,7 @@ void SNServer::SendData()
 {
 	char buffer[1024];
 
-	sprintf_s(buffer, "%i %hu %hu %hu %hu", statePack.flags, statePack.id, statePack.posX, statePack.posY, statePack.health);
+	sprintf_s(buffer, "%i %hu %hu %hu %hu %hu", statePack.flags, statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.animState);
 
 	int len = strlen(buffer);
 	if (client)
