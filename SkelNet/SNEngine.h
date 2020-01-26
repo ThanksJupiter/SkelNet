@@ -43,6 +43,11 @@ bool engGetKeyDown(Key inKey);
 Vector2 engGetMousePosition();
 bool engGetMouseButton(MouseButton inButton);
 bool engGetMouseButtonDown(MouseButton inButton);
+SDL_Joystick* engGetJoystick();
+bool engGetButton(GamepadButton inButton);
+bool engGetButtonDown(GamepadButton inButton);
+float engGetJoystickAxis(GamepadAxis inAxis);
+float engGetShoulderAxis(GamepadAxis inAxis);
 
 // Text 
 void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);

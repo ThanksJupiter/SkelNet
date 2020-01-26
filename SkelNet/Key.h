@@ -132,3 +132,37 @@ enum class MouseButton : unsigned short
 
 	MAX
 };
+
+enum class GamepadButton : unsigned short
+{
+	A,
+	B,
+	X,
+	Y,
+
+	LB,
+	RB,
+
+	Back,
+	Start,
+
+	LeftStick,
+	RightStick,
+
+	MAX
+};
+
+enum class GamepadAxis : unsigned short
+{
+	LeftStickX,
+	LeftStickY,
+
+	LeftShoulder,
+
+	RightStickX,
+	RightStickY,
+
+	RightShoulder,
+
+	MAX
+};

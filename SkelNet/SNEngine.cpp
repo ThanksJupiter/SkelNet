@@ -35,21 +35,21 @@ struct InputState
 	int frameNum;
 };
 static InputState keyStates[(unsigned int)Key::MAX];
+static InputState buttonStates[unsigned int(GamepadButton::MAX)];
 
 static InputState mouseStates[3];
+
+const float STICK_AXIS_DEADZONE = .18f;
+const float SHOULDER_AXIS_DEADZONE = 0.005f;
+struct AxisState
+{
+	float value;
+};
+static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
 
 void engInit()
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
-
-	printf("%i joysticks were found.\n\n", SDL_NumJoysticks());
-	printf("The names of the joysticks are:\n");
-
-	for (int i = 0; i < SDL_NumJoysticks(); i++)
-	{
-		SDL_Joystick* joystick = SDL_JoystickOpen(i);
-		printf("    %s\n", SDL_JoystickName(joystick));
-	}
 
 	if (!IMG_Init(IMG_INIT_PNG))
 	{
@@ -63,6 +63,10 @@ void engInit()
 
 	image = IMG_Load("SN_Skel_Attack-Sheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
+
+	engGetJoystick();
+	axisStates[(unsigned int)GamepadAxis::LeftShoulder].value = -2.0f;
+	axisStates[(unsigned int)GamepadAxis::RightShoulder].value = -2.0f;
 
 	//intialize Text (frames)
 	TTF_Init();
@@ -133,6 +137,35 @@ void engUpdate()
 	{
 		if (e.type == SDL_QUIT)
 			quit = true;
+
+		switch (e.type)
+		{
+			case SDL_JOYAXISMOTION:
+			{
+				AxisState& state = axisStates[e.jaxis.axis];
+				state.value = (float)e.jaxis.value / 32767;
+			}
+
+			break;
+
+			case SDL_JOYBUTTONDOWN:
+			{
+				InputState& state = buttonStates[e.jbutton.button];
+				state.pressed = true;
+				state.frameNum = currentFrameNum;
+			}
+
+			break;
+
+			case SDL_JOYBUTTONUP:
+			{
+				InputState& state = buttonStates[e.jbutton.button];
+				state.pressed = false;
+				state.frameNum = currentFrameNum;
+			}
+
+			break;
+		}
 
 		if (e.type == SDL_KEYDOWN)
 		{
@@ -303,6 +336,38 @@ bool engGetMouseButtonDown(MouseButton inButton)
 {
 	InputState& state = mouseStates[(int)inButton];
 	return state.pressed && state.frameNum == currentFrameNum;
+}
+
+SDL_Joystick* engGetJoystick()
+{
+	SDL_JoystickEventState(SDL_ENABLE);
+
+	SDL_Joystick* joystick = SDL_JoystickOpen(0);
+
+	return joystick;
+}
+
+bool engGetButton(GamepadButton inButton)
+{
+	return buttonStates[(int)inButton].pressed;
+}
+
+bool engGetButtonDown(GamepadButton inButton)
+{
+	InputState& state = buttonStates[(int)inButton];
+	return state.pressed && state.frameNum == currentFrameNum;
+}
+
+float engGetJoystickAxis(GamepadAxis inAxis)
+{
+	float r = axisStates[(int) inAxis].value;
+	return (r > STICK_AXIS_DEADZONE || r < -STICK_AXIS_DEADZONE) ? r : 0;
+}
+
+float engGetShoulderAxis(GamepadAxis inAxis)
+{
+	float r = axisStates[(int)inAxis].value;
+	return r > SHOULDER_AXIS_DEADZONE - 1 ? (r / 2) + 0.5f : 0;
 }
 
 void engSetTextColor(Uint8 Red, Uint8 Green, Uint8 Blue)
