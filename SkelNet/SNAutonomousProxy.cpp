@@ -22,7 +22,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	if (world.isServer)
 	{
-		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
+		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 }, 1);
 		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
 		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
 		//hitBox->drawDebug = true;
@@ -139,7 +139,7 @@ void SNAutonomousProxy::InitializeFSM()
 
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	if (position.y < 333 || (position.x < 170 || position.x > 935))
+	if (position.y < 333)
 	{
 		//Activate gravity
 		acceleration.y = gravity * gravityMult;
@@ -147,6 +147,10 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 	
 	if ((position.x < 170 || position.x > 935))
 	{
+		//Activate gravity
+		acceleration.y = gravity * gravityMult;
+
+		//Set fall state
 		if (stateMachine->currentState != stateMachine->availableStates[FALL_STATE])
 		{
 			stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
@@ -224,7 +228,7 @@ void SNAutonomousProxy::CheckAttack()
 {
 	if (!flip)
 	{
-		if (attackBoxR->currentState.isTriggered)
+		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
 			// Send hit data
 			clientWasHit = true;
@@ -233,7 +237,7 @@ void SNAutonomousProxy::CheckAttack()
 	}
 	else
 	{
-		if (attackBoxL->currentState.isTriggered)
+		if (attackBoxL->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
 			// Send hit data
 			clientWasHit = true;

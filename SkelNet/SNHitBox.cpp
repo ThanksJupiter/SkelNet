@@ -4,7 +4,7 @@
 
 
 
-void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
+void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, char id, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
 {
 	this->position = position + offset;
 	this->size = size;
@@ -13,6 +13,7 @@ void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, bool blocki
 	this->callDelegates = callDelegates;
 	this->OnTriggerEnter = OnTriggerEnter;
 	this->OnTriggerExit = OnTriggerExit;
+	this->id = id;
 
 	lastState.isTriggered = false;
 	lastState.frameNum = engGetFrameNum();
@@ -32,6 +33,7 @@ bool SNHitBox::CheckCollision(SNHitBox otherHitBox)
 				OnTriggerEnter();
 			}
 		}
+		currentState.otherId = otherHitBox.id;
 		currentState.isTriggered = true;
 		currentState.frameNum = engGetFrameNum();
 		return true;
