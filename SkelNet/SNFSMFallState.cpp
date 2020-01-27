@@ -30,9 +30,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 	// movement time integration
 	autoProxy->previousPosition = autoProxy->position;
 
-	return;
-
-	if ((autoProxy->velocity.y > 0 && autoProxy->position.y > 333) && (autoProxy->position.x > 170 || autoProxy->position.x < 935))
+	if ((autoProxy->velocity.y > 0 && autoProxy->position.y > 333) && (autoProxy->position.x > 170 && autoProxy->position.x < 935))
 	{
 		// land
 		fsmData->autonomousProxy->animator->IncrementOneFrame();
