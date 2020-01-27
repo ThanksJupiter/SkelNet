@@ -130,6 +130,7 @@ void engClose()
 void engRender()
 {
 	SDL_RenderPresent(renderer);
+	SDL_SetRenderDrawColor(renderer, 27, 41, 64, 255);
 	SDL_RenderClear(renderer);
 }
 

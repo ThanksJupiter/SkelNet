@@ -60,17 +60,6 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 		currentAnimation->sprites[currentAnimFrameCount]->height * scale
 	};
 
-	// debug square
-	/*SNSprite* curSprite = currentAnimation->sprites[currentAnimFrameCount];
-	engDrawRect
-	(
-		curSprite->width * scale,
-		curSprite->height * scale,
-		position.x - (curSprite->width * scale) / 2,
-		position.y - curSprite->height * scale
-	);*/
-
-	engDrawPoint({ (float)destinationRect.x + (destinationRect.w / 2), (float)destinationRect.y + destinationRect.h - 40}, 5);
 	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation, {destinationRect.w / 2, destinationRect.h - 40});
 }
 

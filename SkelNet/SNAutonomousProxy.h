@@ -60,10 +60,6 @@ public:
 	SNWorld* world;
 
 	SNAnimator* animator;
-	SNUIElement* uiText;
-	SNUIElement* accText;
-	SNUIElement* velText;
-	SNUIElement* stateText;
 	SNAnchor anchor;
 	SNCanvas canvas;
 	bool drawDebug;
