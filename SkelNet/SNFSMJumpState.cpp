@@ -56,6 +56,11 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 	autoProxy->velocity += autoProxy->acceleration * dt;
 	autoProxy->position += autoProxy->velocity * dt;
 
+	if (autoProxy->velocity.y < -1)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
+	}
+
 	if (autoProxy->velocity.y > 0 && autoProxy->position.y > 333)
 	{
 		// land
