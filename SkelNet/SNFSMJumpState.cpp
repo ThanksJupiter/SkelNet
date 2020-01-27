@@ -3,6 +3,7 @@
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
+#include "SNParticleSystem.h"
 
 void SNFSMJumpState::Enter(SNFSMData* fsmData)
 {
@@ -70,6 +71,10 @@ void SNFSMJumpState::Exit(SNFSMData* fsmData)
 	autoProxy->velocity.y = 0;
 
 	autoProxy->animator->doManualAnimationCycling = false;
+
+	fsmData->world->particleSystem->StartParticleEffect(
+		fsmData->autonomousProxy->position,
+		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 }
 
 void SNFSMJumpState::DoJump(SNAutonomousProxy* autoProxy)
