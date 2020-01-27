@@ -10,6 +10,8 @@ struct SNParticleEffect
 	SNAnimator particleAnimator;
 
 	Vector2 position;
+	float rotation;
+
 	float playDuration;
 	float currentPlayDuration;
 
@@ -25,7 +27,7 @@ public:
 
 	SNParticleEffect* ReuseParticleEffect();
 	
-	SNParticleEffect* StartParticleEffect(Vector2 position, SNAnimation* animation, float duration, bool flipped = false);
+	SNParticleEffect* StartParticleEffect(Vector2 pos, SNAnimation* animation, float duration, bool flipped, float scale = 3, float rot = 0.f);
 	void UpdateParticles(float dt);
 	std::vector<SNParticleEffect*> particleEffects;
 
