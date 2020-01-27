@@ -15,7 +15,7 @@ SNAnimator::SNAnimator()
 void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float angle)
 {
 	timer += dt;
-
+	rotation = angle;
 	if (timer > currentAnimation->nextFrameDelay)
 	{
 		timer = 0.0;

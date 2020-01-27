@@ -52,7 +52,7 @@ public:
 	bool doStartup;
 	bool isServer;
 
-	Vector2 deathDistance = {400, 400};
+	Vector2 deathDistance = {550, 500};
 
 	void Setup();
 	void Update(float dt);

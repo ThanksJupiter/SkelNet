@@ -125,6 +125,7 @@ void SNWorld::Update(float dt)
 			autonomousProxy.position.y >= (worldSize.y / 2) + deathDistance.y || 
 			autonomousProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
 		{
+			particleSystem->StartParticleEffect(autonomousProxy.position, dashDustAnim, 8 * 0.05f, false, 10, 45.f);
 			RestartGame();
 			return;
 		}
@@ -139,7 +140,7 @@ void SNWorld::Update(float dt)
 			simulatedProxy.position.y >= (worldSize.y / 2) + deathDistance.y ||
 			simulatedProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
 		{
-
+			particleSystem->StartParticleEffect(simulatedProxy.position, dashDustAnim, 8 * 0.05f, false, 10, 45.f);
 			RestartGame();
 			return;
 		}
