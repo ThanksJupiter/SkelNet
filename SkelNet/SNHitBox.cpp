@@ -1,9 +1,6 @@
 #include "SNHitBox.h"
 #include "SNEngine.h"
 
-
-
-
 void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, char id, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
 {
 	this->position = position + offset;

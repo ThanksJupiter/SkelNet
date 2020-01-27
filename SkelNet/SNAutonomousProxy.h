@@ -74,6 +74,7 @@ public:
 
 	bool clientAttacked;
 	bool clientWasHit;
+	void Reset();
 };
 
 void APDoAttack(SNWorld* world);

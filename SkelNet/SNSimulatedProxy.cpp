@@ -165,6 +165,22 @@ void SNSimulatedProxy::SetAnimation(int index)
 	}
 }
 
+void SNSimulatedProxy::Reset()
+{
+	if (world->isServer)
+	{
+		position = { (world->worldSize.x / 2) + 50, 0 };
+	}
+	else
+	{
+		position = { (world->worldSize.x / 2) - 50, 0 };
+	}
+
+	health = 0;
+	animState = 6;
+	velocity = { 0.f, 0.f };
+}
+
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 {
 	previousPosition = position;

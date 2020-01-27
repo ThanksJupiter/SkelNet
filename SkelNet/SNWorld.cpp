@@ -50,6 +50,14 @@ void SNWorld::Update(float dt)
 	else
 	{
 		client.RecvData();
+
+		doStartup = GetFlag(client.recievedData.flags, 5);
+		if (doStartup)
+		{
+			RestartGame();
+			engDrawString({ 100, 100 }, "DoStartup");
+			return;
+		}
 	}
 
 	if (isServer)
@@ -91,7 +99,7 @@ void SNWorld::Update(float dt)
 			simulatedProxy.animState = client.recievedData.animState;
 			simulatedProxy.SetAnimation(simulatedProxy.animState);
 		}
-		
+
 
 		if (autonomousProxy.clientWasHit)
 		{
@@ -107,6 +115,27 @@ void SNWorld::Update(float dt)
 		{
 			simulatedProxy.PlayAttackAnim();
 			autonomousProxy.serverAttacked = false;
+		}
+	}
+
+	if (isServer)
+	{
+		if (autonomousProxy.position.x >= (worldSize.x / 2) + deathDistance.x || 
+			autonomousProxy.position.x <= (worldSize.x / 2) - deathDistance.x ||
+			autonomousProxy.position.y >= (worldSize.y / 2) + deathDistance.y || 
+			autonomousProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
+		{
+			RestartGame();
+			return;
+		}
+		
+		if (simulatedProxy.position.x >= (worldSize.x / 2) + deathDistance.x ||
+			simulatedProxy.position.x <= (worldSize.x / 2) - deathDistance.x ||
+			simulatedProxy.position.y >= (worldSize.y / 2) + deathDistance.y ||
+			simulatedProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
+		{
+			RestartGame();
+			return;
 		}
 	}
 }
@@ -128,11 +157,11 @@ void SNWorld::Draw(float dt)
 		particleSystem->UpdateParticles(dt);
 	}
 
-	float width = worldSize.y / 3;
+	float width = worldSize.x / 2;
 
-	SDL_Rect dstRect = 
+	SDL_Rect dstRect =
 	{
-		width,
+		(worldSize.x / 2) - (levelSprite->width * 3) / 2,
 		12,//worldSize.x,
 		levelSprite->width * 3,
 		levelSprite->height * 3,
@@ -141,6 +170,16 @@ void SNWorld::Draw(float dt)
 	engDrawSprite(levelSprite->sheetSourceRect, dstRect, levelSprite->texture);
 
 	trail->Draw();
+
+	if (engGetKey(Key::R))
+	{
+		engSetColor(255, 0, 0);
+		engDrawLine((worldSize / 2) - deathDistance, { (worldSize / 2).x + deathDistance.x, (worldSize / 2).y - deathDistance.y });
+		engDrawLine((worldSize / 2) - deathDistance, { (worldSize / 2).x - deathDistance.x, (worldSize / 2).y + deathDistance.y });
+		engDrawLine((worldSize / 2) + deathDistance, { (worldSize / 2).x + deathDistance.x, (worldSize / 2).y - deathDistance.y });
+		engDrawLine((worldSize / 2) + deathDistance, { (worldSize / 2).x - deathDistance.x, (worldSize / 2).y + deathDistance.y });
+		engSetColor(0, 0, 0);
+	}
 }
 
 void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
@@ -210,6 +249,7 @@ void SNWorld::SendPlayerData(Vector2 position, int health, bool serverAttacked, 
 			UnsetFlag(server.statePack.flags, 3);
 
 		server.SendData();
+		UnsetFlag(server.statePack.flags, 5);
 	}
 	else
 	{
@@ -242,15 +282,17 @@ void SNWorld::SendPlayerData(Vector2 position, int health, bool serverAttacked, 
 	}
 }
 
-void SNWorld::CheckCollisions()
-{
-
-}
-
 void SNWorld::RestartGame()
 {
 	//Reset damage
 	//Reset positions
 	//Reset animations
 	//Reset UI
+	if (isServer)
+	{
+		SetFlag(server.statePack.flags, 5);
+	}
+
+	simulatedProxy.Reset();
+	autonomousProxy.Reset();
 }
