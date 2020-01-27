@@ -47,6 +47,7 @@ public:
 	SNHitBox* attackBoxL;
 	bool didHit;
 	
+	void Reset();
 };
 
 void SPDoAttack(SNWorld* world);

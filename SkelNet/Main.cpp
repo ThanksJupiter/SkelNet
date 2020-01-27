@@ -48,6 +48,11 @@ void SetupClient()
 	waiting = false;
 }
 
+void RestartGame()
+{
+	world.RestartGame();
+}
+
 int main()
 {
 	srand(time(nullptr));
@@ -65,8 +70,10 @@ int main()
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
 	SNUIElement* hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
 	SNUIElement* joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
+	SNUIElement* restartbutton = canvas.CreateButton({ 50.f, 160.f }, { 50.f,30.f }, true, RestartGame);
 	canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
 	canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
+	canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
 
 	// delta time
 	uint64_t NOW = SDL_GetPerformanceCounter();

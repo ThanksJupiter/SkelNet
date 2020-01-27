@@ -47,7 +47,10 @@ public:
 	SNTrail* trail;
 	SNParticleSystem* particleSystem;
 
+	bool doStartup;
 	bool isServer;
+
+	Vector2 deathDistance = {400, 400};
 
 	void Setup();
 	void Update(float dt);
@@ -62,7 +65,6 @@ public:
 	// Networking
 	void SendPlayerData(Vector2 position, int health, bool serverAttacked, bool serverWasHit, bool clientAttacked, bool clientWasHit);
 
-	void CheckCollisions();
-
 	void RestartGame();
+
 };

@@ -89,7 +89,6 @@ void SNAutonomousProxy::Update(float dt)
 void SNAutonomousProxy::FlyBack()
 {
 	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
-	//newFlyback = newFlyback * health;
 
 	if (world->simulatedProxy.position.x < position.x)
 	{
@@ -98,6 +97,28 @@ void SNAutonomousProxy::FlyBack()
 
 	position.y -= 5;
 	velocity = newFlyback;
+}
+
+void SNAutonomousProxy::Reset()
+{
+	if (world->isServer)
+	{
+		position = { (world->worldSize.x / 2) - 50, 0 };
+	}
+	else
+	{
+		position = { (world->worldSize.x / 2) + 50, 0 };
+	}
+
+	health = 0;
+	velocity = { 0.f, 0.f };
+	acceleration = { 0.f, 0.f };
+	stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
+	
+	serverAttacked = false;
+	serverWasHit = false;
+	clientAttacked = false;
+	clientWasHit = false;
 }
 
 void SNAutonomousProxy::SetDirection()
