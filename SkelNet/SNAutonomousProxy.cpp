@@ -34,7 +34,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 		//attackBoxR->drawDebug = true;
 		//attackBoxL->drawDebug = true;
 	}
-	
+
 	playerInput = new SNInput();
 	InitializeFSM();
 
@@ -57,7 +57,7 @@ void SNAutonomousProxy::Draw(float dt)
 	}
 
 	//uiText->UpdateText(position.y);
-	accText->UpdateText(health);
+	accText->UpdateText(position.x);
 	velText->UpdateText(velocity.x);
 	stateText->UpdateText(stateMachine->currentState->stateName);
 
@@ -72,7 +72,7 @@ void SNAutonomousProxy::Draw(float dt)
 	}
 
 	engSetColor(0, 255, 0);
-	
+
 	if (animator->doManualAnimationCycling)
 	{
 		animator->DrawAnimation(position, flip);
@@ -81,7 +81,7 @@ void SNAutonomousProxy::Draw(float dt)
 	{
 		animator->DrawAnimation(position, flip, dt, animator->rotation);
 	}
-	
+
 	engSetColor(0, 0, 0);
 }
 
@@ -149,15 +149,24 @@ void SNAutonomousProxy::InitializeFSM()
 
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	if (position.y < 333)
+	if (position.y < 333 || (position.x < 170 || position.x > 935))
 	{
+		//Activate gravity
 		acceleration.y = gravity * gravityMult;
+
+		//todo: make fall state
+		if (stateMachine->currentState != stateMachine->availableStates[JUMP_STATE])
+		{
+			stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
+		}
 	}
 
-	if (velocity.y > 0 && position.y > 333)
+	if ((velocity.y > 0 && position.y > 333) && ((position.x > 170 && position.x < 935)))
 	{
-		position.y = 333;
-		velocity.y = 0;
+		{
+			position.y = 333;
+			velocity.y = 0;
+		}
 	}
 
 	if (world->isServer)
@@ -214,7 +223,7 @@ void SNAutonomousProxy::Attack()
 
 		//world->apAttackAnim->AddDelegateToFrame(8, APDoAttack);
 		//animator->SetCurrentAnimation(world->apAttackAnim, true);
-		
+
 	}
 	else
 	{
@@ -260,7 +269,7 @@ void SNAutonomousProxy::CheckAttack()
 void SNAutonomousProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
-	
+
 	stateMachine->EnterState(fsmData->availableStates[KNOCKBACK_STATE]);
 	FlyBack();
 
