@@ -126,7 +126,11 @@ void SNAutonomousProxy::Reset()
 
 void SNAutonomousProxy::SetDirection()
 {
-	animator->direction = playerInput->leftStickDirection.x;
+	if (abs(playerInput->leftStickDirection.x) > .1f)
+	{
+		Vector2 normStickDir = Normalize(playerInput->leftStickDirection);
+		animator->direction = normStickDir.x;
+	}
 
 	if (engGetKey(Key::Left))
 	{
@@ -136,6 +140,18 @@ void SNAutonomousProxy::SetDirection()
 	if (engGetKey(Key::Right))
 	{
 		animator->direction = 1;
+	}
+
+	if (animator->direction != 0)
+	{
+		if (animator->direction > 0)
+		{
+			flip = false;
+		}
+		else
+		{
+			flip = true;
+		}
 	}
 }
 

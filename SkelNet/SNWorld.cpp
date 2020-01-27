@@ -129,11 +129,17 @@ void SNWorld::Update(float dt)
 			return;
 		}
 		
+		if (simulatedProxy.position.x == 0)
+		{
+			return;
+		}
+
 		if (simulatedProxy.position.x >= (worldSize.x / 2) + deathDistance.x ||
 			simulatedProxy.position.x <= (worldSize.x / 2) - deathDistance.x ||
 			simulatedProxy.position.y >= (worldSize.y / 2) + deathDistance.y ||
 			simulatedProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
 		{
+
 			RestartGame();
 			return;
 		}
