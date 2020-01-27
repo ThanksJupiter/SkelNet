@@ -28,11 +28,11 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 }, 1);
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
-		//hitBox->drawDebug = true;
-		//attackBoxR->drawDebug = true;
-		//attackBoxL->drawDebug = true;
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 }, 0);
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 }, 0);
+		hitBox->drawDebug = true;
+		attackBoxR->drawDebug = true;
+		attackBoxL->drawDebug = true;
 	}
 
 	flyBackDirection = { -1, -1 };
@@ -70,7 +70,7 @@ void SNSimulatedProxy::ServerCheckAttack()
 
 	if (facingRight)
 	{
-		if (attackBoxR->currentState.isTriggered)
+		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
 			world->autonomousProxy.TakeDamage();
 			world->autonomousProxy.serverWasHit = true;
@@ -78,7 +78,7 @@ void SNSimulatedProxy::ServerCheckAttack()
 	}
 	else
 	{
-		if (attackBoxL->currentState.isTriggered)
+		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
 			world->autonomousProxy.TakeDamage();
 			world->autonomousProxy.serverWasHit = true;
@@ -129,8 +129,6 @@ bool SNSimulatedProxy::isGrounded()
 
 void SNSimulatedProxy::SetAnimation(int index)
 {
-	SNAnimation* newAnim;
-
 	switch (index)
 	{
 	case IDLE_ANIM:
