@@ -121,10 +121,7 @@ int main()
 				canvas.drawDebug = !canvas.drawDebug;
 			}
 
-			if (world.particleSystem)
-			{
-				world.particleSystem->UpdateParticles(deltaTime);
-			}
+
 		}
 		else
 		{

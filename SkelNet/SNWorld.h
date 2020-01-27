@@ -39,8 +39,9 @@ public:
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
 	SNAnimation* knockbackAnim;
-
 	SNAnimation* dashDustAnim;
+
+	SNSprite* levelSprite;
 
 	SNTrail* trail;
 	SNParticleSystem* particleSystem;

@@ -121,7 +121,24 @@ void SNWorld::Draw(float dt)
 		//hitboxes[i].DrawDebug();
 	}
 
-	floors[0].Draw();
+	//floors[0].Draw();
+
+	if (particleSystem)
+	{
+		particleSystem->UpdateParticles(dt);
+	}
+
+	float width = worldSize.y / 3;
+
+	SDL_Rect dstRect = 
+	{
+		width,
+		12,//worldSize.x,
+		levelSprite->width * 3,
+		levelSprite->height * 3,
+	};
+
+	engDrawSprite(levelSprite->sheetSourceRect, dstRect, levelSprite->texture);
 
 	trail->Draw();
 }

@@ -22,9 +22,6 @@ SDL_Window* window;
 SDL_Surface* image;
 SDL_Texture* texture;
 
-const int WINDOW_WIDTH = 1080;
-const int WINDOW_HEIGHT = 500;
-
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
 bool quit = false;
@@ -111,6 +108,8 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, 1);
 	world.knockbackAnim = knockbackSheet.CreateAnimation(knockbackSprites, 1);
 	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
+
+	world.levelSprite = new SNSprite(256, 128, engLoadTexture("SN_Castle_Roof.png"), 0);
 }
 
 void engClose()
