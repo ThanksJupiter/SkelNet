@@ -18,12 +18,16 @@ void SNFSMWalkState::Enter(SNFSMData* fsmData)
 	{
 		fsmData->world->client.statePack.animState = WALK_ANIM;
 	}
+
+	timer = 0.0f;
 }
 
 void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
+
+	timer += dt;
 
 	autoProxy->SetDirection();
 
@@ -38,11 +42,6 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 		{
 			autoProxy->acceleration.x = autoProxy->accelerationSpeed * input->leftStickDirection.x;
 		}
-		else
-		{
-			fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
-			return;
-		}
 	}
 	else
 	{
@@ -53,7 +52,7 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
-	if (abs(input->leftStickDirection.x) > .8)
+	if (abs(input->leftStickDirection.x) > .8 && timer < runTimeThreshold)
 	{
 		fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
 		return;

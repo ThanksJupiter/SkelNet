@@ -12,4 +12,7 @@ public:
 	void Enter(SNFSMData* fsmData) override;
 	void Update(float dt, SNFSMData* fsmData) override;
 	void Exit(SNFSMData* fsmData) override;
+
+	float runTimeThreshold = .05f;
+	float timer = 0.0f;
 };
