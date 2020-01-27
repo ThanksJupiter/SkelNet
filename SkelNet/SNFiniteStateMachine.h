@@ -6,6 +6,7 @@
 #include "SNFSMAttackState.h"
 #include "SNFSMJumpState.h"
 #include "SNFSMKnockbackState.h"
+#include "SNFSMFallState.h"
 
 #define MAX_FSM_STATES 10
 
@@ -15,6 +16,7 @@
 #define ATTACK_STATE 3
 #define JUMP_STATE 4
 #define KNOCKBACK_STATE 5
+#define FALL_STATE 6
 
 class SNFSMState;
 struct SNFSMData;
