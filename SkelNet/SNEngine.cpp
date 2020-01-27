@@ -96,6 +96,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData dashDustSheet = SpritesheetData("SN_SKel_Dash_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData landingDustSheet = SpritesheetData("SN_Skel_Landing_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData fallSheet = SpritesheetData("SN_Skel_Fall-Sheet.png", 4, 32, 32);
+	SpritesheetData knockedDownSheet = SpritesheetData("SN_Skel_Knockdown.png", 1, 32, 32);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
@@ -106,6 +107,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* dashDustSprites[8];
 	SNSprite* landingDustSprites[14];
 	SNSprite* fallSprites[4];
+	SNSprite* knockedDownSprites[1];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
@@ -117,6 +119,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
 	world.landingDustAnim = landingDustSheet.CreateAnimation(landingDustSprites, .05);
 	world.fallAnim = fallSheet.CreateAnimation(fallSprites, .15);
+	world.knockedDownAnim = knockedDownSheet.CreateAnimation(knockedDownSprites, 1);
 
 	world.levelSprite = new SNSprite(256, 128, engLoadTexture("SN_Castle_Roof.png"), 0);
 }

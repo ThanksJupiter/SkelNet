@@ -38,7 +38,7 @@ void SNFSMKnockbackState::Update(float dt, SNFSMData* fsmData)
 	if (autoProxy->velocity.y > 0 && autoProxy->position.y > 333)
 	{
 		fsmData->autonomousProxy->animator->rotation = 0;
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		fsmData->stateMachine->EnterState(fsmData->availableStates[KNOCKDOWN_STATE]);
 	}
 }
 

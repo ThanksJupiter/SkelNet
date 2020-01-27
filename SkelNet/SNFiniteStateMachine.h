@@ -17,6 +17,7 @@
 #define JUMP_STATE 4
 #define KNOCKBACK_STATE 5
 #define FALL_STATE 6
+#define KNOCKDOWN_STATE 7
 
 class SNFSMState;
 struct SNFSMData;
