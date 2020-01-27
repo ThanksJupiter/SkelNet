@@ -24,11 +24,11 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 }, 1);
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
-		//hitBox->drawDebug = true;
-		//attackBoxR->drawDebug = true;
-		//attackBoxL->drawDebug = true;
+		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 }, 0);
+		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 }, 0);
+		hitBox->drawDebug = true;
+		attackBoxR->drawDebug = true;
+		attackBoxL->drawDebug = true;
 	}
 
 	playerInput = new SNInput();
@@ -273,7 +273,7 @@ void SNAutonomousProxy::CheckAttack()
 	}
 	else
 	{
-		if (attackBoxL->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
+		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
 			// Send hit data
 			clientWasHit = true;

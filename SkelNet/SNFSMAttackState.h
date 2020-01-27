@@ -14,8 +14,8 @@ public:
 	void Exit(SNFSMData* fsmData);
 
 	float timer = 0.0f;
-	float attackDuration = 12 * .15f;
-	float checkAttackDuration = 8 * .15f;
+	float attackDuration = 12 * .12f;
+	float checkAttackDuration = 8 * .12f;
 	bool hit = false;
 };
 

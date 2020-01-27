@@ -1,5 +1,6 @@
 #include "SNHitBox.h"
 #include "SNEngine.h"
+#include <string>
 
 void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, char id, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
 {
@@ -67,6 +68,10 @@ void SNHitBox::DrawDebug()
 	{
 		engSetColor(255, 0, 0);
 	}
+
+	std::string heyo = std::to_string(id);
+
+	engDrawString({ position.x, position.y - 20 }, heyo.c_str());
 
 	engDrawLine(position, { position.x + size.x, position.y });
 	engDrawLine(position, { position.x, position.y + size.y });

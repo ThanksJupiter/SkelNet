@@ -112,8 +112,8 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
-	world.spAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
-	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .15);
+	world.spAttackAnim = attackSheet.CreateAnimation(attackSprites, .12);
+	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .12);
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, 1);
 	world.knockbackAnim = knockbackSheet.CreateAnimation(knockbackSprites, 1);
 	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
