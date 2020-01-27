@@ -7,7 +7,6 @@
 #include "SNFSMData.h"
 #include "SNInput.h"
 
-
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	position = initPos;
@@ -140,6 +139,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[ATTACK_STATE] = new SNFSMAttackState("Attack");
 	fsmData->availableStates[JUMP_STATE] = new SNFSMJumpState("Jump");
 	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMKnockbackState("Knockback");
+	fsmData->availableStates[FALL_STATE] = new SNFSMFallState("Fall");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -155,9 +155,9 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		acceleration.y = gravity * gravityMult;
 
 		//todo: make fall state
-		if (stateMachine->currentState != stateMachine->availableStates[JUMP_STATE])
+		if (stateMachine->currentState != stateMachine->availableStates[FALL_STATE])
 		{
-			stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
+			stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
 		}
 	}
 
