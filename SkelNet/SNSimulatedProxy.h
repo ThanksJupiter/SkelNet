@@ -26,6 +26,7 @@ public:
 	bool flip;
 	Vector2 previousPosition;
 	Vector2 position;
+	Vector2 previousVelocity;
 	Vector2 velocity;
 	bool facingRight;
 

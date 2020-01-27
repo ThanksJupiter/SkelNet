@@ -4,6 +4,7 @@
 #include "SNAnimator.h"
 #include <iomanip>
 #include <sstream>
+#include "SNParticleSystem.h"
 
 void SPDoAttack(SNWorld* world)
 {
@@ -52,15 +53,10 @@ void SNSimulatedProxy::Draw(float dt)
 			facingRight = false;
 		}
 
+		previousVelocity = velocity;
 		velocity.x = position.x - previousPosition.x;
+		velocity.y = position.y - previousPosition.y;
 	}
-
-
-	std::stringstream stream;
-	stream << std::fixed << std::setprecision(3) << position.y;
-
-	engDrawString({ 50, 30 }, stream.str().c_str());
-
 
 	engSetColor(0, 255, 255);
 	animator->DrawAnimation(position, flip, dt);

@@ -14,11 +14,6 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
 
-	//uiText = canvas.CreateText({ -50, -100 }, "100%", nullptr, {-50, 0});
-	accText = canvas.CreateText({ 50, -100 }, "100%", nullptr, { -50, 0 });
-	velText = canvas.CreateText({ -50, -100 }, "100%", nullptr, { -50, 0 });
-	stateText = canvas.CreateText({ 0, -200 }, "100%", nullptr, { -50, 0 });
-
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
@@ -36,8 +31,6 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	playerInput = new SNInput();
 	InitializeFSM();
-
-	//world.attackAnim->AddDelegateToFrame(8, Attack);
 	flyBackDirection = { -1, -1 };
 }
 
@@ -55,14 +48,8 @@ void SNAutonomousProxy::Draw(float dt)
 		}
 	}
 
-	//uiText->UpdateText(position.y);
-	accText->UpdateText(position.x);
-	velText->UpdateText(velocity.x);
-	stateText->UpdateText(stateMachine->currentState->stateName);
-
 	anchor.UpdatePosition();
 	canvas.UpdatePosition();
-	stateText->UpdatePosition();
 	canvas.Draw();
 
 	if (drawDebug)
@@ -212,26 +199,10 @@ void SNAutonomousProxy::Attack()
 
 	if (world->isServer)
 	{
-		//animator->movementLocked = true;
-		//animator->isWalking = false;
-		//animator->isRunning = false;
-		//velocity.x = 0.0f;
-		//acceleration.x = 0.0f;
-		//animator->direction = 0;
-
 		serverAttacked = true;
-
-		//world->apAttackAnim->AddDelegateToFrame(8, APDoAttack);
-		//animator->SetCurrentAnimation(world->apAttackAnim, true);
-
 	}
 	else
 	{
-		//animator->movementLocked = true;
-		//animator->isWalking = false;
-		//velocity.x = 0.0f;
-		//animator->direction = 0;
-
 		clientAttacked = true;
 
 		animator->SetCurrentAnimation(world->apAttackAnim, true);

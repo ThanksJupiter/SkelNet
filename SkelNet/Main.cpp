@@ -48,11 +48,6 @@ void SetupClient()
 	waiting = false;
 }
 
-void Print()
-{
-	printf("Clicked on the button!\n");
-}
-
 int main()
 {
 	srand(time(nullptr));
@@ -61,18 +56,15 @@ int main()
 
 	world.Setup();
 
-	//init one particle System
-	//particleSystem.StartParticleEffect({ 100, 300 }, world.walkAnim, 2.f);
-
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
 
 	engLoadAnimationsToWorld(world);
 
-	canvas.Setup(world.worldSize / 2.f, { 100.f, 70.f });
+	canvas.Setup(world.worldSize, { 0.f, 0.f });
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
-	SNUIElement* hostButton = canvas.CreateButton({ 0.f, 40.f }, { 50.f,30.f }, true, SetupServer, &rect->anchor);
-	SNUIElement* joinButton = canvas.CreateButton({ 0.f, 100.f }, { 50.f,30.f }, true, SetupClient, &rect->anchor);
+	SNUIElement* hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
+	SNUIElement* joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
 	canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
 	canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
 
