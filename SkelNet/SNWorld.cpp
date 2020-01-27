@@ -113,8 +113,8 @@ void SNWorld::Update(float dt)
 
 void SNWorld::Draw(float dt)
 {
-	autonomousProxy.Draw(dt);
 	simulatedProxy.Draw(dt);
+	autonomousProxy.Draw(dt);
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
