@@ -10,9 +10,6 @@ class SNWorld;
 const float PI = 3.14f;
 static int currentFrameNum = 1;
 
-const int WINDOW_WIDTH = 1080;
-const int WINDOW_HEIGHT = 500;
-
 void engInit();
 void engClose();
 void engRender();
