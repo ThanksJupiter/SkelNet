@@ -117,7 +117,7 @@ int main()
 		}
 		else
 		{
-			if (engGetKeyDown(Key::S))
+			if (engGetKeyDown(Key::S) || engGetButtonDown(GamepadButton::B))
 			{
 				SetupServer();
 			}

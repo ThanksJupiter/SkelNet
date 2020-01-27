@@ -3,6 +3,7 @@
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 #include "SNFSMData.h"
+#include "SNParticleSystem.h"
 
 void SNFSMFallState::Enter(SNFSMData* fsmData)
 {
@@ -17,6 +18,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 	autoProxy->SetDirection();
 	autoProxy->acceleration.y = autoProxy->gravity * autoProxy->gravityMult;
 
+	// movement time integration
 	autoProxy->previousPosition = autoProxy->position;
 
 	autoProxy->velocity += autoProxy->acceleration * dt;
@@ -26,9 +28,6 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 	{
 		autoProxy->acceleration.x = autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x;
 	}
-
-	// movement time integration
-	autoProxy->previousPosition = autoProxy->position;
 
 	if ((autoProxy->velocity.y > 0 && autoProxy->position.y > 333) && (autoProxy->position.x > 170 && autoProxy->position.x < 935))
 	{
@@ -40,5 +39,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMFallState::Exit(SNFSMData* fsmData)
 {
-
+	fsmData->world->particleSystem->StartParticleEffect(
+		fsmData->autonomousProxy->position,
+		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 }

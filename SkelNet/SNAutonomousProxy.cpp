@@ -151,7 +151,7 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		acceleration.y = gravity * gravityMult;
 
 		//Set fall state
-		if (stateMachine->currentState != stateMachine->availableStates[FALL_STATE])
+		if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
 		{
 			stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
 		}

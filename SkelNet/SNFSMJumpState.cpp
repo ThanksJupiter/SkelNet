@@ -56,7 +56,7 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 	autoProxy->velocity += autoProxy->acceleration * dt;
 	autoProxy->position += autoProxy->velocity * dt;
 
-	if (autoProxy->velocity.y < -1)
+	if (autoProxy->velocity.y > 0)
 	{
 		fsmData->stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
 	}
@@ -72,14 +72,7 @@ void SNFSMJumpState::Exit(SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 
-	autoProxy->position.y = 333;
-	autoProxy->velocity.y = 0;
-
 	autoProxy->animator->doManualAnimationCycling = false;
-
-	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->position,
-		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 }
 
 void SNFSMJumpState::DoJump(SNAutonomousProxy* autoProxy)
