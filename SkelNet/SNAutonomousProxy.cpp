@@ -6,6 +6,7 @@
 #include "SNFiniteStateMachine.h"
 #include "SNFSMData.h"
 #include "SNInput.h"
+#include "SNFSMKnockedDownState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -97,7 +98,6 @@ void SNAutonomousProxy::FlyBack()
 	{
 		newFlyback.x = -newFlyback.x;
 	}
-
 	position.y -= 5;
 	velocity = newFlyback;
 }
@@ -117,7 +117,7 @@ void SNAutonomousProxy::Reset()
 	velocity = { 0.f, 0.f };
 	acceleration = { 0.f, 0.f };
 	stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
-	
+
 	serverAttacked = false;
 	serverWasHit = false;
 	clientAttacked = false;
@@ -151,6 +151,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[JUMP_STATE] = new SNFSMJumpState("Jump");
 	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMKnockbackState("Knockback");
 	fsmData->availableStates[FALL_STATE] = new SNFSMFallState("Fall");
+	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMKnockedDownState("KnockedDown");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -165,7 +166,7 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		//Activate gravity
 		acceleration.y = gravity * gravityMult;
 	}
-	
+
 	if ((position.x < 170 || position.x > 935))
 	{
 		//Activate gravity
@@ -180,10 +181,8 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 
 	if ((velocity.y > 0 && position.y > 333) && ((position.x > 170 && position.x < 935)))
 	{
-		{
-			position.y = 333;
-			velocity.y = 0;
-		}
+		position.y = 333;
+		velocity.y = 0;
 	}
 
 	if (world->isServer)
