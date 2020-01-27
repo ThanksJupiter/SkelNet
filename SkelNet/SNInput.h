@@ -8,6 +8,7 @@ public:
 	Vector2 rightStickDirection;
 
 	bool jump = false;
+	bool jumpHeld = false;
 	bool attack = false;
 
 	void SetInput();

@@ -7,7 +7,7 @@
 void SNFSMAttackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->apAttackAnim);
-	fsmData->autonomousProxy->velocity.x = 0;
+	//fsmData->autonomousProxy->velocity.x = 0;
 	timer = 0.0f;
 	fsmData->autonomousProxy->Attack();
 	hit = false;
@@ -15,7 +15,24 @@ void SNFSMAttackState::Enter(SNFSMData* fsmData)
 
 void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 {
+	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+	SNInput* input = fsmData->input;
+
+	if (input->leftStickDirection.y > 0)
+	{
+		autoProxy->acceleration.y = autoProxy->gravity * (autoProxy->fallGravityMult + (autoProxy->fastFallGravityMult * abs(input->leftStickDirection.y)));
+	}
+	else
+	{
+		autoProxy->acceleration.y = autoProxy->gravity * autoProxy->fallGravityMult;
+	}
+
 	timer += dt;
+
+	if (input->leftStickDirection.x != 0)
+	{
+		autoProxy->acceleration.x = autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x;
+	}
 
 	if (timer >= checkAttackDuration && !hit)
 	{
@@ -28,6 +45,17 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 		{
 			SPDoAttack(fsmData->world);
 		}
+	}
+
+	autoProxy->previousPosition = autoProxy->position;
+
+	autoProxy->velocity += autoProxy->acceleration * dt;
+	autoProxy->position += autoProxy->velocity * dt;
+
+	if ((autoProxy->velocity.y > 0 && autoProxy->position.y > 333) && (autoProxy->position.x > 170 && autoProxy->position.x < 935))
+	{
+		// land
+		autoProxy->velocity.x = 0;
 	}
 
 	if (timer >= attackDuration)

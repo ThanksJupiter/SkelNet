@@ -16,13 +16,27 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 	SNInput* input = fsmData->input;
 
 	autoProxy->SetDirection();
-	autoProxy->acceleration.y = autoProxy->gravity * autoProxy->gravityMult;
+
+	if (input->leftStickDirection.y > 0)
+	{
+		autoProxy->acceleration.y = autoProxy->gravity * (autoProxy->fallGravityMult + (autoProxy->fastFallGravityMult * abs(input->leftStickDirection.y)));
+	}
+	else
+	{
+		autoProxy->acceleration.y = autoProxy->gravity * autoProxy->fallGravityMult;
+	}
 
 	// movement time integration
 	autoProxy->previousPosition = autoProxy->position;
 
 	autoProxy->velocity += autoProxy->acceleration * dt;
 	autoProxy->position += autoProxy->velocity * dt;
+
+	if (input->attack)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		return;
+	}
 
 	if (input->leftStickDirection.x != 0)
 	{

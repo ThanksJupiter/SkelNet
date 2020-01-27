@@ -53,7 +53,9 @@ public:
 	float maxVelocitySpeed = 250.0f;
 	float minRunSpeed = 160.0f;
 	float gravity = 9.82f;
-	float gravityMult = 30;
+	float gravityMult = 20;
+	float fallGravityMult = 60;
+	float fastFallGravityMult = 35;
 	float airControlMult = .6f;
 	
 	float minFlyBack = 200.f;
