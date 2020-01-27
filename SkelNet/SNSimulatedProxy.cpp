@@ -27,7 +27,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	if (world.isServer)
 	{
-		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 });
+		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 }, 1);
 		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 });
 		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 });
 		//hitBox->drawDebug = true;
@@ -55,7 +55,7 @@ void SNSimulatedProxy::Draw(float dt)
 
 		previousVelocity = velocity;
 		velocity.x = position.x - previousPosition.x;
-		velocity.y = position.y - previousPosition.y;
+		//velocity.y = position.y - previousPosition.y;
 	}
 
 	engSetColor(0, 255, 255);
