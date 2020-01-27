@@ -40,6 +40,7 @@ public:
 	SNAnimation* jumpAnim;
 	SNAnimation* knockbackAnim;
 	SNAnimation* dashDustAnim;
+	SNAnimation* landingDustAnim;
 
 	SNSprite* levelSprite;
 
