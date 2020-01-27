@@ -6,7 +6,7 @@
 
 void SNFSMFallState::Enter(SNFSMData* fsmData)
 {
-	
+	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->fallAnim);
 }
 
 void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
