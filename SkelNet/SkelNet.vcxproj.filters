@@ -1,180 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="SNAnchor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNAnimation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNAnimator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNAudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNAutonomousProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNCanvas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFloor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNHitBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNSimulatedProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNUIElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpritesheetData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AnimationBehaviour.cpp" />
-    <ClCompile Include="SNInput.cpp" />
-    <ClCompile Include="SNTrailRenderer.cpp">
     <ClCompile Include="SNParticleSystem.cpp" />
-    <ClCompile Include="SNInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMIdleState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMWalkState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFiniteStateMachine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMRunState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMAttackState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMJumpState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMKnockbackState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="SNFiniteStateMachine.cpp" />
+    <ClCompile Include="SNFSMAttackState.cpp" />
+    <ClCompile Include="SNFSMIdleState.cpp" />
+    <ClCompile Include="SNFSMJumpState.cpp" />
+    <ClCompile Include="SNFSMKnockbackState.cpp" />
+    <ClCompile Include="SNFSMRunState.cpp" />
+    <ClCompile Include="SNFSMWalkState.cpp" />
+    <ClCompile Include="SNHitBox.cpp" />
+    <ClCompile Include="SNAnchor.cpp" />
+    <ClCompile Include="SNAnimation.cpp" />
+    <ClCompile Include="SNAnimator.cpp" />
+    <ClCompile Include="SNAudioManager.cpp" />
+    <ClCompile Include="SNInput.cpp" />
+    <ClCompile Include="SNSimulatedProxy.cpp" />
+    <ClCompile Include="SNCanvas.cpp" />
+    <ClCompile Include="SNClient.cpp" />
+    <ClCompile Include="SNEngine.cpp" />
+    <ClCompile Include="SNAutonomousProxy.cpp" />
+    <ClCompile Include="SNFloor.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SNServer.cpp" />
+    <ClCompile Include="SNSprite.cpp" />
+    <ClCompile Include="SNUIElement.cpp" />
+    <ClCompile Include="SNWorld.cpp" />
+    <ClCompile Include="SpritesheetData.cpp" />
+    <ClCompile Include="SNTrailRenderer.cpp" />
+    <ClCompile Include="SNFSMFallState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SNAnchor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNAnimation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNAnimator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNAudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNAutonomousProxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNCanvas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFloor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNHitBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNSimulatedProxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNUIElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNWorld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpritesheetData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNDataPacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AnimationBehaviour.h" />
-    <ClInclude Include="SNFlags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNTrailRenderer.h">
     <ClInclude Include="SNParticleSystem.h" />
-    <ClInclude Include="SNFSMState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMIdleState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMWalkState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFiniteStateMachine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMRunState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMAttackState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMJumpState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMKnockbackState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="SNDataPacket.h" />
+    <ClInclude Include="SNFiniteStateMachine.h" />
+    <ClInclude Include="SNFlags.h" />
+    <ClInclude Include="SNFSMAttackState.h" />
+    <ClInclude Include="SNFSMData.h" />
+    <ClInclude Include="SNFSMIdleState.h" />
+    <ClInclude Include="SNFSMJumpState.h" />
+    <ClInclude Include="SNFSMKnockbackState.h" />
+    <ClInclude Include="SNFSMRunState.h" />
+    <ClInclude Include="SNFSMState.h" />
+    <ClInclude Include="SNFSMWalkState.h" />
+    <ClInclude Include="SNHitBox.h" />
+    <ClInclude Include="SNAnchor.h" />
+    <ClInclude Include="SNAnimation.h" />
+    <ClInclude Include="SNAnimator.h" />
+    <ClInclude Include="SNAudioManager.h" />
+    <ClInclude Include="SNInput.h" />
+    <ClInclude Include="SNSimulatedProxy.h" />
+    <ClInclude Include="SNCanvas.h" />
+    <ClInclude Include="SNClient.h" />
+    <ClInclude Include="SNEngine.h" />
+    <ClInclude Include="SNAutonomousProxy.h" />
+    <ClInclude Include="SNFloor.h" />
+    <ClInclude Include="Key.h" />
+    <ClInclude Include="SNServer.h" />
+    <ClInclude Include="SNSprite.h" />
+    <ClInclude Include="SNUIElement.h" />
+    <ClInclude Include="SpritesheetData.h" />
+    <ClInclude Include="SNTrailRenderer.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="SNWorld.h" />
+    <ClInclude Include="SNFSMFallState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />
@@ -183,13 +74,5 @@
     <None Include="libwebp-7.dll" />
     <None Include="SDL2_image.dll" />
     <None Include="zlib1.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{020dfd46-41c1-463f-ae63-6e9c0a8c9928}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{0bc92696-d535-485b-be44-b6bcb26e9c8f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

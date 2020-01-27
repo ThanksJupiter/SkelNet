@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
+    <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNFiniteStateMachine.cpp" />
     <ClCompile Include="SNFSMAttackState.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
+    <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />
     <ClInclude Include="SNFiniteStateMachine.h" />
