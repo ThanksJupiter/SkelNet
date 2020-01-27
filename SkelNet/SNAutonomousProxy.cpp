@@ -136,12 +136,18 @@ void SNAutonomousProxy::InitializeFSM()
 
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	if (position.y < 333 || (position.x < 170 || position.x > 935))
+	if (position.y < 333)
+	{
+		//Activate gravity
+		acceleration.y = gravity * gravityMult;
+	}
+	
+	if ((position.x < 170 || position.x > 935))
 	{
 		//Activate gravity
 		acceleration.y = gravity * gravityMult;
 
-		//todo: make fall state
+		//Set fall state
 		if (stateMachine->currentState != stateMachine->availableStates[FALL_STATE])
 		{
 			stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
