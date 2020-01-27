@@ -21,6 +21,8 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 		fsmData->world->client.statePack.animState = RUN_ANIM;
 	}
 
+	autoProxy->SetDirection();
+
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->position,
 		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);

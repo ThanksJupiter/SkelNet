@@ -53,6 +53,12 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
+	if (abs(input->leftStickDirection.x) > .8)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
+		return;
+	}
+
 	if (input->jump)
 	{
 		fsmData->stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
