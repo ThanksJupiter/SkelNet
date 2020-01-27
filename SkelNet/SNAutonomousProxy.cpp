@@ -13,6 +13,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	this->world = &world;
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
+	stateText = canvas.CreateText({ 0, -200 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -75,6 +76,8 @@ void SNAutonomousProxy::Update(float dt)
 {
 	CheckInput(dt);
 	UpdatePosition(dt);
+
+	stateText->UpdateText(stateMachine->currentState->stateName);
 
 	stateMachine->Update(dt);
 

@@ -32,6 +32,8 @@ public:
 
 	void InitializeFSM();
 
+	SNUIElement* stateText;
+
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;
 	SNInput* playerInput;
