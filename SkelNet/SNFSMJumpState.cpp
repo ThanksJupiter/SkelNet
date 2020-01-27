@@ -4,6 +4,7 @@
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 #include "SNParticleSystem.h"
+#include "SNEngine.h"
 
 void SNFSMJumpState::Enter(SNFSMData* fsmData)
 {
@@ -24,7 +25,7 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 	SNInput* input = fsmData->input;
 	
 	autoProxy->SetDirection();
-	autoProxy->acceleration.y = autoProxy->gravity * autoProxy->gravityMult;
+	autoProxy->acceleration.y = autoProxy->gravity * (input->jumpHeld ? autoProxy->gravityMult : autoProxy->fallGravityMult);
 
 	timer += dt;
 
@@ -45,6 +46,12 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 		{
 			return;
 		}
+	}
+
+	if (input->attack)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		return;
 	}
 
 	if (input->leftStickDirection.x != 0)

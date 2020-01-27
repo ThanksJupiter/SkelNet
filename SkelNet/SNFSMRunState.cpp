@@ -28,12 +28,15 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 
 	autoProxy->velocity.x = 270.0f * input->leftStickDirection.x;
+	timer = 0.0f;
 }
 
 void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
+
+	timer += dt;
 
 	autoProxy->SetDirection();
 
@@ -52,8 +55,16 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 
 	if (attemptingDirectionChange)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
-		return;
+		if (timer < dashDanceThreshold)
+		{
+			fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
+			return;
+		}
+		else
+		{
+			fsmData->stateMachine->EnterState(fsmData->availableStates[WALK_STATE]);
+			return;
+		}
 	}
 
 	// TODO implement drag to decrease speed when no input
@@ -65,7 +76,7 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->leftStickDirection.x == 0)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		fsmData->stateMachine->EnterState(fsmData->availableStates[WALK_STATE]);
 		return;
 	}
 
