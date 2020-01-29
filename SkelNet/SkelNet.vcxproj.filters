@@ -32,6 +32,7 @@
     <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNFSMKnockedDownState.cpp" />
     <ClCompile Include="SNFSMTurnAroundState.cpp" />
+    <ClCompile Include="SNTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -70,6 +71,7 @@
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />
     <ClInclude Include="SNFSMTurnAroundState.h" />
+    <ClInclude Include="SNTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />
