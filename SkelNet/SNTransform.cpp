@@ -39,7 +39,7 @@ void SNTransform::SetFacingRight(bool inFacingRight)
 
 void SNTransform::SetFacingRight(int8_t in)
 {
-	facingRight = in > 0 ? false : true;
+	facingRight = in > 0 ? true : false;
 }
 
 //Get Functions
