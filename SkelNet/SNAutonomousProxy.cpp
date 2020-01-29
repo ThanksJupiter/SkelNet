@@ -8,6 +8,7 @@
 #include "SNInput.h"
 #include "SNFSMKnockedDownState.h"
 #include "SNFSMTurnAroundState.h"
+#include "SNDataPackets.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -83,7 +84,7 @@ void SNAutonomousProxy::Update(float dt)
 
 	stateMachine->Update(dt);
 
-	SendData();
+	//TODO: add SendTransformData() to all moving states
 
 	serverAttacked = false;
 	clientAttacked = false;
@@ -211,9 +212,22 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 	}
 }
 
-void SNAutonomousProxy::SendData()
+void SNAutonomousProxy::SendTransformData()
 {
-	world->SendPlayerData(position, health, serverAttacked, serverWasHit, clientAttacked, clientWasHit);
+	SNTransformPacket transformPacket;
+	transformPacket.flag = TRANSFORM_FLAG;
+	transformPacket.posX = position.x;
+	transformPacket.posY = position.y;
+	transformPacket.flip = flip ? -1 : 1;
+
+	if (world->HasAuthority())
+	{
+		world->server.SendData(&transformPacket);
+	}
+	else
+	{
+		world->client.SendData(&transformPacket);
+	}
 }
 
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)

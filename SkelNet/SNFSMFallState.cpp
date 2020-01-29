@@ -49,6 +49,8 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 		fsmData->autonomousProxy->animator->IncrementOneFrame();
 		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
 	}
+
+	autoProxy->SendTransformData();
 }
 
 void SNFSMFallState::Exit(SNFSMData* fsmData)

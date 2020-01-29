@@ -10,13 +10,21 @@ void SNFSMWalkState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->walkAnim);
 
-	if (fsmData->world->isServer)
+	if (fsmData->world->HasAuthority())
 	{
-		fsmData->world->server.statePack.animState = WALK_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = WALK_STATE;
+
+		fsmData->world->server.SendData(&statePacket);
 	}
 	else
 	{
-		fsmData->world->client.statePack.animState = WALK_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = WALK_STATE;
+
+		fsmData->world->client.SendData(&statePacket);
 	}
 
 	timer = 0.0f;
@@ -75,6 +83,8 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 
 	autoProxy->velocity += autoProxy->acceleration * dt;
 	autoProxy->position += autoProxy->velocity * dt;
+
+	autoProxy->SendTransformData();
 }
 
 void SNFSMWalkState::Exit(SNFSMData* fsmData)

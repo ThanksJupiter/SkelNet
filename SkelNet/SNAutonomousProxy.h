@@ -17,7 +17,7 @@ public:
 	void Spawn(Vector2 initPos, SNWorld& world);
 
 	void UpdatePosition(float dt);
-	void SendData();
+	void SendTransformData();
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 

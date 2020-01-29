@@ -76,6 +76,8 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 		// land
 		LeaveLandingFrame(fsmData);
 	}
+
+	autoProxy->SendTransformData();
 }
 
 void SNFSMJumpState::Exit(SNFSMData* fsmData)

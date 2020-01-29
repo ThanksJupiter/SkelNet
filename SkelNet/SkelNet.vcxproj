@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
+    <ClInclude Include="SNDataPackets.h" />
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />
     <ClInclude Include="SNFSMTurnAroundState.h" />

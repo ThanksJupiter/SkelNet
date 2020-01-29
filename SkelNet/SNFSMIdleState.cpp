@@ -8,13 +8,21 @@ void SNFSMIdleState::Enter(SNFSMData* fsmData)
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
 	fsmData->autonomousProxy->velocity.x = 0;
 
-	if (fsmData->world->isServer)
+	if (fsmData->world->HasAuthority())
 	{
-		fsmData->world->server.statePack.animState = IDLE_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = IDLE_STATE;
+
+		fsmData->world->server.SendData(&statePacket);
 	}
 	else
 	{
-		fsmData->world->client.statePack.animState = IDLE_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = IDLE_STATE;
+
+		fsmData->world->client.SendData(&statePacket);
 	}
 }
 
@@ -46,5 +54,5 @@ void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMIdleState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

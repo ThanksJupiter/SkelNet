@@ -50,6 +50,9 @@ void SNServer::AcceptConnection()
 
 bool SNServer::RecvData()
 {
+	if (client == nullptr)
+		return false;
+
 	int numReady;
 	numReady = SDLNet_CheckSockets(socketSet, RECV_TIMEOUT_MS);
 	if (numReady == -1 && printErrors)
@@ -68,49 +71,109 @@ bool SNServer::RecvData()
 	{
 		if (SDLNet_SocketReady(client))
 		{
-
-			char recvData[1024];
-			int len = SDLNet_TCP_Recv(client, recvData, 1024);
-
-			if (!len && printErrors)
+			Uint8* dataBuffer = InternalRecvData();
+			if (dataBuffer == nullptr)
 			{
-				printf("Server Recieve: %s\n", SDLNet_GetError());
 				return false;
 			}
-			else if (len != -1)
+
+			Uint8 flags;
+			memcpy(&flags, dataBuffer, sizeof(Uint8));
+
+			switch (flags)
 			{
-				sscanf_s(recvData, "%i %hu %hu %hu %hu %hu", &recievedData.flags, &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health, &recievedData.animState);
+			case TRANSFORM_FLAG: {
+				// Set Transform of Simulated Proxy
+				Uint16 posX;
+				Uint16 posY;
+				int8_t flip;
+
+				memcpy(&flip, dataBuffer + sizeof(Uint8), sizeof(int8_t));
+				memcpy(&posX, dataBuffer + sizeof(Uint8) + sizeof(int8_t), sizeof(Uint16));
+				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(Uint16), sizeof(Uint16));
+
+				world->simulatedProxy.SetPosition({ (float)posX, (float)posY });
+				world->simulatedProxy.flip = flip > 0 ? true : false;
 				return true;
+			} break;
+
+			case SP_STATE_FLAG: {
+				// Set Simulated Proxy State
+				Uint8 state;
+				memcpy(&state, dataBuffer + sizeof(flags), sizeof(Uint8));
+				//world->simulatedProxy.SetState(state);
+				return true;
+			} break;
+
+			default:
+				return false;
+				break;
 			}
 		}
 	}
-	return false;
 }
 
-// TODO: Decouple data from server and client
-void SNServer::SendData()
+Uint8* SNServer::InternalRecvData()
 {
-	char buffer[1024];
+	Uint8 recvData[20]; // sizeof largest packet
+	int len = SDLNet_TCP_Recv(client, recvData, 20);
+	printf("Server Recieved data!\n");
 
-	sprintf_s(buffer, "%i %hu %hu %hu %hu %hu", statePack.flags, statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.animState);
-
-	int len = strlen(buffer);
-	if (client)
+	if (!len && printErrors)
 	{
-		if (len)
+		printf("Server Recieve: %s\n", SDLNet_GetError());
+	}
+	else if (len != -1)
+	{
+		Uint8 flags;
+		memcpy(&flags, recvData, sizeof(Uint8));
+		switch (flags)
 		{
-			int result;
+		case TRANSFORM_FLAG: {
+			Uint8 retData[20];
+			memcpy(retData, recvData, 20 * sizeof(Uint8));
+			return retData;
+		}
 
-			if (printDebug)
-			{
-				printf("Server Sending Message: %.*s\n", len, buffer);
-			}
+		case SP_STATE_FLAG: {
+			Uint8 retData[20];
+			memcpy(retData, recvData, sizeof(SNStatePacket));
+			return retData;
+		}
 
-			result = SDLNet_TCP_Send(client, buffer, len);
-			if (result < len && printErrors)
-				printf("Server Message Sent: %s\n", SDLNet_GetError());
+		default:
+			return nullptr;
 		}
 	}
+	return nullptr;
+}
+
+void SNServer::SendData(SNTransformPacket* data)
+{
+	if (client == nullptr)
+		return;
+
+	Uint8 buffer[20];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->flip, sizeof(int8_t));
+	offset += sizeof(int8_t);
+
+	memcpy(buffer + offset, &data->posX, sizeof(Uint16));
+	offset += sizeof(Uint16);
+
+	memcpy(buffer + offset, &data->posY, sizeof(Uint16));
+
+	SDLNet_TCP_Send(client, buffer, 20);
+}
+
+void SNServer::SendData(SNStatePacket* data)
+{
+	Uint8 buffer[4];
+	//sprintf_s(buffer, "%hu %c", data->state, data->flag);
+	//InternalSendData(buffer, sizeof(buffer));
 }
 
 void SNServer::Close()

@@ -12,13 +12,21 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->runAnim);
 
-	if (fsmData->world->isServer)
+	if (fsmData->world->HasAuthority())
 	{
-		fsmData->world->server.statePack.animState = RUN_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = RUN_STATE;
+
+		fsmData->world->server.SendData(&statePacket);
 	}
 	else
 	{
-		fsmData->world->client.statePack.animState = RUN_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = RUN_STATE;
+
+		fsmData->world->client.SendData(&statePacket);
 	}
 
 	autoProxy->SetDirection();
@@ -97,6 +105,8 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 
 	autoProxy->velocity += autoProxy->acceleration * dt;
 	autoProxy->position += autoProxy->velocity * dt;
+
+	autoProxy->SendTransformData();
 }
 
 void SNFSMRunState::Exit(SNFSMData* fsmData)

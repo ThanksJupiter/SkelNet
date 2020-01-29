@@ -14,13 +14,13 @@ void SNFSMKnockbackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
 
-	if (fsmData->world->isServer)
+	if (fsmData->world->HasAuthority())
 	{
-		fsmData->world->server.statePack.animState = KNOCKBACK_ANIM;
-	}
-	else
-	{
-		fsmData->world->client.statePack.animState = KNOCKBACK_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = KNOCKBACK_STATE;
+
+		fsmData->world->server.SendData(&statePacket);
 	}
 }
 

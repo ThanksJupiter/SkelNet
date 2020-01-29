@@ -72,6 +72,7 @@
     <ClInclude Include="SNFSMKnockedDownState.h" />
     <ClInclude Include="SNFSMTurnAroundState.h" />
     <ClInclude Include="SNTransform.h" />
+    <ClInclude Include="SNDataPackets.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />
