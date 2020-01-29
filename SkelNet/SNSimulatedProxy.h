@@ -3,6 +3,7 @@
 
 #include "Vector.h"
 #include "SNHitBox.h"
+#include "SNTransform.h"
 
 class SNWorld;
 class SNAnimator;
@@ -23,12 +24,14 @@ public:
 
 	void SetAnimation(int index);
 
+	SNTransform transform;
+
 	bool flip;
-	Vector2 previousPosition;
-	Vector2 position;
+	//Vector2 previousPosition;
+	//Vector2 position;
 	Vector2 previousVelocity;
-	Vector2 velocity;
-	bool facingRight;
+	//Vector2 velocity;
+	//bool facingRight;
 
 	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;

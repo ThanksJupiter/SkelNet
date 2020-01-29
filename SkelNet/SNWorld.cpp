@@ -131,17 +131,17 @@ void SNWorld::Update(float dt)
 			return;
 		}
 		
-		if (simulatedProxy.position.x == 0)
+		if (simulatedProxy.transform.GetPosition().x == 0)
 		{
 			return;
 		}
 
-		if (simulatedProxy.position.x >= (worldSize.x / 2) + deathDistance.x ||
-			simulatedProxy.position.x <= (worldSize.x / 2) - deathDistance.x ||
-			simulatedProxy.position.y >= (worldSize.y / 2) + deathDistance.y ||
-			simulatedProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
+		if (simulatedProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
+			simulatedProxy.transform.GetPosition().x <= (worldSize.x / 2) - deathDistance.x ||
+			simulatedProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
+			simulatedProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(simulatedProxy.position, dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
 			RestartGame();
 			return;
 		}

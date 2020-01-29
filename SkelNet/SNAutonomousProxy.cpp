@@ -95,7 +95,7 @@ void SNAutonomousProxy::FlyBack()
 {
 	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
 
-	if (world->simulatedProxy.position.x < transform.GetPosition().x)
+	if (world->simulatedProxy.transform.GetPosition().x < transform.GetPosition().x)
 	{
 		newFlyback.x = -newFlyback.x;
 	}
