@@ -26,6 +26,36 @@ void SNAudioManager::InitSounds()
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
+
+	if (!(whip_start = Mix_LoadWAV(whip_startPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+
+	if (!(whip_hit = Mix_LoadWAV(whip_hitPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+
+	if (!(whip_miss = Mix_LoadWAV(whip_missPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+
+	if (!(jump = Mix_LoadWAV(jumpPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+
+	if (!(land = Mix_LoadWAV(landPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+
+	if (!(midnaLament = Mix_LoadMUS(midnaLamentPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)

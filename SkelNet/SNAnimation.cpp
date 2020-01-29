@@ -2,13 +2,14 @@
 #include "SNSprite.h"
 
 
-SNAnimation::SNAnimation(SNSprite* inSprites[], int inFrameCount, SDL_Texture* inTex, float inDelay)
+SNAnimation::SNAnimation(SNSprite* inSprites[], int inFrameCount, SDL_Texture* inTex, float inDelay, float inDuration)
 {
 	for (int i = 0; i < inFrameCount; i++)
 	{
 		sprites[i] = inSprites[i];
 	}
 
+	duration = inDuration;
 	texture = inTex;
 	frameCount = inFrameCount;
 	nextFrameDelay = inDelay;

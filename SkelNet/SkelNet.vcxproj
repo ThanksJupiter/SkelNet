@@ -139,6 +139,7 @@
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNFSMKnockedDownState.cpp" />
+    <ClCompile Include="SNFSMTurnAroundState.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNFiniteStateMachine.cpp" />
     <ClCompile Include="SNFSMAttackState.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />
+    <ClInclude Include="SNFSMTurnAroundState.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />
     <ClInclude Include="SNFiniteStateMachine.h" />

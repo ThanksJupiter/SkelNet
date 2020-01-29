@@ -18,6 +18,21 @@ public:
 
 	Mix_Chunk* hit;
 	const char* hitPath = "Puffer2.wav";
+
+	Mix_Chunk* whip_start;
+	Mix_Chunk* whip_hit;
+	Mix_Chunk* whip_miss;
+	Mix_Chunk* jump;
+	Mix_Chunk* land;
+	Mix_Music* midnaLament;
+
+	const char* whip_startPath = "Whip_StartUp.wav";
+	const char* whip_hitPath = "Whip_Hit.wav";
+	const char* whip_missPath = "Whip_Miss.wav";
+	const char* jumpPath = "Jump.wav";
+	const char* landPath = "Land.wav";
+	const char* midnaLamentPath = "Midnas_Lament_-_Twilight_Princess_8-Bit.mp3";
+
 	void InitSounds();
 	void PlayChunkOnce(Mix_Chunk* chunk);
 	void PlayMusicLoop(Mix_Music* song);

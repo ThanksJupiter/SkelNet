@@ -7,6 +7,7 @@
 #include "SNFSMData.h"
 #include "SNInput.h"
 #include "SNFSMKnockedDownState.h"
+#include "SNFSMTurnAroundState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -168,6 +169,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMKnockbackState("Knockback");
 	fsmData->availableStates[FALL_STATE] = new SNFSMFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMKnockedDownState("KnockedDown");
+	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMTurnAroundState("Turn");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -284,7 +286,7 @@ void SNAutonomousProxy::CheckAttack()
 
 void SNAutonomousProxy::TakeDamage()
 {
-	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+	world->audioManager->PlayChunkOnce(world->audioManager->whip_hit);
 
 	stateMachine->EnterState(fsmData->availableStates[KNOCKBACK_STATE]);
 	FlyBack();

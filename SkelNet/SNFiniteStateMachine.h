@@ -18,6 +18,7 @@
 #define KNOCKBACK_STATE 5
 #define FALL_STATE 6
 #define KNOCKDOWN_STATE 7
+#define TURNAROUND_STATE 8
 
 class SNFSMState;
 struct SNFSMData;

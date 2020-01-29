@@ -56,4 +56,6 @@ void SNFSMFallState::Exit(SNFSMData* fsmData)
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->position,
 		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
+
+	fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->land);
 }

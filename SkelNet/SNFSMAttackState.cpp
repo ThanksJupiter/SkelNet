@@ -8,6 +8,10 @@ void SNFSMAttackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->apAttackAnim);
 	//fsmData->autonomousProxy->velocity.x = 0;
+
+	hasMissSoundPlayed = false;
+	hasStartSoundPlayed = false;
+
 	timer = 0.0f;
 	fsmData->autonomousProxy->Attack();
 	hit = false;
@@ -29,6 +33,18 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 
 	timer += dt;
 
+	if (timer >= startupSoundDelay && !hasStartSoundPlayed)
+	{
+		fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->whip_start);
+		hasStartSoundPlayed = true;
+	}
+
+	if (timer >= missSoundDelay && !hasMissSoundPlayed)
+	{
+		fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->whip_miss);
+		hasMissSoundPlayed = true;
+	}
+
 	if (input->leftStickDirection.x != 0)
 	{
 		autoProxy->acceleration.x = autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x;
@@ -37,6 +53,7 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 	if (timer >= checkAttackDuration && !hit)
 	{
 		hit = true;
+		
 		if (fsmData->world->isServer)
 		{
 			APDoAttack(fsmData->world);

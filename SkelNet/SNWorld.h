@@ -43,6 +43,8 @@ public:
 	SNAnimation* landingDustAnim;
 	SNAnimation* fallAnim;
 	SNAnimation* knockedDownAnim;
+	SNAnimation* dustCloud01Anim;
+	SNAnimation* turnAroundAnim;
 
 	SNSprite* levelSprite;
 

@@ -31,6 +31,7 @@
     <ClCompile Include="SNTrailRenderer.cpp" />
     <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNFSMKnockedDownState.cpp" />
+    <ClCompile Include="SNFSMTurnAroundState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="SNWorld.h" />
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />
+    <ClInclude Include="SNFSMTurnAroundState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

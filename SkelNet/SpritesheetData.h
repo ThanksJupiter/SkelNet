@@ -11,6 +11,7 @@ public:
 	SpritesheetData(const char* inPath, int inFrameNo, int inWidth, int inHeight);
 
 	const char* filePath;
+	float duration;
 	int numberOfFrames;
 	int cellWidth, cellHeight;
 

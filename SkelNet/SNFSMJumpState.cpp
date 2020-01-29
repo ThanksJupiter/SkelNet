@@ -14,6 +14,7 @@ void SNFSMJumpState::Enter(SNFSMData* fsmData)
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->jumpAnim);
 
 	autoProxy->velocity.x = 100.0f * fsmData->input->leftStickDirection.x;
+	autoProxy->world->audioManager->PlayChunkOnce(autoProxy->world->audioManager->jump);
 
 	timer = 0.0f;
 	jumped = false;

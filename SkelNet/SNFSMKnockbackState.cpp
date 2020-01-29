@@ -7,6 +7,8 @@
 #include "SNDataPacket.h"
 #include "Vector.h"
 #include <cmath>
+#include "SNParticleSystem.h"
+#include "SNAnimation.h"
 
 void SNFSMKnockbackState::Enter(SNFSMData* fsmData)
 {
@@ -26,6 +28,16 @@ void SNFSMKnockbackState::Update(float dt, SNFSMData* fsmData)
 {
 	SNInput* input = fsmData->input;
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+
+	timer += dt;
+
+	if (timer >= dustDelay)
+	{
+		fsmData->world->particleSystem->StartParticleEffect(
+			fsmData->autonomousProxy->position,
+			fsmData->world->dustCloud01Anim, fsmData->world->dustCloud01Anim->duration, fsmData->autonomousProxy->flip);
+		timer = 0.0f;
+	}
 
 	autoProxy->acceleration.y = autoProxy->gravity * autoProxy->gravityMult;
 

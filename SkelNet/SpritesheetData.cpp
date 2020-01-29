@@ -14,6 +14,8 @@ SpritesheetData::SpritesheetData(const char* inPath, int inFrameNo, int inWidth,
 SNAnimation* SpritesheetData::CreateAnimation(SNSprite* inSprites[], float frameDelay)
 {
 	SDL_Texture* texture = engLoadTexture(filePath);
+	
+	duration = numberOfFrames * frameDelay;
 
 	for (int i = 0; i < numberOfFrames; i++)
 	{
@@ -24,5 +26,5 @@ SNAnimation* SpritesheetData::CreateAnimation(SNSprite* inSprites[], float frame
 			i);
 	}
 
-	return new SNAnimation(inSprites, numberOfFrames, texture, frameDelay);
+	return new SNAnimation(inSprites, numberOfFrames, texture, frameDelay, duration);
 }
