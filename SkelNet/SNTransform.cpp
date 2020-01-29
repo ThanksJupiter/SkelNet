@@ -2,40 +2,47 @@
 
 SNTransform::SNTransform()
 {
-	position = { 0,0 };
-	facingRight = false;
-	scale = { 1,1 };
+
 }
 
-Vector2 SNTransform::SetPosition(Vector2 inPos)
+//Set Functions
+
+void SNTransform::SetPosition(Vector2 inPos)
 {
-	return position = inPos;
+	position = inPos;
 }
 
-Vector2 SNTransform::SetPreviousPosition(Vector2 inPrevPos)
+void SNTransform::SetPreviousPosition(Vector2 inPrevPos)
 {
-	return previousPosition = inPrevPos;
+	previousPosition = inPrevPos;
 }
 
-Vector2 SNTransform::SetScale(Vector2 inScale)
+void SNTransform::SetScale(Vector2 inScale)
 {
-	return scale = inScale;
+	scale = inScale;
 }
 
-Vector2 SNTransform::SetVelocity(Vector2 inVel)
+void SNTransform::SetVelocity(Vector2 inVel)
 {
-	return velocity = inVel;
+	velocity = inVel;
 }
 
-Vector2 SNTransform::SetAcceleration(Vector2 inAcc)
+void SNTransform::SetAcceleration(Vector2 inAcc)
 {
-	return acceleration = inAcc;
+	acceleration = inAcc;
 }
 
-bool SNTransform::SetFacingRight(bool inFacingRight)
+void SNTransform::SetFacingRight(bool inFacingRight)
 {
-	return facingRight = inFacingRight;
+	facingRight = inFacingRight;
 }
+
+void SNTransform::SetFacingRight(int8_t in)
+{
+	facingRight = in > 0 ? false : true;
+}
+
+//Get Functions
 
 Vector2 SNTransform::GetPosition()
 {
