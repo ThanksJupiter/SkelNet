@@ -19,42 +19,42 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->leftStickDirection.y > 0)
 	{
-		autoProxy->acceleration.y = autoProxy->gravity * (autoProxy->fallGravityMult + (autoProxy->fastFallGravityMult * abs(input->leftStickDirection.y)));
+		autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x, autoProxy->gravity * (autoProxy->fallGravityMult + (autoProxy->fastFallGravityMult * abs(input->leftStickDirection.y))) });
 	}
 	else
 	{
-		autoProxy->acceleration.y = autoProxy->gravity * autoProxy->fallGravityMult;
-	}
+		autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x, autoProxy->gravity * autoProxy->fallGravityMult });
 
-	// movement time integration
-	autoProxy->previousPosition = autoProxy->position;
+		// movement time integration
+		autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->velocity += autoProxy->acceleration * dt;
-	autoProxy->position += autoProxy->velocity * dt;
+		autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+		autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 
-	if (input->attack)
-	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
-		return;
-	}
+		if (input->attack)
+		{
+			fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+			return;
+		}
 
-	if (input->leftStickDirection.x != 0)
-	{
-		autoProxy->acceleration.x = autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x;
-	}
+		if (input->leftStickDirection.x != 0)
+		{
+			autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x ,autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x });
+		}
 
-	if ((autoProxy->velocity.y > 0 && autoProxy->position.y > 333) && (autoProxy->position.x > 170 && autoProxy->position.x < 935))
-	{
-		// land
-		fsmData->autonomousProxy->animator->IncrementOneFrame();
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		if ((autoProxy->transform.GetPosition().y > 0 && autoProxy->transform.GetPosition().y > 333) && (autoProxy->transform.GetPosition().x > 170 && autoProxy->transform.GetPosition().x < 935))
+		{
+			// land
+			fsmData->autonomousProxy->animator->IncrementOneFrame();
+			fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		}
 	}
 }
 
 void SNFSMFallState::Exit(SNFSMData* fsmData)
 {
 	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->position,
+		fsmData->autonomousProxy->transform.GetPosition(),
 		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 
 	fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->land);

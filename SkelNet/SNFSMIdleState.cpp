@@ -6,7 +6,7 @@
 void SNFSMIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
-	fsmData->autonomousProxy->velocity.x = 0;
+	fsmData->autonomousProxy->transform.SetVelocity({ 0, fsmData->autonomousProxy->transform.GetVelocity().y });
 
 	if (fsmData->world->isServer)
 	{
@@ -46,5 +46,5 @@ void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMIdleState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

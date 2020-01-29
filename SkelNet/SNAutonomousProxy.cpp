@@ -11,10 +11,10 @@
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
-	position = initPos;
+	transform.SetPosition(initPos);
 	this->world = &world;
 	anchor.SetAbsolutePosition(initPos);
-	canvas.Setup({ -100, -100 }, { position.x - 50.f, position.y }, &anchor);
+	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
 	stateText = canvas.CreateText({ 0, -200 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
@@ -64,11 +64,11 @@ void SNAutonomousProxy::Draw(float dt)
 
 	if (animator->doManualAnimationCycling)
 	{
-		animator->DrawAnimation(position, flip);
+		animator->DrawAnimation(transform.GetPosition(), flip);
 	}
 	else
 	{
-		animator->DrawAnimation(position, flip, dt, animator->rotation);
+		animator->DrawAnimation(transform.GetPosition(), flip, dt, animator->rotation);
 	}
 
 	engSetColor(0, 0, 0);
@@ -95,28 +95,28 @@ void SNAutonomousProxy::FlyBack()
 {
 	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
 
-	if (world->simulatedProxy.position.x < position.x)
+	if (world->simulatedProxy.position.x < transform.GetPosition().x)
 	{
 		newFlyback.x = -newFlyback.x;
 	}
-	position.y -= 5;
-	velocity = newFlyback;
+	transform.SetPosition({ transform.GetPosition().x, transform.GetPosition().y - 5 });
+	transform.SetVelocity(newFlyback);
 }
 
 void SNAutonomousProxy::Reset()
 {
 	if (world->isServer)
 	{
-		position = { (world->worldSize.x / 2) - 50, 0 };
+		transform.SetPosition({ (world->worldSize.x / 2) - 50, 0 });
 	}
 	else
 	{
-		position = { (world->worldSize.x / 2) + 50, 0 };
+		transform.SetPosition({ (world->worldSize.x / 2) + 50, 0 });
 	}
 
 	health = 0;
-	velocity = { 0.f, 0.f };
-	acceleration = { 0.f, 0.f };
+	transform.SetVelocity({ 0.f, 0.f });
+	transform.SetAcceleration({ 0.f, 0.f });
 	stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
 
 	serverAttacked = false;
@@ -179,16 +179,16 @@ void SNAutonomousProxy::InitializeFSM()
 
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	if (position.y < 333)
+	if (transform.GetPosition().y < 333)
 	{
 		//Activate gravity
-		acceleration.y = gravity * gravityMult;
+		transform.SetAcceleration({ transform.GetAcceleration().x ,gravity * gravityMult });
 	}
 
-	if ((position.x < 170 || position.x > 935))
+	if ((transform.GetPosition().x < 170 || transform.GetPosition().x > 935))
 	{
 		//Activate gravity
-		acceleration.y = gravity * gravityMult;
+		transform.SetAcceleration({ transform.GetAcceleration().x ,gravity * gravityMult });
 
 		//Set fall state
 		if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
@@ -197,33 +197,33 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		}
 	}
 
-	if ((velocity.y > 0 && position.y > 333) && ((position.x > 170 && position.x < 935)))
+	if ((transform.GetVelocity().y > 0 && transform.GetPosition().y > 333) && ((transform.GetPosition().x > 170 && transform.GetPosition().x < 935)))
 	{
-		position.y = 333;
-		velocity.y = 0;
+		transform.SetPosition({ transform.GetPosition().x, 333 });
+		transform.SetVelocity({ transform.GetVelocity().x, 0 });
 	}
 
 	if (world->isServer)
 	{
-		hitBox->UpdatePosition(position);
-		attackBoxR->UpdatePosition(position);
-		attackBoxL->UpdatePosition(position);
+		hitBox->UpdatePosition(transform.GetPosition());
+		attackBoxR->UpdatePosition(transform.GetPosition());
+		attackBoxL->UpdatePosition(transform.GetPosition());
 	}
 }
 
 void SNAutonomousProxy::SendData()
 {
-	world->SendPlayerData(position, health, serverAttacked, serverWasHit, clientAttacked, clientWasHit);
+	world->SendPlayerData(transform.GetPosition(), health, serverAttacked, serverWasHit, clientAttacked, clientWasHit);
 }
 
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
-	position = newPosition;
+	transform.SetPosition(newPosition);
 }
 
 bool SNAutonomousProxy::IsGrounded()
 {
-	return position.y > 332;
+	return transform.GetPosition().y > 332;
 }
 
 void SNAutonomousProxy::CheckInput(float dt)

@@ -121,12 +121,12 @@ void SNWorld::Update(float dt)
 
 	if (isServer)
 	{
-		if (autonomousProxy.position.x >= (worldSize.x / 2) + deathDistance.x || 
-			autonomousProxy.position.x <= (worldSize.x / 2) - deathDistance.x ||
-			autonomousProxy.position.y >= (worldSize.y / 2) + deathDistance.y || 
-			autonomousProxy.position.y <= (worldSize.y / 2) - deathDistance.y)
+		if (autonomousProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x || 
+			autonomousProxy.transform.GetPosition().x <= (worldSize.x / 2) - deathDistance.x ||
+			autonomousProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
+			autonomousProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(autonomousProxy.position, dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
 			RestartGame();
 			return;
 		}

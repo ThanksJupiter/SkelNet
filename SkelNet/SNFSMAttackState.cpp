@@ -24,11 +24,11 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->leftStickDirection.y > 0)
 	{
-		autoProxy->acceleration.y = autoProxy->gravity * (autoProxy->fallGravityMult + (autoProxy->fastFallGravityMult * abs(input->leftStickDirection.y)));
+		autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x, autoProxy->gravity * (autoProxy->fallGravityMult + (autoProxy->fastFallGravityMult * abs(input->leftStickDirection.y))) });
 	}
 	else
 	{
-		autoProxy->acceleration.y = autoProxy->gravity * autoProxy->fallGravityMult;
+		autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x, autoProxy->gravity * autoProxy->fallGravityMult });
 	}
 
 	timer += dt;
@@ -47,13 +47,13 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->leftStickDirection.x != 0)
 	{
-		autoProxy->acceleration.x = autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x;
+		autoProxy->transform.SetAcceleration({ autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x, autoProxy->transform.GetAcceleration().y });
 	}
 
 	if (timer >= checkAttackDuration && !hit)
 	{
 		hit = true;
-		
+
 		if (fsmData->world->isServer)
 		{
 			APDoAttack(fsmData->world);
@@ -64,15 +64,15 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 		}
 	}
 
-	autoProxy->previousPosition = autoProxy->position;
+	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->velocity += autoProxy->acceleration * dt;
-	autoProxy->position += autoProxy->velocity * dt;
+	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 
-	if ((autoProxy->velocity.y > 0 && autoProxy->position.y > 333) && (autoProxy->position.x > 170 && autoProxy->position.x < 935))
+	if ((autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333) && (autoProxy->transform.GetPosition().x > 170 && autoProxy->transform.GetPosition().x < 935))
 	{
 		// land
-		autoProxy->velocity.x = 0;
+		autoProxy->transform.SetVelocity({ 0, autoProxy->transform.GetVelocity().y });
 	}
 
 	if (timer >= attackDuration)
@@ -83,5 +83,5 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMAttackState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

@@ -24,10 +24,10 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 	autoProxy->SetDirection();
 
 	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->position,
+		fsmData->autonomousProxy->transform.GetPosition(),
 		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 
-	autoProxy->velocity.x = 270.0f * input->leftStickDirection.x;
+	autoProxy->transform.SetVelocity({ 270.0f * input->leftStickDirection.x, autoProxy->transform.GetPosition().y});
 	timer = 0.0f;
 }
 
@@ -40,18 +40,18 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 
 	autoProxy->SetDirection();
 
-	if (abs(autoProxy->velocity.x) < autoProxy->maxVelocitySpeed)
+	if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->maxVelocitySpeed)
 	{
-		autoProxy->acceleration.x = autoProxy->accelerationSpeed * input->leftStickDirection.x;
+		autoProxy->transform.SetAcceleration({ autoProxy->accelerationSpeed * input->leftStickDirection.x,autoProxy->transform.GetAcceleration().y });
 	}
 	else
 	{
-		autoProxy->acceleration.x = 0;
+		autoProxy->transform.SetAcceleration({0,autoProxy->transform.GetAcceleration().y});
 	}
 
 	bool attemptingDirectionChange = 
-		(autoProxy->velocity.x > 0 && input->leftStickDirection.x < 0) ||
-		(autoProxy->velocity.x < 0 && input->leftStickDirection.x > 0);
+		(autoProxy->transform.GetVelocity().x > 0 && input->leftStickDirection.x < 0) ||
+		(autoProxy->transform.GetVelocity().x < 0 && input->leftStickDirection.x > 0);
 
 	if (attemptingDirectionChange)
 	{
@@ -68,7 +68,7 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 	}
 
 	// TODO implement drag to decrease speed when no input
-	if (abs(autoProxy->velocity.x) < autoProxy->minRunSpeed)
+	if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minRunSpeed)
 	{
 		fsmData->stateMachine->EnterState(fsmData->availableStates[WALK_STATE]);
 		return;
@@ -93,10 +93,10 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 	}
 
 	// movement time integration
-	autoProxy->previousPosition = autoProxy->position;
+	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->velocity += autoProxy->acceleration * dt;
-	autoProxy->position += autoProxy->velocity * dt;
+	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 }
 
 void SNFSMRunState::Exit(SNFSMData* fsmData)
