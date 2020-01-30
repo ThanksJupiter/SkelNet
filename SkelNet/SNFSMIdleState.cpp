@@ -23,7 +23,18 @@ void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
 	SNInput* input = fsmData->input;
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 
-	autoProxy->SetDirection();
+	//autoProxy->SetDirection();
+
+	if (autoProxy->flip && input->leftStickDirection.x > 0)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[TURNAROUND_STATE]);
+		return;
+	}
+	else if (!autoProxy->flip && input->leftStickDirection.x < 0)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[TURNAROUND_STATE]);
+		return;
+	}
 
 	if (input->leftStickDirection.x != 0)
 	{
