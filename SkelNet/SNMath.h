@@ -11,5 +11,6 @@ class SNMath
 {
 	SNMath();
 public:
-	SNMat3 PostionMatrix;
+	SNMat3 postionMatrix;
+	void LookAt();
 };
