@@ -18,6 +18,8 @@ void SNFSMJumpState::Enter(SNFSMData* fsmData)
 
 	timer = 0.0f;
 	jumped = false;
+
+	
 }
 
 void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
@@ -51,7 +53,7 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->attack)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		autoProxy->EnterState(ATTACK_STATE);
 		return;
 	}
 
@@ -68,7 +70,7 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 
 	if (autoProxy->transform.GetVelocity().y > 0)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
+		autoProxy->EnterState(FALL_STATE);
 	}
 
 	if (autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333)
@@ -96,6 +98,8 @@ void SNFSMJumpState::DoJump(SNAutonomousProxy* autoProxy)
 
 void SNFSMJumpState::LeaveLandingFrame(SNFSMData* fsmData)
 {
+	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+
 	fsmData->autonomousProxy->animator->IncrementOneFrame();
-	fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+	autoProxy->EnterState(IDLE_STATE);
 }

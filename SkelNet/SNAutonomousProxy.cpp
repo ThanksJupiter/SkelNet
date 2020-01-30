@@ -8,6 +8,7 @@
 #include "SNInput.h"
 #include "SNFSMKnockedDownState.h"
 #include "SNFSMTurnAroundState.h"
+#include "SNDataPackets.h"
 #include "SNFSMAPTauntState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
@@ -44,11 +45,11 @@ void SNAutonomousProxy::Draw(float dt)
 	{
 		if (animator->direction > 0)
 		{
-			flip = false;
+			transform.SetFacingRight(false);
 		}
 		else
 		{
-			flip = true;
+			transform.SetFacingRight(true);
 		}
 	}
 
@@ -65,11 +66,11 @@ void SNAutonomousProxy::Draw(float dt)
 
 	if (animator->doManualAnimationCycling)
 	{
-		animator->DrawAnimation(transform.GetPosition(), flip);
+		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight());
 	}
 	else
 	{
-		animator->DrawAnimation(transform.GetPosition(), flip, dt, animator->rotation);
+		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight(), dt, animator->rotation);
 	}
 
 	engSetColor(0, 0, 0);
@@ -84,7 +85,15 @@ void SNAutonomousProxy::Update(float dt)
 
 	stateMachine->Update(dt);
 
-	SendData();
+	if (sendTransformToggle)
+	{
+		SendTransformData();
+		sendTransformToggle = !sendTransformToggle;
+	}
+	else
+	{
+		sendTransformToggle = !sendTransformToggle;
+	}
 
 	serverAttacked = false;
 	clientAttacked = false;
@@ -118,7 +127,7 @@ void SNAutonomousProxy::Reset()
 	health = 0;
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
-	stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
+	stateMachine->EnterState(FALL_STATE);
 
 	serverAttacked = false;
 	serverWasHit = false;
@@ -148,11 +157,11 @@ void SNAutonomousProxy::SetDirection()
 	{
 		if (animator->direction > 0)
 		{
-			flip = false;
+			transform.SetFacingRight(false);
 		}
 		else
 		{
-			flip = true;
+			transform.SetFacingRight(true);
 		}
 	}
 }
@@ -176,7 +185,45 @@ void SNAutonomousProxy::InitializeFSM()
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
 
-	stateMachine->EnterState(fsmData->availableStates[0]);
+	EnterState(IDLE_STATE);
+}
+
+void SNAutonomousProxy::SendSPState(Uint8 state)
+{
+	SNStatePacket statePacket;
+	statePacket.flag = SP_STATE_FLAG;
+	statePacket.state = state;
+
+	if (world->HasAuthority())
+	{
+		world->server.SendData(&statePacket);
+	}
+	else
+	{
+		world->client.SendData(&statePacket);
+	}
+}
+
+void SNAutonomousProxy::SendAPState(Uint8 state)
+{
+	SNStatePacket statePacket;
+	statePacket.flag = AP_STATE_FLAG;
+	statePacket.state = state;
+
+	if (world->HasAuthority())
+	{
+		world->server.SendData(&statePacket);
+	}
+	else
+	{
+		world->client.SendData(&statePacket);
+	}
+}
+
+void SNAutonomousProxy::EnterState(Uint8 state)
+{
+	SendSPState(state);
+	stateMachine->EnterState(state);
 }
 
 void SNAutonomousProxy::UpdatePosition(float dt)
@@ -195,7 +242,7 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		//Set fall state
 		if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
 		{
-			stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
+			EnterState(FALL_STATE);
 		}
 	}
 
@@ -213,9 +260,22 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 	}
 }
 
-void SNAutonomousProxy::SendData()
+void SNAutonomousProxy::SendTransformData()
 {
-	world->SendPlayerData(transform.GetPosition(), health, serverAttacked, serverWasHit, clientAttacked, clientWasHit);
+	SNTransformPacket transformPacket;
+	transformPacket.flag = TRANSFORM_FLAG;
+	transformPacket.posX = transform.GetPosition().x;
+	transformPacket.posY = transform.GetPosition().y;
+	transformPacket.flip = transform.GetFacingRight() ? -1 : 1;
+
+	if (world->HasAuthority())
+	{
+		world->server.SendData(&transformPacket);
+	}
+	else
+	{
+		world->client.SendData(&transformPacket);
+	}
 }
 
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)
@@ -248,13 +308,26 @@ void SNAutonomousProxy::Attack()
 
 	if (world->isServer)
 	{
-		serverAttacked = true;
+		//serverAttacked = true;
+
+
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = ATTACK_STATE;
+
+		world->server.SendData(&statePacket);
 	}
 	else
 	{
-		clientAttacked = true;
+		//clientAttacked = true;
 
 		animator->SetCurrentAnimation(world->apAttackAnim, true);
+
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = ATTACK_STATE;
+
+		world->client.SendData(&statePacket);
 	}
 
 	/* if Client*/
@@ -266,12 +339,12 @@ void SNAutonomousProxy::Attack()
 
 void SNAutonomousProxy::CheckAttack()
 {
-	if (!flip)
+	if (!transform.GetFacingRight())
 	{
 		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
 			// Send hit data
-			clientWasHit = true;
+			//clientWasHit = true;
 			world->simulatedProxy.TakeDamage();
 		}
 	}
@@ -280,7 +353,7 @@ void SNAutonomousProxy::CheckAttack()
 		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
 			// Send hit data
-			clientWasHit = true;
+			//clientWasHit = true;
 			world->simulatedProxy.TakeDamage();
 		}
 	}
@@ -290,7 +363,7 @@ void SNAutonomousProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->whip_hit);
 
-	stateMachine->EnterState(fsmData->availableStates[KNOCKBACK_STATE]);
+	EnterState(KNOCKBACK_STATE);
 	FlyBack();
 
 	health += 30;

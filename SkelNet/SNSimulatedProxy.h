@@ -4,6 +4,7 @@
 #include "Vector.h"
 #include "SNHitBox.h"
 #include "SNTransform.h"
+#include "SDL_stdinc.h"
 
 class SNWorld;
 class SNAnimator;
@@ -25,7 +26,7 @@ public:
 	bool isGrounded();
 
 	void SetAnimation(int index);
-	void SetState(int index);
+	void SetState(Uint8 index);
 
 	void InitializeFSM();
 

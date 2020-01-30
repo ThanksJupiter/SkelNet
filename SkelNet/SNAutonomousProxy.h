@@ -5,6 +5,7 @@
 #include "SNCanvas.h"
 #include "SNHitBox.h"
 #include "SNTransform.h"
+#include "SDL_stdinc.h"
 
 class SNWorld;
 class SNAnimator;
@@ -18,7 +19,7 @@ public:
 	void Spawn(Vector2 initPos, SNWorld& world);
 
 	void UpdatePosition(float dt);
-	void SendData();
+	void SendTransformData();
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 
@@ -32,6 +33,9 @@ public:
 	void SetDirection();
 
 	void InitializeFSM();
+	void SendSPState(Uint8 state);
+	void SendAPState(Uint8 state);
+	void EnterState(Uint8 state);
 
 	SNUIElement* stateText;
 
@@ -42,13 +46,8 @@ public:
 
 	SNTransform transform;
 
+	bool sendTransformToggle;
 	bool flip;
-	//Vector2 previousPosition;
-	//Vector2 position;
-	//Vector2 velocity;
-	//
-	//bool facingRight;
-	//Vector2 acceleration;
 
 	int health = 1;
 	float accelerationSpeed = 200.0f;

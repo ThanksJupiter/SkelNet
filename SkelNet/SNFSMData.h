@@ -24,5 +24,5 @@ struct SNFSMData
 	SNAutonomousProxy* autonomousProxy;
 	SNSimulatedProxy* simulatedProxy;
 	SNInput* input;
-	SNFSMState* availableStates[10];
+	SNFSMState* availableStates[15];
 };

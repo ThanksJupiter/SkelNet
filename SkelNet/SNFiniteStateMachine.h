@@ -35,5 +35,5 @@ public:
 	SNFSMState* availableStates[MAX_FSM_STATES];
 
 	void Update(float dt);
-	void EnterState(SNFSMState* newState);
+	void EnterState(Uint8 newState);
 };
