@@ -19,7 +19,8 @@ void SNFSMTurnAroundState::Update(float dt, SNFSMData* fsmData)
 	
 	if (timer >= flipDuration)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+		autoProxy->EnterState(IDLE_STATE);
 	}
 }
 
