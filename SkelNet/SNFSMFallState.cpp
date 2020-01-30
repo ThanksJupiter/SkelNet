@@ -33,7 +33,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 
 		if (input->attack)
 		{
-			fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+			autoProxy->EnterState(ATTACK_STATE);
 			return;
 		}
 
@@ -46,7 +46,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 		{
 			// land
 			fsmData->autonomousProxy->animator->IncrementOneFrame();
-			fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+			autoProxy->EnterState(IDLE_STATE);
 		}
 	}
 }

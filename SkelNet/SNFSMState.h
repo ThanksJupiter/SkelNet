@@ -1,4 +1,5 @@
 #pragma once
+#include "SNDataPackets.h"
 
 struct SNFSMData;
 

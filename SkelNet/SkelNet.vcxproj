@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNCamera.h" />
+    <ClInclude Include="SNDataPackets.h" />
     <ClInclude Include="SNFSMAPTauntState.h" />
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />

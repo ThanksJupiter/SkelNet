@@ -115,6 +115,7 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="SNWorld.h" />
     <ClInclude Include="SNTransform.h" />
+    <ClInclude Include="SNDataPackets.h" />
     <ClInclude Include="SNFiniteStateMachine.h">
       <Filter>StateMachine</Filter>
     </ClInclude>

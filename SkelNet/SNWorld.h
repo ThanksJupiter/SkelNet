@@ -73,6 +73,7 @@ public:
 
 	// Networking
 	void SendPlayerData(Vector2 position, int health, bool serverAttacked, bool serverWasHit, bool clientAttacked, bool clientWasHit);
+	bool HasAuthority();
 
 	void RestartGame();
 

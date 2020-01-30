@@ -29,6 +29,7 @@ SNCanvas canvas;
 void SetupServer()
 {
 	world.server.Setup();
+	world.server.printErrors = false;
 	world.server.printDebug = false;
 	world.isServer = true;
 	world.SpawnAutonomousProxy(world);
@@ -41,6 +42,7 @@ void SetupServer()
 void SetupClient()
 {
 	world.client.Setup();
+	world.client.printErrors = false;
 	world.client.printDebug = false;
 	world.isServer = false;
 	world.SpawnAutonomousProxy(world);

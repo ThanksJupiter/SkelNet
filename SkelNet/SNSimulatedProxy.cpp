@@ -47,6 +47,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 		attackBoxL->drawDebug = true;
 	}
 
+	InitializeFSM();
 	flyBackDirection = { -1, -1 };
 }
 
@@ -54,23 +55,14 @@ void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
 {
 	if (transform.GetPosition().x != transform.GetPreviousPosition().x)
 	{
-		if (transform.GetPosition().x > transform.GetPreviousPosition().x)
-		{
-			flip = false;
-			transform.SetFacingRight(true);
-		}
-		else
-		{
-			flip = true;
-			transform.SetFacingRight(false);
-		}
-
 		previousVelocity = transform.GetVelocity();
 		transform.SetVelocity({ transform.GetPosition().x - transform.GetPreviousPosition().x, transform.GetVelocity().y });
 	}
 
 	engSetColor(0, 255, 255);
-	animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), flip, dt);
+
+	animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight(), dt);
+
 	engSetColor(0, 0, 0);
 }
 
@@ -175,9 +167,9 @@ void SNSimulatedProxy::SetAnimation(int index)
 	}
 }
 
-void SNSimulatedProxy::SetState(int index)
+void SNSimulatedProxy::SetState(Uint8 index)
 {
-	stateMachine->EnterState(fsmData->availableStates[index]);
+	stateMachine->EnterState(index);
 }
 
 void SNSimulatedProxy::InitializeFSM()
@@ -199,7 +191,7 @@ void SNSimulatedProxy::InitializeFSM()
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
 
-	stateMachine->EnterState(fsmData->availableStates[0]);
+	stateMachine->EnterState(IDLE_STATE);
 }
 
 void SNSimulatedProxy::Reset()

@@ -1,6 +1,9 @@
 #pragma once
 #include <SDL_net.h>
 #include "SNDataPacket.h"
+#include "SNDataPackets.h"
+
+class SNWorld;
 
 class SNServer
 {
@@ -9,13 +12,14 @@ public:
 	static const int RECV_TIMEOUT_MS = 0;
 
 	void Setup();
-	void AcceptConnection();
-	bool RecvData();
-	void SendData();
 	void Close();
+	void AcceptConnection();
+	
+	void SendData(SNTransformPacket* data);
+	void SendData(SNStatePacket* data);
 
-	SNDataPacket statePack;
-	SNDataPacket recievedData;
+	bool RecvData();
+	Uint8* InternalRecvData();
 
 	TCPsocket server;
 	TCPsocket client;
@@ -26,4 +30,6 @@ public:
 
 	bool printDebug;
 	bool printErrors;
+
+	SNWorld* world;
 };
