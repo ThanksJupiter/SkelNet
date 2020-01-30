@@ -13,7 +13,7 @@ void SNFSMJumpState::Enter(SNFSMData* fsmData)
 	autoProxy->animator->doManualAnimationCycling = true;
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->jumpAnim);
 
-	autoProxy->velocity.x = 100.0f * fsmData->input->leftStickDirection.x;
+	autoProxy->transform.SetVelocity({ 100.0f * fsmData->input->leftStickDirection.x, autoProxy->transform.GetVelocity().y });
 	autoProxy->world->audioManager->PlayChunkOnce(autoProxy->world->audioManager->jump);
 
 	timer = 0.0f;
@@ -24,21 +24,21 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
-	
-	autoProxy->SetDirection();
-	autoProxy->acceleration.y = autoProxy->gravity * (input->jumpHeld ? autoProxy->gravityMult : autoProxy->fallGravityMult);
 
+	autoProxy->SetDirection();
+	autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x, autoProxy->gravity * (input->jumpHeld ? autoProxy->gravityMult : autoProxy->fallGravityMult) });
 	timer += dt;
 
 	if (timer > jumpDelay && !jumped)
 	{
 		jumped = true;
 		DoJump(autoProxy);
-		// movement time integration
-		autoProxy->previousPosition = autoProxy->position;
 
-		autoProxy->velocity += autoProxy->acceleration * dt;
-		autoProxy->position += autoProxy->velocity * dt;
+		// movement time integration
+		autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
+
+		autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+		autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 		return;
 	}
 	else
@@ -57,21 +57,21 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->leftStickDirection.x != 0)
 	{
-		autoProxy->acceleration.x = autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x;
+		autoProxy->transform.SetAcceleration({ autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x, autoProxy->transform.GetAcceleration().y });
 	}
 
 	// movement time integration
-	autoProxy->previousPosition = autoProxy->position;
+	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->velocity += autoProxy->acceleration * dt;
-	autoProxy->position += autoProxy->velocity * dt;
+	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 
-	if (autoProxy->velocity.y > 0)
+	if (autoProxy->transform.GetVelocity().y > 0)
 	{
 		fsmData->stateMachine->EnterState(fsmData->availableStates[FALL_STATE]);
 	}
 
-	if (autoProxy->velocity.y > 0 && autoProxy->position.y > 333)
+	if (autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333)
 	{
 		// land
 		LeaveLandingFrame(fsmData);
@@ -89,8 +89,8 @@ void SNFSMJumpState::Exit(SNFSMData* fsmData)
 
 void SNFSMJumpState::DoJump(SNAutonomousProxy* autoProxy)
 {
-	autoProxy->acceleration.x = 0.0f;
-	autoProxy->velocity.y = -200.0f;
+	autoProxy->transform.SetAcceleration({ 0,autoProxy->transform.GetPosition().y });
+	autoProxy->transform.SetVelocity({ autoProxy->transform.GetVelocity().x, -200.0f });
 	//autoProxy->position.y -= 5.0f;
 	timer = 0.0f;
 	autoProxy->animator->IncrementOneFrame();

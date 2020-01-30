@@ -5,6 +5,18 @@
 #include <iomanip>
 #include <sstream>
 #include "SNParticleSystem.h"
+#include "SNInput.h"
+#include "SNFSMData.h"
+#include "SNFSMSPIdleState.h"
+#include "SNFSMSPWalkState.h"
+#include "SNFSMSPRunState.h"
+#include "SNFSMSPAttackState.h"
+#include "SNFSMSPJumpState.h"
+#include "SNFSMSPKnockbackState.h"
+#include "SNFSMSPFallState.h"
+#include "SNFSMSPKnockedDownState.h"
+#include "SNFSMSPTurnAroundState.h"
+#include "SNFSMSPTauntState.h"
 
 void SPDoAttack(SNWorld* world)
 {
@@ -18,7 +30,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
 	this->world = &world;
 
-	position = initPos;
+	transform.SetPosition(initPos);
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
 	animator->defaultAnimation = world.idleAnim;
@@ -40,26 +52,25 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 void SNSimulatedProxy::Draw(float dt)
 {
-	if (position.x != previousPosition.x)
+	if (transform.GetPosition().x != transform.GetPreviousPosition().x)
 	{
-		if (position.x > previousPosition.x)
+		if (transform.GetPosition().x > transform.GetPreviousPosition().x)
 		{
 			flip = false;
-			facingRight = true;
+			transform.SetFacingRight(true);
 		}
 		else
 		{
 			flip = true;
-			facingRight = false;
+			transform.SetFacingRight(false);
 		}
 
-		previousVelocity = velocity;
-		velocity.x = position.x - previousPosition.x;
-		//velocity.y = position.y - previousPosition.y;
+		previousVelocity = transform.GetVelocity();
+		transform.SetVelocity({ transform.GetPosition().x - transform.GetPreviousPosition().x, transform.GetVelocity().y });
 	}
 
 	engSetColor(0, 255, 255);
-	animator->DrawAnimation(position, flip, dt);
+	animator->DrawAnimation(transform.GetPosition(), flip, dt);
 	engSetColor(0, 0, 0);
 }
 
@@ -68,7 +79,7 @@ void SNSimulatedProxy::ServerCheckAttack()
 	if (!world->isServer)
 		return;
 
-	if (facingRight)
+	if (transform.GetFacingRight())
 	{
 		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
@@ -105,19 +116,19 @@ void SNSimulatedProxy::FlyBack()
 	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);
 	//newFlyback = newFlyback * health;
 
-	if (world->simulatedProxy.position.x < position.x)
+	if (world->simulatedProxy.transform.GetPosition().x < transform.GetPosition().x)
 	{
 		newFlyback.x = -newFlyback.x;
 	}
 
-	position.y -= 5;
+	transform.SetPosition({ transform.GetPosition().x, transform.GetPosition().y - 5 });
 
-	velocity = newFlyback;
+	transform.SetVelocity(newFlyback);
 }
 
 bool SNSimulatedProxy::isGrounded()
 {
-	if (position.y > 332 && previousPosition.y < position.y)
+	if (transform.GetPosition().y > 332 && transform.GetPreviousPosition().y < transform.GetPosition().y)
 	{
 		return true;
 	}
@@ -155,39 +166,67 @@ void SNSimulatedProxy::SetAnimation(int index)
 		animator->SetCurrentAnimation(world->knockbackAnim);
 		break;
 
+	case TAUNT_ANIM:
+		animator->SetCurrentAnimation(world->teabagAnim);
+		break;
+
 	default:
 		break;
-		/*case KNOCKBACK_ANIM:
-			animator->SetCurrentAnimation(world->knock);
-			break;*/
 	}
+}
+
+void SNSimulatedProxy::SetState(int index)
+{
+	stateMachine->EnterState(fsmData->availableStates[index]);
+}
+
+void SNSimulatedProxy::InitializeFSM()
+{
+	fsmData = new SNFSMData(
+		world, &world->autonomousProxy, this);
+
+	fsmData->availableStates[IDLE_STATE] = new SNFSMSPIdleState("Idle");
+	fsmData->availableStates[WALK_STATE] = new SNFSMSPWalkState("Walk");
+	fsmData->availableStates[RUN_STATE] = new SNFSMSPRunState("Run");
+	fsmData->availableStates[ATTACK_STATE] = new SNFSMSPAttackState("Attack");
+	fsmData->availableStates[JUMP_STATE] = new SNFSMSPJumpState("Jump");
+	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMSPKnockbackState("Knockback");
+	fsmData->availableStates[FALL_STATE] = new SNFSMSPFallState("Fall");
+	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMSPKnockedDownState("KnockedDown");
+	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMSPTurnAroundState("Turn");
+	fsmData->availableStates[TAUNT_STATE] = new SNFSMSPTauntState("Taunt");
+
+	stateMachine = new SNFiniteStateMachine(fsmData);
+	fsmData->stateMachine = stateMachine;
+
+	stateMachine->EnterState(fsmData->availableStates[0]);
 }
 
 void SNSimulatedProxy::Reset()
 {
 	if (world->isServer)
 	{
-		position = { (world->worldSize.x / 2) + 50, 0 };
+		transform.SetPosition({ (world->worldSize.x / 2) + 50, 0 });
 	}
 	else
 	{
-		position = { (world->worldSize.x / 2) - 50, 0 };
+		transform.SetPosition({ (world->worldSize.x / 2) - 50, 0 });
 	}
 
 	health = 0;
 	animState = 6;
-	velocity = { 0.f, 0.f };
+	transform.SetVelocity({ 0.f, 0.f });
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)
 {
-	previousPosition = position;
-	position = newPosition;
+	transform.SetPreviousPosition(transform.GetPosition());
+	transform.SetPosition(newPosition);
 
 	if (world->isServer)
 	{
-		hitBox->UpdatePosition(position);
-		attackBoxR->UpdatePosition(position);
-		attackBoxL->UpdatePosition(position);
+		hitBox->UpdatePosition(transform.GetPosition());
+		attackBoxR->UpdatePosition(transform.GetPosition());
+		attackBoxL->UpdatePosition(transform.GetPosition());
 	}
 }

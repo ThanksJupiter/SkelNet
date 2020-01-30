@@ -4,6 +4,7 @@
 #include "SNAnchor.h"
 #include "SNCanvas.h"
 #include "SNHitBox.h"
+#include "SNTransform.h"
 
 class SNWorld;
 class SNAnimator;
@@ -39,13 +40,15 @@ public:
 	SNInput* playerInput;
 	void FlyBack();
 
-	bool flip;
-	Vector2 previousPosition;
-	Vector2 position;
-	Vector2 velocity;
+	SNTransform transform;
 
-	bool facingRight;
-	Vector2 acceleration;
+	bool flip;
+	//Vector2 previousPosition;
+	//Vector2 position;
+	//Vector2 velocity;
+	//
+	//bool facingRight;
+	//Vector2 acceleration;
 
 	int health = 1;
 	float accelerationSpeed = 200.0f;

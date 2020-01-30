@@ -3,13 +3,6 @@
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
-    <ClCompile Include="SNFiniteStateMachine.cpp" />
-    <ClCompile Include="SNFSMAttackState.cpp" />
-    <ClCompile Include="SNFSMIdleState.cpp" />
-    <ClCompile Include="SNFSMJumpState.cpp" />
-    <ClCompile Include="SNFSMKnockbackState.cpp" />
-    <ClCompile Include="SNFSMRunState.cpp" />
-    <ClCompile Include="SNFSMWalkState.cpp" />
     <ClCompile Include="SNHitBox.cpp" />
     <ClCompile Include="SNAnchor.cpp" />
     <ClCompile Include="SNAnimation.cpp" />
@@ -29,25 +22,76 @@
     <ClCompile Include="SNWorld.cpp" />
     <ClCompile Include="SpritesheetData.cpp" />
     <ClCompile Include="SNTrailRenderer.cpp" />
-    <ClCompile Include="SNFSMFallState.cpp" />
-    <ClCompile Include="SNFSMKnockedDownState.cpp" />
-    <ClCompile Include="SNFSMTurnAroundState.cpp" />
     <ClCompile Include="SNTransform.cpp" />
+    <ClCompile Include="SNFiniteStateMachine.cpp">
+      <Filter>StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAttackState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMFallState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMIdleState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMJumpState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMKnockbackState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMKnockedDownState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMRunState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMTurnAroundState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMWalkState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPIdleState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPWalkState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPTauntState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPAttackState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPRunState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPFallState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPJumpState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPKnockbackState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPKnockedDownState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPTauntState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPTurnAroundState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />
-    <ClInclude Include="SNFiniteStateMachine.h" />
     <ClInclude Include="SNFlags.h" />
-    <ClInclude Include="SNFSMAttackState.h" />
-    <ClInclude Include="SNFSMData.h" />
-    <ClInclude Include="SNFSMIdleState.h" />
-    <ClInclude Include="SNFSMJumpState.h" />
-    <ClInclude Include="SNFSMKnockbackState.h" />
-    <ClInclude Include="SNFSMRunState.h" />
-    <ClInclude Include="SNFSMState.h" />
-    <ClInclude Include="SNFSMWalkState.h" />
     <ClInclude Include="SNHitBox.h" />
     <ClInclude Include="SNAnchor.h" />
     <ClInclude Include="SNAnimation.h" />
@@ -68,11 +112,77 @@
     <ClInclude Include="SNTrailRenderer.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="SNWorld.h" />
-    <ClInclude Include="SNFSMFallState.h" />
-    <ClInclude Include="SNFSMKnockedDownState.h" />
-    <ClInclude Include="SNFSMTurnAroundState.h" />
     <ClInclude Include="SNTransform.h" />
     <ClInclude Include="SNDataPackets.h" />
+    <ClInclude Include="SNFiniteStateMachine.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAttackState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMData.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMFallState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMIdleState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMJumpState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMKnockbackState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMKnockedDownState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMRunState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMTurnAroundState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMWalkState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPIdleState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPWalkState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPTauntState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPAttackState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPRunState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPFallState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPJumpState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPKnockbackState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPKnockedDownState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPTauntState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPTurnAroundState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />
@@ -81,5 +191,16 @@
     <None Include="libwebp-7.dll" />
     <None Include="SDL2_image.dll" />
     <None Include="zlib1.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="StateMachine">
+      <UniqueIdentifier>{7a40c7ba-7d42-4439-a296-1b73571ef1e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine\APStates">
+      <UniqueIdentifier>{c38fa4c8-ea8d-433b-9740-1ed9c53755e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine\SPStates">
+      <UniqueIdentifier>{e9d68b09-b2f0-4f79-ac88-9fc6dcf7d58c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -17,6 +17,8 @@ struct SNFSMData
 {
 	SNFSMData(SNWorld* inWorld, SNAutonomousProxy* inAutoProxy, SNSimulatedProxy* inSimProxy, SNInput* inInput) : world(inWorld), autonomousProxy(inAutoProxy), simulatedProxy(inSimProxy), input(inInput) {}
 
+	SNFSMData(SNWorld* inWorld, SNAutonomousProxy* inAutoProxy, SNSimulatedProxy* inSimProxy) : world(inWorld), autonomousProxy(inAutoProxy), simulatedProxy(inSimProxy) {}
+
 	SNFiniteStateMachine* stateMachine;
 	SNWorld* world;
 	SNAutonomousProxy* autonomousProxy;

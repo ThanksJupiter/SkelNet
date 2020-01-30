@@ -48,6 +48,8 @@ bool engGetButton(GamepadButton inButton);
 bool engGetButtonDown(GamepadButton inButton);
 float engGetJoystickAxis(GamepadAxis inAxis);
 float engGetShoulderAxis(GamepadAxis inAxis);
+bool engGetDPadButton(DPadButton inButton);
+bool engGetDPadButtonDown(DPadButton inButton);
 
 // Text 
 void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);

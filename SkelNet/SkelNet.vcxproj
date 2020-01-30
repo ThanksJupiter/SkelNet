@@ -137,8 +137,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
+    <ClCompile Include="SNFSMAPTauntState.cpp" />
     <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNFSMKnockedDownState.cpp" />
+    <ClCompile Include="SNFSMSPAttackState.cpp" />
+    <ClCompile Include="SNFSMSPFallState.cpp" />
+    <ClCompile Include="SNFSMSPIdleState.cpp" />
+    <ClCompile Include="SNFSMSPJumpState.cpp" />
+    <ClCompile Include="SNFSMSPKnockbackState.cpp" />
+    <ClCompile Include="SNFSMSPKnockedDownState.cpp" />
+    <ClCompile Include="SNFSMSPRunState.cpp" />
+    <ClCompile Include="SNFSMSPTauntState.cpp" />
+    <ClCompile Include="SNFSMSPTurnAroundState.cpp" />
+    <ClCompile Include="SNFSMSPWalkState.cpp" />
     <ClCompile Include="SNFSMTurnAroundState.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNFiniteStateMachine.cpp" />
@@ -172,8 +183,19 @@
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNDataPackets.h" />
+    <ClInclude Include="SNFSMAPTauntState.h" />
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />
+    <ClInclude Include="SNFSMSPAttackState.h" />
+    <ClInclude Include="SNFSMSPFallState.h" />
+    <ClInclude Include="SNFSMSPIdleState.h" />
+    <ClInclude Include="SNFSMSPJumpState.h" />
+    <ClInclude Include="SNFSMSPKnockbackState.h" />
+    <ClInclude Include="SNFSMSPKnockedDownState.h" />
+    <ClInclude Include="SNFSMSPRunState.h" />
+    <ClInclude Include="SNFSMSPTauntState.h" />
+    <ClInclude Include="SNFSMSPTurnAroundState.h" />
+    <ClInclude Include="SNFSMSPWalkState.h" />
     <ClInclude Include="SNFSMTurnAroundState.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />

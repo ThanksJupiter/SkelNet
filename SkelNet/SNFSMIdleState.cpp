@@ -6,7 +6,7 @@
 void SNFSMIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
-	fsmData->autonomousProxy->velocity.x = 0;
+	fsmData->autonomousProxy->transform.SetVelocity({ 0, fsmData->autonomousProxy->transform.GetVelocity().y });
 
 	if (fsmData->world->HasAuthority())
 	{
@@ -48,6 +48,12 @@ void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
 	if (input->attack)
 	{
 		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		return;
+	}
+
+	if (input->taunt)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[TAUNT_STATE]);
 		return;
 	}
 }

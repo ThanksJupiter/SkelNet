@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector.h"
+#include "SDL_config.h"
 
 class SNTransform
 {
@@ -20,10 +21,11 @@ public:
 	Vector2 GetAcceleration();
 	bool GetFacingRight();
 
-	Vector2 SetPosition(Vector2 inPos);
-	Vector2 SetPreviousPosition(Vector2 inPos);
-	Vector2 SetScale(Vector2 inPos);
-	Vector2 SetVelocity(Vector2 inPos);
-	Vector2 SetAcceleration(Vector2 inPos);
-	bool SetFacingRight(bool inFacingRight);
+	void SetPosition(Vector2 inPos);
+	void SetPreviousPosition(Vector2 inPos);
+	void SetScale(Vector2 inPos);
+	void SetVelocity(Vector2 inPos);
+	void SetAcceleration(Vector2 inPos);
+	void SetFacingRight(bool inFacingRight);
+	void SetFacingRight(int8_t in);
 };

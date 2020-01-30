@@ -27,6 +27,6 @@ void SNFSMKnockedDownState::Update(float dt, SNFSMData* fsmData)
 void SNFSMKnockedDownState::Exit(SNFSMData* fsmData)
 {
 	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->position,
+		fsmData->autonomousProxy->transform.GetPosition(),
 		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
 }

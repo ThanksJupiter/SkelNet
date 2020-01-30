@@ -41,21 +41,22 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->leftStickDirection.x != 0)
 	{
-		if (abs(autoProxy->velocity.x) < autoProxy->minVelocitySpeed)
+		if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minVelocitySpeed)
 		{
-			autoProxy->velocity.x = autoProxy->minVelocitySpeed * input->leftStickDirection.x;
+			autoProxy->transform.SetVelocity({ autoProxy->minVelocitySpeed * input->leftStickDirection.x,autoProxy->transform.GetVelocity().y });
 		}
 
-		if (abs(autoProxy->velocity.x) < autoProxy->minRunSpeed)
+		if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minRunSpeed)
 		{
-			autoProxy->acceleration.x = autoProxy->accelerationSpeed * input->leftStickDirection.x;
+			autoProxy->transform.SetAcceleration({ autoProxy->accelerationSpeed * input->leftStickDirection.x, autoProxy->transform.GetAcceleration().y });
 		}
 	}
 	else
 	{
 		// TODO don't leave walk state if no input
-		autoProxy->velocity.x = 0.0f;
-		autoProxy->acceleration.x = 0.0f;
+		autoProxy->transform.SetVelocity({ 0.0f, autoProxy->transform.GetVelocity().y});
+		autoProxy->transform.SetAcceleration({ 0.0f, autoProxy->transform.GetAcceleration().y });
+
 		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
 		return;
 	}
@@ -79,15 +80,15 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 	}
 
 	// movement time integration
-	autoProxy->previousPosition = autoProxy->position;
+	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->velocity += autoProxy->acceleration * dt;
-	autoProxy->position += autoProxy->velocity * dt;
+	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 
 	autoProxy->SendTransformData();
 }
 
 void SNFSMWalkState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

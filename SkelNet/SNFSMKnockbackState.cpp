@@ -34,20 +34,20 @@ void SNFSMKnockbackState::Update(float dt, SNFSMData* fsmData)
 	if (timer >= dustDelay)
 	{
 		fsmData->world->particleSystem->StartParticleEffect(
-			fsmData->autonomousProxy->position,
+			fsmData->autonomousProxy->transform.GetPosition(),
 			fsmData->world->dustCloud01Anim, fsmData->world->dustCloud01Anim->duration, fsmData->autonomousProxy->flip);
 		timer = 0.0f;
 	}
 
-	autoProxy->acceleration.y = autoProxy->gravity * autoProxy->gravityMult;
+	autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x , autoProxy->gravity * autoProxy->gravityMult });
 
 	// movement time integration
-	autoProxy->previousPosition = autoProxy->position;
+	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->velocity += autoProxy->acceleration * dt;
-	autoProxy->position += autoProxy->velocity * dt;
+	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 
-	if (autoProxy->velocity.y > 0 && autoProxy->position.y > 333)
+	if (autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333)
 	{
 		fsmData->autonomousProxy->animator->rotation = 0;
 		fsmData->stateMachine->EnterState(fsmData->availableStates[KNOCKDOWN_STATE]);

@@ -166,3 +166,17 @@ enum class GamepadAxis : unsigned short
 
 	MAX
 };
+
+enum class DPadButton : unsigned short
+{
+	None,
+	Up,
+	Right,
+	UpRight,
+	Down,
+	DownRight = 6,
+	Left = 8,
+	UpLeft,
+	DownLeft = 12,
+	MAX
+};
