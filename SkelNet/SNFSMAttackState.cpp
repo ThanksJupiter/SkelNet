@@ -77,7 +77,7 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 
 	if (timer >= attackDuration)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		autoProxy->EnterState(IDLE_STATE);
 	}
 }
 

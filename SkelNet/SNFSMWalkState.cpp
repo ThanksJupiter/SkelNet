@@ -57,25 +57,25 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 		autoProxy->transform.SetVelocity({ 0.0f, autoProxy->transform.GetVelocity().y});
 		autoProxy->transform.SetAcceleration({ 0.0f, autoProxy->transform.GetAcceleration().y });
 
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		autoProxy->EnterState(IDLE_STATE);
 		return;
 	}
 
 	if (abs(input->leftStickDirection.x) > .8 && timer < runTimeThreshold)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
+		autoProxy->EnterState(RUN_STATE);
 		return;
 	}
 
 	if (input->jump)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
+		autoProxy->EnterState(JUMP_STATE);
 		return;
 	}
 
 	if (input->attack)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		autoProxy->EnterState(ATTACK_STATE);
 		return;
 	}
 
