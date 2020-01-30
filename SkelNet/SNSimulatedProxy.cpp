@@ -154,6 +154,10 @@ void SNSimulatedProxy::SetAnimation(int index)
 		animator->SetCurrentAnimation(world->knockbackAnim);
 		break;
 
+	case TAUNT_ANIM:
+		animator->SetCurrentAnimation(world->teabagAnim);
+		break;
+
 	default:
 		break;
 		/*case KNOCKBACK_ANIM:

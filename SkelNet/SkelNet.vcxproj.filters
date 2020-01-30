@@ -62,6 +62,12 @@
     <ClCompile Include="SNFSMAPTauntState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMSPAttackState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPAirborneState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -133,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="SNFSMAPTauntState.h">
       <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPAttackState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPAirborneState.h">
+      <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

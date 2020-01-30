@@ -7,7 +7,8 @@
 #define ATTACK_ANIM 3
 #define JUMP_ANIM 4
 #define KNOCKBACK_ANIM 5
-#define MAX_ANIM 6;
+#define TAUNT_ANIM 6
+#define MAX_ANIM 7
 
 struct AnimationInstance;
 class Vector2;
