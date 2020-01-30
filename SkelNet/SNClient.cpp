@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include "SNDataPackets.h"
 #include "SNWorld.h"
+#include "SNSimulatedProxy.h"
+#include "SNAnimator.h"
 
 void SNClient::Setup()
 {
@@ -57,7 +59,7 @@ bool SNClient::RecvData()
 			{
 				return false;
 			}
-
+				
 			Uint8 flags;
 			memcpy(&flags, dataBuffer, sizeof(Uint8));
 
@@ -74,7 +76,7 @@ bool SNClient::RecvData()
 				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(Uint16), sizeof(Uint16));
 
 				world->simulatedProxy.SetPosition({ (float)posX, (float)posY });
-				world->simulatedProxy.flip = flip > 0 ? true : false;
+				world->simulatedProxy.flip = flip < 0 ? true : false;
 			} break;
 
 			case SP_STATE_FLAG: {
@@ -105,7 +107,6 @@ Uint8* SNClient::InternalRecvData()
 {
 	Uint8 recvData[20]; // sizeof largest packet
 	int len = SDLNet_TCP_Recv(tcpsock, recvData, 20);
-	printf("Client Recieved data!\n");
 
 	if (!len && printErrors)
 	{
@@ -124,14 +125,14 @@ Uint8* SNClient::InternalRecvData()
 		}
 
 		case SP_STATE_FLAG: {
-			Uint8 retData[20];
-			memcpy(retData, recvData, sizeof(SNStatePacket));
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
 			return retData;
 		}
 
 		case AP_STATE_FLAG: {
-			Uint8 retData[20];
-			memcpy(retData, recvData, sizeof(SNStatePacket));
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -165,9 +166,17 @@ void SNClient::SendData(SNTransformPacket* data)
 
 void SNClient::SendData(SNStatePacket* data)
 {
-	char buffer[4];
-	//sprintf_s(buffer, "%hu %c", data->state, data->flag);
-	//InternalSendData(buffer, sizeof(buffer));
+	if (tcpsock == nullptr)
+		return;
+
+	Uint8 buffer[4];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->state, sizeof(Uint8));
+
+	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
 void SNClient::Close()

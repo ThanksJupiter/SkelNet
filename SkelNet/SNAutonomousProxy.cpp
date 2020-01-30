@@ -260,13 +260,26 @@ void SNAutonomousProxy::Attack()
 
 	if (world->isServer)
 	{
-		serverAttacked = true;
+		//serverAttacked = true;
+
+
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = KNOCKDOWN_STATE;
+
+		world->server.SendData(&statePacket);
 	}
 	else
 	{
-		clientAttacked = true;
+		//clientAttacked = true;
 
 		animator->SetCurrentAnimation(world->apAttackAnim, true);
+
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = KNOCKDOWN_STATE;
+
+		world->client.SendData(&statePacket);
 	}
 
 	/* if Client*/
@@ -283,7 +296,7 @@ void SNAutonomousProxy::CheckAttack()
 		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
 			// Send hit data
-			clientWasHit = true;
+			//clientWasHit = true;
 			world->simulatedProxy.TakeDamage();
 		}
 	}
@@ -292,7 +305,7 @@ void SNAutonomousProxy::CheckAttack()
 		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
 			// Send hit data
-			clientWasHit = true;
+			//clientWasHit = true;
 			world->simulatedProxy.TakeDamage();
 		}
 	}
