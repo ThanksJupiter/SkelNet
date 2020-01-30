@@ -18,7 +18,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	transform.SetPosition(initPos);
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
-	stateText = canvas.CreateText({ 0, -200 }, "100%", nullptr, { -50, 0 });
+	stateText = canvas.CreateText({ 250, 200 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -54,8 +54,8 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 		}
 	}
 
-	anchor.UpdatePosition();
-	canvas.UpdatePosition();
+	//anchor.UpdatePosition();
+	//canvas.UpdatePosition();
 	canvas.Draw();
 
 	if (drawDebug)
@@ -63,15 +63,18 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 		anchor.DrawDebug(true);
 	}
 
+	//engDrawString({100, 20}, )
+	stateText->UpdateText(stateMachine->currentState->stateName);
+
 	engSetColor(0, 255, 0);
 
 	if (animator->doManualAnimationCycling)
 	{
-		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight());
+		animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight());
 	}
 	else
 	{
-		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight(), dt, animator->rotation);
+		animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight(), dt, animator->rotation);
 	}
 
 	engSetColor(0, 0, 0);
@@ -82,7 +85,7 @@ void SNAutonomousProxy::Update(float dt)
 	CheckInput(dt);
 	UpdatePosition(dt);
 
-	stateText->UpdateText(stateMachine->currentState->stateName);
+	//stateText->UpdateText(stateMachine->currentState->stateName);
 
 	stateMachine->Update(dt);
 
@@ -237,10 +240,10 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		transform.SetAcceleration({ transform.GetAcceleration().x ,gravity * gravityMult });
 	}
 
-	if ((transform.GetPosition().x < floorTransform->GetPosition().x || transform.GetPosition().x > floorTransform->GetPosition().x + floorTransform->GetScale().x))
+	if (!IsGrounded())
 	{
 		//Activate gravity
-		transform.SetAcceleration({ transform.GetAcceleration().x ,gravity * gravityMult });
+		transform.SetAcceleration({ transform.GetAcceleration().x, gravity * gravityMult });
 
 		//Set fall state
 		if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
@@ -248,14 +251,8 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 			EnterState(FALL_STATE);
 		}
 	}
-	engSetColor(0, 255, 0);
-	engDrawLine(floorTransform->GetPosition(), { floorTransform->GetPosition().x + floorTransform->GetScale().x, floorTransform->GetPosition().y });
-	engSetColor(0, 0, 0);
 
-	if (
-		(transform.GetVelocity().y > 0 && transform.GetPosition().y > floorTransform->GetPosition().y) &&
-		(transform.GetPosition().x > floorTransform->GetPosition().x && transform.GetPosition().x < floorTransform->GetPosition().x + floorTransform->GetScale().x)
-	   )
+	if (IsGrounded())
 	{
 		transform.SetPosition({ transform.GetPosition().x, floorTransform->GetPosition().y });
 		transform.SetVelocity({ transform.GetVelocity().x, 0 });
@@ -291,10 +288,14 @@ void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
 	transform.SetPosition(newPosition);
 }
-
+  
 bool SNAutonomousProxy::IsGrounded()
 {
-	return transform.GetPosition().y > 332;
+	SNTransform* floorTransform = &world->worldFloor.transform;
+	return (
+		(transform.GetPosition().y >= floorTransform->GetPosition().y) &&
+		(transform.GetPosition().x > floorTransform->GetPosition().x && transform.GetPosition().x < floorTransform->GetPosition().x + (world->levelSprite->width * floorTransform->GetScale().x))
+		);
 }
 
 void SNAutonomousProxy::CheckInput(float dt)

@@ -131,7 +131,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .05);
 	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
 
-	world.levelSprite = new SNSprite(256, 128, engLoadTexture("SN_Castle_Roof.png"), 0);
+	world.levelSprite = new SNSprite(256, 24, engLoadTexture("SN_Castle_Roof.png"), 0);
 }
 
 void engSetSpriteRenderScale(float scale)

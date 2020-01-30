@@ -14,7 +14,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
-
+	SNTransform* floorTransform = &fsmData->world->worldFloor.transform;
 	autoProxy->SetDirection();
 
 	if (input->leftStickDirection.y > 0)
@@ -42,7 +42,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 			autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x ,autoProxy->accelerationSpeed * autoProxy->airControlMult * input->leftStickDirection.x });
 		}
 
-		if ((autoProxy->transform.GetPosition().y > 0 && autoProxy->transform.GetPosition().y > 333) && (autoProxy->transform.GetPosition().x > 170 && autoProxy->transform.GetPosition().x < 935))
+		if (autoProxy->IsGrounded())
 		{
 			// land
 			fsmData->autonomousProxy->animator->IncrementOneFrame();

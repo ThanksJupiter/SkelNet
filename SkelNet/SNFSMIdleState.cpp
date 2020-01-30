@@ -6,7 +6,7 @@
 void SNFSMIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
-	fsmData->autonomousProxy->transform.SetVelocity({ 0, fsmData->autonomousProxy->transform.GetVelocity().y });
+	fsmData->autonomousProxy->transform.SetVelocity({ 0, 0 });
 
 
 }

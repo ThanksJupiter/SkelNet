@@ -66,8 +66,7 @@ int main()
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.Setup();
 
-	world.SpawnFloor({ 0, 0 }, { 1, 1 });
-
+	world.SpawnFloor({ 0, 0 }, { 2, 2 });
 
 	canvas.Setup(world.worldSize, { 0.f, 0.f });
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });

@@ -61,7 +61,7 @@ void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
 
 	engSetColor(0, 255, 255);
 
-	animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight(), dt);
+	animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight(), dt);
 
 	engSetColor(0, 0, 0);
 }

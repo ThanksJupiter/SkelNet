@@ -73,7 +73,7 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 		autoProxy->EnterState(FALL_STATE);
 	}
 
-	if (autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333)
+	if (autoProxy->IsGrounded())
 	{
 		// land
 		LeaveLandingFrame(fsmData);

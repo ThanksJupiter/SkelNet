@@ -17,16 +17,19 @@ Vector2 SNCamera::MakePositionWithCam(Vector2 oldPos)
 	camCenter.x = transform.GetPosition().x + (transform.GetScale().x / 2);
 	camCenter.y = transform.GetPosition().y + (transform.GetScale().y / 2);
 
-	engSetColor(255, 0, 255);
+	/*engSetColor(255, 0, 255);
 	engDrawPoint(transform.GetPosition(), 15);
 	engDrawArrow(transform.GetPosition(), camCenter);
 	engDrawPoint(camCenter, 10);
-	engSetColor(0, 0, 0);
+	engSetColor(0, 0, 0);*/
 
-	Vector2 returnPos;
-	returnPos = TranslateVector(oldPos, transform.GetPosition());
+	Vector2 returnPos = oldPos;
+	//returnPos = TranslateVector(oldPos, transform.GetPosition());
+	//returnPos = ScaleVector(returnPos, camScale);
+
+	returnPos += camCenter;
 	returnPos.x *= camScale;
 	returnPos.y *= camScale;
-	//returnPos = ScaleVector(returnPos, camScale);
+
 	return returnPos;
 }

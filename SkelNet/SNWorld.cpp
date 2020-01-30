@@ -93,14 +93,14 @@ void SNWorld::Update(float dt)
 			autonomousProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
 			autonomousProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGame();
-			return;
+			//particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			//RestartGame();
+			//return;
 		}
 
 		if (simulatedProxy.transform.GetPosition().x == 0)
 		{
-			return;
+			//return;
 		}
 
 		if (simulatedProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
@@ -108,9 +108,9 @@ void SNWorld::Update(float dt)
 			simulatedProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
 			simulatedProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGame();
-			return;
+			//particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			//RestartGame();
+			//return;
 		}
 	}
 }
@@ -152,7 +152,7 @@ void SNWorld::Draw(float dt)
 void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 {
 	Vector2 initPos;
-	initPos.x = 100;
+	initPos.x = 0;
 	initPos.y = -50.f;
 
 	autonomousProxy = SNAutonomousProxy();
@@ -175,7 +175,7 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 {
 	Vector2 initPos;
-	initPos.x = -5;
+	initPos.x = 0;
 	initPos.y = -10;
 
 	simulatedProxy.Spawn(initPos, worldptr);
