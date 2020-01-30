@@ -198,6 +198,20 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 
 	autonomousProxy = SNAutonomousProxy();
 	autonomousProxy.Spawn({ initPos.x + 50, initPos.y }, worldptr);
+
+
+	if (isServer)
+	{
+		autonomousProxy.animator->r = 155;
+		autonomousProxy.animator->g = 155;
+		autonomousProxy.animator->b = 255;
+	}
+	else
+	{
+		autonomousProxy.animator->r = 255;
+		autonomousProxy.animator->g = 155;
+		autonomousProxy.animator->b = 155;
+	}
 }
 
 void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
@@ -207,6 +221,19 @@ void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 	initPos.y = (worldSize.y / 3) * 2;
 
 	simulatedProxy.Spawn(initPos, worldptr);
+
+	if (isServer)
+	{
+		simulatedProxy.animator->r = 255;
+		simulatedProxy.animator->g = 155;
+		simulatedProxy.animator->b = 155;
+	}
+	else
+	{
+		simulatedProxy.animator->r = 155;
+		simulatedProxy.animator->g = 155;
+		simulatedProxy.animator->b = 255;
+	}
 }
 
 void SNWorld::SpawnFloor(Vector2 position, Vector2 size)

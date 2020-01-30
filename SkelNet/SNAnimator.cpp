@@ -60,6 +60,9 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 		currentAnimation->sprites[currentAnimFrameCount]->height * scale
 	};
 
+	SDL_SetTextureColorMod(currentAnimation->sprites[currentAnimFrameCount]->texture,
+		r, g, b);
+
 	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation, {destinationRect.w / 2, destinationRect.h - 40});
 }
 
@@ -82,6 +85,9 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped)
 		currentAnimation->sprites[currentAnimFrameCount]->width * scale,
 		currentAnimation->sprites[currentAnimFrameCount]->height * scale
 	};
+
+	SDL_SetTextureColorMod(currentAnimation->sprites[currentAnimFrameCount]->texture,
+		r, g, b);
 
 	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped);
 }

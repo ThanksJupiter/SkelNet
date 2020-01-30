@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL_config.h"
+#include "SDL_net.h"
 
 #define IDLE_ANIM 0
 #define WALK_ANIM 1
@@ -35,6 +36,10 @@ public:
 
 	bool isWalking = false;
 	bool isRunning = false;
+
+	Uint8 r;
+	Uint8 g;
+	Uint8 b;
 
 	bool doManualAnimationCycling = false;
 
