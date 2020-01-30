@@ -1,4 +1,6 @@
 #include "SNTransform.h"
+#include "SNMath.h"
+#include "SNCamera.h"
 
 SNTransform::SNTransform()
 {
@@ -10,6 +12,7 @@ SNTransform::SNTransform()
 void SNTransform::SetPosition(Vector2 inPos)
 {
 	position = inPos;
+	//position = TranslateVector(inPos);
 }
 
 void SNTransform::SetPreviousPosition(Vector2 inPrevPos)

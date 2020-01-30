@@ -1,4 +1,5 @@
 #include "SNParticleSystem.h"
+#include "SNCamera.h"
 
 SNParticleSystem::SNParticleSystem()
 {
@@ -47,7 +48,7 @@ SNParticleEffect* SNParticleSystem::StartParticleEffect(Vector2 pos, SNAnimation
 	}
 }
 
-void SNParticleSystem::UpdateParticles(float dt)
+void SNParticleSystem::UpdateParticles(float dt, SNCamera* cam)
 {
 	for (int i = 0; i < particleEffects.size(); i++)
 	{
@@ -57,7 +58,7 @@ void SNParticleSystem::UpdateParticles(float dt)
 		particleEffects[i]->currentPlayDuration += dt;
 		if (particleEffects[i]->currentPlayDuration < particleEffects[i]->playDuration)
 		{
-			particleEffects[i]->particleAnimator.DrawAnimation(particleEffects[i]->position, particleEffects[i]->flipped, dt, particleEffects[i]->rotation);
+			particleEffects[i]->particleAnimator.DrawAnimation(particleEffects[i]->position - cam->transform.GetPosition(), particleEffects[i]->flipped, dt, particleEffects[i]->rotation);
 		}
 		else
 		{

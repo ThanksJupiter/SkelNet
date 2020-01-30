@@ -9,6 +9,8 @@ class SNWorld;
 
 const float PI = 3.14f;
 static int currentFrameNum = 1;
+static float spriteRenderScale = 1.0f;
+
 
 void engInit();
 void engClose();
@@ -59,3 +61,5 @@ Vector2 engGetTextSize(const char* string);
 // Image loading
 SDL_Texture* engLoadTexture(const char* path);
 void engLoadAnimationsToWorld(SNWorld& world);
+void engSetSpriteRenderScale(float scale);
+float engGetSpriteRenderScale();

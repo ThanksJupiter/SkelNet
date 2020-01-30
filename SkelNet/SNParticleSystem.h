@@ -3,6 +3,7 @@
 #include "SNAnimator.h"
 #include "Vector.h"
 #include <vector>
+#include "SNCamera.h"
 
 struct SNParticleEffect
 {
@@ -28,7 +29,7 @@ public:
 	SNParticleEffect* ReuseParticleEffect();
 	
 	SNParticleEffect* StartParticleEffect(Vector2 pos, SNAnimation* animation, float duration, bool flipped, float scale = 3, float rot = 0.f);
-	void UpdateParticles(float dt);
+	void UpdateParticles(float dt, SNCamera* cam);
 	std::vector<SNParticleEffect*> particleEffects;
 
 };

@@ -4,16 +4,24 @@
 #include "SNWorld.h"
 #include <math.h>
 
-
-void SNFloor::Spawn(Vector2 pos, Vector2 size)
+void SNFloor::Spawn(Vector2 pos, Vector2 size, SNWorld* world)
 {
-	position = pos;
-	this->size = size;
+	transform.SetPosition(pos);
+	transform.SetScale(size);
+	this->world = world;
 }
 
 void SNFloor::Draw()
 {
-	engSetColor(255, 0, 0);
-	engDrawRect(size.x, size.y, position.x, position.y);
-	engSetColor(0, 0, 0);
+	SDL_Rect dstRect;
+	dstRect.w = world->levelSprite->width;
+	dstRect.h = world->levelSprite->height;
+
+	Vector2 newPos = transform.GetPosition();
+
+	newPos = world->mainCamera.MakePositionWithCam(transform.GetPosition());
+	dstRect.x = newPos.x;
+	dstRect.y = newPos.y;
+
+	engDrawSprite(world->levelSprite->sheetSourceRect, dstRect, world->levelSprite->texture);
 }

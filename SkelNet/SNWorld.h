@@ -9,6 +9,7 @@
 #include "SNAnimation.h"
 #include "SNAudioManager.h"
 #include "SNTrailRenderer.h"
+#include "SNCamera.h"
 
 class SNTrail;
 class SNParticleSystem;
@@ -48,9 +49,12 @@ public:
 	SNAnimation* teabagAnim;
 
 	SNSprite* levelSprite;
+	SNFloor worldFloor;
 
 	SNTrail* trail;
 	SNParticleSystem* particleSystem;
+
+	SNCamera mainCamera;
 
 	bool doStartup;
 	bool isServer;

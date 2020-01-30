@@ -8,7 +8,7 @@ class SNTrail
 {
 public:
 	void Setup(Vector2 initPos, int numSegments, float length, float startWidth, float endWidth, SNSprite& sprite);
-	void Draw();
+	void Draw(SNCamera* cam);
 	void Update(Vector2 anchorPosition);
 
 	Vector2 position;

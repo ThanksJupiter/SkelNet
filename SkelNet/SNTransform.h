@@ -2,6 +2,8 @@
 #include "Vector.h"
 #include "SDL_config.h"
 
+class SNCamera;
+
 class SNTransform
 {
 private:

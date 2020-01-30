@@ -26,7 +26,7 @@ public:
 	void CheckAttack();
 	void TakeDamage();
 	void CheckInput(float dt);
-	void Draw(float dt);
+	void Draw(float dt, SNCamera* cam);
 	void Update(float dt);
 
 	void SetDirection();

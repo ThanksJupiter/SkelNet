@@ -50,7 +50,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	flyBackDirection = { -1, -1 };
 }
 
-void SNSimulatedProxy::Draw(float dt)
+void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
 {
 	if (transform.GetPosition().x != transform.GetPreviousPosition().x)
 	{
@@ -70,7 +70,7 @@ void SNSimulatedProxy::Draw(float dt)
 	}
 
 	engSetColor(0, 255, 255);
-	animator->DrawAnimation(transform.GetPosition(), flip, dt);
+	animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), flip, dt);
 	engSetColor(0, 0, 0);
 }
 

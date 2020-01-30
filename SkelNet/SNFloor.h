@@ -1,12 +1,16 @@
 #pragma once
 #include "Vector.h"
+#include "SNTransform.h"
+
+class SNWorld;
 
 class SNFloor
 {
 public:
-	void Spawn(Vector2 pos, Vector2 size);
+	void Spawn(Vector2 pos, Vector2 size, SNWorld* world);
 	void Draw();
 
-	Vector2 position;
-	Vector2 size;
+	SNTransform transform;
+
+	SNWorld* world;
 };
