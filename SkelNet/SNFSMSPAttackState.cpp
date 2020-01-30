@@ -10,10 +10,10 @@ void SNFSMSPAttackState::Enter(SNFSMData* fsmData)
 
 void SNFSMSPAttackState::Update(float dt, SNFSMData* fsmData)
 {
-
+	
 }
 
 void SNFSMSPAttackState::Exit(SNFSMData* fsmData)
 {
-
+	
 }

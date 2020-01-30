@@ -65,7 +65,25 @@
     <ClCompile Include="SNFSMSPAttackState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
-    <ClCompile Include="SNFSMSPAirborneState.cpp">
+    <ClCompile Include="SNFSMSPRunState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPFallState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPJumpState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPKnockbackState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPKnockedDownState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPTauntState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPTurnAroundState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +161,25 @@
     <ClInclude Include="SNFSMSPAttackState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
-    <ClInclude Include="SNFSMSPAirborneState.h">
+    <ClInclude Include="SNFSMSPRunState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPFallState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPJumpState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPKnockbackState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPKnockedDownState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPTauntState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPTurnAroundState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
   </ItemGroup>

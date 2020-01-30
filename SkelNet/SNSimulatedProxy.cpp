@@ -5,6 +5,18 @@
 #include <iomanip>
 #include <sstream>
 #include "SNParticleSystem.h"
+#include "SNInput.h"
+#include "SNFSMData.h"
+#include "SNFSMSPIdleState.h"
+#include "SNFSMSPWalkState.h"
+#include "SNFSMSPRunState.h"
+#include "SNFSMSPAttackState.h"
+#include "SNFSMSPJumpState.h"
+#include "SNFSMSPKnockbackState.h"
+#include "SNFSMSPFallState.h"
+#include "SNFSMSPKnockedDownState.h"
+#include "SNFSMSPTurnAroundState.h"
+#include "SNFSMSPTauntState.h"
 
 void SPDoAttack(SNWorld* world)
 {
@@ -160,10 +172,34 @@ void SNSimulatedProxy::SetAnimation(int index)
 
 	default:
 		break;
-		/*case KNOCKBACK_ANIM:
-			animator->SetCurrentAnimation(world->knock);
-			break;*/
 	}
+}
+
+void SNSimulatedProxy::SetState(int index)
+{
+	stateMachine->EnterState(fsmData->availableStates[index]);
+}
+
+void SNSimulatedProxy::InitializeFSM()
+{
+	fsmData = new SNFSMData(
+		world, &world->autonomousProxy, this);
+
+	fsmData->availableStates[IDLE_STATE] = new SNFSMSPIdleState("Idle");
+	fsmData->availableStates[WALK_STATE] = new SNFSMSPWalkState("Walk");
+	fsmData->availableStates[RUN_STATE] = new SNFSMSPRunState("Run");
+	fsmData->availableStates[ATTACK_STATE] = new SNFSMSPAttackState("Attack");
+	fsmData->availableStates[JUMP_STATE] = new SNFSMSPJumpState("Jump");
+	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMSPKnockbackState("Knockback");
+	fsmData->availableStates[FALL_STATE] = new SNFSMSPFallState("Fall");
+	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMSPKnockedDownState("KnockedDown");
+	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMSPTurnAroundState("Turn");
+	fsmData->availableStates[TAUNT_STATE] = new SNFSMSPTauntState("Taunt");
+
+	stateMachine = new SNFiniteStateMachine(fsmData);
+	fsmData->stateMachine = stateMachine;
+
+	stateMachine->EnterState(fsmData->availableStates[0]);
 }
 
 void SNSimulatedProxy::Reset()

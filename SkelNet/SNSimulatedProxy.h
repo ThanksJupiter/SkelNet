@@ -7,6 +7,8 @@
 
 class SNWorld;
 class SNAnimator;
+class SNFiniteStateMachine;
+struct SNFSMData;
 
 class SNSimulatedProxy
 {
@@ -23,6 +25,12 @@ public:
 	bool isGrounded();
 
 	void SetAnimation(int index);
+	void SetState(int index);
+
+	void InitializeFSM();
+
+	SNFiniteStateMachine* stateMachine;
+	SNFSMData* fsmData;
 
 	SNTransform transform;
 
