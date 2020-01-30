@@ -13,11 +13,12 @@ void SNFSMAPTauntState::Enter(SNFSMData* fsmData)
 
 void SNFSMAPTauntState::Update(float dt, SNFSMData* fsmData)
 {
+	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	timer += dt;
 
 	if (timer >= tauntDuration)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		autoProxy->EnterState(IDLE_STATE);
 	}
 
 	if (timer >= pufferDelay && !hasPufferSoundPlayed)

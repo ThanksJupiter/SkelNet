@@ -9,4 +9,4 @@ typedef struct
 	Uint16 health;
 	Uint16 animState;
 
-} SNDataPacket;
+} SNDataPacket_t;

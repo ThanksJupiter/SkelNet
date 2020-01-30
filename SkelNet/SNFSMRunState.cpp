@@ -12,15 +12,6 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->runAnim);
 
-	if (fsmData->world->isServer)
-	{
-		fsmData->world->server.statePack.animState = RUN_ANIM;
-	}
-	else
-	{
-		fsmData->world->client.statePack.animState = RUN_ANIM;
-	}
-
 	autoProxy->SetDirection();
 
 	fsmData->world->particleSystem->StartParticleEffect(
@@ -49,7 +40,7 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 		autoProxy->transform.SetAcceleration({0,autoProxy->transform.GetAcceleration().y});
 	}
 
-	bool attemptingDirectionChange = 
+	bool attemptingDirectionChange =
 		(autoProxy->transform.GetVelocity().x > 0 && input->leftStickDirection.x < 0) ||
 		(autoProxy->transform.GetVelocity().x < 0 && input->leftStickDirection.x > 0);
 
@@ -57,12 +48,12 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 	{
 		if (timer < dashDanceThreshold)
 		{
-			fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
+			autoProxy->EnterState(RUN_STATE);
 			return;
 		}
 		else
 		{
-			fsmData->stateMachine->EnterState(fsmData->availableStates[WALK_STATE]);
+			autoProxy->EnterState(WALK_STATE);
 			return;
 		}
 	}
@@ -70,25 +61,25 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 	// TODO implement drag to decrease speed when no input
 	if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minRunSpeed)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[WALK_STATE]);
+		autoProxy->EnterState(WALK_STATE);
 		return;
 	}
 
 	if (input->leftStickDirection.x == 0)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[WALK_STATE]);
+		autoProxy->EnterState(WALK_STATE);
 		return;
 	}
 
 	if (input->attack)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		autoProxy->EnterState(ATTACK_STATE);
 		return;
 	}
 
 	if (input->jump)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
+		autoProxy->EnterState(JUMP_STATE);
 		return;
 	}
 
@@ -101,5 +92,5 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMRunState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

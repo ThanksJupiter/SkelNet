@@ -10,13 +10,21 @@ void SNFSMWalkState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->walkAnim);
 
-	if (fsmData->world->isServer)
+	if (fsmData->world->HasAuthority())
 	{
-		fsmData->world->server.statePack.animState = WALK_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = WALK_STATE;
+
+		fsmData->world->server.SendData(&statePacket);
 	}
 	else
 	{
-		fsmData->world->client.statePack.animState = WALK_ANIM;
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = WALK_STATE;
+
+		fsmData->world->client.SendData(&statePacket);
 	}
 
 	timer = 0.0f;
@@ -49,25 +57,25 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 		autoProxy->transform.SetVelocity({ 0.0f, autoProxy->transform.GetVelocity().y});
 		autoProxy->transform.SetAcceleration({ 0.0f, autoProxy->transform.GetAcceleration().y });
 
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		autoProxy->EnterState(IDLE_STATE);
 		return;
 	}
 
 	if (abs(input->leftStickDirection.x) > .8 && timer < runTimeThreshold)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[RUN_STATE]);
+		autoProxy->EnterState(RUN_STATE);
 		return;
 	}
 
 	if (input->jump)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
+		autoProxy->EnterState(JUMP_STATE);
 		return;
 	}
 
 	if (input->attack)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
+		autoProxy->EnterState(ATTACK_STATE);
 		return;
 	}
 
@@ -76,9 +84,11 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 
 	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
 	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
+
+	autoProxy->SendTransformData();
 }
 
 void SNFSMWalkState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

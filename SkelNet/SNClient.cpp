@@ -3,8 +3,10 @@
 #include "SNClient.h"
 #include <string.h>
 #include <stdio.h>
-#include "SNDataPacket.h"
+#include "SNDataPackets.h"
 #include "SNWorld.h"
+#include "SNSimulatedProxy.h"
+#include "SNAnimator.h"
 
 void SNClient::Setup()
 {
@@ -31,6 +33,9 @@ void SNClient::Setup()
 
 bool SNClient::RecvData()
 {
+	if (tcpsock == nullptr)
+		return false;
+
 	int numReady;
 	numReady = SDLNet_CheckSockets(socketSet, RECV_TIMEOUT_MS);
 	if (numReady == -1 && printErrors)
@@ -49,48 +54,129 @@ bool SNClient::RecvData()
 	{
 		if (SDLNet_SocketReady(tcpsock))
 		{
-
-			char recvData[1024];
-			int len = SDLNet_TCP_Recv(tcpsock, recvData, 1024);
-
-			if (!len)
+			Uint8* dataBuffer = InternalRecvData();
+			if (dataBuffer == nullptr)
 			{
-				printf("Client Recieve: %s\n", SDLNet_GetError());
 				return false;
 			}
-			else if (len != -1)
+				
+			Uint8 flags;
+			memcpy(&flags, dataBuffer, sizeof(Uint8));
+
+			switch (flags)
 			{
-				sscanf_s(recvData, "%i %hu %hu %hu %hu %hu", &recievedData.flags, &recievedData.id, &recievedData.posX, &recievedData.posY, &recievedData.health, &recievedData.animState);
+			case TRANSFORM_FLAG: {
+				// Set Transform of Simulated Proxy
+				Uint16 posX;
+				Uint16 posY;
+				int8_t flip;
+
+				memcpy(&flip, dataBuffer + sizeof(Uint8), sizeof(int8_t));
+				memcpy(&posX, dataBuffer + sizeof(Uint8) + sizeof(int8_t), sizeof(Uint16));
+				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(Uint16), sizeof(Uint16));
+
+				world->simulatedProxy.SetPosition({ (float)posX, (float)posY });
+				world->simulatedProxy.transform.SetFacingRight(flip < 0 ? true : false);
+			} break;
+
+			case SP_STATE_FLAG: {
+				// Set Simulated Proxy State
+				Uint8 state;
+				memcpy(&state, dataBuffer + sizeof(flags), sizeof(Uint8));
+				world->simulatedProxy.SetState(state);
 				return true;
+			} break;
+
+			case AP_STATE_FLAG: {
+				// Set Autonomous Proxy State
+				Uint8 state;
+				memcpy(&state, dataBuffer + sizeof(flags), sizeof(Uint8));
+				//world->autonomousProxy.SetState(state);
+				return true;
+			} break;
+
+			default:
+				return false;
+				break;
 			}
 		}
 	}
-	return false;
 }
 
-void SNClient::SendData()
+Uint8* SNClient::InternalRecvData()
+{
+	Uint8 recvData[20]; // sizeof largest packet
+	int len = SDLNet_TCP_Recv(tcpsock, recvData, 20);
+
+	if (!len && printErrors)
+	{
+		printf("Client Recieve: %s\n", SDLNet_GetError());
+	}
+	else if (len != -1)
+	{
+		Uint8 flags;
+		memcpy(&flags, recvData, sizeof(Uint8));
+		switch (flags)
+		{
+		case TRANSFORM_FLAG: {
+			Uint8 retData[20];
+			memcpy(retData, recvData, 20 * sizeof(Uint8));
+			return retData;
+		}
+
+		case SP_STATE_FLAG: {
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
+			return retData;
+		}
+
+		case AP_STATE_FLAG: {
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
+			return retData;
+		}
+
+		default:
+			return nullptr;
+		}
+	}
+	return nullptr;
+}
+
+void SNClient::SendData(SNTransformPacket* data)
 {
 	if (tcpsock == nullptr)
 		return;
 
-	char buffer[1024];
+	Uint8 buffer[20];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
 
-	sprintf_s(buffer, "%i %hu %hu %hu %hu %hu", statePack.flags, statePack.id, statePack.posX, statePack.posY, statePack.health, statePack.animState);
+	memcpy(buffer + offset, &data->flip, sizeof(int8_t));
+	offset += sizeof(int8_t);
 
-	int len = strlen(buffer);
-	if (len)
-	{
-		int result;
+	memcpy(buffer + offset, &data->posX, sizeof(Uint16));
+	offset += sizeof(Uint16);
 
-		if (printDebug)
-		{
-			printf("Client Sending Message: %.*s\n", len, buffer);
-		}
+	memcpy(buffer + offset, &data->posY, sizeof(Uint16));
 
- 		result = SDLNet_TCP_Send(tcpsock, buffer, len);
-		if (result < len && printErrors)
-			printf("Client Message Sent: %s\n", SDLNet_GetError());
-	}
+	SDLNet_TCP_Send(tcpsock, buffer, 20);
+}
+
+void SNClient::SendData(SNStatePacket* data)
+{
+	if (tcpsock == nullptr)
+		return;
+
+	Uint8 buffer[4];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->state, sizeof(Uint8));
+
+	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
 void SNClient::Close()

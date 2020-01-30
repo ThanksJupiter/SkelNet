@@ -13,14 +13,15 @@ void SNFSMKnockedDownState::Enter(SNFSMData* fsmData)
 void SNFSMKnockedDownState::Update(float dt, SNFSMData* fsmData)
 {
 	SNInput* input = fsmData->input;
+	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 
 	if (input->leftStickDirection.x != 0)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[IDLE_STATE]);
+		autoProxy->EnterState(IDLE_STATE);
 	}
 	if (input->jump)
 	{
-		fsmData->stateMachine->EnterState(fsmData->availableStates[JUMP_STATE]);
+		autoProxy->EnterState(JUMP_STATE);
 	}
 }
 
