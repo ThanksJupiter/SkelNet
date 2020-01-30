@@ -12,7 +12,7 @@ void SNWorld::Setup()
 {
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
-	audioManager->PlayMusicLoop(audioManager->midnaLament);
+	//audioManager->PlayMusicLoop(audioManager->midnaLament);
 
 	particleSystem = new SNParticleSystem();
 

@@ -45,6 +45,7 @@ public:
 	SNAnimation* knockedDownAnim;
 	SNAnimation* dustCloud01Anim;
 	SNAnimation* turnAroundAnim;
+	SNAnimation* teabagAnim;
 
 	SNSprite* levelSprite;
 

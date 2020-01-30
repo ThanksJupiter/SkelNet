@@ -46,6 +46,7 @@ struct AxisState
 	float value;
 };
 static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
+static InputState dpadStates[(unsigned int)DPadButton::MAX];
 
 void engInit()
 {
@@ -99,6 +100,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData knockedDownSheet = SpritesheetData("SN_Skel_Knockdown.png", 1, 32, 32);
 	SpritesheetData dustCloud01Sheet = SpritesheetData("SN_Skel_Dust_Cloud-Sheet.png", 9, 16, 16);
 	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Turn-Sheet.png", 4, 32, 32);
+	SpritesheetData teabagSheet = SpritesheetData("SN_Skel_T-Bag-Sheet.png", 6, 32, 32);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
@@ -112,6 +114,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* knockedDownSprites[1];
 	SNSprite* dustCloud01Sprites[9];
 	SNSprite* turnAroundSprites[4];
+	SNSprite* teabagSprites[6];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
@@ -126,6 +129,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.knockedDownAnim = knockedDownSheet.CreateAnimation(knockedDownSprites, 1);
 	world.dustCloud01Anim = dustCloud01Sheet.CreateAnimation(dustCloud01Sprites, .1);
 	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .25);
+	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
 
 	world.levelSprite = new SNSprite(256, 128, engLoadTexture("SN_Castle_Roof.png"), 0);
 }
@@ -183,6 +187,26 @@ void engUpdate()
 			}
 
 			break;
+
+			case SDL_JOYHATMOTION:
+			{
+				int hatValue = e.jhat.value;
+				if (hatValue != (int)DPadButton::None)
+				{
+					InputState& state = dpadStates[hatValue];
+					state.pressed = true;
+					state.frameNum = currentFrameNum;
+				}
+				else
+				{
+					for (int i = 0; i < (int)DPadButton::MAX; i++)
+					{
+						InputState& state = dpadStates[i];
+						state.pressed = false;
+						state.frameNum = currentFrameNum;
+					}
+				}
+			}
 		}
 
 		if (e.type == SDL_KEYDOWN)
@@ -386,6 +410,17 @@ float engGetShoulderAxis(GamepadAxis inAxis)
 {
 	float r = axisStates[(int)inAxis].value;
 	return r > SHOULDER_AXIS_DEADZONE - 1 ? (r / 2) + 0.5f : 0;
+}
+
+bool engGetDPadButton(DPadButton inButton)
+{
+	return dpadStates[(int)inButton].pressed;
+}
+
+bool engGetDPadButtonDown(DPadButton inButton)
+{
+	InputState& state = dpadStates[(int)inButton];
+	return state.pressed && state.frameNum == currentFrameNum;
 }
 
 void engSetTextColor(Uint8 Red, Uint8 Green, Uint8 Blue)

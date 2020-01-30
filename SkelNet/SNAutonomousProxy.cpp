@@ -8,6 +8,7 @@
 #include "SNInput.h"
 #include "SNFSMKnockedDownState.h"
 #include "SNFSMTurnAroundState.h"
+#include "SNFSMAPTauntState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -170,6 +171,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[FALL_STATE] = new SNFSMFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMTurnAroundState("Turn");
+	fsmData->availableStates[TAUNT_STATE] = new SNFSMAPTauntState("Taunt");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

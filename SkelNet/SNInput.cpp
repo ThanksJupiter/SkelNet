@@ -12,4 +12,6 @@ void SNInput::SetInput()
 	jumpHeld = engGetKey(Key::Space) || engGetButton(GamepadButton::A);
 
 	attack = engGetKeyDown(Key::X) || engGetButtonDown(GamepadButton::X);
+
+	taunt = engGetKeyDown(Key::T) || engGetDPadButtonDown(DPadButton::Down);
 }

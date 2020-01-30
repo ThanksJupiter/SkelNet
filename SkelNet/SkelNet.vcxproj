@@ -137,8 +137,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
+    <ClCompile Include="SNFSMAPTauntState.cpp" />
     <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNFSMKnockedDownState.cpp" />
+    <ClCompile Include="SNFSMSPIdleState.cpp" />
+    <ClCompile Include="SNFSMSPWalkState.cpp" />
     <ClCompile Include="SNFSMTurnAroundState.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNFiniteStateMachine.cpp" />
@@ -171,8 +174,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
+    <ClInclude Include="SNFSMAPTauntState.h" />
     <ClInclude Include="SNFSMFallState.h" />
     <ClInclude Include="SNFSMKnockedDownState.h" />
+    <ClInclude Include="SNFSMSPIdleState.h" />
+    <ClInclude Include="SNFSMSPWalkState.h" />
     <ClInclude Include="SNFSMTurnAroundState.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />

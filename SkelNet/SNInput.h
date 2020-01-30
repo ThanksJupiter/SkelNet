@@ -10,6 +10,7 @@ public:
 	bool jump = false;
 	bool jumpHeld = false;
 	bool attack = false;
+	bool taunt = false;
 
 	void SetInput();
 };

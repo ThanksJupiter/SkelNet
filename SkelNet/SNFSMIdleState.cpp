@@ -42,6 +42,12 @@ void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
 		fsmData->stateMachine->EnterState(fsmData->availableStates[ATTACK_STATE]);
 		return;
 	}
+
+	if (input->taunt)
+	{
+		fsmData->stateMachine->EnterState(fsmData->availableStates[TAUNT_STATE]);
+		return;
+	}
 }
 
 void SNFSMIdleState::Exit(SNFSMData* fsmData)
