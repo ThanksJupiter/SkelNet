@@ -88,8 +88,8 @@
     <ClCompile Include="SNFSMAPWalkState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
-    <ClCompile Include="SNEventHandler.cpp" />
     <ClCompile Include="SNEvent.cpp" />
+    <ClCompile Include="SNEventHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -189,8 +189,8 @@
     <ClInclude Include="SNFSMAPWalkState.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
-    <ClInclude Include="SNEventHandler.h" />
     <ClInclude Include="SNEvent.h" />
+    <ClInclude Include="SNEventHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />
