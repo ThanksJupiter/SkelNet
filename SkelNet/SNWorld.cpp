@@ -93,14 +93,14 @@ void SNWorld::Update(float dt)
 			autonomousProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
 			autonomousProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			//particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			//RestartGame();
-			//return;
+			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			RestartGame();
+			return;
 		}
 
 		if (simulatedProxy.transform.GetPosition().x == 0)
 		{
-			//return;
+			return;
 		}
 
 		if (simulatedProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
@@ -108,9 +108,9 @@ void SNWorld::Update(float dt)
 			simulatedProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
 			simulatedProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			//particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			//RestartGame();
-			//return;
+			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			RestartGame();
+			return;
 		}
 	}
 }
@@ -223,7 +223,7 @@ void SNWorld::RestartGame()
 	//Reset UI
 	if (HasAuthority())
 	{
-		// Send ResetGame Flag
+		//Send ResetGame Flag
 		//SetFlag(server.statePack.flags, 5);
 	}
 

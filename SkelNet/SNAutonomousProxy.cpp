@@ -121,11 +121,11 @@ void SNAutonomousProxy::Reset()
 {
 	if (world->isServer)
 	{
-		transform.SetPosition({ (world->worldSize.x / 2) - 50, 0 });
+		transform.SetPosition({ 0, 0 });
 	}
 	else
 	{
-		transform.SetPosition({ (world->worldSize.x / 2) + 50, 0 });
+		transform.SetPosition({ 0, 0 });
 	}
 
 	health = 0;
@@ -292,7 +292,7 @@ void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
 	transform.SetPosition(newPosition);
 }
-  
+
 bool SNAutonomousProxy::IsGrounded()
 {
 	SNTransform* floorTransform = &world->worldFloor.transform;
