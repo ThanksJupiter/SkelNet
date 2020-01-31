@@ -42,7 +42,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 {
-	if (animator->direction != 0)
+	/*if (animator->direction != 0)
 	{
 		if (animator->direction > 0)
 		{
@@ -52,7 +52,7 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 		{
 			transform.SetFacingRight(true);
 		}
-	}
+	}*/
 
 	//anchor.UpdatePosition();
 	//canvas.UpdatePosition();
@@ -246,13 +246,13 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		transform.SetAcceleration({ transform.GetAcceleration().x, gravity * gravityMult });
 
 		//Set fall state
-		if (transform.GetVelocity().y > 0)
+		/*if (transform.GetVelocity().y > 0)
 		{
 			if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
 			{
 				EnterState(FALL_STATE);
 			}
-		}
+		}*/
 	}
 
 	if (IsGrounded())
@@ -295,10 +295,18 @@ void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 bool SNAutonomousProxy::IsGrounded()
 {
 	SNTransform* floorTransform = &world->worldFloor.transform;
-	return (
-		(transform.GetPosition().y >= floorTransform->GetPosition().y) &&
-		(transform.GetPosition().x > floorTransform->GetPosition().x && transform.GetPosition().x < floorTransform->GetPosition().x + (world->levelSprite->width * floorTransform->GetScale().x))
-		);
+
+	bool atFloor = false;
+	// HACK: y-position was -0.tiny number, seems to work with       - 0.1 here
+	if (transform.GetPosition().y >= floorTransform->GetPosition().y - 0.1)
+	{
+		atFloor = true;
+	}
+
+	bool withinLevel = (transform.GetPosition().x > floorTransform->GetPosition().x && transform.GetPosition().x < floorTransform->GetPosition().x + (world->levelSprite->width * floorTransform->GetScale().x));
+
+	bool retVal = atFloor && withinLevel;
+	return retVal;
 }
 
 void SNAutonomousProxy::CheckInput(float dt)

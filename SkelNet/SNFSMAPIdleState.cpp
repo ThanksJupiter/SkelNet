@@ -2,6 +2,7 @@
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
+#include "SNTransform.h"
 
 void SNFSMAPIdleState::Enter(SNFSMData* fsmData)
 {
@@ -21,12 +22,12 @@ void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 		autoProxy->EnterState(FALL_STATE);
 	}
 
-	if (autoProxy->flip && input->leftStickDirection.x > 0)
+	if (autoProxy->transform.GetFacingRight() && input->leftStickDirection.x > 0)
 	{
 		autoProxy->EnterState(TURNAROUND_STATE);
 		return;
 	}
-	else if (!autoProxy->flip && input->leftStickDirection.x < 0)
+	else if (!autoProxy->transform.GetFacingRight() && input->leftStickDirection.x < 0)
 	{
 		autoProxy->EnterState(TURNAROUND_STATE);
 		return;

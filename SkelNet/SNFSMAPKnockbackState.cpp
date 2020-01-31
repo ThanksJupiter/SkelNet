@@ -35,7 +35,7 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 	{
 		fsmData->world->particleSystem->StartParticleEffect(
 			fsmData->autonomousProxy->transform.GetPosition(),
-			fsmData->world->dustCloud01Anim, fsmData->world->dustCloud01Anim->duration, fsmData->autonomousProxy->flip);
+			fsmData->world->dustCloud01Anim, fsmData->world->dustCloud01Anim->duration, fsmData->autonomousProxy->transform.GetFacingRight());
 		timer = 0.0f;
 	}
 

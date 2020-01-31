@@ -4,6 +4,7 @@
 #include "SNAnimator.h"
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
+#include "SNTransform.h"
 
 void SNFSMAPKnockedDownState::Enter(SNFSMData* fsmData)
 {
@@ -29,5 +30,5 @@ void SNFSMAPKnockedDownState::Exit(SNFSMData* fsmData)
 {
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->transform.GetPosition(),
-		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
+		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->transform.GetFacingRight());
 }
