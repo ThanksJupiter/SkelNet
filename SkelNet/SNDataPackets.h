@@ -11,15 +11,15 @@
 
 struct SNTransformPacket
 {
-	Uint8 flag; 
+	int8_t flag; 
 	int8_t flip;
 
-	Uint16 posX;
-	Uint16 posY;
+	int16_t posX;
+	int16_t posY;
 };
 
 struct SNStatePacket
 {
-	Uint8 flag;
-	Uint8 state;
+	int8_t flag;
+	int8_t state;
 };

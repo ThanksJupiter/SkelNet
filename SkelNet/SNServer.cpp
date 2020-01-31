@@ -85,8 +85,8 @@ bool SNServer::RecvData()
 			{
 			case TRANSFORM_FLAG: {
 				// Set Transform of Simulated Proxy
-				Uint16 posX;
-				Uint16 posY;
+				int16_t posX;
+				int16_t posY;
 				int8_t flip;
 
 				memcpy(&flip, dataBuffer + sizeof(Uint8), sizeof(int8_t));

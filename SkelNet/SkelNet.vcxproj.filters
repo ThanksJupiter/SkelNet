@@ -86,6 +86,8 @@
     <ClCompile Include="SNFSMSPTurnAroundState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNCamera.cpp" />
+    <ClCompile Include="SNMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -183,6 +185,8 @@
     <ClInclude Include="SNFSMSPTurnAroundState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
+    <ClInclude Include="SNCamera.h" />
+    <ClInclude Include="SNMath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

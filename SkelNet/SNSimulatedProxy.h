@@ -17,7 +17,7 @@ public:
 	void Spawn(Vector2 initPos, SNWorld& world);
 
 	void SetPosition(Vector2 newPosition);
-	void Draw(float dt);
+	void Draw(float dt, SNCamera* cam);
 
 	void ServerCheckAttack();
 	void PlayAttackAnim();

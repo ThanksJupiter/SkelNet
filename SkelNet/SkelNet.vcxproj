@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
+    <ClCompile Include="SNCamera.cpp" />
     <ClCompile Include="SNFSMAPTauntState.cpp" />
     <ClCompile Include="SNFSMFallState.cpp" />
     <ClCompile Include="SNFSMKnockedDownState.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="SNFSMSPTurnAroundState.cpp" />
     <ClCompile Include="SNFSMSPWalkState.cpp" />
     <ClCompile Include="SNFSMTurnAroundState.cpp" />
+    <ClCompile Include="SNMath.cpp" />
     <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNFiniteStateMachine.cpp" />
     <ClCompile Include="SNFSMAttackState.cpp" />
@@ -182,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
+    <ClInclude Include="SNCamera.h" />
     <ClInclude Include="SNDataPackets.h" />
     <ClInclude Include="SNFSMAPTauntState.h" />
     <ClInclude Include="SNFSMFallState.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="SNFSMSPTurnAroundState.h" />
     <ClInclude Include="SNFSMSPWalkState.h" />
     <ClInclude Include="SNFSMTurnAroundState.h" />
+    <ClInclude Include="SNMath.h" />
     <ClInclude Include="SNParticleSystem.h" />
     <ClInclude Include="SNDataPacket.h" />
     <ClInclude Include="SNFiniteStateMachine.h" />

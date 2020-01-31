@@ -10,14 +10,15 @@
 #include "SNFSMTurnAroundState.h"
 #include "SNDataPackets.h"
 #include "SNFSMAPTauntState.h"
+#include "SNFloor.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
-	transform.SetPosition(initPos);
 	this->world = &world;
+	transform.SetPosition(initPos);
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
-	stateText = canvas.CreateText({ 0, -200 }, "100%", nullptr, { -50, 0 });
+	stateText = canvas.CreateText({ 250, 200 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -39,7 +40,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	flyBackDirection = { -1, -1 };
 }
 
-void SNAutonomousProxy::Draw(float dt)
+void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 {
 	if (animator->direction != 0)
 	{
@@ -53,8 +54,8 @@ void SNAutonomousProxy::Draw(float dt)
 		}
 	}
 
-	anchor.UpdatePosition();
-	canvas.UpdatePosition();
+	//anchor.UpdatePosition();
+	//canvas.UpdatePosition();
 	canvas.Draw();
 
 	if (drawDebug)
@@ -62,15 +63,18 @@ void SNAutonomousProxy::Draw(float dt)
 		anchor.DrawDebug(true);
 	}
 
+	//engDrawString({100, 20}, )
+	stateText->UpdateText(stateMachine->currentState->stateName);
+
 	engSetColor(0, 255, 0);
 
 	if (animator->doManualAnimationCycling)
 	{
-		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight());
+		animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight());
 	}
 	else
 	{
-		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight(), dt, animator->rotation);
+		animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight(), dt, animator->rotation);
 	}
 
 	engSetColor(0, 0, 0);
@@ -81,7 +85,7 @@ void SNAutonomousProxy::Update(float dt)
 	CheckInput(dt);
 	UpdatePosition(dt);
 
-	stateText->UpdateText(stateMachine->currentState->stateName);
+	//stateText->UpdateText(stateMachine->currentState->stateName);
 
 	stateMachine->Update(dt);
 
@@ -228,16 +232,18 @@ void SNAutonomousProxy::EnterState(Uint8 state)
 
 void SNAutonomousProxy::UpdatePosition(float dt)
 {
-	if (transform.GetPosition().y < 333)
+	SNTransform* floorTransform = &world->worldFloor.transform;
+
+	if (transform.GetPosition().y < floorTransform->GetPosition().y)
 	{
 		//Activate gravity
 		transform.SetAcceleration({ transform.GetAcceleration().x ,gravity * gravityMult });
 	}
 
-	if ((transform.GetPosition().x < 170 || transform.GetPosition().x > 935))
+	if (!IsGrounded())
 	{
 		//Activate gravity
-		transform.SetAcceleration({ transform.GetAcceleration().x ,gravity * gravityMult });
+		transform.SetAcceleration({ transform.GetAcceleration().x, gravity * gravityMult });
 
 		//Set fall state
 		if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
@@ -246,9 +252,9 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		}
 	}
 
-	if ((transform.GetVelocity().y > 0 && transform.GetPosition().y > 333) && ((transform.GetPosition().x > 170 && transform.GetPosition().x < 935)))
+	if (IsGrounded())
 	{
-		transform.SetPosition({ transform.GetPosition().x, 333 });
+		transform.SetPosition({ transform.GetPosition().x, floorTransform->GetPosition().y });
 		transform.SetVelocity({ transform.GetVelocity().x, 0 });
 	}
 
@@ -282,10 +288,14 @@ void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
 	transform.SetPosition(newPosition);
 }
-
+  
 bool SNAutonomousProxy::IsGrounded()
 {
-	return transform.GetPosition().y > 332;
+	SNTransform* floorTransform = &world->worldFloor.transform;
+	return (
+		(transform.GetPosition().y >= floorTransform->GetPosition().y) &&
+		(transform.GetPosition().x > floorTransform->GetPosition().x && transform.GetPosition().x < floorTransform->GetPosition().x + (world->levelSprite->width * floorTransform->GetScale().x))
+		);
 }
 
 void SNAutonomousProxy::CheckInput(float dt)

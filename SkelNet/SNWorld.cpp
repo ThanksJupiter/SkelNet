@@ -7,6 +7,8 @@
 #include "SNFlags.h"
 #include "SNTrailRenderer.h"
 #include "SNParticleSystem.h"
+#include "SNMath.h"
+#include "SNFloor.h"
 
 void SNWorld::Setup()
 {
@@ -20,6 +22,8 @@ void SNWorld::Setup()
 	SNSprite* trailSprite = new SNSprite(32, 32, nullptr, 0);
 	trailSprite->texture = engLoadTexture("SN_Skel_Walk-Sheet.png");
 	trail->Setup({ 70,70 }, 5, 10, 10, 5, *trailSprite);
+	mainCamera.transform.SetPosition({ 0,0 });
+	mainCamera.transform.SetScale(worldSize);
 
 	client.world = this;
 	server.world = this;
@@ -28,6 +32,32 @@ void SNWorld::Setup()
 void SNWorld::Update(float dt)
 {
 	autonomousProxy.Update(dt);
+
+	if (engGetKey(Key::Y))
+	{
+		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x, mainCamera.transform.GetPosition().y - 1 });
+	}
+	if (engGetKey(Key::G))
+	{
+		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x - 1, mainCamera.transform.GetPosition().y });
+	}
+	if (engGetKey(Key::H))
+	{
+		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x, mainCamera.transform.GetPosition().y + 1 });
+	}
+	if (engGetKey(Key::J))
+	{
+		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x + 1, mainCamera.transform.GetPosition().y });
+	}
+
+	if (engGetKeyDown(Key::Q))
+	{
+		mainCamera.camScale += .2f;
+	}
+	if (engGetKeyDown(Key::E))
+	{
+		mainCamera.camScale -= .2f;
+	}
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
@@ -58,19 +88,19 @@ void SNWorld::Update(float dt)
 
 	if (HasAuthority())
 	{
-		if (autonomousProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x || 
+		if (autonomousProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
 			autonomousProxy.transform.GetPosition().x <= (worldSize.x / 2) - deathDistance.x ||
 			autonomousProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
 			autonomousProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGame();
-			return;
+			//particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			//RestartGame();
+			//return;
 		}
-		
+
 		if (simulatedProxy.transform.GetPosition().x == 0)
 		{
-			return;
+			//return;
 		}
 
 		if (simulatedProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
@@ -78,17 +108,19 @@ void SNWorld::Update(float dt)
 			simulatedProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
 			simulatedProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGame();
-			return;
+			//particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
+			//RestartGame();
+			//return;
 		}
 	}
 }
 
 void SNWorld::Draw(float dt)
 {
-	simulatedProxy.Draw(dt);
-	autonomousProxy.Draw(dt);
+	engSetSpriteRenderScale(mainCamera.camScale);
+
+	simulatedProxy.Draw(dt, &mainCamera);
+	autonomousProxy.Draw(dt, &mainCamera);
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
@@ -99,22 +131,12 @@ void SNWorld::Draw(float dt)
 
 	if (particleSystem)
 	{
-		particleSystem->UpdateParticles(dt);
+		particleSystem->UpdateParticles(dt, &mainCamera);
 	}
 
-	float width = worldSize.x / 2;
+	worldFloor.Draw();
 
-	SDL_Rect dstRect =
-	{
-		(worldSize.x / 2) - (levelSprite->width * 3) / 2,
-		12,//worldSize.x,
-		levelSprite->width * 3,
-		levelSprite->height * 3,
-	};
-
-	engDrawSprite(levelSprite->sheetSourceRect, dstRect, levelSprite->texture);
-
-	trail->Draw();
+	trail->Draw(&mainCamera);
 
 	if (engGetKey(Key::R))
 	{
@@ -130,12 +152,11 @@ void SNWorld::Draw(float dt)
 void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 {
 	Vector2 initPos;
-	initPos.x = worldSize.x / 2;
-	initPos.y = (worldSize.y / 3) * 2;
+	initPos.x = 0;
+	initPos.y = -50.f;
 
 	autonomousProxy = SNAutonomousProxy();
-	autonomousProxy.Spawn({ initPos.x + 50, initPos.y }, worldptr);
-
+	autonomousProxy.Spawn(initPos, worldptr);
 
 	if (isServer)
 	{
@@ -154,8 +175,8 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 {
 	Vector2 initPos;
-	initPos.x = worldSize.x / 2;
-	initPos.y = (worldSize.y / 3) * 2;
+	initPos.x = 0;
+	initPos.y = -10;
 
 	simulatedProxy.Spawn(initPos, worldptr);
 
@@ -175,8 +196,8 @@ void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 
 void SNWorld::SpawnFloor(Vector2 position, Vector2 size)
 {
-	floors[0].position = position;
-	floors[0].size = size;
+	//worldFloor.Spawn({ (worldSize.x / 2) - (levelSprite->width * 3) / 2 , 12 }, { (float)levelSprite->width * 3, (float)levelSprite->height * 3 }, this);
+	worldFloor.Spawn(position, size, this);
 }
 
 SNHitBox* SNWorld::SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset, char id, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)

@@ -69,12 +69,12 @@ int main()
 
 	engInit();
 
-	world.Setup();
+	engLoadAnimationsToWorld(world);
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
-	world.SpawnFloor({ 0, (world.worldSize.y / 3) * 2 }, { world.worldSize.x, 20 });
+	world.Setup();
 
-	engLoadAnimationsToWorld(world);
+	world.SpawnFloor({ 0, 0 }, { 2, 2 });
 
 	canvas.Setup(world.worldSize, { 0.f, 0.f });
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });

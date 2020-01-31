@@ -133,7 +133,17 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .05);
 	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
 
-	world.levelSprite = new SNSprite(256, 128, engLoadTexture("SN_Castle_Roof.png"), 0);
+	world.levelSprite = new SNSprite(256, 24, engLoadTexture("SN_Castle_Roof.png"), 0);
+}
+
+void engSetSpriteRenderScale(float scale)
+{
+	spriteRenderScale = scale;
+}
+
+float engGetSpriteRenderScale()
+{
+	return spriteRenderScale;
 }
 
 void engClose()
@@ -351,6 +361,8 @@ void engDrawPoint(Vector2 position, float radius)
 
 void engDrawSprite(SDL_Rect& srcRect, SDL_Rect& dstRect, SDL_Texture* inTex, bool flip, float angle, const SDL_Point& rotPoint)
 {
+	dstRect.w *= spriteRenderScale;
+	dstRect.h *= spriteRenderScale;
 	SDL_RenderCopyEx(renderer, inTex, &srcRect, &dstRect, angle, &rotPoint, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 }
 

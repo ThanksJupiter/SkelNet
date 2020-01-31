@@ -20,7 +20,7 @@ void SNTrail::Setup(Vector2 initPos, int numSegments, float length, float startW
 	//segments = std::vector<Segment>(numSegments);
 }
 
-void SNTrail::Draw()
+void SNTrail::Draw(SNCamera* cam)
 {
 	for (int i = 1; i < numSegments; ++i)
 	{
