@@ -4,7 +4,7 @@
 #include "SNFSMWalkState.h"
 #include "SNFSMRunState.h"
 #include "SNFSMAttackState.h"
-#include "SNFSMJumpState.h"
+#include "SNFSMAPJumpState.h"
 #include "SNFSMKnockbackState.h"
 #include "SNFSMFallState.h"
 

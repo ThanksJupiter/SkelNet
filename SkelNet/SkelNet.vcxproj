@@ -157,7 +157,7 @@
     <ClCompile Include="SNFiniteStateMachine.cpp" />
     <ClCompile Include="SNFSMAttackState.cpp" />
     <ClCompile Include="SNFSMIdleState.cpp" />
-    <ClCompile Include="SNFSMJumpState.cpp" />
+    <ClCompile Include="SNFSMAPJumpState.cpp" />
     <ClCompile Include="SNFSMKnockbackState.cpp" />
     <ClCompile Include="SNFSMRunState.cpp" />
     <ClCompile Include="SNFSMWalkState.cpp" />
@@ -208,7 +208,7 @@
     <ClInclude Include="SNFSMAttackState.h" />
     <ClInclude Include="SNFSMData.h" />
     <ClInclude Include="SNFSMIdleState.h" />
-    <ClInclude Include="SNFSMJumpState.h" />
+    <ClInclude Include="SNFSMAPJumpState.h" />
     <ClInclude Include="SNFSMKnockbackState.h" />
     <ClInclude Include="SNFSMRunState.h" />
     <ClInclude Include="SNFSMState.h" />

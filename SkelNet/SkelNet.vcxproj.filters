@@ -35,9 +35,6 @@
     <ClCompile Include="SNFSMIdleState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
-    <ClCompile Include="SNFSMJumpState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
     <ClCompile Include="SNFSMKnockbackState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
@@ -88,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="SNCamera.cpp" />
     <ClCompile Include="SNMath.cpp" />
+    <ClCompile Include="SNFSMAPJumpState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -129,9 +129,6 @@
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMIdleState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMJumpState.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMKnockbackState.h">
@@ -187,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="SNCamera.h" />
     <ClInclude Include="SNMath.h" />
+    <ClInclude Include="SNFSMAPJumpState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

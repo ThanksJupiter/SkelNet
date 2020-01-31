@@ -5,10 +5,10 @@
 struct SNFSMData;
 class SNAutonomousProxy;
 
-class SNFSMJumpState : public SNFSMState
+class SNFSMAPJumpState : public SNFSMState
 {
 public:
-	SNFSMJumpState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPJumpState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);

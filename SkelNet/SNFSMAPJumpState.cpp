@@ -1,4 +1,4 @@
-#include "SNFSMJumpState.h"
+#include "SNFSMAPJumpState.h"
 #include "SNFSMData.h"
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
@@ -6,7 +6,7 @@
 #include "SNParticleSystem.h"
 #include "SNEngine.h"
 
-void SNFSMJumpState::Enter(SNFSMData* fsmData)
+void SNFSMAPJumpState::Enter(SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 
@@ -22,7 +22,7 @@ void SNFSMJumpState::Enter(SNFSMData* fsmData)
 	
 }
 
-void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPJumpState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
@@ -80,14 +80,14 @@ void SNFSMJumpState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMJumpState::Exit(SNFSMData* fsmData)
+void SNFSMAPJumpState::Exit(SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 
 	autoProxy->animator->doManualAnimationCycling = false;
 }
 
-void SNFSMJumpState::DoJump(SNAutonomousProxy* autoProxy)
+void SNFSMAPJumpState::DoJump(SNAutonomousProxy* autoProxy)
 {
 	autoProxy->transform.SetAcceleration({ 0,autoProxy->transform.GetPosition().y });
 	autoProxy->transform.SetVelocity({ autoProxy->transform.GetVelocity().x, -200.0f });
@@ -96,7 +96,7 @@ void SNFSMJumpState::DoJump(SNAutonomousProxy* autoProxy)
 	autoProxy->animator->IncrementOneFrame();
 }
 
-void SNFSMJumpState::LeaveLandingFrame(SNFSMData* fsmData)
+void SNFSMAPJumpState::LeaveLandingFrame(SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 

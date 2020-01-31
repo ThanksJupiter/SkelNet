@@ -179,7 +179,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[WALK_STATE] = new SNFSMWalkState("Walk");
 	fsmData->availableStates[RUN_STATE] = new SNFSMRunState("Run");
 	fsmData->availableStates[ATTACK_STATE] = new SNFSMAttackState("Attack");
-	fsmData->availableStates[JUMP_STATE] = new SNFSMJumpState("Jump");
+	fsmData->availableStates[JUMP_STATE] = new SNFSMAPJumpState("Jump");
 	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMKnockbackState("Knockback");
 	fsmData->availableStates[FALL_STATE] = new SNFSMFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMKnockedDownState("KnockedDown");
@@ -246,9 +246,13 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		transform.SetAcceleration({ transform.GetAcceleration().x, gravity * gravityMult });
 
 		//Set fall state
-		if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
+
+		if (transform.GetVelocity().y > 0)
 		{
-			EnterState(FALL_STATE);
+			if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])
+			{
+				EnterState(FALL_STATE);
+			}
 		}
 	}
 
