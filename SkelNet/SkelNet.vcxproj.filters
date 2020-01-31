@@ -26,27 +26,6 @@
     <ClCompile Include="SNFiniteStateMachine.cpp">
       <Filter>StateMachine</Filter>
     </ClCompile>
-    <ClCompile Include="SNFSMAttackState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMFallState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMKnockbackState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMKnockedDownState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMRunState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMTurnAroundState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SNFSMWalkState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
     <ClCompile Include="SNFSMSPIdleState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
@@ -88,6 +67,27 @@
     <ClCompile Include="SNFSMAPIdleState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPAttackState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPFallState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPKnockbackState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPKnockedDownState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPRunState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPTurnAroundState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPWalkState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -119,31 +119,10 @@
     <ClInclude Include="SNFiniteStateMachine.h">
       <Filter>StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="SNFSMAttackState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
     <ClInclude Include="SNFSMData.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
-    <ClInclude Include="SNFSMFallState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMKnockbackState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMKnockedDownState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMRunState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
     <ClInclude Include="SNFSMState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMTurnAroundState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMWalkState.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMSPIdleState.h">
@@ -185,6 +164,27 @@
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMAPIdleState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPAttackState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPFallState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPKnockbackState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPKnockedDownState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPRunState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPTurnAroundState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPWalkState.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
   </ItemGroup>

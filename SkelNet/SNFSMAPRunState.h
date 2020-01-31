@@ -2,15 +2,17 @@
 
 #include "SNFSMState.h"
 
-class SNFSMTurnAroundState : public SNFSMState
+struct SNFSMData;
+
+class SNFSMAPRunState : public SNFSMState
 {
 public:
-	SNFSMTurnAroundState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPRunState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);
 	void Exit(SNFSMData* fsmData);
-	
+
+	float dashDanceThreshold = .5f;
 	float timer = 0.0f;
-	float flipDuration = 6 * .15;
 };

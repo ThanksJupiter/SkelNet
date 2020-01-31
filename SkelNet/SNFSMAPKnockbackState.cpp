@@ -1,4 +1,4 @@
-#include "SNFSMKnockbackState.h"
+#include "SNFSMAPKnockbackState.h"
 #include "SNFSMData.h"
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
@@ -10,7 +10,7 @@
 #include "SNParticleSystem.h"
 #include "SNAnimation.h"
 
-void SNFSMKnockbackState::Enter(SNFSMData* fsmData)
+void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
 
@@ -24,7 +24,7 @@ void SNFSMKnockbackState::Enter(SNFSMData* fsmData)
 	}
 }
 
-void SNFSMKnockbackState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 {
 	SNInput* input = fsmData->input;
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
@@ -54,7 +54,7 @@ void SNFSMKnockbackState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMKnockbackState::Exit(SNFSMData* fsmData)
+void SNFSMAPKnockbackState::Exit(SNFSMData* fsmData)
 {
 	
 }

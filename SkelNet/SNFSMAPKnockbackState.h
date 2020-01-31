@@ -1,14 +1,14 @@
 #pragma once
 
-#include "SNFSMKnockbackState.h"
+#include "SNFSMAPKnockbackState.h"
 #include "SNFSMState.h"
 
 struct SNFSMData;
 
-class SNFSMKnockbackState : public SNFSMState
+class SNFSMAPKnockbackState : public SNFSMState
 {
 public:
-	SNFSMKnockbackState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPKnockbackState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);

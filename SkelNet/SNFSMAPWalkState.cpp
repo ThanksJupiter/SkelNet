@@ -1,4 +1,4 @@
-#include "SNFSMWalkState.h"
+#include "SNFSMAPWalkState.h"
 #include "SNFSMData.h"
 #include "SNEngine.h"
 #include <cmath>
@@ -6,7 +6,7 @@
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 
-void SNFSMWalkState::Enter(SNFSMData* fsmData)
+void SNFSMAPWalkState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->walkAnim);
 
@@ -30,7 +30,7 @@ void SNFSMWalkState::Enter(SNFSMData* fsmData)
 	timer = 0.0f;
 }
 
-void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
@@ -88,7 +88,7 @@ void SNFSMWalkState::Update(float dt, SNFSMData* fsmData)
 	autoProxy->SendTransformData();
 }
 
-void SNFSMWalkState::Exit(SNFSMData* fsmData)
+void SNFSMAPWalkState::Exit(SNFSMData* fsmData)
 {
 
 }

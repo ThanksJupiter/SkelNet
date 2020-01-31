@@ -1,16 +1,16 @@
-#include "SNFSMKnockedDownState.h"
+#include "SNFSMAPKnockedDownState.h"
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
 
-void SNFSMKnockedDownState::Enter(SNFSMData* fsmData)
+void SNFSMAPKnockedDownState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockedDownAnim);
 }
 
-void SNFSMKnockedDownState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPKnockedDownState::Update(float dt, SNFSMData* fsmData)
 {
 	SNInput* input = fsmData->input;
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
@@ -25,7 +25,7 @@ void SNFSMKnockedDownState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMKnockedDownState::Exit(SNFSMData* fsmData)
+void SNFSMAPKnockedDownState::Exit(SNFSMData* fsmData)
 {
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->transform.GetPosition(),

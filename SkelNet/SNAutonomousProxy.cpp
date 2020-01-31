@@ -6,8 +6,8 @@
 #include "SNFiniteStateMachine.h"
 #include "SNFSMData.h"
 #include "SNInput.h"
-#include "SNFSMKnockedDownState.h"
-#include "SNFSMTurnAroundState.h"
+#include "SNFSMAPKnockedDownState.h"
+#include "SNFSMAPTurnAroundState.h"
 #include "SNDataPackets.h"
 #include "SNFSMAPTauntState.h"
 #include "SNFloor.h"
@@ -176,14 +176,14 @@ void SNAutonomousProxy::InitializeFSM()
 		world, this, &world->simulatedProxy, playerInput);
 
 	fsmData->availableStates[IDLE_STATE] = new SNFSMAPIdleState("Idle");
-	fsmData->availableStates[WALK_STATE] = new SNFSMWalkState("Walk");
-	fsmData->availableStates[RUN_STATE] = new SNFSMRunState("Run");
-	fsmData->availableStates[ATTACK_STATE] = new SNFSMAttackState("Attack");
+	fsmData->availableStates[WALK_STATE] = new SNFSMAPWalkState("Walk");
+	fsmData->availableStates[RUN_STATE] = new SNFSMAPRunState("Run");
+	fsmData->availableStates[ATTACK_STATE] = new SNFSMAPAttackState("Attack");
 	fsmData->availableStates[JUMP_STATE] = new SNFSMAPJumpState("Jump");
-	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMKnockbackState("Knockback");
-	fsmData->availableStates[FALL_STATE] = new SNFSMFallState("Fall");
-	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMKnockedDownState("KnockedDown");
-	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMTurnAroundState("Turn");
+	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMAPKnockbackState("Knockback");
+	fsmData->availableStates[FALL_STATE] = new SNFSMAPFallState("Fall");
+	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMAPKnockedDownState("KnockedDown");
+	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMAPTurnAroundState("Turn");
 	fsmData->availableStates[TAUNT_STATE] = new SNFSMAPTauntState("Taunt");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);

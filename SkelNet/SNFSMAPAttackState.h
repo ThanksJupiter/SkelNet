@@ -4,10 +4,10 @@
 
 struct SNFSMData;
 
-class SNFSMAttackState : public SNFSMState
+class SNFSMAPAttackState : public SNFSMState
 {
 public:
-	SNFSMAttackState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPAttackState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);

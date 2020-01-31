@@ -4,10 +4,10 @@
 struct SNFSMData;
 class SNAutonomousProxy;
 
-class SNFSMKnockedDownState : public SNFSMState
+class SNFSMAPKnockedDownState : public SNFSMState
 {
 public:
-	SNFSMKnockedDownState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPKnockedDownState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);

@@ -1,16 +1,16 @@
-#include "SNFSMFallState.h"
+#include "SNFSMAPFallState.h"
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
 
-void SNFSMFallState::Enter(SNFSMData* fsmData)
+void SNFSMAPFallState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->fallAnim);
 }
 
-void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPFallState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
@@ -51,7 +51,7 @@ void SNFSMFallState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMFallState::Exit(SNFSMData* fsmData)
+void SNFSMAPFallState::Exit(SNFSMData* fsmData)
 {
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->transform.GetPosition(),

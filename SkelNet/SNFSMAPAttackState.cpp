@@ -1,10 +1,10 @@
-#include "SNFSMAttackState.h"
+#include "SNFSMAPAttackState.h"
 #include "SNFSMData.h"
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 
-void SNFSMAttackState::Enter(SNFSMData* fsmData)
+void SNFSMAPAttackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->apAttackAnim);
 	//fsmData->autonomousProxy->velocity.x = 0;
@@ -17,7 +17,7 @@ void SNFSMAttackState::Enter(SNFSMData* fsmData)
 	hit = false;
 }
 
-void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPAttackState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
@@ -81,7 +81,7 @@ void SNFSMAttackState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMAttackState::Exit(SNFSMData* fsmData)
+void SNFSMAPAttackState::Exit(SNFSMData* fsmData)
 {
 
 }

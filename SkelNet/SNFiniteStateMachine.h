@@ -1,12 +1,12 @@
 #pragma once
 
 #include "SNFSMAPIdleState.h"
-#include "SNFSMWalkState.h"
-#include "SNFSMRunState.h"
-#include "SNFSMAttackState.h"
+#include "SNFSMAPWalkState.h"
+#include "SNFSMAPRunState.h"
+#include "SNFSMAPAttackState.h"
 #include "SNFSMAPJumpState.h"
-#include "SNFSMKnockbackState.h"
-#include "SNFSMFallState.h"
+#include "SNFSMAPKnockbackState.h"
+#include "SNFSMAPFallState.h"
 
 #define MAX_FSM_STATES 10
 

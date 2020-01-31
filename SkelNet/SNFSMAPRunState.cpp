@@ -1,11 +1,11 @@
-#include "SNFSMRunState.h"
+#include "SNFSMAPRunState.h"
 #include "SNFSMData.h"
 #include "SNWorld.h"
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 #include "SNParticleSystem.h"
 
-void SNFSMRunState::Enter(SNFSMData* fsmData)
+void SNFSMAPRunState::Enter(SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
@@ -22,7 +22,7 @@ void SNFSMRunState::Enter(SNFSMData* fsmData)
 	timer = 0.0f;
 }
 
-void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPRunState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
@@ -90,7 +90,7 @@ void SNFSMRunState::Update(float dt, SNFSMData* fsmData)
 	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 }
 
-void SNFSMRunState::Exit(SNFSMData* fsmData)
+void SNFSMAPRunState::Exit(SNFSMData* fsmData)
 {
 
 }

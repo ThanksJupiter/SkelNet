@@ -4,10 +4,10 @@
 
 struct SNFSMData;
 
-class SNFSMWalkState : public SNFSMState
+class SNFSMAPWalkState : public SNFSMState
 {
 public:
-	SNFSMWalkState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPWalkState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData) override;
 	void Update(float dt, SNFSMData* fsmData) override;
