@@ -193,9 +193,9 @@ void SNClient::SendData(SNStatePacket* data)
 	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
-void SNClient::SendData(SNEventPacket* data)
+void SNServer::SendData(SNEventPacket* data)
 {
-	if (tcpsock == nullptr)
+	if (client == nullptr)
 		return;
 
 	Uint8 buffer[4];
@@ -205,7 +205,7 @@ void SNClient::SendData(SNEventPacket* data)
 
 	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
 
-	SDLNet_TCP_Send(tcpsock, buffer, 4);
+	SDLNet_TCP_Send(client, buffer, 4);
 }
 
 void SNClient::Close()

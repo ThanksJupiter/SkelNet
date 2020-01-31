@@ -10,15 +10,11 @@
 #include "SNMath.h"
 #include "SNFloor.h"
 
-void Print()
-{
-	printf("Print Delegate Called!\n");
-}
-
 void SNWorld::Setup()
 {
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
+	//audioManager->PlayMusicLoop(audioManager->midnaLament);
 
 	particleSystem = new SNParticleSystem();
 
@@ -31,9 +27,6 @@ void SNWorld::Setup()
 
 	client.world = this;
 	server.world = this;
-
-	// EVENTS
-	eventHandler.CreateEvent(Print, 0);
 }
 
 void SNWorld::Update(float dt)
@@ -51,6 +44,18 @@ void SNWorld::Update(float dt)
 	{
 		mainCamera.transform.SetPosition(avgVector);
 	}
+
+
+
+
+
+
+
+	/*if (avgVector.x >= mainCamera.GetCenterPosition().x - deathDistance.x &&
+		avgVector.x <= mainCamera.GetCenterPosition().x + deathDistance.x)
+	{
+	}*/
+
 
 
 	if (engGetKey(Key::I))

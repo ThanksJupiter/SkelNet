@@ -3,6 +3,7 @@
 #include "SNServer.h"
 #include <string.h>
 #include "SNWorld.h"
+#include "SNDataPacket.h"
 #include "SNAnimator.h"
 
 void SNServer::Setup()
