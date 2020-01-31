@@ -8,9 +8,5 @@ public:
 	const static int MAX_EVENTS = 10;
 
 	SNEvent* events[MAX_EVENTS];
-
-	
-	
-
 };
 

@@ -38,7 +38,7 @@ SNUIElement* joinText;
 SNUIElement* restartText;
 SNUIElement* inputField;
 
-void EnableSetupUI(bool bShouldDisplay)
+void ShowSetupUI(bool bShouldDisplay)
 {
 	//button
 	hostButton->isUsed = bShouldDisplay;
@@ -54,7 +54,6 @@ void EnableSetupUI(bool bShouldDisplay)
 
 	restartText->isUsed = !bShouldDisplay;
 }
-
 #pragma endregion SetupUI
 
 void SetupServer()
@@ -69,7 +68,7 @@ void SetupServer()
 	world.SpawnSimulatedProxy(world);
 	waiting = false;
 
-	EnableSetupUI(false);
+	ShowSetupUI(false);
 }
 
 void SetupClient()
@@ -83,7 +82,7 @@ void SetupClient()
 	world.SpawnSimulatedProxy(world);
 	waiting = false;
 
-	EnableSetupUI(false);
+	ShowSetupUI(false);
 }
 
 void RestartGame()
@@ -96,6 +95,25 @@ void EnableTextInput()
 	//when clicked input field
 	engSetInputText("");
 	SDL_StartTextInput();
+}
+
+void EnableSetupUI()
+{
+	canvas.Setup(world.worldSize, { 0.f, 0.f });
+	hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
+	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
+	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
+
+	hostText = canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
+	joinText = canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
+	restartText = canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
+	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), &textInputButton->anchor);
+
+	hostText->drawRect = true;
+	joinText->drawRect = true;
+	restartText->drawRect = true;
+	inputField->drawRect = true;
 }
 
 int main()
@@ -111,24 +129,7 @@ int main()
 
 	world.SpawnFloor({ 0, 0 }, { 3, 3 });
 
-	canvas.Setup(world.worldSize, { 0.f, 0.f });
-	hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
-	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
-	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
-
-	IPaddress bro = world.server.ip;
-	bro.host;
-	
-	hostText = canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
-	joinText = canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
-	restartText = canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
-	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), &textInputButton->anchor);
-
-	hostText->drawRect = true;
-	joinText->drawRect = true;
-	restartText->drawRect = true;
-	inputField->drawRect = true;
+	EnableSetupUI();
 
 	SDL_StopTextInput();
 
