@@ -7,6 +7,7 @@
 #include "SNWorld.h"
 #include "SNSimulatedProxy.h"
 #include "SNAnimator.h"
+#include "SNServer.h"
 
 void SNClient::Setup(const char* ipAddress)
 {
@@ -193,9 +194,9 @@ void SNClient::SendData(SNStatePacket* data)
 	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
-void SNServer::SendData(SNEventPacket* data)
+void SNClient::SendData(SNEventPacket* data)
 {
-	if (client == nullptr)
+	if (tcpsock == nullptr)
 		return;
 
 	Uint8 buffer[4];
@@ -205,7 +206,7 @@ void SNServer::SendData(SNEventPacket* data)
 
 	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
 
-	SDLNet_TCP_Send(client, buffer, 4);
+	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
 void SNClient::Close()
