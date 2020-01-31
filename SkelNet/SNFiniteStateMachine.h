@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SNFSMIdleState.h"
+#include "SNFSMAPIdleState.h"
 #include "SNFSMWalkState.h"
 #include "SNFSMRunState.h"
 #include "SNFSMAttackState.h"

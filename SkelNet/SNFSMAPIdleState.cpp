@@ -3,7 +3,7 @@
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 
-void SNFSMIdleState::Enter(SNFSMData* fsmData)
+void SNFSMAPIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
 	fsmData->autonomousProxy->transform.SetVelocity({ 0, 0 });
@@ -11,10 +11,15 @@ void SNFSMIdleState::Enter(SNFSMData* fsmData)
 
 }
 
-void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 {
 	SNInput* input = fsmData->input;
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
+
+	if (!autoProxy->IsGrounded())
+	{
+		autoProxy->EnterState(FALL_STATE);
+	}
 
 	if (autoProxy->flip && input->leftStickDirection.x > 0)
 	{
@@ -52,7 +57,7 @@ void SNFSMIdleState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMIdleState::Exit(SNFSMData* fsmData)
+void SNFSMAPIdleState::Exit(SNFSMData* fsmData)
 {
 
 }

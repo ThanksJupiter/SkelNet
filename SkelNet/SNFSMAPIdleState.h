@@ -4,10 +4,10 @@
 
 struct SNFSMData;
 
-class SNFSMIdleState : public SNFSMState
+class SNFSMAPIdleState : public SNFSMState
 {
 public:
-	SNFSMIdleState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPIdleState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);

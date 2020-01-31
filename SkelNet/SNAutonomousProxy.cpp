@@ -175,7 +175,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData = new SNFSMData(
 		world, this, &world->simulatedProxy, playerInput);
 
-	fsmData->availableStates[IDLE_STATE] = new SNFSMIdleState("Idle");
+	fsmData->availableStates[IDLE_STATE] = new SNFSMAPIdleState("Idle");
 	fsmData->availableStates[WALK_STATE] = new SNFSMWalkState("Walk");
 	fsmData->availableStates[RUN_STATE] = new SNFSMRunState("Run");
 	fsmData->availableStates[ATTACK_STATE] = new SNFSMAttackState("Attack");

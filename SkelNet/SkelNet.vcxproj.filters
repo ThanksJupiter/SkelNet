@@ -32,9 +32,6 @@
     <ClCompile Include="SNFSMFallState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
-    <ClCompile Include="SNFSMIdleState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
     <ClCompile Include="SNFSMKnockbackState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
@@ -88,6 +85,9 @@
     <ClCompile Include="SNFSMAPJumpState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPIdleState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -126,9 +126,6 @@
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMFallState.h">
-      <Filter>StateMachine\APStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMIdleState.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMKnockbackState.h">
@@ -185,6 +182,9 @@
     <ClInclude Include="SNCamera.h" />
     <ClInclude Include="SNMath.h" />
     <ClInclude Include="SNFSMAPJumpState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPIdleState.h">
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
   </ItemGroup>

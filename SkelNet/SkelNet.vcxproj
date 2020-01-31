@@ -156,7 +156,7 @@
     <ClCompile Include="SNParticleSystem.cpp" />
     <ClCompile Include="SNFiniteStateMachine.cpp" />
     <ClCompile Include="SNFSMAttackState.cpp" />
-    <ClCompile Include="SNFSMIdleState.cpp" />
+    <ClCompile Include="SNFSMAPIdleState.cpp" />
     <ClCompile Include="SNFSMAPJumpState.cpp" />
     <ClCompile Include="SNFSMKnockbackState.cpp" />
     <ClCompile Include="SNFSMRunState.cpp" />
@@ -207,7 +207,7 @@
     <ClInclude Include="SNFlags.h" />
     <ClInclude Include="SNFSMAttackState.h" />
     <ClInclude Include="SNFSMData.h" />
-    <ClInclude Include="SNFSMIdleState.h" />
+    <ClInclude Include="SNFSMAPIdleState.h" />
     <ClInclude Include="SNFSMAPJumpState.h" />
     <ClInclude Include="SNFSMKnockbackState.h" />
     <ClInclude Include="SNFSMRunState.h" />
