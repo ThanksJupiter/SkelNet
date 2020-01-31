@@ -72,8 +72,8 @@ bool SNClient::RecvData()
 				int8_t flip;
 
 				memcpy(&flip, dataBuffer + sizeof(Uint8), sizeof(int8_t));
-				memcpy(&posX, dataBuffer + sizeof(Uint8) + sizeof(int8_t), sizeof(Uint16));
-				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(Uint16), sizeof(Uint16));
+				memcpy(&posX, dataBuffer + sizeof(Uint8) + sizeof(int8_t), sizeof(int16_t));
+				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(int16_t), sizeof(int16_t));
 
 				world->simulatedProxy.SetPosition({ (float)posX, (float)posY });
 				world->simulatedProxy.transform.SetFacingRight(flip < 0 ? true : false);
@@ -92,6 +92,14 @@ bool SNClient::RecvData()
 				Uint8 state;
 				memcpy(&state, dataBuffer + sizeof(flags), sizeof(Uint8));
 				//world->autonomousProxy.SetState(state);
+				return true;
+			} break;
+
+			case EVENT_FLAG: {
+				// Call Event
+				Uint8 event;
+				memcpy(&event, dataBuffer + sizeof(flags), sizeof(Uint8));
+				// CALL EVENTS USING EVENT CLASS
 				return true;
 			} break;
 
@@ -136,6 +144,12 @@ Uint8* SNClient::InternalRecvData()
 			return retData;
 		}
 
+		case EVENT_FLAG: {
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
+			return retData;
+		}
+
 		default:
 			return nullptr;
 		}
@@ -156,10 +170,10 @@ void SNClient::SendData(SNTransformPacket* data)
 	memcpy(buffer + offset, &data->flip, sizeof(int8_t));
 	offset += sizeof(int8_t);
 
-	memcpy(buffer + offset, &data->posX, sizeof(Uint16));
-	offset += sizeof(Uint16);
+	memcpy(buffer + offset, &data->posX, sizeof(int16_t));
+	offset += sizeof(int16_t);
 
-	memcpy(buffer + offset, &data->posY, sizeof(Uint16));
+	memcpy(buffer + offset, &data->posY, sizeof(int16_t));
 
 	SDLNet_TCP_Send(tcpsock, buffer, 20);
 }
@@ -177,6 +191,21 @@ void SNClient::SendData(SNStatePacket* data)
 	memcpy(buffer + offset, &data->state, sizeof(Uint8));
 
 	SDLNet_TCP_Send(tcpsock, buffer, 4);
+}
+
+void SNServer::SendData(SNEventPacket* data)
+{
+	if (client == nullptr)
+		return;
+
+	Uint8 buffer[4];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
+
+	SDLNet_TCP_Send(client, buffer, 4);
 }
 
 void SNClient::Close()
