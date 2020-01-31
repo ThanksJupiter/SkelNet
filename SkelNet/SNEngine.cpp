@@ -48,7 +48,7 @@ struct AxisState
 static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
 static InputState dpadStates[(unsigned int)DPadButton::MAX];
 
-std::string inputText = "Input server IP here";
+std::string inputText = "127.0.0.1";
 
 void engInit()
 {
