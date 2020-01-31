@@ -10,6 +10,8 @@
 #include "SNAudioManager.h"
 #include "SNTrailRenderer.h"
 #include "SNCamera.h"
+#include "SNEvent.h"
+#include "SNEventHandler.h"
 
 class SNTrail;
 class SNParticleSystem;
@@ -71,9 +73,10 @@ public:
 
 	SNHitBox* SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, char id = -1, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
 
-	// Networking
+	// NETWORKING
 	bool HasAuthority();
 
 	void RestartGame();
 
+	SNEventHandler eventHandler;
 };

@@ -38,25 +38,11 @@ void SNWorld::Update(float dt)
 	avgVector = -avgVector * 0.5f;
 	avgVector.y = mainCamera.transform.GetPosition().y;
 
-
 	if (avgVector.x + (mainCamera.transform.GetScale().x / 2) < deathDistance.x &&
 		avgVector.x - (mainCamera.transform.GetScale().x / 2) > -deathDistance.x)
 	{
 		mainCamera.transform.SetPosition(avgVector);
 	}
-
-
-
-
-
-
-
-	/*if (avgVector.x >= mainCamera.GetCenterPosition().x - deathDistance.x &&
-		avgVector.x <= mainCamera.GetCenterPosition().x + deathDistance.x)
-	{
-	}*/
-
-
 
 	if (engGetKey(Key::I))
 	{
