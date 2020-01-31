@@ -1,16 +1,20 @@
 #pragma once
+#include "SDL_stdinc.h"
+
+class SNWorld;
+
 class SNEvent
 {
 public:
 	SNEvent() {};
-	SNEvent(void (*function)(void));
 
-	void Setup(void(*function)(void));
+	void Setup(SNWorld* world, void (SNWorld::*function)(void));
 	void Invoke();
 
 	bool isUsed;
 	Uint8 flag;
+	SNWorld* world;
 
 private:
-	void (*delegatedFunction)(void);
+	void (SNWorld::*delegatedFunction)(void);
 };

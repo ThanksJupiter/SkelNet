@@ -319,21 +319,16 @@ void SNAutonomousProxy::Attack()
 	// check if hit simulated proxy
 	// send if hit to client
 
-	if (world->isServer)
+	if (world->HasAuthority())
 	{
-		//serverAttacked = true;
-
-
+		
 		SNStatePacket statePacket;
 		statePacket.flag = SP_STATE_FLAG;
 		statePacket.state = ATTACK_STATE;
-
 		world->server.SendData(&statePacket);
 	}
 	else
 	{
-		//clientAttacked = true;
-
 		animator->SetCurrentAnimation(world->apAttackAnim, true);
 
 		SNStatePacket statePacket;

@@ -75,7 +75,7 @@ void SetupServer()
 void SetupClient()
 {
 	SDL_StopTextInput();
-	world.client.Setup(engGetInputText().c_str());
+	world.client.Setup("127.0.0.1");
 	world.client.printErrors = false;
 	world.client.printDebug = false;
 	world.isServer = false;
@@ -88,7 +88,7 @@ void SetupClient()
 
 void RestartGame()
 {
-	world.RestartGame();
+	world.RestartGameEvent();
 }
 
 void EnableTextInput()

@@ -1,6 +1,6 @@
 #include "SNEventHandler.h"
 
-void SNEventHandler::CreateEvent(void(*function)(void), Uint8 eventFlag)
+void SNEventHandler::CreateEvent(void (SNWorld::*function)(void), Uint8 eventFlag)
 {
 	if (NUM_EVENTS < MAX_EVENTS)
 	{
@@ -8,7 +8,7 @@ void SNEventHandler::CreateEvent(void(*function)(void), Uint8 eventFlag)
 		{
 			if (!events[i].isUsed)
 			{
-				events[i].Setup(function);
+				events[i].Setup(world, function);
 				events[i].flag = eventFlag;
 				events[i].isUsed = true;
 				NUM_EVENTS++;
@@ -16,7 +16,6 @@ void SNEventHandler::CreateEvent(void(*function)(void), Uint8 eventFlag)
 			}
 		}
 	}
-
 }
 
 void SNEventHandler::RemoveEvent(Uint8 eventFlag)

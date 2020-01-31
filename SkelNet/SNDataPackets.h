@@ -4,9 +4,9 @@
 #define TRANSFORM_FLAG 1
 
 #define AP_STATE_FLAG 2
-#define SP_STATE_FLAG 4
+#define SP_STATE_FLAG 3
 
-#define EVENT_FLAG 5
+#define EVENT_FLAG 4
 
 struct SNTransformPacket
 {

@@ -75,8 +75,10 @@ public:
 
 	// NETWORKING
 	bool HasAuthority();
-	void RestartGame();
 
 	// EVENTS
 	SNEventHandler eventHandler;
+	void StartGameEvent();
+	void RestartGameEvent();
+	void GameEndedEvent();
 };

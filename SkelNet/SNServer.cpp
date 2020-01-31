@@ -110,6 +110,7 @@ bool SNServer::RecvData()
 				Uint8 event;
 				memcpy(&event, dataBuffer + sizeof(flags), sizeof(Uint8));
 				// CALL EVENTS USING EVENT CLASS
+				world->eventHandler.InvokeEvent(event);
 				return true;
 			} break;
 

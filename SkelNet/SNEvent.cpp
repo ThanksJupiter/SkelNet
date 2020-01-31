@@ -1,15 +1,13 @@
 #include "SNEvent.h"
+#include "SNWorld.h"
 
-SNEvent::SNEvent(void(*function)(void))
-	: delegatedFunction(function)
-{}
-
-void SNEvent::Setup(void(*function)(void))
+void SNEvent::Setup(SNWorld* world, void (SNWorld::*function)(void))
 {
+	this->world = world;
 	delegatedFunction = function;
 }
 
 void SNEvent::Invoke()
 {
-	delegatedFunction();
+	(world->*delegatedFunction)();
 }

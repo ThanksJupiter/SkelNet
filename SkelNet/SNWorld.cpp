@@ -10,10 +10,6 @@
 #include "SNMath.h"
 #include "SNFloor.h"
 
-void Print()
-{
-	printf("Print Delegate Called!\n");
-}
 
 void SNWorld::Setup()
 {
@@ -33,7 +29,10 @@ void SNWorld::Setup()
 	server.world = this;
 
 	// EVENTS
-	eventHandler.CreateEvent(Print, 0);
+	eventHandler.world = this;
+	eventHandler.CreateEvent(&SNWorld::StartGameEvent, START_GAME_EVENT);
+	eventHandler.CreateEvent(&SNWorld::RestartGameEvent, RESTART_GAME_EVENT);
+	eventHandler.CreateEvent(&SNWorld::GameEndedEvent, END_GAME_EVENT);
 }
 
 void SNWorld::Update(float dt)
@@ -52,22 +51,13 @@ void SNWorld::Update(float dt)
 		mainCamera.transform.SetPosition(avgVector);
 	}
 
-
 	if (engGetKey(Key::I))
 	{
 		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, 1 }));
 	}
-	if (engGetKey(Key::J))
-	{
-		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 1, 0 }));
-	}
 	if (engGetKey(Key::K))
 	{
 		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, -1 }));
-	}
-	if (engGetKey(Key::L))
-	{
-		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { -1, 0 }));
 	}
 
 	if (engGetKeyDown(Key::U))
@@ -77,6 +67,16 @@ void SNWorld::Update(float dt)
 	if (engGetKeyDown(Key::O))
 	{
 		mainCamera.camScale -= .2f;
+	}
+
+	if (engGetKeyDown(Key::G))
+	{
+		StartGameEvent();
+	}
+
+	if (engGetKeyDown(Key::H))
+	{
+		GameEndedEvent();
 	}
 
 	for (int i = 0; i < numHitboxes; ++i)
@@ -114,7 +114,7 @@ void SNWorld::Update(float dt)
 			autonomousProxy.transform.GetPosition().y <= -deathDistance.y)
 		{
 			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGame();
+			RestartGameEvent();
 			return;
 		}
 
@@ -124,7 +124,7 @@ void SNWorld::Update(float dt)
 			simulatedProxy.transform.GetPosition().y <= -deathDistance.y)
 		{
 			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGame();
+			RestartGameEvent();
 			return;
 		}
 	}
@@ -242,20 +242,50 @@ bool SNWorld::HasAuthority()
 	return isServer;
 }
 
-void SNWorld::RestartGame()
+void SNWorld::StartGameEvent()
 {
-	//Reset damage
-	//Reset positions
-	//Reset animations
-	//Reset UI
 	if (HasAuthority())
 	{
-		//Send ResetGame Flag
-
-
-		//SetFlag(server.statePack.flags, 5);
+		// Send Start Game Event
+		SNEventPacket eventPacket;
+		eventPacket.flag = EVENT_FLAG;
+		eventPacket.eventFlag = START_GAME_EVENT;
+		server.SendData(&eventPacket);
 	}
+
+	// Do Start Game Stuff
+	printf("Game Started!\n");
+}
+
+void SNWorld::RestartGameEvent()
+{
+	if (HasAuthority())
+	{
+		// Send Reset Game Event
+		SNEventPacket eventPacket;
+		eventPacket.flag = EVENT_FLAG;
+		eventPacket.eventFlag = RESTART_GAME_EVENT;
+		server.SendData(&eventPacket);
+	}
+
+	// Do Restart Game Stuff
+	printf("Game Restarted!\n");
 
 	simulatedProxy.Reset();
 	autonomousProxy.Reset();
+}
+
+void SNWorld::GameEndedEvent()
+{
+	if (HasAuthority())
+	{
+		// Send End Game Event
+		SNEventPacket eventPacket;
+		eventPacket.flag = EVENT_FLAG;
+		eventPacket.eventFlag = END_GAME_EVENT;
+		server.SendData(&eventPacket);
+	}
+
+	// Do End Game Stuff
+	printf("Game Ended!\n");
 }
