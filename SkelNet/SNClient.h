@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL_net.h>
-#include "SNDataPacket.h"
 #include "SNDataPackets.h"
 
 class SNWorld;
@@ -16,7 +15,8 @@ public:
 
 	void SendData(SNTransformPacket* data);
 	void SendData(SNStatePacket* data);
-	
+	void SendData(SNEventPacket* data);
+
 	bool RecvData();
 	Uint8* InternalRecvData();
 

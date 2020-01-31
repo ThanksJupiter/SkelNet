@@ -38,7 +38,11 @@ void SNWorld::Update(float dt)
 	avgVector = -avgVector * 0.5f;
 	avgVector.y = mainCamera.transform.GetPosition().y;
 
-	mainCamera.transform.SetPosition(avgVector);
+	if (avgVector.x + (mainCamera.transform.GetScale().x / 2) < deathDistance.x &&
+		avgVector.x - (mainCamera.transform.GetScale().x / 2) > -deathDistance.x)
+	{
+		mainCamera.transform.SetPosition(avgVector);
+	}
 
 	if (engGetKey(Key::I))
 	{
@@ -95,25 +99,20 @@ void SNWorld::Update(float dt)
 
 	if (HasAuthority())
 	{
-		if (autonomousProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
-			autonomousProxy.transform.GetPosition().x <= (worldSize.x / 2) - deathDistance.x ||
-			autonomousProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
-			autonomousProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
+		if (autonomousProxy.transform.GetPosition().x >= deathDistance.x ||
+			autonomousProxy.transform.GetPosition().x <= -deathDistance.x ||
+			autonomousProxy.transform.GetPosition().y >= deathDistance.y ||
+			autonomousProxy.transform.GetPosition().y <= -deathDistance.y)
 		{
 			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
 			RestartGame();
 			return;
 		}
 
-		if (simulatedProxy.transform.GetPosition().x == 0)
-		{
-			return;
-		}
-
-		if (simulatedProxy.transform.GetPosition().x >= (worldSize.x / 2) + deathDistance.x ||
-			simulatedProxy.transform.GetPosition().x <= (worldSize.x / 2) - deathDistance.x ||
-			simulatedProxy.transform.GetPosition().y >= (worldSize.y / 2) + deathDistance.y ||
-			simulatedProxy.transform.GetPosition().y <= (worldSize.y / 2) - deathDistance.y)
+		if (simulatedProxy.transform.GetPosition().x >= deathDistance.x ||
+			simulatedProxy.transform.GetPosition().x <= -deathDistance.x ||
+			simulatedProxy.transform.GetPosition().y >= deathDistance.y ||
+			simulatedProxy.transform.GetPosition().y <= -deathDistance.y)
 		{
 			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
 			RestartGame();
@@ -146,12 +145,25 @@ void SNWorld::Draw(float dt)
 	trail->Draw(&mainCamera);
 
 	if (engGetKey(Key::R))
+
 	{
 		engSetColor(255, 0, 0);
-		engDrawLine((worldSize / 2) - deathDistance, { (worldSize / 2).x + deathDistance.x, (worldSize / 2).y - deathDistance.y });
-		engDrawLine((worldSize / 2) - deathDistance, { (worldSize / 2).x - deathDistance.x, (worldSize / 2).y + deathDistance.y });
-		engDrawLine((worldSize / 2) + deathDistance, { (worldSize / 2).x + deathDistance.x, (worldSize / 2).y - deathDistance.y });
-		engDrawLine((worldSize / 2) + deathDistance, { (worldSize / 2).x - deathDistance.x, (worldSize / 2).y + deathDistance.y });
+
+		Vector2 camCenter = mainCamera.GetCenterPosition();
+		Vector2 topRight = { deathDistance.x, -deathDistance.y };
+		Vector2 topLeft = -deathDistance;
+		Vector2 bottomRight = deathDistance;
+		Vector2 bottomLeft = { -deathDistance.x, deathDistance.y };
+
+		engDrawPoint(mainCamera.MakePositionWithCam(topRight), 20);
+		engDrawPoint(mainCamera.MakePositionWithCam(topLeft), 20);
+		engDrawPoint(mainCamera.MakePositionWithCam(bottomRight), 20);
+		engDrawPoint(mainCamera.MakePositionWithCam(bottomLeft), 20);
+
+		engDrawLine(mainCamera.MakePositionWithCam(topLeft), mainCamera.MakePositionWithCam(topRight));
+		engDrawLine(mainCamera.MakePositionWithCam(topLeft), mainCamera.MakePositionWithCam(bottomLeft));
+		engDrawLine(mainCamera.MakePositionWithCam(bottomRight), mainCamera.MakePositionWithCam(topRight));
+		engDrawLine(mainCamera.MakePositionWithCam(bottomRight), mainCamera.MakePositionWithCam(bottomLeft));
 		engSetColor(0, 0, 0);
 	}
 }
@@ -203,7 +215,6 @@ void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 
 void SNWorld::SpawnFloor(Vector2 position, Vector2 size)
 {
-	//worldFloor.Spawn({ (worldSize.x / 2) - (levelSprite->width * 3) / 2 , 12 }, { (float)levelSprite->width * 3, (float)levelSprite->height * 3 }, this);
 	worldFloor.Spawn(position, size, this);
 }
 
@@ -231,6 +242,8 @@ void SNWorld::RestartGame()
 	if (HasAuthority())
 	{
 		//Send ResetGame Flag
+
+
 		//SetFlag(server.statePack.flags, 5);
 	}
 

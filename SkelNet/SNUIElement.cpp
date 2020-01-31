@@ -7,7 +7,7 @@ void SNUIElement::Draw()
 {
 	if (drawRect)
 	{
-		engSetColor(255, 0, 200);
+		engSetColor(60, 60, 60);
 		engDrawRect(size.x, size.y, position.x, position.y);
 		engSetColor(0, 0, 0);
 	}

@@ -26,8 +26,40 @@ bool waiting = true;
 
 SNCanvas canvas;
 
-void SetupServer()
+#pragma region SetupUI
+
+SNUIElement* hostButton;
+SNUIElement* joinButton;
+SNUIElement* restartbutton;
+SNUIElement* textInputButton;
+
+SNUIElement* hostText;
+SNUIElement* joinText;
+SNUIElement* restartText;
+SNUIElement* inputField;
+
+void EnableSetupUI(bool bShouldDisplay)
 {
+	//button
+	hostButton->isUsed = bShouldDisplay;
+	joinButton->isUsed = bShouldDisplay;
+	textInputButton->isUsed = bShouldDisplay;
+
+	restartbutton->isUsed = !bShouldDisplay;
+
+	//text
+	hostText->isUsed = bShouldDisplay;
+	joinText->isUsed = bShouldDisplay;
+	inputField->isUsed = false;
+
+	restartText->isUsed = !bShouldDisplay;
+}
+
+#pragma endregion SetupUI
+
+void SetupServer()
+{ 
+	//todo (Kasper): when starting game, wait for players to join
 	SDL_StopTextInput();
 	world.server.Setup();
 	world.server.printErrors = false;
@@ -36,9 +68,10 @@ void SetupServer()
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
 	waiting = false;
+
+	EnableSetupUI(false);
 }
 
-//todo: client freezes on startup
 void SetupClient()
 {
 	SDL_StopTextInput();
@@ -49,6 +82,8 @@ void SetupClient()
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
 	waiting = false;
+
+	EnableSetupUI(false);
 }
 
 void RestartGame()
@@ -58,9 +93,28 @@ void RestartGame()
 
 void EnableTextInput()
 {
-	// when clicked input field
+	//when clicked input field
 	engSetInputText("");
 	SDL_StartTextInput();
+}
+
+void SetupMainMenuUI()
+{
+	canvas.Setup(world.worldSize, { 0.f, 0.f });
+	hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
+	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
+	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
+
+	hostText = canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
+	joinText = canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
+	restartText = canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
+	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), &textInputButton->anchor);
+
+	hostText->drawRect = true;
+	joinText->drawRect = true;
+	restartText->drawRect = true;
+	inputField->drawRect = true;
 }
 
 int main()
@@ -76,17 +130,8 @@ int main()
 
 	world.SpawnFloor({ 0, 0 }, { 3, 3 });
 
-	canvas.Setup(world.worldSize, { 0.f, 0.f });
-	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
-	SNUIElement* hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
-	SNUIElement* joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
-	SNUIElement* restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
-	SNUIElement* textInputButton = canvas.CreateButton({ 500.f, 50.f },{ 200.f,40.f }, true, EnableTextInput);
+	SetupMainMenuUI();
 
-	canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
-	canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
-	canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
-	SNUIElement* inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), &textInputButton->anchor);
 	SDL_StopTextInput();
 
 	// delta time
@@ -118,6 +163,7 @@ int main()
 		}
 
 		inputField->UpdateText(engGetInputText());
+
 		if (engGetKeyDown(Key::Return))
 		{
 			SDL_StopTextInput();
@@ -135,16 +181,10 @@ int main()
 			canvas.CheckInteraction();
 			canvas.Draw();
 
-			
-
 			if (engGetKeyDown(Key::A) && world.isServer == true)
 			{
 				world.server.AcceptConnection();
 			}
-
-
-
-
 		}
 		else
 		{

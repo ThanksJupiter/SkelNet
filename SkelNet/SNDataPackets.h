@@ -6,12 +6,11 @@
 #define AP_STATE_FLAG 2
 #define SP_STATE_FLAG 4
 
-#define START_FLAG 8
-#define RESET_FLAG 16
+#define EVENT_FLAG 5
 
 struct SNTransformPacket
 {
-	int8_t flag; 
+	Uint8 flag;
 	int8_t flip;
 
 	int16_t posX;
@@ -20,6 +19,12 @@ struct SNTransformPacket
 
 struct SNStatePacket
 {
-	int8_t flag;
-	int8_t state;
+	Uint8 flag;
+	Uint8 state;
+};
+
+struct SNEventPacket
+{
+	Uint8 flag;
+	Uint8 eventFlag;
 };

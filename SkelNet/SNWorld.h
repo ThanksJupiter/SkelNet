@@ -10,6 +10,8 @@
 #include "SNAudioManager.h"
 #include "SNTrailRenderer.h"
 #include "SNCamera.h"
+#include "SNEvent.h"
+#include "SNEventHandler.h"
 
 class SNTrail;
 class SNParticleSystem;
@@ -59,7 +61,7 @@ public:
 	bool doStartup;
 	bool isServer;
 
-	Vector2 deathDistance = {550, 500};
+	Vector2 deathDistance = {750, 500};
 
 	void Setup();
 	void Update(float dt);
@@ -71,10 +73,10 @@ public:
 
 	SNHitBox* SpawnHitBox(Vector2 position, Vector2 size, Vector2 offset = { 0,0 }, char id = -1, bool blocking = false, bool callDelegates = false, std::function<void()> OnTriggerEnter = nullptr, std::function<void()> OnTriggerExit = nullptr);
 
-	// Networking
-	void SendPlayerData(Vector2 position, int health, bool serverAttacked, bool serverWasHit, bool clientAttacked, bool clientWasHit);
+	// NETWORKING
 	bool HasAuthority();
 
 	void RestartGame();
 
+	SNEventHandler eventHandler;
 };

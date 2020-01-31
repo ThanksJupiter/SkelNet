@@ -138,6 +138,8 @@
   <ItemGroup>
     <ClCompile Include="AnimationBehaviour.cpp" />
     <ClCompile Include="SNCamera.cpp" />
+    <ClCompile Include="SNEvent.cpp" />
+    <ClCompile Include="SNEventHandler.cpp" />
     <ClCompile Include="SNFSMAPTauntState.cpp" />
     <ClCompile Include="SNFSMAPFallState.cpp" />
     <ClCompile Include="SNFSMAPKnockedDownState.cpp" />
@@ -186,6 +188,8 @@
     <ClInclude Include="AnimationBehaviour.h" />
     <ClInclude Include="SNCamera.h" />
     <ClInclude Include="SNDataPackets.h" />
+    <ClInclude Include="SNEvent.h" />
+    <ClInclude Include="SNEventHandler.h" />
     <ClInclude Include="SNFSMAPTauntState.h" />
     <ClInclude Include="SNFSMAPFallState.h" />
     <ClInclude Include="SNFSMAPKnockedDownState.h" />
