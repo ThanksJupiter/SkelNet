@@ -11,7 +11,7 @@ class SNWorld;
 class SNEventHandler
 {
 public:
-	SNEventHandler();
+	SNEventHandler() {};
 
 	static const int MAX_EVENTS = 20;
 	int NUM_EVENTS = 0;
