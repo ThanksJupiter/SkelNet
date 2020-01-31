@@ -28,6 +28,7 @@ SNCanvas canvas;
 
 void SetupServer()
 {
+	SDL_StopTextInput();
 	world.server.Setup();
 	world.server.printErrors = false;
 	world.server.printDebug = false;
@@ -35,13 +36,13 @@ void SetupServer()
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
 	waiting = false;
-
 }
 
 //todo: client freezes on startup
 void SetupClient()
 {
-	world.client.Setup();
+	SDL_StopTextInput();
+	world.client.Setup(engGetInputText().c_str());
 	world.client.printErrors = false;
 	world.client.printDebug = false;
 	world.isServer = false;
@@ -53,6 +54,13 @@ void SetupClient()
 void RestartGame()
 {
 	world.RestartGame();
+}
+
+void EnableTextInput()
+{
+	// when clicked input field
+	engSetInputText("");
+	SDL_StartTextInput();
 }
 
 int main()
@@ -72,10 +80,14 @@ int main()
 	SNUIElement* rect = canvas.CreateRect({ 30.f, 30.f }, { 40.f,20.f });
 	SNUIElement* hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
 	SNUIElement* joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
-	SNUIElement* restartbutton = canvas.CreateButton({ 50.f, 160.f }, { 50.f,30.f }, true, RestartGame);
+	SNUIElement* restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
+	SNUIElement* textInputButton = canvas.CreateButton({ 500.f, 50.f },{ 200.f,40.f }, true, EnableTextInput);
+
 	canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
 	canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
 	canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
+	SNUIElement* inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), &textInputButton->anchor);
+	SDL_StopTextInput();
 
 	// delta time
 	uint64_t NOW = SDL_GetPerformanceCounter();
@@ -105,6 +117,17 @@ int main()
 			engDrawString({ 10, 10 }, "Client");
 		}
 
+		inputField->UpdateText(engGetInputText());
+		if (engGetKeyDown(Key::Return))
+		{
+			SDL_StopTextInput();
+		}
+
+		if (engGetKeyDown(Key::D))
+		{
+			canvas.drawDebug = !canvas.drawDebug;
+		}
+
 		if (!waiting)
 		{
 			world.Update(deltaTime);
@@ -112,15 +135,14 @@ int main()
 			canvas.CheckInteraction();
 			canvas.Draw();
 
+			
+
 			if (engGetKeyDown(Key::A) && world.isServer == true)
 			{
 				world.server.AcceptConnection();
 			}
 
-			if (engGetKeyDown(Key::D))
-			{
-				canvas.drawDebug = !canvas.drawDebug;
-			}
+
 
 
 		}

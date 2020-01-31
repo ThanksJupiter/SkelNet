@@ -3,6 +3,7 @@
 #include "Vector.h"
 #include "Key.h"
 #include "SDL_ttf.h"
+#include <string>
 
 class SNSprite;
 class SNWorld;
@@ -55,6 +56,8 @@ bool engGetDPadButtonDown(DPadButton inButton);
 void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);
 void engDrawString(Vector2 position, const char* string);
 Vector2 engGetTextSize(const char* string);
+std::string engGetInputText();
+void engSetInputText(std::string inText);
 
 // Image loading
 SDL_Texture* engLoadTexture(const char* path);

@@ -48,6 +48,8 @@ struct AxisState
 static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
 static InputState dpadStates[(unsigned int)DPadButton::MAX];
 
+std::string inputText = "127.0.0.1";
+
 void engInit()
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
@@ -216,6 +218,26 @@ void engUpdate()
 				InputState& state = keyStates[e.key.keysym.scancode];
 				state.pressed = true;
 				state.frameNum = currentFrameNum;
+			}
+
+			if (e.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 0)
+			{
+				inputText.pop_back();
+			}
+			else if (e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
+			{
+				SDL_SetClipboardText(inputText.c_str());
+			} 
+			else if (e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
+			{
+				inputText = SDL_GetClipboardText();
+			}
+		}
+		else if (e.type == SDL_TEXTINPUT)
+		{
+			if (!(SDL_GetModState() & KMOD_CTRL && (e.text.text[0] == 'c' || e.text.text[0] == 'C' || e.text.text[0] == 'v' || e.text.text[0] == 'V')))
+			{
+				inputText += e.text.text;
 			}
 		}
 
@@ -456,4 +478,14 @@ Vector2 engGetTextSize(const char* string)
 	TTF_SizeText(standardFont, string, &msgW, &msgH);
 
 	return { (float)msgW, (float)msgH };
+}
+
+std::string engGetInputText()
+{
+	return inputText;
+}
+
+void engSetInputText(std::string inText)
+{
+	inputText = inText;
 }

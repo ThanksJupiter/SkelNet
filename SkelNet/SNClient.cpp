@@ -8,12 +8,12 @@
 #include "SNSimulatedProxy.h"
 #include "SNAnimator.h"
 
-void SNClient::Setup()
+void SNClient::Setup(const char* ipAddress)
 {
 	SDLNet_Init();
 
 	int res;
-	res = SDLNet_ResolveHost(&ip, "127.0.0.1", 6969);
+	res = SDLNet_ResolveHost(&ip, ipAddress, 6969);
 	if (!res && printErrors)
 	{
 		printf("Client Connect: %s\n", SDLNet_GetError());
