@@ -21,7 +21,7 @@ void SNFloor::Draw()
 	Vector2 newPos = transform.GetPosition();
 	newPos = world->mainCamera.MakePositionWithCam(newPos);
 	dstRect.x = newPos.x;
-	dstRect.y = newPos.y;
+	dstRect.y = newPos.y + floorYOffset;
 
 	engDrawSprite(world->levelSprite->sheetSourceRect, dstRect, world->levelSprite->texture);
 }

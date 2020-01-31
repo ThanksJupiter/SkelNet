@@ -13,4 +13,6 @@ public:
 	SNTransform transform;
 
 	SNWorld* world;
+
+	float floorYOffset = -5.f;
 };

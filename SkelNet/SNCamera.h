@@ -10,5 +10,6 @@ public:
 	SNTransform transform;
 	float camScale = 1;
 	Vector2 MakePositionWithCam(Vector2 oldPos);
+	Vector2 GetCenterPosition();
 };
 

@@ -22,7 +22,7 @@ void SNWorld::Setup()
 	SNSprite* trailSprite = new SNSprite(32, 32, nullptr, 0);
 	trailSprite->texture = engLoadTexture("SN_Skel_Walk-Sheet.png");
 	trail->Setup({ 70,70 }, 5, 10, 10, 5, *trailSprite);
-	mainCamera.transform.SetPosition({ 0,0 });
+	mainCamera.transform.SetPosition({ 0, 100 });
 	mainCamera.transform.SetScale(worldSize);
 
 	client.world = this;
@@ -33,28 +33,35 @@ void SNWorld::Update(float dt)
 {
 	autonomousProxy.Update(dt);
 
-	if (engGetKey(Key::Y))
+	Vector2 avgVector;
+	avgVector = simulatedProxy.transform.GetPosition() + autonomousProxy.transform.GetPosition();
+	avgVector = -avgVector * 0.5f;
+	avgVector.y = mainCamera.transform.GetPosition().y;
+
+	mainCamera.transform.SetPosition(avgVector);
+
+	if (engGetKey(Key::I))
 	{
-		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x, mainCamera.transform.GetPosition().y - 1 });
-	}
-	if (engGetKey(Key::G))
-	{
-		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x - 1, mainCamera.transform.GetPosition().y });
-	}
-	if (engGetKey(Key::H))
-	{
-		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x, mainCamera.transform.GetPosition().y + 1 });
+		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, 1 }));
 	}
 	if (engGetKey(Key::J))
 	{
-		mainCamera.transform.SetPosition({ mainCamera.transform.GetPosition().x + 1, mainCamera.transform.GetPosition().y });
+		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 1, 0 }));
+	}
+	if (engGetKey(Key::K))
+	{
+		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, -1 }));
+	}
+	if (engGetKey(Key::L))
+	{
+		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { -1, 0 }));
 	}
 
-	if (engGetKeyDown(Key::Q))
+	if (engGetKeyDown(Key::U))
 	{
 		mainCamera.camScale += .2f;
 	}
-	if (engGetKeyDown(Key::E))
+	if (engGetKeyDown(Key::O))
 	{
 		mainCamera.camScale -= .2f;
 	}

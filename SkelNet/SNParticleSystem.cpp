@@ -58,7 +58,7 @@ void SNParticleSystem::UpdateParticles(float dt, SNCamera* cam)
 		particleEffects[i]->currentPlayDuration += dt;
 		if (particleEffects[i]->currentPlayDuration < particleEffects[i]->playDuration)
 		{
-			particleEffects[i]->particleAnimator.DrawAnimation(particleEffects[i]->position - cam->transform.GetPosition(), particleEffects[i]->flipped, dt, particleEffects[i]->rotation);
+			particleEffects[i]->particleAnimator.DrawAnimation(cam->MakePositionWithCam(particleEffects[i]->position), particleEffects[i]->flipped, dt, particleEffects[i]->rotation);
 		}
 		else
 		{

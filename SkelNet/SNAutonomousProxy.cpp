@@ -246,7 +246,6 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		transform.SetAcceleration({ transform.GetAcceleration().x, gravity * gravityMult });
 
 		//Set fall state
-
 		if (transform.GetVelocity().y > 0)
 		{
 			if (stateMachine->currentState != fsmData->availableStates[FALL_STATE])

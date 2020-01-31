@@ -158,7 +158,7 @@ void engClose()
 void engRender()
 {
 	SDL_RenderPresent(renderer);
-	SDL_SetRenderDrawColor(renderer, 16, 26, 33, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
 	SDL_RenderClear(renderer);
 }
 
