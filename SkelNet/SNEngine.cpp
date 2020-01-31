@@ -48,7 +48,7 @@ struct AxisState
 static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
 static InputState dpadStates[(unsigned int)DPadButton::MAX];
 
-std::string inputText = "Input server IP here";
+std::string inputText = "127.0.0.1";
 
 void engInit()
 {
@@ -101,7 +101,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData fallSheet = SpritesheetData("SN_Skel_Fall-Sheet.png", 4, 32, 32);
 	SpritesheetData knockedDownSheet = SpritesheetData("SN_Skel_Knockdown.png", 1, 32, 32);
 	SpritesheetData dustCloud01Sheet = SpritesheetData("SN_Skel_Dust_Cloud-Sheet.png", 9, 16, 16);
-	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Turn-Sheet.png", 4, 32, 32);
+	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Stop_02-Sheet.png", 4, 32, 32);
 	SpritesheetData teabagSheet = SpritesheetData("SN_Skel_T-Bag-Sheet.png", 6, 32, 32);
 
 	SNSprite* idleSprites[4];

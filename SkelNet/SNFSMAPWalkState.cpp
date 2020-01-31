@@ -79,6 +79,12 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
+	if (!autoProxy->IsGrounded())
+	{
+		autoProxy->EnterState(FALL_STATE);
+		return;
+	}
+
 	// movement time integration
 	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 

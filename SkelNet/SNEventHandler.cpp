@@ -20,7 +20,6 @@ void SNEventHandler::CreateEvent(void (SNWorld::*function)(void), Uint8 eventFla
 
 void SNEventHandler::RemoveEvent(Uint8 eventFlag)
 {
-
 }
 
 void SNEventHandler::InvokeEvent(Uint8 eventFlag)

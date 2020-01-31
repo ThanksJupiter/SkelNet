@@ -16,7 +16,7 @@ void SNFSMAPRunState::Enter(SNFSMData* fsmData)
 
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->autonomousProxy->transform.GetPosition(),
-		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->flip);
+		fsmData->world->dashDustAnim, 8 * 0.05f, fsmData->autonomousProxy->transform.GetFacingRight());
 
 	autoProxy->transform.SetVelocity({ 270.0f * input->leftStickDirection.x, autoProxy->transform.GetPosition().y});
 	timer = 0.0f;
@@ -44,7 +44,7 @@ void SNFSMAPRunState::Update(float dt, SNFSMData* fsmData)
 		(autoProxy->transform.GetVelocity().x > 0 && input->leftStickDirection.x < 0) ||
 		(autoProxy->transform.GetVelocity().x < 0 && input->leftStickDirection.x > 0);
 
-	if (attemptingDirectionChange)
+	/*if (attemptingDirectionChange)
 	{
 		if (timer < dashDanceThreshold)
 		{
@@ -56,18 +56,18 @@ void SNFSMAPRunState::Update(float dt, SNFSMData* fsmData)
 			autoProxy->EnterState(WALK_STATE);
 			return;
 		}
-	}
+	}*/
 
 	// TODO implement drag to decrease speed when no input
-	if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minRunSpeed)
+	/*if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minRunSpeed)
 	{
 		autoProxy->EnterState(WALK_STATE);
 		return;
-	}
+	}*/
 
 	if (input->leftStickDirection.x == 0)
 	{
-		autoProxy->EnterState(WALK_STATE);
+		autoProxy->EnterState(IDLE_STATE);
 		return;
 	}
 
@@ -80,6 +80,12 @@ void SNFSMAPRunState::Update(float dt, SNFSMData* fsmData)
 	if (input->jump)
 	{
 		autoProxy->EnterState(JUMP_STATE);
+		return;
+	}
+
+	if (!autoProxy->IsGrounded())
+	{
+		autoProxy->EnterState(FALL_STATE);
 		return;
 	}
 

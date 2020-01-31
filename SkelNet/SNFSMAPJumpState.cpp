@@ -27,7 +27,7 @@ void SNFSMAPJumpState::Update(float dt, SNFSMData* fsmData)
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	SNInput* input = fsmData->input;
 
-	autoProxy->SetDirection();
+	//autoProxy->SetDirection();
 	autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x, autoProxy->gravity * (input->jumpHeld ? autoProxy->gravityMult : autoProxy->fallGravityMult) });
 	timer += dt;
 

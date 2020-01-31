@@ -7,6 +7,7 @@
 #include "SNWorld.h"
 #include "SNSimulatedProxy.h"
 #include "SNAnimator.h"
+#include "SNServer.h"
 
 void SNClient::Setup(const char* ipAddress)
 {

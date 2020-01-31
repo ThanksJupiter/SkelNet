@@ -10,11 +10,11 @@
 #include "SNMath.h"
 #include "SNFloor.h"
 
-
 void SNWorld::Setup()
 {
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
+	//audioManager->PlayMusicLoop(audioManager->midnaLament);
 
 	particleSystem = new SNParticleSystem();
 
@@ -43,7 +43,6 @@ void SNWorld::Update(float dt)
 	avgVector = simulatedProxy.transform.GetPosition() + autonomousProxy.transform.GetPosition();
 	avgVector = -avgVector * 0.5f;
 	avgVector.y = mainCamera.transform.GetPosition().y;
-
 
 	if (avgVector.x + (mainCamera.transform.GetScale().x / 2) < deathDistance.x &&
 		avgVector.x - (mainCamera.transform.GetScale().x / 2) > -deathDistance.x)
