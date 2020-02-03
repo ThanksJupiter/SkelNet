@@ -61,6 +61,8 @@ public:
 	bool doStartup;
 	bool isServer;
 
+	bool bWaitingToStart = true;
+
 	Vector2 deathDistance = {750, 500};
 
 	void Setup();

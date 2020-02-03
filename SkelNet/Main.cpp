@@ -24,7 +24,7 @@
 SNWorld world;
 bool waiting = true;
 //todo:: if debugging; initialize bool as false to start without client 
-bool waitingForPlayer = false;
+bool waitingForPlayer = true;
 
 SNCanvas canvas;
 
@@ -34,6 +34,10 @@ SNUIElement* hostButton;
 SNUIElement* joinButton;
 SNUIElement* restartbutton;
 SNUIElement* textInputButton;
+
+SNUIElement* waitingForPlayersText;
+SNUIElement* startGameButton;
+SNUIElement* startGameText;
 
 SNUIElement* hostText;
 SNUIElement* joinText;
@@ -54,7 +58,6 @@ void EnableSetupUI(bool bShouldDisplay)
 	hostText->isUsed = bShouldDisplay;
 	joinText->isUsed = bShouldDisplay;
 	//inputField->isUsed = false;
-	inputField->drawRect = false;
 
 	restartText->isUsed = !bShouldDisplay;
 }
@@ -70,7 +73,6 @@ void SetupServer()
 	world.isServer = true;
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
-	waiting = false;
 
 	EnableSetupUI(false);
 }
@@ -84,10 +86,23 @@ void SetupClient()
 	world.isServer = false;
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
-	waiting = false;
 	waitingForPlayer = false;
 
 	EnableSetupUI(false);
+}
+
+void StartGame()
+{
+	if (!waitingForPlayer)
+	{
+		waitingForPlayersText->isUsed = false;
+		waiting = false;
+
+		startGameButton->isUsed = false;
+		startGameText->isUsed = false;
+
+		world.StartGameEvent();
+	}
 }
 
 void RestartGame()
@@ -105,6 +120,13 @@ void EnableTextInput()
 void SetupMainMenuUI()
 {
 	canvas.Setup(world.worldSize, { 0.f, 0.f });
+
+	waitingForPlayersText = canvas.CreateText({ 400,0 }, "Waiting For Players");
+
+	startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, StartGame);
+	startGameButton->drawRect = true;
+	startGameText = canvas.CreateText({ 0,0 }, "Start Game", &startGameButton->anchor);
+
 	hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
 	joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
 	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
@@ -118,7 +140,7 @@ void SetupMainMenuUI()
 	hostText->drawRect = true;
 	joinText->drawRect = true;
 	restartText->drawRect = true;
-	inputField->drawRect = true;
+	//inputField->drawRect = true;
 }
 
 int main()
@@ -170,7 +192,7 @@ int main()
 			engDrawString({ 10, 10 }, "Client");
 		}
 
-		inputField->UpdateText(engGetInputText());
+		//inputField->UpdateText(engGetInputText());
 
 		if (engGetKeyDown(Key::Return))
 		{
@@ -182,16 +204,61 @@ int main()
 			canvas.drawDebug = !canvas.drawDebug;
 		}
 
+#pragma region StartScreen
+
+		//recieve data to know if game has started
+		if (world.HasAuthority())
+		{
+			world.server.RecvData();
+		}
+		else
+		{
+			world.client.RecvData();
+		}
+
+		//before players have joined
 		if (waitingForPlayer && !waiting)
 		{
-			inputField->isUsed = true;
-			inputField->UpdateText("Waiting For Players");
-
+			waitingForPlayersText->isUsed = true;
+			waitingForPlayersText->UpdateText("Waiting For Players");
 		}
+
+		//when players have joined but game hasn't begun
+		if (!waitingForPlayer && waiting)
+		{
+
+			waitingForPlayersText->UpdateText("Waiting to start");
+
+			if (world.isServer)
+			{
+				startGameButton->isUsed = true;
+				startGameText->isUsed = true;
+			}
+			else
+			{
+				startGameButton->isUsed = false;
+				startGameText->isUsed = false;
+			}
+		}
+
+		if (world.isServer)
+		{
+			world.bWaitingToStart = waiting;
+		}
+		else
+		{
+			waiting = world.bWaitingToStart;
+			if (!waiting && !waitingForPlayer)
+			{
+				StartGame();
+			}
+		}
+
+#pragma endregion StartScreen
 
 		if (!waiting && !waitingForPlayer)
 		{
-			inputField->isUsed = false;
+			waitingForPlayersText->isUsed = false;
 
 			world.Update(deltaTime);
 			world.Draw(deltaTime);

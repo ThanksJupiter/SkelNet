@@ -251,6 +251,10 @@ void SNWorld::StartGameEvent()
 		eventPacket.eventFlag = START_GAME_EVENT;
 		server.SendData(&eventPacket);
 	}
+	else
+	{
+		bWaitingToStart = false;
+	}
 
 	// Do Start Game Stuff
 	printf("Game Started!\n");
