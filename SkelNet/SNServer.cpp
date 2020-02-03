@@ -24,27 +24,29 @@ void SNServer::Setup()
 
 void SNServer::AcceptConnection()
 {
-	client = SDLNet_TCP_Accept(server);
-	if (!client && printErrors)
+	if (!client)
 	{
-		printf("Server Accept: %s\n", SDLNet_GetError());
-		return;
-	}
-
-	if (client)
-	{
-		remoteIp = SDLNet_TCP_GetPeerAddress(client);
-		if (!remoteIp && printErrors)
+		if (!(client = SDLNet_TCP_Accept(server)) && printErrors)
 		{
-			printf("Server Peer Address: %s\n", SDLNet_GetError());
+			printf("Server Accept: %s\n", SDLNet_GetError());
+			return;
 		}
 
-		if (printDebug)
+		if (client)
 		{
-			printf("Accepted connection from: %d : %d\n", remoteIp->host, remoteIp->port);
-		}
+			remoteIp = SDLNet_TCP_GetPeerAddress(client);
+			if (!remoteIp && printErrors)
+			{
+				printf("Server Peer Address: %s\n", SDLNet_GetError());
+			}
 
-		SDLNet_TCP_AddSocket(socketSet, client);
+			if (printDebug)
+			{
+				printf("Accepted connection from: %d : %d\n", remoteIp->host, remoteIp->port);
+			}
+
+			SDLNet_TCP_AddSocket(socketSet, client);
+		}
 	}
 }
 

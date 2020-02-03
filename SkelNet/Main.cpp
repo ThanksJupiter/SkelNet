@@ -58,7 +58,7 @@ void EnableSetupUI(bool bShouldDisplay)
 #pragma endregion SetupUI
 
 void SetupServer()
-{ 
+{
 	//todo (Kasper): when starting game, wait for players to join
 	SDL_StopTextInput();
 	world.server.Setup();
@@ -181,7 +181,7 @@ int main()
 			canvas.CheckInteraction();
 			canvas.Draw();
 
-			if (engGetKeyDown(Key::A) && world.isServer == true)
+			if (world.isServer == true)
 			{
 				world.server.AcceptConnection();
 			}
