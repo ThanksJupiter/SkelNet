@@ -65,7 +65,7 @@ void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
 
 	engSetColor(0, 255, 255);
 
-	animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight(), dt);
+	animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), !transform.GetFacingRight(), dt);
 
 	engSetColor(0, 0, 0);
 }
@@ -84,7 +84,7 @@ void SNSimulatedProxy::ServerCheckAttack()
 		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
 			world->server.SendData(&statePacket);
-			world->autonomousProxy.TakeDamage();
+			world->autonomousProxy.SetState(KNOCKBACK_STATE);
 		}
 	}
 	else
@@ -92,7 +92,7 @@ void SNSimulatedProxy::ServerCheckAttack()
 		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
 			world->server.SendData(&statePacket);
-			world->autonomousProxy.TakeDamage();
+			world->autonomousProxy.SetState(KNOCKBACK_STATE);
 		}
 	}
 }

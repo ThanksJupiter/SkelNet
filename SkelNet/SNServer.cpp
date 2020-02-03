@@ -97,7 +97,7 @@ bool SNServer::RecvData()
 				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(int16_t), sizeof(int16_t));
 
 				world->simulatedProxy.SetPosition({ (float)posX, (float)posY });
-				world->simulatedProxy.transform.SetFacingRight(flip < 0 ? true : false);
+				world->simulatedProxy.transform.SetFacingRight(flip > 0 ? true : false);
 				return true;
 			} break;
 
