@@ -15,6 +15,7 @@ class SNSimulatedProxy
 {
 public:
 	void Spawn(Vector2 initPos, SNWorld& world);
+	void Update(float dt);
 
 	void SetPosition(Vector2 newPosition);
 	void Draw(float dt, SNCamera* cam);
@@ -30,6 +31,7 @@ public:
 
 	void InitializeFSM();
 
+	void DoAttack();
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;
 
@@ -62,4 +64,4 @@ public:
 	void Reset();
 };
 
-void SPDoAttack(SNWorld* world);
+

@@ -5,6 +5,7 @@
 
 void SNFSMSPKnockbackState::Enter(SNFSMData* fsmData)
 {
+	fsmData->simulatedProxy->TakeDamage();
 	fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
 }
 

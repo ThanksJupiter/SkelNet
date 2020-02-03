@@ -7,13 +7,12 @@
 void SNFSMAPAttackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->apAttackAnim);
-	//fsmData->autonomousProxy->velocity.x = 0;
 
 	hasMissSoundPlayed = false;
 	hasStartSoundPlayed = false;
 
 	timer = 0.0f;
-	fsmData->autonomousProxy->Attack();
+	fsmData->autonomousProxy->SendEnterAttackState();
 	hit = false;
 }
 
@@ -54,13 +53,13 @@ void SNFSMAPAttackState::Update(float dt, SNFSMData* fsmData)
 	{
 		hit = true;
 
-		if (fsmData->world->isServer)
+		if (fsmData->world->HasAuthority())
 		{
-			APDoAttack(fsmData->world);
+			autoProxy->DoAttack();
 		}
 		else
 		{
-			SPDoAttack(fsmData->world);
+			//SPDoAttack(fsmData->world);
 		}
 	}
 

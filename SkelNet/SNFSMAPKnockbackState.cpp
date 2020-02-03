@@ -12,6 +12,7 @@
 
 void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 {
+	fsmData->autonomousProxy->TakeDamage();
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
 
 	if (fsmData->world->HasAuthority())
@@ -47,7 +48,7 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
 	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
 
-	if (autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333)
+	if (autoProxy->IsGrounded())
 	{
 		fsmData->autonomousProxy->animator->rotation = 0;
 		autoProxy->EnterState(KNOCKDOWN_STATE);

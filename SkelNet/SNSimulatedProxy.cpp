@@ -1,5 +1,5 @@
-#include "SNSimulatedProxy.h"
 #include "SNWorld.h"
+#include "SNSimulatedProxy.h"
 #include "SNEngine.h"
 #include "SNAnimator.h"
 #include <iomanip>
@@ -18,9 +18,9 @@
 #include "SNFSMSPTurnAroundState.h"
 #include "SNFSMSPTauntState.h"
 
-void SPDoAttack(SNWorld* world)
+void SNSimulatedProxy::DoAttack()
 {
-	if (world->isServer)
+	if (world->HasAuthority())
 	{
 		world->simulatedProxy.ServerCheckAttack();
 	}
@@ -36,7 +36,6 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	animator->defaultAnimation = world.idleAnim;
 	animator->world = &world;
 
-
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 }, 1);
@@ -49,6 +48,11 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	InitializeFSM();
 	flyBackDirection = { -1, -1 };
+}
+
+void SNSimulatedProxy::Update(float dt)
+{
+	stateMachine->Update(dt);
 }
 
 void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
@@ -68,36 +72,41 @@ void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
 
 void SNSimulatedProxy::ServerCheckAttack()
 {
-	if (!world->isServer)
+	if (!world->HasAuthority())
 		return;
+
+	SNStatePacket statePacket;
+	statePacket.flag = SP_STATE_FLAG;
+	statePacket.state = KNOCKBACK_STATE;
 
 	if (transform.GetFacingRight())
 	{
 		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
+			world->server.SendData(&statePacket);
 			world->autonomousProxy.TakeDamage();
-			world->autonomousProxy.serverWasHit = true;
 		}
 	}
 	else
 	{
 		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
+			world->server.SendData(&statePacket);
 			world->autonomousProxy.TakeDamage();
-			world->autonomousProxy.serverWasHit = true;
 		}
 	}
 }
 
 void SNSimulatedProxy::PlayAttackAnim()
 {
-	world->spAttackAnim->AddDelegateToFrame(8, SPDoAttack);
+	//world->spAttackAnim->AddDelegateToFrame(8, SPDoAttack);
 	animator->SetCurrentAnimation(world->spAttackAnim, true);
 }
 
 void SNSimulatedProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
+	//stateMachine->EnterState(KNOCKBACK_STATE);
 	FlyBack();
 	health += 30;
 	printf("SimulatedProxy: Took Damage\n");
@@ -206,7 +215,7 @@ void SNSimulatedProxy::Reset()
 	}
 
 	health = 0;
-	animState = 6;
+	stateMachine->EnterState(FALL_STATE);
 	transform.SetVelocity({ 0.f, 0.f });
 }
 

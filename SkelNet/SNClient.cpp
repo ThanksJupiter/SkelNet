@@ -92,7 +92,7 @@ bool SNClient::RecvData()
 				// Set Autonomous Proxy State
 				Uint8 state;
 				memcpy(&state, dataBuffer + sizeof(flags), sizeof(Uint8));
-				//world->autonomousProxy.SetState(state);
+				world->autonomousProxy.SetState(state);
 				return true;
 			} break;
 

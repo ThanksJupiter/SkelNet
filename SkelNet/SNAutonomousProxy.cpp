@@ -19,6 +19,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
 	stateText = canvas.CreateText({ 250, 200 }, "100%", nullptr, { -50, 0 });
+	spStateText = canvas.CreateText({ 250, 300 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -65,6 +66,10 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 
 	//engDrawString({100, 20}, )
 	stateText->UpdateText(stateMachine->currentState->stateName);
+	engSetTextColor(0, 255, 0);
+	spStateText->UpdateText(world->simulatedProxy.stateMachine->currentState->stateName);
+	engSetTextColor(255, 255, 255);
+
 
 	engSetColor(0, 255, 0);
 
@@ -320,7 +325,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 	}
 }
 
-void SNAutonomousProxy::Attack()
+void SNAutonomousProxy::SendEnterAttackState()
 {
 	/* if Server */
 	// play attack anim
@@ -329,7 +334,6 @@ void SNAutonomousProxy::Attack()
 
 	if (world->HasAuthority())
 	{
-		
 		SNStatePacket statePacket;
 		statePacket.flag = SP_STATE_FLAG;
 		statePacket.state = ATTACK_STATE;
@@ -337,12 +341,9 @@ void SNAutonomousProxy::Attack()
 	}
 	else
 	{
-		animator->SetCurrentAnimation(world->apAttackAnim, true);
-
 		SNStatePacket statePacket;
 		statePacket.flag = SP_STATE_FLAG;
 		statePacket.state = ATTACK_STATE;
-
 		world->client.SendData(&statePacket);
 	}
 
@@ -355,22 +356,24 @@ void SNAutonomousProxy::Attack()
 
 void SNAutonomousProxy::CheckAttack()
 {
+	SNStatePacket statePacket;
+	statePacket.flag = AP_STATE_FLAG;
+	statePacket.state = KNOCKBACK_STATE;
+
 	if (!transform.GetFacingRight())
 	{
 		if (attackBoxR->currentState.isTriggered && attackBoxR->currentState.otherId == 1)
 		{
-			// Send hit data
-			//clientWasHit = true;
-			world->simulatedProxy.TakeDamage();
+			world->server.SendData(&statePacket);
+			world->simulatedProxy.SetState(KNOCKBACK_STATE);
 		}
 	}
 	else
 	{
 		if (attackBoxL->currentState.isTriggered && attackBoxL->currentState.otherId == 1)
 		{
-			// Send hit data
-			//clientWasHit = true;
-			world->simulatedProxy.TakeDamage();
+			world->server.SendData(&statePacket);
+			world->simulatedProxy.SetState(KNOCKBACK_STATE);
 		}
 	}
 }
@@ -378,15 +381,17 @@ void SNAutonomousProxy::CheckAttack()
 void SNAutonomousProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->whip_hit);
-
-	EnterState(KNOCKBACK_STATE);
 	FlyBack();
-
 	health += 30;
 	printf("AutonomousProxy: Took Damage\n");
 }
 
-void APDoAttack(SNWorld* world)
+void SNAutonomousProxy::DoAttack()
 {
 	world->autonomousProxy.CheckAttack();
+}
+
+void SNAutonomousProxy::SetState(Uint8 index)
+{
+	stateMachine->EnterState(index);
 }

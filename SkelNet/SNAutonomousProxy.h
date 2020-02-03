@@ -23,9 +23,10 @@ public:
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 
-	void Attack();
+	void SendEnterAttackState();
 	void CheckAttack();
 	void TakeDamage();
+	void SetState(Uint8 index);
 	void CheckInput(float dt);
 	void Draw(float dt, SNCamera* cam);
 	void Update(float dt);
@@ -37,7 +38,9 @@ public:
 	void SendAPState(Uint8 state);
 	void EnterState(Uint8 state);
 
+	void DoAttack();
 	SNUIElement* stateText;
+	SNUIElement* spStateText;
 
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;
@@ -81,4 +84,4 @@ public:
 	void Reset();
 };
 
-void APDoAttack(SNWorld* world);
+
