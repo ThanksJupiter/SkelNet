@@ -95,7 +95,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData runSheet = SpritesheetData("SN_Skel_Run-Sheet.png", 6, 32, 32);
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 12, 100, 30);
 	SpritesheetData jumpSheet = SpritesheetData("SN_Skel_Jump-Sheet.png", 3, 32, 32);
-	SpritesheetData knockbackSheet = SpritesheetData("SN_Skel_Knockback-Sheet.png", 1, 32, 32);
+	SpritesheetData knockbackSheet = SpritesheetData("SN_Skel_Knockback.png", 1, 32, 32);
 	SpritesheetData dashDustSheet = SpritesheetData("SN_SKel_Dash_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData landingDustSheet = SpritesheetData("SN_Skel_Landing_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData fallSheet = SpritesheetData("SN_Skel_Fall-Sheet.png", 4, 32, 32);
