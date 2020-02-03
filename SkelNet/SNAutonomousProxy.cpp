@@ -140,7 +140,13 @@ void SNAutonomousProxy::FlyBack()
 	if (world->simulatedProxy.transform.GetPosition().x < transform.GetPosition().x)
 	{
 		newFlyback.x = -newFlyback.x;
+		transform.SetFacingRight(true);
 	}
+	else
+	{
+		transform.SetFacingRight(false);
+	}
+
 	transform.SetPosition({ transform.GetPosition().x, transform.GetPosition().y - 5 });
 	transform.SetVelocity(newFlyback);
 }
