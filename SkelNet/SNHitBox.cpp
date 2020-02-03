@@ -18,7 +18,7 @@ void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, char id, bo
 	lastState.frameNum = engGetFrameNum();
 }
 
-bool SNHitBox::CheckCollision(SNHitBox otherHitBox)
+bool SNHitBox::CheckCollision(SNHitBox& otherHitBox)
 {
 	if (position.x + size.x >= otherHitBox.position.x &&
 		position.x <= otherHitBox.position.x + otherHitBox.size.x &&
