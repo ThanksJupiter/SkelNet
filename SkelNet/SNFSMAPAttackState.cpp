@@ -64,10 +64,13 @@ void SNFSMAPAttackState::Update(float dt, SNFSMData* fsmData)
 		}
 	}
 
-	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
+	if (!autoProxy->IsGrounded())
+	{
+		autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
 
-	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
-	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
+		autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
+		autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
+	}
 
 	if ((autoProxy->transform.GetVelocity().y > 0 && autoProxy->transform.GetPosition().y > 333) && (autoProxy->transform.GetPosition().x > 170 && autoProxy->transform.GetPosition().x < 935))
 	{
