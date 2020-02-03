@@ -63,7 +63,6 @@ void EnableSetupUI(bool bShouldDisplay)
 
 void SetupServer()
 {
-	//todo (Kasper): when starting game, wait for players to join
 	SDL_StopTextInput();
 	world.server.Setup();
 	world.server.printErrors = false;
