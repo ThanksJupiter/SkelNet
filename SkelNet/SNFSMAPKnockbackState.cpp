@@ -12,6 +12,8 @@
 
 void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 {
+	fsmData->autonomousProxy->transform.SetVelocity({0, 0});
+	fsmData->autonomousProxy->transform.SetAcceleration({ 0, 0 });
 	fsmData->autonomousProxy->TakeDamage();
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
 
@@ -40,13 +42,13 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 		timer = 0.0f;
 	}
 
-	autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x , autoProxy->gravity * autoProxy->gravityMult });
+	/*autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x , autoProxy->gravity * autoProxy->gravityMult });*/
 
-	// movement time integration
-	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
+	SNTransform* transform = &autoProxy->transform;
 
-	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
-	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
+	transform->SetPreviousPosition(transform->GetPosition());
+	transform->SetVelocity(transform->GetVelocity() + transform->GetAcceleration() * dt);
+	transform->SetPosition(transform->GetPosition() + transform->GetVelocity() * dt);
 
 	if (autoProxy->IsGrounded())
 	{
