@@ -23,12 +23,14 @@ public:
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 
-	void Attack();
+	void SendEnterAttackState();
 	void CheckAttack();
 	void TakeDamage();
+	void SetState(Uint8 index);
 	void CheckInput(float dt);
 	void Draw(float dt, SNCamera* cam);
 	void Update(float dt);
+	void ForcesTimeIntegration(float dt);
 
 	void SetDirection();
 
@@ -37,7 +39,9 @@ public:
 	void SendAPState(Uint8 state);
 	void EnterState(Uint8 state);
 
+	void DoAttack();
 	SNUIElement* stateText;
+	SNUIElement* spStateText;
 
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;
@@ -45,12 +49,13 @@ public:
 	void FlyBack();
 
 	SNTransform transform;
+	float drag = 1.5f;
 
 	bool sendTransformToggle;
 	bool flip;
 
 	int health = 1;
-	float accelerationSpeed = 200.0f;
+	float accelerationSpeed = 270.0f;
 	float minVelocitySpeed = 50.0f;
 	float maxVelocitySpeed = 250.0f;
 	float minRunSpeed = 160.0f;
@@ -81,4 +86,4 @@ public:
 	void Reset();
 };
 
-void APDoAttack(SNWorld* world);
+

@@ -12,7 +12,7 @@ private:
 	Vector2 scale;
 	Vector2 velocity;
 	Vector2 acceleration;
-	bool facingRight;
+	bool facingRight = true;
 
 public:
 	SNTransform();

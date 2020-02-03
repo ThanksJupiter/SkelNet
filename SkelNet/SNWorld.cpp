@@ -38,6 +38,7 @@ void SNWorld::Setup()
 void SNWorld::Update(float dt)
 {
 	autonomousProxy.Update(dt);
+	simulatedProxy.Update(dt);
 
 	Vector2 avgVector;
 	avgVector = simulatedProxy.transform.GetPosition() + autonomousProxy.transform.GetPosition();

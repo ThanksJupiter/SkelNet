@@ -16,5 +16,6 @@ void SNFSMSPTurnAroundState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMSPTurnAroundState::Exit(SNFSMData* fsmData)
 {
-
+	SNSimulatedProxy* simProxy = fsmData->simulatedProxy;
+	simProxy->transform.SetFacingRight(!simProxy->transform.GetFacingRight());
 }

@@ -37,8 +37,6 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 
 	timer += dt;
 
-	autoProxy->SetDirection();
-
 	if (input->leftStickDirection.x != 0)
 	{
 		if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minVelocitySpeed)
@@ -48,20 +46,27 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 
 		if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minRunSpeed)
 		{
-			autoProxy->transform.SetAcceleration({ autoProxy->accelerationSpeed * input->leftStickDirection.x, autoProxy->transform.GetAcceleration().y });
+			autoProxy->transform.SetVelocity({ autoProxy->minRunSpeed * input->leftStickDirection.x, autoProxy->transform.GetAcceleration().y });
 		}
 	}
-	else
+	else if (abs(autoProxy->transform.GetVelocity().x) < autoProxy->minVelocitySpeed)
 	{
-		// TODO don't leave walk state if no input
-		autoProxy->transform.SetVelocity({ 0.0f, autoProxy->transform.GetVelocity().y});
-		autoProxy->transform.SetAcceleration({ 0.0f, autoProxy->transform.GetAcceleration().y });
-
 		autoProxy->EnterState(IDLE_STATE);
 		return;
 	}
 
-	if (abs(input->leftStickDirection.x) > .8 && timer < runTimeThreshold)
+	if (autoProxy->transform.GetFacingRight() && input->leftStickDirection.x > 0)
+	{
+		autoProxy->EnterState(TURNAROUND_STATE);
+		return;
+	}
+	else if (!autoProxy->transform.GetFacingRight() && input->leftStickDirection.x < 0)
+	{
+		autoProxy->EnterState(TURNAROUND_STATE);
+		return;
+	}
+
+	if (abs(input->leftStickDirection.x) > .8)// && timer < runTimeThreshold)
 	{
 		autoProxy->EnterState(RUN_STATE);
 		return;
@@ -85,13 +90,7 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
-	// movement time integration
-	autoProxy->transform.SetPreviousPosition(autoProxy->transform.GetPosition());
-
-	autoProxy->transform.SetVelocity(autoProxy->transform.GetVelocity() + autoProxy->transform.GetAcceleration() * dt);
-	autoProxy->transform.SetPosition(autoProxy->transform.GetPosition() + autoProxy->transform.GetVelocity() * dt);
-
-	autoProxy->SendTransformData();
+	autoProxy->ForcesTimeIntegration(dt);
 }
 
 void SNFSMAPWalkState::Exit(SNFSMData* fsmData)

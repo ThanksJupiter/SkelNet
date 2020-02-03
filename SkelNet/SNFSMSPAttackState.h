@@ -12,4 +12,9 @@ public:
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);
 	void Exit(SNFSMData* fsmData);
+
+	float timer = 0.0f;
+	float attackDuration = 12 * .12f;
+	float checkAttackDuration = 8 * .12f;
+	bool hit = false;
 };

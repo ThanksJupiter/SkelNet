@@ -77,7 +77,7 @@ bool SNClient::RecvData()
 				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(int16_t), sizeof(int16_t));
 
 				world->simulatedProxy.SetPosition({ (float)posX, (float)posY });
-				world->simulatedProxy.transform.SetFacingRight(flip < 0 ? true : false);
+				world->simulatedProxy.transform.SetFacingRight(flip > 0 ? true : false);
 			} break;
 
 			case SP_STATE_FLAG: {
@@ -92,7 +92,7 @@ bool SNClient::RecvData()
 				// Set Autonomous Proxy State
 				Uint8 state;
 				memcpy(&state, dataBuffer + sizeof(flags), sizeof(Uint8));
-				//world->autonomousProxy.SetState(state);
+				world->autonomousProxy.SetState(state);
 				return true;
 			} break;
 
