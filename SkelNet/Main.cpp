@@ -23,6 +23,8 @@
 
 SNWorld world;
 bool waiting = true;
+//todo:: if debugging; initialize bool as false to start without client 
+bool waitingForPlayer = false;
 
 SNCanvas canvas;
 
@@ -38,6 +40,7 @@ SNUIElement* joinText;
 SNUIElement* restartText;
 SNUIElement* inputField;
 
+
 void EnableSetupUI(bool bShouldDisplay)
 {
 	//button
@@ -50,7 +53,8 @@ void EnableSetupUI(bool bShouldDisplay)
 	//text
 	hostText->isUsed = bShouldDisplay;
 	joinText->isUsed = bShouldDisplay;
-	inputField->isUsed = false;
+	//inputField->isUsed = false;
+	inputField->drawRect = false;
 
 	restartText->isUsed = !bShouldDisplay;
 }
@@ -82,6 +86,7 @@ void SetupClient()
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
 	waiting = false;
+	waitingForPlayer = false;
 
 	EnableSetupUI(false);
 }
@@ -156,6 +161,10 @@ int main()
 		if (world.isServer)
 		{
 			engDrawString({ 10, 10 }, "Server");
+			if (world.server.AcceptConnection())
+			{
+				waitingForPlayer = false;
+			}
 		}
 		else
 		{
@@ -174,17 +183,22 @@ int main()
 			canvas.drawDebug = !canvas.drawDebug;
 		}
 
-		if (!waiting)
+		if (waitingForPlayer && !waiting)
 		{
+			inputField->isUsed = true;
+			inputField->UpdateText("Waiting For Players");
+
+		}
+
+		if (!waiting && !waitingForPlayer)
+		{
+			inputField->isUsed = false;
+
 			world.Update(deltaTime);
 			world.Draw(deltaTime);
 			canvas.CheckInteraction();
 			canvas.Draw();
 
-			if (world.isServer == true)
-			{
-				world.server.AcceptConnection();
-			}
 		}
 		else
 		{

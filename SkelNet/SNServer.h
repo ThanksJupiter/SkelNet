@@ -12,8 +12,8 @@ public:
 
 	void Setup();
 	void Close();
-	void AcceptConnection();
-	
+	bool AcceptConnection();
+
 	void SendData(SNTransformPacket* data);
 	void SendData(SNStatePacket* data);
 	void SendData(SNEventPacket* data);

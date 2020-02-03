@@ -22,14 +22,14 @@ void SNServer::Setup()
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 }
 
-void SNServer::AcceptConnection()
+bool SNServer::AcceptConnection()
 {
 	if (!client)
 	{
 		if (!(client = SDLNet_TCP_Accept(server)) && printErrors)
 		{
 			printf("Server Accept: %s\n", SDLNet_GetError());
-			return;
+			return false;
 		}
 
 		if (client)
@@ -44,10 +44,12 @@ void SNServer::AcceptConnection()
 			{
 				printf("Accepted connection from: %d : %d\n", remoteIp->host, remoteIp->port);
 			}
-
 			SDLNet_TCP_AddSocket(socketSet, client);
+			return true;
 		}
 	}
+	return false;
+
 }
 
 bool SNServer::RecvData()
