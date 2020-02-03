@@ -110,6 +110,29 @@ void SNAutonomousProxy::Update(float dt)
 	serverWasHit = false;
 }
 
+void SNAutonomousProxy::ForcesTimeIntegration(float dt)
+{
+	transform.SetPreviousPosition(transform.GetPosition());
+
+	//transform.SetAcceleration(transform.GetAcceleration() * (1 - dt * drag));
+
+	transform.SetVelocity(transform.GetVelocity() + transform.GetAcceleration() * dt);
+
+	// drag 
+	if (abs(transform.GetVelocity().x) > 60.0f)
+	{
+		transform.SetVelocity(transform.GetVelocity() * (1 - dt * drag));
+	}
+	else
+	{
+		transform.SetVelocity({0.0f, transform.GetVelocity().y});
+	}
+	
+	//transform.SetVelocity(transform.GetVelocity() * .7);
+
+	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
+}
+
 void SNAutonomousProxy::FlyBack()
 {
 	Vector2 newFlyback = Normalize(flyBackDirection) * (minFlyBack + health);

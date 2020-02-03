@@ -33,11 +33,12 @@ void SNFSMAPTurnAroundState::Update(float dt, SNFSMData* fsmData)
 	{
 		autoProxy->EnterState(JUMP_STATE);
 	}
+
+	autoProxy->ForcesTimeIntegration(dt);
 }
 
 void SNFSMAPTurnAroundState::Exit(SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	autoProxy->transform.SetFacingRight(!autoProxy->transform.GetFacingRight());
-	autoProxy->SetDirection();
 }
