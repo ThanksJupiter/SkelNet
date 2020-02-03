@@ -17,6 +17,8 @@
 #include "SNFSMSPKnockedDownState.h"
 #include "SNFSMSPTurnAroundState.h"
 #include "SNFSMSPTauntState.h"
+#include "SNFSMSPJumpSquatState.h"
+#include "SNFSMSPLandState.h"
 
 void SNSimulatedProxy::DoAttack()
 {
@@ -196,6 +198,8 @@ void SNSimulatedProxy::InitializeFSM()
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMSPKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMSPTurnAroundState("Turn");
 	fsmData->availableStates[TAUNT_STATE] = new SNFSMSPTauntState("Taunt");
+	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMSPJumpSquatState("JumpSquat");
+	fsmData->availableStates[LAND_STATE] = new SNFSMSPLandState("Land");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

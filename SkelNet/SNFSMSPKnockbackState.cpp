@@ -28,5 +28,5 @@ void SNFSMSPKnockbackState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMSPKnockbackState::Exit(SNFSMData* fsmData)
 {
-
+	
 }

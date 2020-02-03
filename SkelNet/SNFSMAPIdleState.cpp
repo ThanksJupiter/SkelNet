@@ -44,7 +44,7 @@ void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->jump)
 	{
-		autoProxy->EnterState(JUMP_STATE);
+		autoProxy->EnterState(JUMPSQUAT_STATE);
 		return;
 	}
 
@@ -61,6 +61,14 @@ void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 	}
 
 	autoProxy->ForcesTimeIntegration(dt);
+
+	/*if (autoProxy->IsGrounded())
+	{
+		SNTransform* transform = &autoProxy->transform;
+		SNTransform floorTransform = fsmData->world->worldFloor.transform;
+		transform->SetPosition({ transform->GetPosition().x, floorTransform.GetPosition().y });
+		transform->SetVelocity({ transform->GetVelocity().x, 0 });
+	}*/
 }
 
 void SNFSMAPIdleState::Exit(SNFSMData* fsmData)

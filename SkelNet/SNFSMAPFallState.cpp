@@ -46,17 +46,12 @@ void SNFSMAPFallState::Update(float dt, SNFSMData* fsmData)
 	if (autoProxy->IsGrounded())
 	{
 		// land
-		fsmData->autonomousProxy->animator->IncrementOneFrame();
-		autoProxy->EnterState(IDLE_STATE);
+		autoProxy->EnterState(LAND_STATE);
 	}
 
 }
 
 void SNFSMAPFallState::Exit(SNFSMData* fsmData)
 {
-	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->transform.GetPosition(),
-		fsmData->world->landingDustAnim, 8 * 0.05f, fsmData->autonomousProxy->transform.GetFacingRight());
-
-	fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->land);
+	
 }

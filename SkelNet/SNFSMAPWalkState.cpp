@@ -74,7 +74,7 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->jump)
 	{
-		autoProxy->EnterState(JUMP_STATE);
+		autoProxy->EnterState(JUMPSQUAT_STATE);
 		return;
 	}
 

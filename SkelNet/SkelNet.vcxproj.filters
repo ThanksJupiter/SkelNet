@@ -93,6 +93,18 @@
     <ClCompile Include="SNFSMAPCrouchState.cpp">
       <Filter>StateMachine\APStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPLandState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPLandState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPJumpSquatState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPJumpSquatState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -196,6 +208,18 @@
     <ClInclude Include="SNEvent.h" />
     <ClInclude Include="SNFSMAPCrouchState.h">
       <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPLandState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPLandState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPJumpSquatState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPJumpSquatState.h">
+      <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

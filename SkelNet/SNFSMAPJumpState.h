@@ -16,8 +16,4 @@ public:
 
 	void DoJump(SNAutonomousProxy* autoProxy);
 	void LeaveLandingFrame(SNFSMData* fsmData);
-
-	bool jumped = false;
-	float jumpDelay = .1f;
-	float timer = 0.0f;
 };

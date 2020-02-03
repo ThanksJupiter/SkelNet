@@ -11,6 +11,8 @@
 #include "SNDataPackets.h"
 #include "SNFSMAPTauntState.h"
 #include "SNFloor.h"
+#include "SNFSMAPJumpSquatState.h"
+#include "SNFSMAPLandState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -131,6 +133,9 @@ void SNAutonomousProxy::ForcesTimeIntegration(float dt)
 	//transform.SetVelocity(transform.GetVelocity() * .7);
 
 	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
+
+	transform.SetPosition({ transform.GetPosition().x, world->worldFloor.transform.GetPosition().y });
+	transform.SetVelocity({ transform.GetVelocity().x, 0 });
 }
 
 void SNAutonomousProxy::FlyBack()
@@ -219,6 +224,8 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMAPKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMAPTurnAroundState("Turn");
 	fsmData->availableStates[TAUNT_STATE] = new SNFSMAPTauntState("Taunt");
+	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMAPJumpSquatState("JumpSquat");
+	fsmData->availableStates[LAND_STATE] = new SNFSMAPLandState("Land");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -289,11 +296,11 @@ void SNAutonomousProxy::UpdatePosition(float dt)
 		}*/
 	}
 
-	if (IsGrounded())
+	/*if (IsGrounded())
 	{
 		transform.SetPosition({ transform.GetPosition().x, floorTransform->GetPosition().y });
 		transform.SetVelocity({ transform.GetVelocity().x, 0 });
-	}
+	}*/
 
 	if (world->isServer)
 	{
