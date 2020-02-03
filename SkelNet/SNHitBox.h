@@ -2,6 +2,8 @@
 #include "Vector.h"
 #include <functional>
 
+class SNCamera;
+
 struct TriggerState
 {
 	bool isTriggered;
@@ -30,5 +32,5 @@ public:
 	void UpdatePosition(Vector2 position);
 	void SetOffset(Vector2 offset);
 
-	void DrawDebug();
+	void DrawDebug(SNCamera* cam);
 };

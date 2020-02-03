@@ -1,6 +1,7 @@
 #include "SNHitBox.h"
 #include "SNEngine.h"
 #include <string>
+#include "SNCamera.h"
 
 void SNHitBox::Setup(Vector2 position, Vector2 size, Vector2 offset, char id, bool blocking, bool callDelegates, std::function<void()> OnTriggerEnter, std::function<void()> OnTriggerExit)
 {
@@ -61,7 +62,7 @@ void SNHitBox::SetOffset(Vector2 offset)
 	this->offset = offset;
 }
 
-void SNHitBox::DrawDebug()
+void SNHitBox::DrawDebug(SNCamera* cam)
 {
 	engSetColor(0, 0, 255);
 	if (lastState.isTriggered)
@@ -71,12 +72,14 @@ void SNHitBox::DrawDebug()
 
 	std::string heyo = std::to_string(id);
 
-	engDrawString({ position.x, position.y - 20 }, heyo.c_str());
+	Vector2 newPos = cam->MakePositionWithCam(position);
 
-	engDrawLine(position, { position.x + size.x, position.y });
-	engDrawLine(position, { position.x, position.y + size.y });
-	engDrawLine(position + size, { position.x + size.x, position.y });
-	engDrawLine(position + size, { position.x, position.y + size.y });
+	engDrawString({ newPos.x, newPos.y - 20 }, heyo.c_str());
+
+	engDrawLine(newPos, { newPos.x + size.x, newPos.y });
+	engDrawLine(newPos, { newPos.x, newPos.y + size.y });
+	engDrawLine(newPos + size, { newPos.x + size.x, newPos.y });
+	engDrawLine(newPos + size, { newPos.x, newPos.y + size.y });
 	engSetColor(0, 0, 0);
 }
 

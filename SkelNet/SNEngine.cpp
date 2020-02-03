@@ -75,7 +75,7 @@ void engInit()
 	TTF_Init();
 
 	//init font
-	if (!(standardFont = TTF_OpenFont("bin/FrizQuadrataTT.ttf", 24))) {
+	if (!(standardFont = TTF_OpenFont("bin/joystixmonospace.ttf", 24))) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 	}
 }

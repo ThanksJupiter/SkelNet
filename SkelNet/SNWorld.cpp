@@ -139,7 +139,7 @@ void SNWorld::Draw(float dt)
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
-		//hitboxes[i].DrawDebug();
+		hitboxes[i].DrawDebug(&mainCamera);
 	}
 
 	//floors[0].Draw();

@@ -29,8 +29,8 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	if (world.isServer)
 	{
 		hitBox = world.SpawnHitBox(initPos, { 50, 70 }, { -25, -70 }, 1);
-		attackBoxR = world.SpawnHitBox(initPos, { 30,30 }, { 100, -40 }, 0);
-		attackBoxL = world.SpawnHitBox(initPos, { 30,30 }, { -130, -40 }, 0);
+		attackBoxR = world.SpawnHitBox(initPos, { 70,30 }, { 60, -40 }, 0);
+		attackBoxL = world.SpawnHitBox(initPos, { 70,30 }, { -90, -40 }, 0);
 		hitBox->drawDebug = true;
 		attackBoxR->drawDebug = true;
 		attackBoxL->drawDebug = true;
