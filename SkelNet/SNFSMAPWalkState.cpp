@@ -91,8 +91,6 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 	}
 
 	autoProxy->ForcesTimeIntegration(dt);
-
-	autoProxy->SendTransformData();
 }
 
 void SNFSMAPWalkState::Exit(SNFSMData* fsmData)
