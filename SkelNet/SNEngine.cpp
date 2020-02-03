@@ -130,7 +130,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.fallAnim = fallSheet.CreateAnimation(fallSprites, .15);
 	world.knockedDownAnim = knockedDownSheet.CreateAnimation(knockedDownSprites, 1);
 	world.dustCloud01Anim = dustCloud01Sheet.CreateAnimation(dustCloud01Sprites, .1);
-	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .05);
+	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .15);
 	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
 
 	world.levelSprite = new SNSprite(256, 24, engLoadTexture("SN_Castle_Roof.png"), 0);
