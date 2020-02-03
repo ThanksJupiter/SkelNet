@@ -86,15 +86,13 @@ void SNWorld::Update(float dt)
 		hitboxes[i].currentState.frameNum = engGetFrameNum();
 	}
 
-	for (int i = 0; i < numHitboxes; ++i)
+	if (HasAuthority())
 	{
-		for (int j = 0; j < numHitboxes; ++j)
-		{
-			if (i == j)
-				continue;
+		simulatedProxy.attackBoxL->CheckCollision(*autonomousProxy.hitBox);
+		simulatedProxy.attackBoxR->CheckCollision(*autonomousProxy.hitBox);
 
-			hitboxes[i].CheckCollision(hitboxes[j]);
-		}
+		autonomousProxy.attackBoxL->CheckCollision(*simulatedProxy.hitBox);
+		autonomousProxy.attackBoxR->CheckCollision(*simulatedProxy.hitBox);
 	}
 
 	if (HasAuthority())
@@ -139,7 +137,7 @@ void SNWorld::Draw(float dt)
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
-		hitboxes[i].DrawDebug(&mainCamera);
+		//hitboxes[i].DrawDebug(&mainCamera);
 	}
 
 	//floors[0].Draw();
