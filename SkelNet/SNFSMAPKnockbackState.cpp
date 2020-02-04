@@ -51,8 +51,6 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 		timer = 0.0f;
 	}
 
-	/*autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x , autoProxy->gravity * autoProxy->gravityMult });*/
-
 	SNTransform* transform = &autoProxy->transform;
 
 	transform->SetPreviousPosition(transform->GetPosition());
@@ -68,5 +66,5 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMAPKnockbackState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

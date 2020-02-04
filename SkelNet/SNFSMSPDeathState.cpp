@@ -9,9 +9,11 @@
 
 void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 {
+	Vector2 pos = fsmData->simulatedProxy->transform.GetPosition();
+	pos.y += (128 * 6) / 2;
+
 	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->simulatedProxy->transform.GetPosition() -
-		fsmData->simulatedProxy->transform.GetScale() / 2,
+		pos,
 		fsmData->world->deathShockwave,
 		fsmData->world->deathShockwave->frameCount * fsmData->world->deathShockwave->nextFrameDelay,
 		false, 6, 0);
@@ -27,10 +29,10 @@ void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 
 void SNFSMSPDeathState::Update(float dt, SNFSMData* fsmData)
 {
-	
+
 }
 
 void SNFSMSPDeathState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

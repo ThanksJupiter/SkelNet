@@ -9,9 +9,11 @@
 
 void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 {
+	Vector2 pos = fsmData->autonomousProxy->transform.GetPosition();
+	pos.y += (128 * 6) / 2;
+
 	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->transform.GetPosition() -
-		fsmData->autonomousProxy->transform.GetScale() / 2,
+		pos,
 		fsmData->world->deathShockwave,
 		fsmData->world->deathShockwave->frameCount * fsmData->world->deathShockwave->nextFrameDelay,
 		false, 6, 0);
@@ -32,5 +34,5 @@ void SNFSMAPDeathState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMAPDeathState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

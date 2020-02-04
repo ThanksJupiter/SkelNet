@@ -76,7 +76,7 @@ public:
 
 	float spawnDistanceX = 150.0f;
 	float spawnDistanceY = -300.0f;
-	Vector2 deathDistance = {750, 500};
+	Vector2 deathDistance = {750, 200};
 
 	void Setup();
 	void Update(float dt);
