@@ -7,9 +7,6 @@
 void SNFSMAPIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
-	//fsmData->autonomousProxy->transform.SetVelocity({ 0, 0 });
-
-
 }
 
 void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
@@ -17,23 +14,10 @@ void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 	SNInput* input = fsmData->input;
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 
-	//autoProxy->SetDirection();
-
 	if (!autoProxy->IsGrounded())
 	{
 		autoProxy->EnterState(FALL_STATE);
 	}
-
-	/*if (autoProxy->transform.GetFacingRight() && input->leftStickDirection.x > 0)
-	{
-		autoProxy->EnterState(TURNAROUND_STATE);
-		return;
-	}
-	else if (!autoProxy->transform.GetFacingRight() && input->leftStickDirection.x < 0)
-	{
-		autoProxy->EnterState(TURNAROUND_STATE);
-		return;
-	}*/
 
 	if (input->leftStickDirection.x != 0)
 	{
