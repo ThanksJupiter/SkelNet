@@ -30,6 +30,8 @@ public:
 	bool isClickable;
 	bool drawRect;
 
+	bool hidden = false;
+
 	SNAnchor anchor;
 	Vector2 size;
 	Vector2 position;

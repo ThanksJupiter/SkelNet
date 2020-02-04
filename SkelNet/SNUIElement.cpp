@@ -5,6 +5,9 @@
 
 void SNUIElement::Draw()
 {
+	if (hidden)
+		return;
+
 	if (drawRect)
 	{
 		engSetColor(60, 60, 60);

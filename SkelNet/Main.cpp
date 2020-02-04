@@ -32,7 +32,6 @@ SNCanvas canvas;
 
 SNUIElement* hostButton;
 SNUIElement* joinButton;
-SNUIElement* restartbutton;
 SNUIElement* textInputButton;
 
 SNUIElement* waitingForPlayersText;
@@ -41,9 +40,7 @@ SNUIElement* startGameText;
 
 SNUIElement* hostText;
 SNUIElement* joinText;
-SNUIElement* restartText;
 SNUIElement* inputField;
-
 
 void EnableSetupUI(bool bShouldDisplay)
 {
@@ -52,14 +49,10 @@ void EnableSetupUI(bool bShouldDisplay)
 	joinButton->isUsed = bShouldDisplay;
 	textInputButton->isUsed = bShouldDisplay;
 
-	restartbutton->isUsed = !bShouldDisplay;
-
 	//text
 	hostText->isUsed = bShouldDisplay;
 	joinText->isUsed = bShouldDisplay;
-	//inputField->isUsed = false;
-
-	restartText->isUsed = !bShouldDisplay;
+	inputField->isUsed = false;
 }
 
 #pragma endregion SetupUI
@@ -80,7 +73,7 @@ void SetupServer()
 void SetupClient()
 {
 	SDL_StopTextInput();
-	world.client.Setup("127.0.0.1");
+	world.client.Setup(engGetInputText().c_str());
 	world.client.printErrors = false;
 	world.client.printDebug = false;
 	world.isServer = false;
@@ -99,6 +92,7 @@ void StartGame()
 		waitingForPlayersText->isUsed = false;
 		waiting = false;
 
+		//remove start button
 		if (startGameButton && startGameText)
 		{
 			startGameButton->isUsed = false;
@@ -125,22 +119,30 @@ void SetupMainMenuUI()
 {
 	canvas.Setup(world.worldSize, { 0.f, 0.f });
 
-	waitingForPlayersText = canvas.CreateText({ 400,0 }, "Waiting For Players");
+	//Start game butt on
+	{
+		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, 400.f }, { 200,40.f }, true, StartGame);
+		startGameButton->drawRect = true;
+		startGameButton->hidden = true;
+
+		startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
+		startGameText->drawRect = true;
+		startGameText->hidden = true;
+	}
+
+	waitingForPlayersText = canvas.CreateText({ world.worldSize.x / 2 - 175 ,0 }, "Waiting For Players");
 
 	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 50.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ 500.f, 375.f }, { 65.f,35.f }, true, SetupClient);
-	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
-	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
+	joinButton = canvas.CreateButton({ 600.f, 375.f }, { 65.f,35.f }, true, SetupClient);
+	textInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableTextInput);
 
 	hostText = canvas.CreateText({ 0,0 }, "Host", 1.0f, &hostButton->anchor);
 	joinText = canvas.CreateText({ 0,0 }, "Join", 1.0f, &joinButton->anchor);
-	restartText = canvas.CreateText({ 0,0 }, "Restart", 1.0f, &restartbutton->anchor);
 	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), 1.0f, &textInputButton->anchor);
 
 	hostText->drawRect = true;
 	joinText->drawRect = true;
-	restartText->drawRect = true;
-	//inputField->drawRect = true;
+	inputField->drawRect = true;
 }
 
 int main()
@@ -192,7 +194,7 @@ int main()
 			engDrawString({ 10, 10 }, "Client");
 		}
 
-		//inputField->UpdateText(engGetInputText());
+		inputField->UpdateText(engGetInputText());
 
 		if (engGetKeyDown(Key::Return))
 		{
@@ -233,15 +235,6 @@ int main()
 			waitingForPlayersText->UpdateText("Waiting For Players");
 		}
 
-		if (!waitingForPlayer && !startGameButton && world.isServer)
-		{
-			startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 200.f,30.f }, true, StartGame);
-			startGameButton->drawRect = true;
-
-			startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
-			startGameText->drawRect = true;
-		}
-
 		//when players have joined but game hasn't begun
 		if (!waitingForPlayer && waiting)
 		{
@@ -249,13 +242,18 @@ int main()
 
 			if (world.isServer && startGameButton && startGameText)
 			{
-				startGameButton->isUsed = true;
-				startGameText->isUsed = true;
+				startGameButton->hidden = false;
+				startGameText->hidden = false;
+				//startGameButton->isUsed = true;
+				//startGameText->isUsed = true;
 			}
 			else if (startGameButton && startGameText)
 			{
-				startGameButton->isUsed = false;
-				startGameText->isUsed = false;
+				startGameButton->hidden = true;
+				startGameText->hidden = true;
+
+				//startGameButton->isUsed = false;
+				//startGameText->isUsed = false;
 			}
 		}
 
