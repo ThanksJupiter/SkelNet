@@ -23,7 +23,7 @@
 
 SNWorld world;
 bool waiting = true;
-//todo:: if debugging; initialize bool as false to start without client 
+//todo:: if debugging; initialize bool as false to start without client
 bool waitingForPlayer = true;
 bool gameStarted = false;
 SNCanvas canvas;
@@ -132,10 +132,10 @@ void SetupMainMenuUI()
 	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
 	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
 
-	hostText = canvas.CreateText({ 0,0 }, "Host", &hostButton->anchor);
-	joinText = canvas.CreateText({ 0,0 }, "Join", &joinButton->anchor);
-	restartText = canvas.CreateText({ 0,0 }, "Restart", &restartbutton->anchor);
-	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), &textInputButton->anchor);
+	hostText = canvas.CreateText({ 0,0 }, "Host", 1.0f, &hostButton->anchor);
+	joinText = canvas.CreateText({ 0,0 }, "Join", 1.0f, &joinButton->anchor);
+	restartText = canvas.CreateText({ 0,0 }, "Restart", 1.0f, &restartbutton->anchor);
+	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), 1.0f, &textInputButton->anchor);
 
 	hostText->drawRect = true;
 	joinText->drawRect = true;

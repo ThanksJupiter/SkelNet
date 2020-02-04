@@ -223,7 +223,8 @@ void SNSimulatedProxy::Reset()
 	}
 
 	health = 0;
-	//stateMachine->EnterState(FALL_STATE);
+	world->simProxyHealthText->UpdateText(health);
+	world->simProxyStockText->UpdateText(currentStocks);
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
 

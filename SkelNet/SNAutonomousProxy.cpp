@@ -22,9 +22,9 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
 
-	stateText = canvas.CreateText({ 250, 200 }, "100%", nullptr, { -50, 0 });
-	spStateText = canvas.CreateText({ 250, 300 }, "100%", nullptr, { -50, 0 });
-	velocityText = canvas.CreateText({ 350, 350 }, "100%", nullptr, { -50, 0 });
+	stateText = canvas.CreateText({ 250, 200 }, "100%", 1.0f, nullptr, { -50, 0 });
+	spStateText = canvas.CreateText({ 250, 300 }, "100%", 1.0f, nullptr, { -50, 0 });
+	velocityText = canvas.CreateText({ 350, 350 }, "100%", 1.0f, nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -177,6 +177,8 @@ void SNAutonomousProxy::Reset()
 	}
 
 	health = 0;
+	world->autoProxyHealthText->UpdateText(health);
+	world->autoProxyStockText->UpdateText(currentStocks);
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
 	

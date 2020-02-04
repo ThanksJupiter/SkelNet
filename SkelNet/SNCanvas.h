@@ -19,7 +19,7 @@ public:
 	SNUIElement* CreateRect(Vector2 position, Vector2 size, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 	SNUIElement* CreateButton(Vector2 position, Vector2 size, bool isClickable, std::function<void()> OnClicked, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 	SNUIElement* CreateImage(Vector2 position, Vector2 size, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
-	SNUIElement* CreateText(Vector2 position, const char* text, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
+	SNUIElement* CreateText(Vector2 position, const char* text, float scaleMultiplier = 1.0f, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 
 	static const int MAX_NUM_UIELEMENTS = 12;
 	int NUM_UIELEMENTS = 0;

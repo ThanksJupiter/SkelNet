@@ -151,7 +151,7 @@ SNUIElement* SNCanvas::CreateImage(Vector2 position, Vector2 size, SNAnchor* par
 	return nullptr;
 }
 
-SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, SNAnchor* parentElement, Vector2 anchorOffset)
+SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, float scaleMultiplier, SNAnchor* parentElement, Vector2 anchorOffset)
 {
 	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
 		return nullptr;
@@ -172,8 +172,9 @@ SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, SNAnchor* 
 				uiElements[i].SetAnchorPosition(position);
 				uiElements[i].SetRelativePosition(anchorOffset);
 				uiElements[i].textString = text;
-				uiElements[i].size = engGetTextSize(text);
+				uiElements[i].size = engGetTextSize(text) * scaleMultiplier;
 				uiElements[i].isUsed = true;
+				uiElements[i].textScaleMultiplier = scaleMultiplier;
 				NUM_UIELEMENTS++;
 
 				return &uiElements[i];

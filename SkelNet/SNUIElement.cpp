@@ -14,7 +14,7 @@ void SNUIElement::Draw()
 
 	if (!textString.empty())
 	{
-		engDrawString(position, textString.c_str());
+		engDrawString(position, textString.c_str(), textScaleMultiplier);
 	}
 }
 

@@ -29,6 +29,15 @@ void SNWorld::Setup()
 	client.world = this;
 	server.world = this;
 
+	worldCanvas.Setup(worldSize, { 0, 0 });
+	autoProxyHealthFrame = worldCanvas.CreateRect({ 100.f, worldSize.y - 100.f }, {200, 100});
+	autoProxyHealthText = worldCanvas.CreateText({ 100.f, 30.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
+	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &autoProxyHealthFrame->anchor);
+
+	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.x - 300.f, worldSize.y - 100.f }, { 200, 100 });
+	simProxyHealthText = worldCanvas.CreateText({ 100.f, 30.f }, "5%", 2.0f, &simProxyHealthFrame->anchor);
+	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &simProxyHealthFrame->anchor);
+
 	// EVENTS
 	eventHandler.world = this;
 	eventHandler.CreateEvent(&SNWorld::StartGameEvent, START_GAME_EVENT);
@@ -166,13 +175,6 @@ void SNWorld::Draw(float dt)
 	simulatedProxy.Draw(dt, &mainCamera);
 	autonomousProxy.Draw(dt, &mainCamera);
 
-	for (int i = 0; i < numHitboxes; ++i)
-	{
-		//hitboxes[i].DrawDebug(&mainCamera);
-	}
-
-	//floors[0].Draw();
-
 	if (particleSystem)
 	{
 		particleSystem->UpdateParticles(dt, &mainCamera);
@@ -181,6 +183,17 @@ void SNWorld::Draw(float dt)
 	worldFloor.Draw();
 
 	trail->Draw(&mainCamera);
+
+	/* Draw Health Frames */
+	worldCanvas.drawDebug = true;
+	worldCanvas.Draw();
+
+
+	/* DEBUG */ 
+	for (int i = 0; i < numHitboxes; ++i)
+	{
+		//hitboxes[i].DrawDebug(&mainCamera);
+	}
 
 	if (engGetKey(Key::R))
 

@@ -56,7 +56,7 @@ bool engGetDPadButtonDown(DPadButton inButton);
 
 // Text 
 void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);
-void engDrawString(Vector2 position, const char* string);
+void engDrawString(Vector2 position, const char* string, float scaleMultiplier = 1.f);
 Vector2 engGetTextSize(const char* string);
 std::string engGetInputText();
 void engSetInputText(std::string inText);
