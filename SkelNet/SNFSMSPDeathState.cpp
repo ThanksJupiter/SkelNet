@@ -5,7 +5,7 @@
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
 #include "SNTransform.h"
-#include "SNCamera.h"
+#include "SNEngine.h"
 
 void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 {
@@ -22,14 +22,20 @@ void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 	{
 		fsmData->simulatedProxy->currentStocks--;
 	}
+	fsmData->simulatedProxy->health = 0.f;
+	fsmData->world->simProxyHealthText->UpdateText("0%");
+	fsmData->world->simProxyStockText->UpdateText(fsmData->simulatedProxy->currentStocks);
+	fsmData->world->simProxyHealthText->SetRelativePosition(
+		{ -engGetTextSize("0%").x * 2,
+		0 });
 }
 
 void SNFSMSPDeathState::Update(float dt, SNFSMData* fsmData)
 {
-	
+
 }
 
 void SNFSMSPDeathState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

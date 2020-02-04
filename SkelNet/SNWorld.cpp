@@ -31,12 +31,14 @@ void SNWorld::Setup()
 
 	worldCanvas.Setup(worldSize, { 0, 0 });
 	autoProxyHealthFrame = worldCanvas.CreateRect({ 100.f, worldSize.y - 100.f }, {200, 100});
-	autoProxyHealthText = worldCanvas.CreateText({ 100.f, 30.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
-	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
+	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
+	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &autoProxyHealthFrame->anchor);
 
 	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.x - 300.f, worldSize.y - 100.f }, { 200, 100 });
-	simProxyHealthText = worldCanvas.CreateText({ 100.f, 30.f }, "5%", 2.0f, &simProxyHealthFrame->anchor);
-	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &simProxyHealthFrame->anchor);
+	simProxyHealthText->SetRelativePosition({ -simProxyHealthText->size.x, 0 });
+	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &simProxyHealthFrame->anchor);
 
 	// EVENTS
 	eventHandler.world = this;
@@ -185,7 +187,7 @@ void SNWorld::Draw(float dt)
 	trail->Draw(&mainCamera);
 
 	/* Draw Health Frames */
-	worldCanvas.drawDebug = true;
+	//worldCanvas.drawDebug = true;
 	worldCanvas.Draw();
 
 

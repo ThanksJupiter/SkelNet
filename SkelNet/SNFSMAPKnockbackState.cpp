@@ -9,6 +9,8 @@
 #include <cmath>
 #include "SNParticleSystem.h"
 #include "SNAnimation.h"
+#include <string>
+#include "SNEngine.h"
 
 void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 {
@@ -16,6 +18,22 @@ void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 	fsmData->autonomousProxy->transform.SetAcceleration({ 0, 0 });
 	fsmData->autonomousProxy->TakeDamage();
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
+
+	std::string healthString = std::to_string(fsmData->autonomousProxy->health);
+	healthString.push_back('%');
+	fsmData->world->autoProxyHealthText->UpdateText(healthString);
+	fsmData->world->autoProxyHealthText->SetRelativePosition(
+		{ -engGetTextSize(healthString.c_str()).x * 2,
+		0 });
+
+	if (fsmData->world->HasAuthority())
+	{
+		SNStatePacket statePacket;
+		statePacket.flag = SP_STATE_FLAG;
+		statePacket.state = KNOCKBACK_STATE;
+
+		fsmData->world->server.SendData(&statePacket);
+	}
 }
 
 void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
@@ -48,5 +66,5 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMAPKnockbackState::Exit(SNFSMData* fsmData)
 {
-	
+
 }

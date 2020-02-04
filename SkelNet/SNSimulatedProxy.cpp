@@ -222,9 +222,6 @@ void SNSimulatedProxy::Reset()
 		transform.SetPosition({ world->spawnDistanceX, world->spawnDistanceY });
 	}
 
-	health = 0;
-	world->simProxyHealthText->UpdateText(health);
-	world->simProxyStockText->UpdateText(currentStocks);
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
 
