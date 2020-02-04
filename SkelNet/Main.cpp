@@ -126,10 +126,11 @@ void SetupMainMenuUI()
 
 	startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, StartGame);
 	startGameButton->drawRect = true;
+
 	startGameText = canvas.CreateText({ 0,0 }, "Start Game", &startGameButton->anchor);
 
-	hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 50.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ 500.f, 375.f }, { 65.f,30.f }, true, SetupClient);
 	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
 	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
 
