@@ -127,10 +127,6 @@ void SetupMainMenuUI()
 
 	waitingForPlayersText = canvas.CreateText({ 400,0 }, "Waiting For Players");
 
-	startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 200.f,30.f }, true, StartGame);
-	startGameButton->drawRect = true;
-	startGameText = canvas.CreateText({ 0,0 }, "Start Game", &startGameButton->anchor);
-
 	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 50.f,30.f }, true, SetupServer);
 	joinButton = canvas.CreateButton({ 500.f, 375.f }, { 65.f,35.f }, true, SetupClient);
 	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
@@ -243,6 +239,7 @@ int main()
 			startGameButton->drawRect = true;
 
 			startGameText = canvas.CreateText({ 0,0 }, "Start Game", &startGameButton->anchor);
+			startGameText->drawRect = true;
 		}
 
 		//when players have joined but game hasn't begun
