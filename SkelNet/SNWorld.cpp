@@ -30,13 +30,13 @@ void SNWorld::Setup()
 	server.world = this;
 
 	worldCanvas.Setup(worldSize, { 0, 0 });
-	autoProxyHealthFrame = worldCanvas.CreateRect({ worldSize.y - 50.f, 100.f }, {100, 100});
-	autoProxyHealthText = worldCanvas.CreateText({ 0, 0 }, "0%", &autoProxyHealthFrame->anchor);
-	autoProxyStockText = worldCanvas.CreateText({ 0, 50.f }, "3", &autoProxyHealthFrame->anchor);
+	autoProxyHealthFrame = worldCanvas.CreateRect({ 100.f, worldSize.y - 100.f }, {200, 100});
+	autoProxyHealthText = worldCanvas.CreateText({ 100.f, 30.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
+	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &autoProxyHealthFrame->anchor);
 
-	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.y - 50.f, worldSize.x - 100.f }, { 100, 100 });
-	simProxyHealthText = worldCanvas.CreateText({ 0, 0 }, "0%", &simProxyHealthFrame->anchor);
-	simProxyStockText = worldCanvas.CreateText({ 0, 50.f }, "3", &simProxyHealthFrame->anchor);
+	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.x - 300.f, worldSize.y - 100.f }, { 200, 100 });
+	simProxyHealthText = worldCanvas.CreateText({ 100.f, 30.f }, "5%", 2.0f, &simProxyHealthFrame->anchor);
+	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &simProxyHealthFrame->anchor);
 
 	// EVENTS
 	eventHandler.world = this;

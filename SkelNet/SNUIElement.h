@@ -26,6 +26,7 @@ public:
 	std::function<void()> OnClicked;
 
 	std::string textString;
+	float textScaleMultiplier = 1.0f;
 	bool isClickable;
 	bool drawRect;
 

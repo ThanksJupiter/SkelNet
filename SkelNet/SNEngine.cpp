@@ -469,7 +469,7 @@ void engSetTextColor(Uint8 Red, Uint8 Green, Uint8 Blue)
 	currentColor.a = 255;
 }
 
-void engDrawString(Vector2 position, const char* string)
+void engDrawString(Vector2 position, const char* string, float scaleMultiplier)
 {
 	// Render text onto surface
 	SDL_Surface* msgSurface = TTF_RenderText_Solid(standardFont, string, currentColor);
@@ -480,7 +480,7 @@ void engDrawString(Vector2 position, const char* string)
 	TTF_SizeText(standardFont, string, &msgW, &msgH);
 
 	// Copy that bad boy
-	SDL_Rect messageRect = { position.x, position.y, msgW, msgH };
+	SDL_Rect messageRect = { position.x, position.y, msgW * scaleMultiplier, msgH * scaleMultiplier };
 	SDL_RenderCopy(renderer, msgTexture, NULL, &messageRect);
 
 	// Remember to clean up
