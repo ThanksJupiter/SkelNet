@@ -45,7 +45,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	InitializeFSM();
 	flyBackDirection = { -1, -1 };
 
-	currentStocks = 4;
+	currentStocks = 420;
 }
 
 void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
@@ -95,6 +95,17 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 
 void SNAutonomousProxy::Update(float dt)
 {
+	if (isInvulnerable)
+	{
+		timer += dt;
+
+		if (timer >= regainVulnerabilityDelay)
+		{
+			isInvulnerable = false;
+			timer = 0.0f;
+		}
+	}
+
 	CheckInput(dt);
 	UpdatePosition(dt);
 
@@ -111,18 +122,11 @@ void SNAutonomousProxy::Update(float dt)
 	{
 		sendTransformToggle = !sendTransformToggle;
 	}
-
-	serverAttacked = false;
-	clientAttacked = false;
-	clientWasHit = false;
-	serverWasHit = false;
 }
 
 void SNAutonomousProxy::ForcesTimeIntegration(float dt)
 {
 	transform.SetPreviousPosition(transform.GetPosition());
-
-	//transform.SetAcceleration(transform.GetAcceleration() * (1 - dt * drag));
 
 	transform.SetVelocity(transform.GetVelocity() + transform.GetAcceleration() * dt);
 
@@ -135,8 +139,6 @@ void SNAutonomousProxy::ForcesTimeIntegration(float dt)
 	{
 		transform.SetVelocity({0.0f, transform.GetVelocity().y});
 	}
-	
-	//transform.SetVelocity(transform.GetVelocity() * .7);
 
 	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
 
@@ -167,7 +169,7 @@ void SNAutonomousProxy::FlyBack()
 
 void SNAutonomousProxy::Reset()
 {
-	if (world->isServer)
+	if (world->HasAuthority())
 	{
 		transform.SetPosition({ world->spawnDistanceX, world->spawnDistanceY });
 	}
@@ -281,6 +283,12 @@ void SNAutonomousProxy::SendAPState(Uint8 state)
 
 void SNAutonomousProxy::EnterState(Uint8 state)
 {
+	const char* prevState = "none xd";
+	if (stateMachine->currentState)
+	{
+		prevState = stateMachine->currentState->stateName;
+	}
+
 	SendSPState(state);
 	stateMachine->EnterState(state);
 }
@@ -443,5 +451,18 @@ void SNAutonomousProxy::DoAttack()
 
 void SNAutonomousProxy::SetState(Uint8 index)
 {
+	// HACK this shit might be needed but it doesn't seem like it
+	//if (stateMachine->currentStateIndex == DEATH_STATE)
+	//{
+		//printf("[SetState] tried to enter state: '%s' while dead, this is illegal and causes nought but trouble\n", fsmData->availableStates[index]->stateName);
+		//return;
+	//}
+
+	const char* prevState = "none xd";
+	if (stateMachine->currentState)
+	{
+		prevState = stateMachine->currentState->stateName;
+	}
+
 	stateMachine->EnterState(index);
 }

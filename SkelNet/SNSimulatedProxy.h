@@ -48,6 +48,9 @@ public:
 	Vector2 flyBackDirection;
 
 	bool isAttacking;
+	bool isInvulnerable = false;
+	float timer = 0.0f;
+	float regainVulnerabilityDelay = 2.0f;
 
 	int health = 1;
 	Uint8 currentStocks = 0;

@@ -66,5 +66,6 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMAPKnockbackState::Exit(SNFSMData* fsmData)
 {
-
+	fsmData->autonomousProxy->transform.SetVelocity({ 0, 0 });
+	fsmData->autonomousProxy->transform.SetAcceleration({ 0, 0 });
 }

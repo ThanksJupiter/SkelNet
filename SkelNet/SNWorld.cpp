@@ -135,7 +135,7 @@ void SNWorld::Update(float dt)
 			autonomousProxy.transform.GetPosition().y >= deathDistance.y ||
 			autonomousProxy.transform.GetPosition().y <= -(deathDistance.y + 200))
 		{
-			if (autonomousProxy.stateMachine->currentStateIndex != DEATH_STATE)
+			if (autonomousProxy.stateMachine->currentStateIndex != DEATH_STATE && !autonomousProxy.isInvulnerable)
 			{
 				SNStatePacket packet;
 				packet.flag = SP_STATE_FLAG;
@@ -143,7 +143,7 @@ void SNWorld::Update(float dt)
 
 				server.SendData(&packet);
 
-				autonomousProxy.SetState(DEATH_STATE);
+				autonomousProxy.EnterState(DEATH_STATE);
 				PlayerDiedEvent();
 				return;
 			}
@@ -154,7 +154,7 @@ void SNWorld::Update(float dt)
 			simulatedProxy.transform.GetPosition().y >= deathDistance.y ||
 			simulatedProxy.transform.GetPosition().y <= -(deathDistance.y + 200))
 		{
-			if (simulatedProxy.stateMachine->currentStateIndex != DEATH_STATE)
+			if (simulatedProxy.stateMachine->currentStateIndex != DEATH_STATE && !simulatedProxy.isInvulnerable)
 			{
 				SNStatePacket packet;
 				packet.flag = AP_STATE_FLAG;
@@ -336,6 +336,7 @@ void SNWorld::RestartGameEvent()
 		if (simulatedProxy.currentStocks > 0)
 		{	
 			printf("respawn simprox, remaining stocks: %i\n", simulatedProxy.currentStocks);
+			simulatedProxy.isInvulnerable = true;
 			simulatedProxy.Reset();
 		}
 		else
@@ -349,7 +350,13 @@ void SNWorld::RestartGameEvent()
 		if (autonomousProxy.currentStocks > 0)
 		{
 			printf("respawn autoprox, remaining stocks: %i\n", autonomousProxy.currentStocks);
+			autonomousProxy.isInvulnerable = true;
 			autonomousProxy.Reset();
+
+			if (!HasAuthority())
+			{
+				autonomousProxy.EnterState(FALL_STATE);
+			}
 		}
 		else
 		{

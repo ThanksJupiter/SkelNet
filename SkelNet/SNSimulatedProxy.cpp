@@ -52,11 +52,22 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	InitializeFSM();
 	flyBackDirection = { -1, -1 };
 
-	currentStocks = 4;
+	currentStocks = 420;
 }
 
 void SNSimulatedProxy::Update(float dt)
 {
+	if (isInvulnerable)
+	{
+		timer += dt;
+
+		if (timer >= regainVulnerabilityDelay)
+		{
+			isInvulnerable = false;
+			timer = 0.0f;
+		}
+	}
+
 	stateMachine->Update(dt);
 }
 
@@ -183,6 +194,12 @@ void SNSimulatedProxy::SetAnimation(int index)
 
 void SNSimulatedProxy::SetState(Uint8 index)
 {
+	const char* prevState = "none xd";
+	if (stateMachine->currentState)
+	{
+		prevState = stateMachine->currentState->stateName;
+	}
+
 	stateMachine->EnterState(index);
 }
 
@@ -216,6 +233,14 @@ void SNSimulatedProxy::Reset()
 	if (world->HasAuthority())
 	{
 		transform.SetPosition({ -world->spawnDistanceX, world->spawnDistanceY });
+
+		SNTransformPacket packet;
+		packet.flag = TRANSFORM_FLAG;
+		packet.posX = transform.GetPosition().x;
+		packet.posY = transform.GetPosition().y;
+		packet.flip = transform.GetFacingRight();
+
+		world->server.SendData(&packet);
 	}
 	else
 	{

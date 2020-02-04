@@ -21,6 +21,7 @@ void SNFiniteStateMachine::EnterState(Uint8 newState)
 	}
 	// TODO: Save NewState as Uint8 for comparisons instead of comparing states
 	currentStateIndex = newState;
+
 	currentState = fsmData->availableStates[newState];
 	currentState->Enter(fsmData);
 }
