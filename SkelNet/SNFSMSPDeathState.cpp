@@ -10,7 +10,7 @@ void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 {
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->simulatedProxy->transform.GetPosition() -
-		fsmData->simulatedProxy->transform.GetScale() / 2,
+		Vector2(fsmData->world->deathShockwave->sprites[0]->width, fsmData->world->deathShockwave->sprites[0]->height) / 2,
 		fsmData->world->deathShockwave,
 		fsmData->world->deathShockwave->frameCount * fsmData->world->deathShockwave->nextFrameDelay,
 		false, 6, 0);

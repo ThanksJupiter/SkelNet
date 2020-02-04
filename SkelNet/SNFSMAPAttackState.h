@@ -15,7 +15,7 @@ public:
 
 	float timer = 0.0f;
 	float attackDuration = 12 * .12f;
-	float checkAttackDuration = 8 * .12f;
+	float checkAttackDuration = 7 * .12f;
 	bool hit = false;
 	bool hasStartSoundPlayed = false;
 	bool hasMissSoundPlayed = false;

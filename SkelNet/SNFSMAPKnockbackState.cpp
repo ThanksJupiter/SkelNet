@@ -16,15 +16,6 @@ void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 	fsmData->autonomousProxy->transform.SetAcceleration({ 0, 0 });
 	fsmData->autonomousProxy->TakeDamage();
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
-
-	if (fsmData->world->HasAuthority())
-	{
-		SNStatePacket statePacket;
-		statePacket.flag = SP_STATE_FLAG;
-		statePacket.state = KNOCKBACK_STATE;
-
-		fsmData->world->server.SendData(&statePacket);
-	}
 }
 
 void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
@@ -41,8 +32,6 @@ void SNFSMAPKnockbackState::Update(float dt, SNFSMData* fsmData)
 			fsmData->world->dustCloud01Anim, fsmData->world->dustCloud01Anim->duration, fsmData->autonomousProxy->transform.GetFacingRight());
 		timer = 0.0f;
 	}
-
-	/*autoProxy->transform.SetAcceleration({ autoProxy->transform.GetAcceleration().x , autoProxy->gravity * autoProxy->gravityMult });*/
 
 	SNTransform* transform = &autoProxy->transform;
 
