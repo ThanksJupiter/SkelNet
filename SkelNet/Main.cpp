@@ -25,7 +25,7 @@ SNWorld world;
 bool waiting = true;
 //todo:: if debugging; initialize bool as false to start without client 
 bool waitingForPlayer = true;
-
+bool gameStarted = false;
 SNCanvas canvas;
 
 #pragma region SetupUI
@@ -93,8 +93,9 @@ void SetupClient()
 
 void StartGame()
 {
-	if (!waitingForPlayer)
+	if (!waitingForPlayer && !gameStarted)
 	{
+		gameStarted = true;
 		waitingForPlayersText->isUsed = false;
 		waiting = false;
 
@@ -236,7 +237,6 @@ int main()
 		//when players have joined but game hasn't begun
 		if (!waitingForPlayer && waiting)
 		{
-
 			waitingForPlayersText->UpdateText("Waiting to start");
 
 			if (world.isServer)
@@ -258,7 +258,7 @@ int main()
 		else
 		{
 			waiting = world.bWaitingToStart;
-			if (!waiting && !waitingForPlayer)
+			if (!waiting && !waitingForPlayer && !gameStarted)
 			{
 				StartGame();
 			}
