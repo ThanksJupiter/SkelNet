@@ -21,7 +21,7 @@ public:
 	SNUIElement* CreateImage(Vector2 position, Vector2 size, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 	SNUIElement* CreateText(Vector2 position, const char* text, float scaleMultiplier = 1.0f, SNAnchor* parentElement = nullptr, Vector2 anchorOffset = { 0.f,0.f });
 
-	static const int MAX_NUM_UIELEMENTS = 10;
+	static const int MAX_NUM_UIELEMENTS = 12;
 	int NUM_UIELEMENTS = 0;
 	SNUIElement uiElements[MAX_NUM_UIELEMENTS];
 

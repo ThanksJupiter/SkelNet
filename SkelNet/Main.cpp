@@ -23,7 +23,7 @@
 
 SNWorld world;
 bool waiting = true;
-//todo:: if debugging; initialize bool as false to start without client 
+//todo:: if debugging; initialize bool as false to start without client
 bool waitingForPlayer = true;
 bool gameStarted = false;
 SNCanvas canvas;
@@ -99,8 +99,11 @@ void StartGame()
 		waitingForPlayersText->isUsed = false;
 		waiting = false;
 
-		startGameButton->isUsed = false;
-		startGameText->isUsed = false;
+		if (startGameButton && startGameText)
+		{
+			startGameButton->isUsed = false;
+			startGameText->isUsed = false;
+		}
 
 		world.StartGameEvent();
 	}
@@ -124,12 +127,8 @@ void SetupMainMenuUI()
 
 	waitingForPlayersText = canvas.CreateText({ 400,0 }, "Waiting For Players");
 
-	startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, StartGame);
-	startGameButton->drawRect = true;
-	startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
-
-	hostButton = canvas.CreateButton({ 50.f, 40.f }, { 50.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ 50.f, 100.f }, { 50.f,30.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 50.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ 500.f, 375.f }, { 65.f,35.f }, true, SetupClient);
 	restartbutton = canvas.CreateButton({ 50.f, 150.f }, { 50.f,30.f }, true, RestartGame);
 	textInputButton = canvas.CreateButton({ 500.f, 50.f }, { 200.f,40.f }, true, EnableTextInput);
 
@@ -234,17 +233,26 @@ int main()
 			waitingForPlayersText->UpdateText("Waiting For Players");
 		}
 
+		if (!waitingForPlayer && !startGameButton && world.isServer)
+		{
+			startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 200.f,30.f }, true, StartGame);
+			startGameButton->drawRect = true;
+
+			startGameText = canvas.CreateText({ 0,0 }, "Start Game", &startGameButton->anchor);
+			startGameText->drawRect = true;
+		}
+
 		//when players have joined but game hasn't begun
 		if (!waitingForPlayer && waiting)
 		{
 			waitingForPlayersText->UpdateText("Waiting to start");
 
-			if (world.isServer)
+			if (world.isServer && startGameButton && startGameText)
 			{
 				startGameButton->isUsed = true;
 				startGameText->isUsed = true;
 			}
-			else
+			else if (startGameButton && startGameText)
 			{
 				startGameButton->isUsed = false;
 				startGameText->isUsed = false;
