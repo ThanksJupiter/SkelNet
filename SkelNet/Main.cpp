@@ -238,7 +238,7 @@ int main()
 			startGameButton = canvas.CreateButton({ 50.f, 40.f }, { 200.f,30.f }, true, StartGame);
 			startGameButton->drawRect = true;
 
-			startGameText = canvas.CreateText({ 0,0 }, "Start Game", &startGameButton->anchor);
+			startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
 			startGameText->drawRect = true;
 		}
 

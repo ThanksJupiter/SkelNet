@@ -5,6 +5,7 @@
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
 #include "SNTransform.h"
+#include "SNEngine.h"
 
 void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 {
@@ -16,6 +17,12 @@ void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 		false, 6, 0);
 
 	fsmData->autonomousProxy->currentStocks--;
+	fsmData->autonomousProxy->health = 0.f;
+	fsmData->world->autoProxyHealthText->UpdateText("0%");
+	fsmData->world->autoProxyStockText->UpdateText(fsmData->autonomousProxy->currentStocks);
+	fsmData->world->autoProxyHealthText->SetRelativePosition(
+		{ -engGetTextSize("0%").x * 2,
+		0 });
 }
 
 void SNFSMAPDeathState::Update(float dt, SNFSMData* fsmData)

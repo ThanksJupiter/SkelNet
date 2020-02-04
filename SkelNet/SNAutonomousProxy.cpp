@@ -176,9 +176,6 @@ void SNAutonomousProxy::Reset()
 		transform.SetPosition({ -world->spawnDistanceX, world->spawnDistanceY });
 	}
 
-	health = 0;
-	world->autoProxyHealthText->UpdateText(health);
-	world->autoProxyStockText->UpdateText(currentStocks);
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
 	

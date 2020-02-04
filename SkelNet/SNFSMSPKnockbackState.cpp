@@ -3,11 +3,20 @@
 #include "SNAnimator.h"
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
+#include <string>
+#include "SNEngine.h"
 
 void SNFSMSPKnockbackState::Enter(SNFSMData* fsmData)
 {
 	fsmData->simulatedProxy->TakeDamage();
 	fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
+
+	std::string healthString = std::to_string(fsmData->simulatedProxy->health);
+	healthString.push_back('%');
+	fsmData->world->simProxyHealthText->UpdateText(healthString);
+	fsmData->world->simProxyHealthText->SetRelativePosition(
+		{ -engGetTextSize(healthString.c_str()).x * 2,
+		0 });
 }
 
 void SNFSMSPKnockbackState::Update(float dt, SNFSMData* fsmData)
@@ -28,5 +37,5 @@ void SNFSMSPKnockbackState::Update(float dt, SNFSMData* fsmData)
 
 void SNFSMSPKnockbackState::Exit(SNFSMData* fsmData)
 {
-	
+
 }
