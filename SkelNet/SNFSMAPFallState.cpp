@@ -46,9 +46,13 @@ void SNFSMAPFallState::Update(float dt, SNFSMData* fsmData)
 	if (autoProxy->IsGrounded())
 	{
 		// land
+		if (autoProxy->transform.GetVelocity().y > 450.0f)
+		{
+			autoProxy->EnterState(KNOCKDOWN_STATE);
+			return;
+		}
 		autoProxy->EnterState(LAND_STATE);
 	}
-
 }
 
 void SNFSMAPFallState::Exit(SNFSMData* fsmData)

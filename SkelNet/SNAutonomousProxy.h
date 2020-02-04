@@ -42,6 +42,7 @@ public:
 	void DoAttack();
 	SNUIElement* stateText;
 	SNUIElement* spStateText;
+	SNUIElement* velocityText;
 
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;

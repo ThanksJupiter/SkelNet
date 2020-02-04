@@ -19,6 +19,7 @@
 #include "SNFSMSPTauntState.h"
 #include "SNFSMSPJumpSquatState.h"
 #include "SNFSMSPLandState.h"
+#include "SNFSMSPDeathState.h"
 
 void SNSimulatedProxy::DoAttack()
 {
@@ -200,6 +201,7 @@ void SNSimulatedProxy::InitializeFSM()
 	fsmData->availableStates[TAUNT_STATE] = new SNFSMSPTauntState("Taunt");
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMSPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMSPLandState("Land");
+	fsmData->availableStates[DEATH_STATE] = new SNFSMSPDeathState("Death");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -209,18 +211,30 @@ void SNSimulatedProxy::InitializeFSM()
 
 void SNSimulatedProxy::Reset()
 {
-	if (world->isServer)
+	if (world->HasAuthority())
 	{
-		transform.SetPosition({ 0, 0 });
+		transform.SetPosition({ -world->spawnDistanceX, world->spawnDistanceY });
 	}
 	else
 	{
-		transform.SetPosition({ 0, 0 });
+		transform.SetPosition({ world->spawnDistanceX, world->spawnDistanceY });
 	}
 
 	health = 0;
-	stateMachine->EnterState(FALL_STATE);
+	//stateMachine->EnterState(FALL_STATE);
 	transform.SetVelocity({ 0.f, 0.f });
+	transform.SetAcceleration({ 0.f, 0.f });
+
+	if (!world->HasAuthority())
+	{
+		transform.SetFacingRight(true);
+	}
+	else
+	{
+		transform.SetFacingRight(false);
+	}
+
+	SetState(FALL_STATE);
 }
 
 void SNSimulatedProxy::SetPosition(Vector2 newPosition)

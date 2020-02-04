@@ -9,6 +9,7 @@
 #include "SNParticleSystem.h"
 #include "SNMath.h"
 #include "SNFloor.h"
+#include "SNFiniteStateMachine.h"
 
 void SNWorld::Setup()
 {
@@ -39,6 +40,18 @@ void SNWorld::Update(float dt)
 {
 	autonomousProxy.Update(dt);
 	simulatedProxy.Update(dt);
+
+	if (respawnTimerActive)
+	{
+		respawnTimer += dt;
+	}
+
+	if (respawnTimer >= respawnDelay)
+	{
+		respawnTimerActive = false;
+		respawnTimer = 0.0f;
+		RestartGameEvent();
+	}
 
 	Vector2 avgVector;
 	avgVector = simulatedProxy.transform.GetPosition() + autonomousProxy.transform.GetPosition();
@@ -111,9 +124,18 @@ void SNWorld::Update(float dt)
 			autonomousProxy.transform.GetPosition().y >= deathDistance.y ||
 			autonomousProxy.transform.GetPosition().y <= -deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(autonomousProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGameEvent();
-			return;
+			if (autonomousProxy.stateMachine->currentStateIndex != DEATH_STATE)
+			{
+				SNStatePacket packet;
+				packet.flag = SP_STATE_FLAG;
+				packet.state = DEATH_STATE;
+
+				server.SendData(&packet);
+
+				autonomousProxy.SetState(DEATH_STATE);
+				PlayerDiedEvent();
+				return;
+			}
 		}
 
 		if (simulatedProxy.transform.GetPosition().x >= deathDistance.x ||
@@ -121,9 +143,18 @@ void SNWorld::Update(float dt)
 			simulatedProxy.transform.GetPosition().y >= deathDistance.y ||
 			simulatedProxy.transform.GetPosition().y <= -deathDistance.y)
 		{
-			particleSystem->StartParticleEffect(simulatedProxy.transform.GetPosition(), dashDustAnim, 8 * 0.05f, false, 10, 45.f);
-			RestartGameEvent();
-			return;
+			if (simulatedProxy.stateMachine->currentStateIndex != DEATH_STATE)
+			{
+				SNStatePacket packet;
+				packet.flag = AP_STATE_FLAG;
+				packet.state = DEATH_STATE;
+
+				server.SendData(&packet);
+
+				simulatedProxy.SetState(DEATH_STATE);
+				PlayerDiedEvent();
+				return;
+			}
 		}
 	}
 }
@@ -240,6 +271,18 @@ bool SNWorld::HasAuthority()
 	return isServer;
 }
 
+void SNWorld::PlayerDiedEvent()
+{
+	if (HasAuthority())
+	{
+		// restart timer
+		respawnTimerActive = true;
+	}
+
+	// Do pLAYEr dieD Stuff
+	printf("Player died!\n");
+}
+
 void SNWorld::StartGameEvent()
 {
 	if (HasAuthority())
@@ -273,8 +316,15 @@ void SNWorld::RestartGameEvent()
 	// Do Restart Game Stuff
 	printf("Game Restarted!\n");
 
-	simulatedProxy.Reset();
-	autonomousProxy.Reset();
+	if (simulatedProxy.stateMachine->currentStateIndex == DEATH_STATE)
+	{
+		simulatedProxy.Reset();
+	}
+
+	if (autonomousProxy.stateMachine->currentStateIndex == DEATH_STATE)
+	{
+		autonomousProxy.Reset();
+	}
 }
 
 void SNWorld::GameEndedEvent()

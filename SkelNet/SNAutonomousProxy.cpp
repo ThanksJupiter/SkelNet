@@ -13,6 +13,7 @@
 #include "SNFloor.h"
 #include "SNFSMAPJumpSquatState.h"
 #include "SNFSMAPLandState.h"
+#include "SNFSMAPDeathState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -20,8 +21,10 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	transform.SetPosition(initPos);
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
+
 	stateText = canvas.CreateText({ 250, 200 }, "100%", nullptr, { -50, 0 });
 	spStateText = canvas.CreateText({ 250, 300 }, "100%", nullptr, { -50, 0 });
+	velocityText = canvas.CreateText({ 350, 350 }, "100%", nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
 	animator->SetCurrentAnimation(world.idleAnim);
@@ -71,6 +74,7 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 	engSetTextColor(0, 255, 0);
 	spStateText->UpdateText(world->simulatedProxy.stateMachine->currentState->stateName);
 	engSetTextColor(255, 255, 255);
+	velocityText->UpdateText(transform.GetVelocity().y);
 
 
 	engSetColor(0, 255, 0);
@@ -134,8 +138,11 @@ void SNAutonomousProxy::ForcesTimeIntegration(float dt)
 
 	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
 
-	transform.SetPosition({ transform.GetPosition().x, world->worldFloor.transform.GetPosition().y });
-	transform.SetVelocity({ transform.GetVelocity().x, 0 });
+	if (IsGrounded())
+	{
+		transform.SetPosition({ transform.GetPosition().x, world->worldFloor.transform.GetPosition().y });
+		transform.SetVelocity({ transform.GetVelocity().x, 0 });
+	}
 }
 
 void SNAutonomousProxy::FlyBack()
@@ -160,22 +167,27 @@ void SNAutonomousProxy::Reset()
 {
 	if (world->isServer)
 	{
-		transform.SetPosition({ 0, 0 });
+		transform.SetPosition({ world->spawnDistanceX, world->spawnDistanceY });
 	}
 	else
 	{
-		transform.SetPosition({ 0, 0 });
+		transform.SetPosition({ -world->spawnDistanceX, world->spawnDistanceY });
 	}
 
 	health = 0;
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
-	stateMachine->EnterState(FALL_STATE);
+	
+	if (world->HasAuthority())
+	{
+		transform.SetFacingRight(true);
+	}
+	else
+	{
+		transform.SetFacingRight(false);
+	}
 
-	serverAttacked = false;
-	serverWasHit = false;
-	clientAttacked = false;
-	clientWasHit = false;
+	SetState(FALL_STATE);
 }
 
 void SNAutonomousProxy::SetDirection()
@@ -226,6 +238,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[TAUNT_STATE] = new SNFSMAPTauntState("Taunt");
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMAPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMAPLandState("Land");
+	fsmData->availableStates[DEATH_STATE] = new SNFSMAPDeathState("Death");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

@@ -14,5 +14,5 @@ public:
 
 	SNWorld* world;
 
-	float floorYOffset = -5.f;
+	float floorYOffset = -7.f;
 };

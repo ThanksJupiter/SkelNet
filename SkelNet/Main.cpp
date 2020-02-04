@@ -206,6 +206,16 @@ int main()
 
 #pragma region StartScreen
 
+		SDL_Rect dstRect;
+		dstRect.w = world.skelNetSprite->width * 2;
+		dstRect.h = world.skelNetSprite->height * 2;
+
+		Vector2 pos = world.mainCamera.MakePositionWithCam({ (float)-dstRect.w / 2, (float)-dstRect.h });
+		dstRect.x = pos.x;
+		dstRect.y = pos.y;
+
+		engDrawSprite(world.skelNetSprite->sheetSourceRect, dstRect, world.skelNetSprite->texture);
+
 		//recieve data to know if game has started
 		if (world.HasAuthority())
 		{

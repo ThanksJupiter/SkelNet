@@ -103,6 +103,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData dustCloud01Sheet = SpritesheetData("SN_Skel_Dust_Cloud-Sheet.png", 9, 16, 16);
 	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Stop_02-Sheet.png", 4, 32, 32);
 	SpritesheetData teabagSheet = SpritesheetData("SN_Skel_T-Bag-Sheet.png", 6, 32, 32);
+	SpritesheetData deathShockwaveSheet = SpritesheetData("SN_Death_Effect_Shockwave_01-Sheet.png", 7, 128, 128);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
@@ -117,6 +118,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* dustCloud01Sprites[9];
 	SNSprite* turnAroundSprites[4];
 	SNSprite* teabagSprites[6];
+	SNSprite* deathShockwaveSprites[7];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
@@ -132,8 +134,10 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.dustCloud01Anim = dustCloud01Sheet.CreateAnimation(dustCloud01Sprites, .1);
 	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .15);
 	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
+	world.deathShockwave = deathShockwaveSheet.CreateAnimation(deathShockwaveSprites, .1);
 
 	world.levelSprite = new SNSprite(256, 24, engLoadTexture("SN_Castle_Roof.png"), 0);
+	world.skelNetSprite = new SNSprite(256, 64, engLoadTexture("SN_Splash_Screen_Resize.png"), 0);
 }
 
 void engSetSpriteRenderScale(float scale)

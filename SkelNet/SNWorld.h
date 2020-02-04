@@ -49,8 +49,10 @@ public:
 	SNAnimation* dustCloud01Anim;
 	SNAnimation* turnAroundAnim;
 	SNAnimation* teabagAnim;
+	SNAnimation* deathShockwave;
 
 	SNSprite* levelSprite;
+	SNSprite* skelNetSprite;
 	SNFloor worldFloor;
 
 	SNTrail* trail;
@@ -63,6 +65,8 @@ public:
 
 	bool bWaitingToStart = true;
 
+	float spawnDistanceX = 150.0f;
+	float spawnDistanceY = -300.0f;
 	Vector2 deathDistance = {750, 500};
 
 	void Setup();
@@ -80,6 +84,12 @@ public:
 
 	// EVENTS
 	SNEventHandler eventHandler;
+	void PlayerDiedEvent();
+	// death timer thing
+	float respawnTimer = 0.0f;
+	float respawnDelay = 2.0f;
+	bool respawnTimerActive = false;
+
 	void StartGameEvent();
 	void RestartGameEvent();
 	void GameEndedEvent();

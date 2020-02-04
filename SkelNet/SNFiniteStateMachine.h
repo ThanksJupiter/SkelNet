@@ -8,7 +8,7 @@
 #include "SNFSMAPKnockbackState.h"
 #include "SNFSMAPFallState.h"
 
-#define MAX_FSM_STATES 12
+#define MAX_FSM_STATES 13
 
 #define IDLE_STATE 0
 #define WALK_STATE 1
@@ -22,6 +22,7 @@
 #define TAUNT_STATE 9
 #define JUMPSQUAT_STATE 10
 #define LAND_STATE 11
+#define DEATH_STATE 12
 
 class SNFSMState;
 struct SNFSMData;
@@ -32,6 +33,7 @@ public:
 	SNFiniteStateMachine(SNFSMData* inFsmData);
 
 	SNFSMState* currentState;
+	Uint8 currentStateIndex;
 	SNFSMData* fsmData;
 
 	SNFSMState* availableStates[MAX_FSM_STATES];
