@@ -122,7 +122,7 @@ void SNWorld::Update(float dt)
 		if (autonomousProxy.transform.GetPosition().x >= deathDistance.x ||
 			autonomousProxy.transform.GetPosition().x <= -deathDistance.x ||
 			autonomousProxy.transform.GetPosition().y >= deathDistance.y ||
-			autonomousProxy.transform.GetPosition().y <= -deathDistance.y)
+			autonomousProxy.transform.GetPosition().y <= -(deathDistance.y + 200))
 		{
 			if (autonomousProxy.stateMachine->currentStateIndex != DEATH_STATE)
 			{
@@ -141,7 +141,7 @@ void SNWorld::Update(float dt)
 		if (simulatedProxy.transform.GetPosition().x >= deathDistance.x ||
 			simulatedProxy.transform.GetPosition().x <= -deathDistance.x ||
 			simulatedProxy.transform.GetPosition().y >= deathDistance.y ||
-			simulatedProxy.transform.GetPosition().y <= -deathDistance.y)
+			simulatedProxy.transform.GetPosition().y <= -(deathDistance.y + 200))
 		{
 			if (simulatedProxy.stateMachine->currentStateIndex != DEATH_STATE)
 			{

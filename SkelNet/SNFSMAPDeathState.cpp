@@ -5,12 +5,15 @@
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
 #include "SNTransform.h"
+#include "SNCamera.h"
 
 void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 {
+	Vector2 pos = fsmData->autonomousProxy->transform.GetPosition();
+	pos.y += (128 * 6) / 2;
+
 	fsmData->world->particleSystem->StartParticleEffect(
-		fsmData->autonomousProxy->transform.GetPosition() -
-		Vector2(fsmData->world->deathShockwave->sprites[0]->width, fsmData->world->deathShockwave->sprites[0]->height) / 2,
+		pos,
 		fsmData->world->deathShockwave,
 		fsmData->world->deathShockwave->frameCount * fsmData->world->deathShockwave->nextFrameDelay,
 		false, 6, 0);
