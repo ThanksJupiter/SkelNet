@@ -14,6 +14,8 @@ void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 		fsmData->world->deathShockwave,
 		fsmData->world->deathShockwave->frameCount * fsmData->world->deathShockwave->nextFrameDelay,
 		false, 6, 0);
+
+	fsmData->autonomousProxy->currentStocks--;
 }
 
 void SNFSMAPDeathState::Update(float dt, SNFSMData* fsmData)

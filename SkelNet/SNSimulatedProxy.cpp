@@ -51,6 +51,8 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	InitializeFSM();
 	flyBackDirection = { -1, -1 };
+
+	currentStocks = 4;
 }
 
 void SNSimulatedProxy::Update(float dt)
@@ -206,7 +208,7 @@ void SNSimulatedProxy::InitializeFSM()
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
 
-	stateMachine->EnterState(IDLE_STATE);
+	SetState(IDLE_STATE);
 }
 
 void SNSimulatedProxy::Reset()

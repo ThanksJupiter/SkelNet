@@ -331,12 +331,28 @@ void SNWorld::RestartGameEvent()
 
 	if (simulatedProxy.stateMachine->currentStateIndex == DEATH_STATE)
 	{
-		simulatedProxy.Reset();
+		if (simulatedProxy.currentStocks > 0)
+		{	
+			printf("respawn simprox, remaining stocks: %i\n", simulatedProxy.currentStocks);
+			simulatedProxy.Reset();
+		}
+		else
+		{
+			printf("autonimus proximilian wonned! :D\n");
+		}
 	}
 
 	if (autonomousProxy.stateMachine->currentStateIndex == DEATH_STATE)
 	{
-		autonomousProxy.Reset();
+		if (autonomousProxy.currentStocks > 0)
+		{
+			printf("respawn autoprox, remaining stocks: %i\n", autonomousProxy.currentStocks);
+			autonomousProxy.Reset();
+		}
+		else
+		{
+			printf("simulensis proximilian wonned! :D\n");
+		}
 	}
 }
 

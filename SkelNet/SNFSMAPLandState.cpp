@@ -14,6 +14,8 @@ void SNFSMAPLandState::Enter(SNFSMData* fsmData)
 	fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->land);
 
 	fsmData->autonomousProxy->transform.SetVelocity({0, 0});
+
+	timer = 0.0f;
 }
 
 void SNFSMAPLandState::Update(float dt, SNFSMData* fsmData)
@@ -22,7 +24,7 @@ void SNFSMAPLandState::Update(float dt, SNFSMData* fsmData)
 
 	if (timer >= landingDelay)
 	{
-		fsmData->autonomousProxy->SetState(IDLE_STATE);
+		fsmData->autonomousProxy->EnterState(IDLE_STATE);
 	}
 }
 
