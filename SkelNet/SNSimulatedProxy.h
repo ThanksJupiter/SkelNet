@@ -50,6 +50,7 @@ public:
 	bool isAttacking;
 
 	int health = 1;
+	Uint8 currentStocks = 0;
 
 	SNWorld* world;
 
