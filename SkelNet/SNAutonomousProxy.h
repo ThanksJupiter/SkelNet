@@ -56,6 +56,8 @@ public:
 	bool flip;
 
 	int health = 1;
+	Uint8 currentStocks = 0;
+
 	float accelerationSpeed = 270.0f;
 	float minVelocitySpeed = 50.0f;
 	float maxVelocitySpeed = 250.0f;
