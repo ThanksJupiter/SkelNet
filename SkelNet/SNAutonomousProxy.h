@@ -56,6 +56,9 @@ public:
 	bool flip;
 
 	int health = 1;
+	bool isInvulnerable = false;
+	float timer = 0.0f;
+	float regainVulnerabilityDelay = 2.0f;
 	Uint8 currentStocks = 0;
 
 	float accelerationSpeed = 270.0f;
