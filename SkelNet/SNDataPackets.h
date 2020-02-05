@@ -8,6 +8,8 @@
 
 #define EVENT_FLAG 4
 
+#define STRING_FLAG 5
+
 struct SNTransformPacket
 {
 	Uint8 flag;
@@ -27,4 +29,10 @@ struct SNEventPacket
 {
 	Uint8 flag;
 	Uint8 eventFlag;
+};
+
+struct SNStringPacket
+{
+	Uint8 flag;
+	char* string;
 };

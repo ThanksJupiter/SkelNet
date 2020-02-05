@@ -50,7 +50,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	}
 
 	InitializeFSM();
-	flyBackDirection = { -1, -2 };
+	flyBackDirection = { -1.f, -1.2f };
 
 	currentStocks = 10;
 }
@@ -124,7 +124,7 @@ void SNSimulatedProxy::TakeDamage()
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
 	//stateMachine->EnterState(KNOCKBACK_STATE);
 	FlyBack();
-	health += 30;
+	health += 15;
 	printf("SimulatedProxy: Took Damage\n");
 }
 

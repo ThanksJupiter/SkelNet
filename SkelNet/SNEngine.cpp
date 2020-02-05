@@ -16,6 +16,7 @@
 #include "SNAnimation.h"
 #include "SNWorld.h"
 #include "SDL_joystick.h"
+#include <string>
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -28,6 +29,8 @@ const int WINDOW_HEIGHT = 500;
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
 bool quit = false;
+
+std::string* currentText = nullptr;
 
 struct InputState
 {
@@ -47,8 +50,6 @@ struct AxisState
 };
 static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
 static InputState dpadStates[(unsigned int)DPadButton::MAX];
-
-std::string inputText = "127.0.0.1";
 
 void engInit()
 {
@@ -261,24 +262,24 @@ void engUpdate()
 				state.frameNum = currentFrameNum;
 			}
 
-			if (e.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 0)
+			if (e.key.keysym.sym == SDLK_BACKSPACE && std::string(*currentText).length() > 0)
 			{
-				inputText.pop_back();
+				currentText->pop_back();
 			}
 			else if (e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
 			{
-				SDL_SetClipboardText(inputText.c_str());
+				SDL_SetClipboardText(currentText->c_str());
 			} 
 			else if (e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
 			{
-				inputText = SDL_GetClipboardText();
+				*currentText = SDL_GetClipboardText();
 			}
 		}
 		else if (e.type == SDL_TEXTINPUT)
 		{
 			if (!(SDL_GetModState() & KMOD_CTRL && (e.text.text[0] == 'c' || e.text.text[0] == 'C' || e.text.text[0] == 'v' || e.text.text[0] == 'V')))
 			{
-				inputText += e.text.text;
+				*currentText += e.text.text;
 			}
 		}
 
@@ -525,10 +526,20 @@ Vector2 engGetTextSize(const char* string)
 
 std::string engGetInputText()
 {
-	return inputText;
+	return *currentText;
 }
 
 void engSetInputText(std::string inText)
 {
-	inputText = inText;
+	*currentText = inText;
+}
+
+void engSetInputTextPtr(std::string* text)
+{
+	currentText = text;
+}
+
+std::string* engGetInputTextPtr()
+{
+	return currentText;
 }

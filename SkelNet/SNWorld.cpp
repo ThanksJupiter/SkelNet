@@ -36,15 +36,21 @@ void SNWorld::Setup()
 	server.world = this;
 
 	worldCanvas.Setup(worldSize, { 0, 0 });
-	autoProxyHealthFrame = worldCanvas.CreateRect({ 100.f, worldSize.y - 100.f }, {200, 100});
+	autoProxyHealthFrame = worldCanvas.CreateRect({ 100.f, worldSize.y - 100.f }, { 200, 100 });
 	autoProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
 	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
 	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyNameText = worldCanvas.CreateText({ 70.f, autoProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 100.f, 100.f }, idleAnim->sprites[0], &autoProxyHealthFrame->anchor);
+	autoProxyPortrait->world = this;
 
 	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.x - 300.f, worldSize.y - 100.f }, { 200, 100 });
 	simProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &simProxyHealthFrame->anchor);
 	simProxyHealthText->SetRelativePosition({ -simProxyHealthText->size.x, 0 });
 	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyNameText = worldCanvas.CreateText({ 70.f, simProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 100.f, 100.f }, idleAnim->sprites[0], &simProxyHealthFrame->anchor);
+	simProxyPortrait->world = this;
 
 	// EVENTS
 	eventHandler.world = this;
@@ -99,10 +105,21 @@ void SNWorld::Update(float dt)
 	{
 		mainCamera.camScale -= .2f;
 	}
-
+	
 	if (engGetKeyDown(Key::G))
 	{
-		StartGameEvent();
+		SNStringPacket packet;
+		packet.flag = STRING_FLAG;
+		packet.string = (char*)"yeho";
+
+		if (HasAuthority())
+		{
+			server.SendData(&packet);
+		}
+		else
+		{
+			client.SendData(&packet);
+		}
 	}
 
 	if (engGetKeyDown(Key::H))
@@ -198,7 +215,7 @@ void SNWorld::Draw(float dt)
 	worldCanvas.Draw();
 
 
-	/* DEBUG */ 
+	/* DEBUG */
 	for (int i = 0; i < numHitboxes; ++i)
 	{
 		//hitboxes[i].DrawDebug(&mainCamera);
@@ -315,10 +332,7 @@ void SNWorld::StartGameEvent()
 		eventPacket.eventFlag = START_GAME_EVENT;
 		server.SendData(&eventPacket);
 	}
-	else
-	{
-		bWaitingToStart = false;
-	}
+	waitingToStart = false;
 
 	// Do Start Game Stuff
 	printf("Game Started!\n");
@@ -341,13 +355,14 @@ void SNWorld::RestartGameEvent()
 	if (simulatedProxy.stateMachine->currentStateIndex == DEATH_STATE)
 	{
 		if (simulatedProxy.currentStocks > 0)
-		{	
+		{
 			printf("respawn simprox, remaining stocks: %i\n", simulatedProxy.currentStocks);
 			simulatedProxy.isInvulnerable = true;
 			simulatedProxy.Reset();
 		}
 		else
 		{
+			//Todo: restart game
 			printf("autonimus proximilian wonned! :D\n");
 		}
 	}

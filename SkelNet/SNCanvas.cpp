@@ -1,5 +1,6 @@
 #include "SNCanvas.h"
 #include "SNEngine.h"
+#include "SNSprite.h"
 
 void SNCanvas::Setup(Vector2 size, Vector2 initPos, SNAnchor* parentElement, Vector2 anchorOffset)
 {
@@ -138,17 +139,42 @@ SNUIElement* SNCanvas::CreateButton(Vector2 position, Vector2 size, bool isClick
 				uiElements[i].OnClicked = OnClicked;
 				uiElements[i].isUsed = true;
 				NUM_UIELEMENTS++;
-
+				
 				return &uiElements[i];
 			}
 		}
 	}
 }
 
-SNUIElement* SNCanvas::CreateImage(Vector2 position, Vector2 size, SNAnchor* parentElement, Vector2 anchorOffset)
+SNUIElement* SNCanvas::CreateImage(Vector2 position, Vector2 size, SNSprite* sprite, SNAnchor* parentElement, Vector2 anchorOffset)
 {
+	if (NUM_UIELEMENTS >= MAX_NUM_UIELEMENTS)
+		return nullptr;
+	else
+	{
+		for (int i = 0; i < MAX_NUM_UIELEMENTS; ++i)
+		{
+			if (uiElements[i].isUsed == false)
+			{
+				if (parentElement == nullptr)
+				{
+					uiElements[i].anchor.SetParent(anchor);
+				}
+				else
+				{
+					uiElements[i].anchor.SetParent(*parentElement);
+				}
+				uiElements[i].SetAnchorPosition(position);
+				uiElements[i].SetRelativePosition(anchorOffset);
+				uiElements[i].size = size;
+				uiElements[i].sprite = sprite;
+				uiElements[i].isUsed = true;
+				NUM_UIELEMENTS++;
 
-	return nullptr;
+				return &uiElements[i];
+			}
+		}
+	}
 }
 
 SNUIElement* SNCanvas::CreateText(Vector2 position, const char* text, float scaleMultiplier, SNAnchor* parentElement, Vector2 anchorOffset)
