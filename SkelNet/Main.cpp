@@ -178,7 +178,8 @@ void SetupMainMenuUI()
 
 	hostButton->drawRect = true;
 	joinButton->drawRect = true;
-	textInputButton->drawRect = true;
+	ipTextInputButton->drawRect = true;
+	nameTextInputButton->drawRect = true;
 
 	hostText = canvas.CreateText({ 0,0 }, "Host", 1.0f, &hostButton->anchor);
 	joinText = canvas.CreateText({ 0,0 }, "Join", 1.0f, &joinButton->anchor);
@@ -189,8 +190,8 @@ void SetupMainMenuUI()
 
 	hostText->drawRect = false;
 	joinText->drawRect = false;
-	ipInputField->drawRect = true;
-	nameInputField->drawRect = true;
+	ipInputField->drawRect = false;
+	nameInputField->drawRect = false;
 
 }
 
