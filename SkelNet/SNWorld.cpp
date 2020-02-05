@@ -51,6 +51,7 @@ void SNWorld::Setup()
 	eventHandler.CreateEvent(&SNWorld::StartGameEvent, START_GAME_EVENT);
 	eventHandler.CreateEvent(&SNWorld::RestartGameEvent, RESTART_GAME_EVENT);
 	eventHandler.CreateEvent(&SNWorld::GameEndedEvent, END_GAME_EVENT);
+	eventHandler.CreateEvent(&SNWorld::RematchEvent, REMATCH_EVENT);
 }
 
 void SNWorld::Update(float dt)
@@ -368,6 +369,33 @@ void SNWorld::RestartGameEvent()
 		{
 			printf("simulensis proximilian wonned! :D\n");
 		}
+	}
+}
+
+void SNWorld::RematchEvent()
+{
+	if (!opponentWantsRematch)
+	{
+		if (HasAuthority())
+		{
+			SNEventPacket packet;
+			packet.flag = EVENT_FLAG;
+			packet.eventFlag = REMATCH_EVENT;
+			server.SendData(&packet);
+		}
+		else
+		{
+			SNEventPacket packet;
+			packet.flag = EVENT_FLAG;
+			packet.eventFlag = REMATCH_EVENT;
+			client.SendData(&packet);
+		}
+
+		// on receive this data, set some text to "eh they want rematch ey ok I wil do it, wait."
+	}
+	else
+	{
+		RestartGameEvent();
 	}
 }
 
