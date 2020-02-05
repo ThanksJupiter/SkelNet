@@ -43,7 +43,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	playerInput = new SNInput();
 	InitializeFSM();
-	flyBackDirection = { -1, -1 };
+	flyBackDirection = { -1, -2 };
 
 	currentStocks = 420;
 }
