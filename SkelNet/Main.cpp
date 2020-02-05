@@ -135,7 +135,7 @@ void SetupMainMenuUI()
 		startGameButton->hidden = true;
 
 		startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
-		startGameText->drawRect = true;
+		startGameText->drawRect = false;
 		startGameText->hidden = true;
 	}
 
@@ -256,16 +256,11 @@ int main()
 			{
 				startGameButton->hidden = false;
 				startGameText->hidden = false;
-				//startGameButton->isUsed = true;
-				//startGameText->isUsed = true;
 			}
 			else if (startGameButton && startGameText)
 			{
 				startGameButton->hidden = true;
 				startGameText->hidden = true;
-
-				//startGameButton->isUsed = false;
-				//startGameText->isUsed = false;
 			}
 		}
 
