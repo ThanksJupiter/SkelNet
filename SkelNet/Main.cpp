@@ -298,7 +298,6 @@ int main()
 			{
 				startCountDown += deltaTime;
 				world.autonomousProxy.inputEnabled = false;
-				//todo: KASPER add 3 2 1 animation
 			}
 			else
 			{
