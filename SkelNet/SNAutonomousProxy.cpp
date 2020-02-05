@@ -137,7 +137,7 @@ void SNAutonomousProxy::ForcesTimeIntegration(float dt)
 	}
 	else
 	{
-		transform.SetVelocity({0.0f, transform.GetVelocity().y});
+		transform.SetVelocity({ 0.0f, transform.GetVelocity().y });
 	}
 
 	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
@@ -180,7 +180,7 @@ void SNAutonomousProxy::Reset()
 
 	transform.SetVelocity({ 0.f, 0.f });
 	transform.SetAcceleration({ 0.f, 0.f });
-	
+
 	if (world->HasAuthority())
 	{
 		transform.SetFacingRight(true);
@@ -374,12 +374,15 @@ bool SNAutonomousProxy::IsGrounded()
 
 void SNAutonomousProxy::CheckInput(float dt)
 {
-	playerInput->SetInput();
-
-	if (engGetKeyDown(Key::S))
+	if (inputEnabled)
 	{
-		canvas.drawDebug = !canvas.drawDebug;
-		drawDebug = !drawDebug;
+		playerInput->SetInput();
+
+		if (engGetKeyDown(Key::S))
+		{
+			canvas.drawDebug = !canvas.drawDebug;
+			drawDebug = !drawDebug;
+		}
 	}
 }
 

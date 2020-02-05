@@ -28,6 +28,8 @@ bool waitingForPlayer = true;
 bool gameStarted = false;
 SNCanvas canvas;
 
+float startCountDown;
+
 #pragma region SetupUI
 
 SNUIElement* hostButton;
@@ -286,6 +288,17 @@ int main()
 			canvas.CheckInteraction();
 			canvas.Draw();
 
+			//countdown to start game
+			if (startCountDown <= 3.0f)
+			{
+				startCountDown += deltaTime;
+				world.autonomousProxy.inputEnabled = false;
+				//todo: KASPER add 3 2 1 animation
+			}
+			else
+			{
+				world.autonomousProxy.inputEnabled = true;
+			}
 		}
 		else
 		{
