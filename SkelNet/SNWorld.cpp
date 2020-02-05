@@ -330,7 +330,7 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 	autonomousProxy = SNAutonomousProxy();
 	autonomousProxy.Spawn(initPos, worldptr);
 
-	if (isServer)
+	if (HasAuthority())
 	{
 		autonomousProxy.animator->r = 155;
 		autonomousProxy.animator->g = 155;
