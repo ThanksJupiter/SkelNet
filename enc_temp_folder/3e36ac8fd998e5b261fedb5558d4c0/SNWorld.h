@@ -108,7 +108,7 @@ public:
 
 	void StartGameEvent();
 	void RestartGameEvent();
-	//void RematchEvent();
-	//bool opponentWantsRematch = false;
+	void RematchEvent();
+	bool opponentWantsRematch = false;
 	void GameEndedEvent();
 };
