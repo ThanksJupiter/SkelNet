@@ -50,9 +50,9 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	}
 
 	InitializeFSM();
-	flyBackDirection = { -1, -1 };
+	flyBackDirection = { -1, -2 };
 
-	currentStocks = 420;
+	currentStocks = 4;
 }
 
 void SNSimulatedProxy::Update(float dt)
