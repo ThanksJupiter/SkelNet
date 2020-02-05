@@ -357,6 +357,7 @@ void SNWorld::RestartGameEvent()
 		}
 		else
 		{
+			//Todo: restart game
 			printf("autonimus proximilian wonned! :D\n");
 		}
 	}
