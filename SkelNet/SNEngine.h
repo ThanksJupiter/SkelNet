@@ -60,6 +60,8 @@ void engDrawString(Vector2 position, const char* string, float scaleMultiplier =
 Vector2 engGetTextSize(const char* string);
 std::string engGetInputText();
 void engSetInputText(std::string inText);
+void engSetInputTextPtr(std::string* text);
+std::string* engGetInputTextPtr();
 
 // Image loading
 SDL_Texture* engLoadTexture(const char* path);

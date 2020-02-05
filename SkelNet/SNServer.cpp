@@ -122,6 +122,15 @@ bool SNServer::RecvData()
 				return true;
 			} break;
 
+			case STRING_FLAG: {
+				char string[15];
+				memcpy(string, dataBuffer + sizeof(flags), (sizeof(char) * 15) - sizeof(Uint8));
+				
+				world->simProxyNameText->UpdateText(string);
+				printf(string);
+				return true;
+			} break;
+
 			default:
 				return false;
 				break;
@@ -160,6 +169,12 @@ Uint8* SNServer::InternalRecvData()
 		case EVENT_FLAG: {
 			Uint8 retData[4];
 			memcpy(retData, recvData, 4 * sizeof(Uint8));
+			return retData;
+		}
+
+		case STRING_FLAG: {
+			Uint8 retData[15];
+			memcpy(retData, recvData, 15 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -219,6 +234,22 @@ void SNServer::SendData(SNEventPacket* data)
 	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
 
 	SDLNet_TCP_Send(client, buffer, 4);
+}
+
+void SNServer::SendData(SNStringPacket* data)
+{
+	if (client == nullptr)
+		return;
+
+	char buffer[15];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, data->string, (sizeof(char) * 15) - sizeof(Uint8));
+
+	SDL_Delay(10);
+	SDLNet_TCP_Send(client, buffer, 15);
 }
 
 void SNServer::Close()
