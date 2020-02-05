@@ -83,11 +83,11 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 
 	if (animator->doManualAnimationCycling)
 	{
-		animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight());
+		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight());
 	}
 	else
 	{
-		animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), transform.GetFacingRight(), dt, animator->rotation);
+		animator->DrawAnimation(transform.GetPosition(), transform.GetFacingRight(), dt, animator->rotation);
 	}
 
 	engSetColor(0, 0, 0);

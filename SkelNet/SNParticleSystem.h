@@ -5,6 +5,8 @@
 #include <vector>
 #include "SNCamera.h"
 
+class SNWorld;
+
 struct SNParticleEffect
 {
 	SNAnimation* particleAnimation;
@@ -25,6 +27,7 @@ class SNParticleSystem
 {
 public:
 	SNParticleSystem();
+	SNWorld* world;
 
 	SNParticleEffect* ReuseParticleEffect();
 	

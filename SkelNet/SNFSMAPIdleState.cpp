@@ -3,6 +3,7 @@
 #include "SNAutonomousProxy.h"
 #include "SNAnimator.h"
 #include "SNTransform.h"
+#include "SNParticleSystem.h"
 
 void SNFSMAPIdleState::Enter(SNFSMData* fsmData)
 {

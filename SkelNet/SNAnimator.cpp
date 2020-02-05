@@ -6,6 +6,8 @@
 #include "SNSprite.h"
 #include <iostream>
 #include "SNAnimation.h"
+#include "SNParticleSystem.h"
+#include "SNCamera.h"
 
 SNAnimator::SNAnimator()
 {
@@ -22,12 +24,20 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 		
 		if (currentAnimFrameCount < currentAnimation->frameCount - 1)
 		{
-			currentAnimFrameCount++;
-
 			if (currentAnimation->sprites[currentAnimFrameCount]->shouldNotifyWhenPlayed)
 			{
-				currentAnimation->sprites[currentAnimFrameCount]->Notify(world);
+				SNAnimation* anim = currentAnimation->sprites[currentAnimFrameCount]->animation;
+
+				world->particleSystem->StartParticleEffect(
+					position,
+					anim,
+					anim->duration,
+					flipped,
+					scale,
+					rotation);
 			}
+
+			currentAnimFrameCount++;
 		}
 		else
 		{
@@ -53,8 +63,8 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 	SDL_Rect destinationRect = 
 	{ 
 		// position
-		position.x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
-		position.y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
+		world->mainCamera.MakePositionWithCam(position).x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
+		world->mainCamera.MakePositionWithCam(position).y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
 		// size
 		currentAnimation->sprites[currentAnimFrameCount]->width * scale,
 		currentAnimation->sprites[currentAnimFrameCount]->height * scale
@@ -79,8 +89,8 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped)
 	SDL_Rect destinationRect =
 	{
 		// position
-		position.x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
-		position.y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
+		world->mainCamera.MakePositionWithCam(position).x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
+		world->mainCamera.MakePositionWithCam(position).y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
 		// size
 		currentAnimation->sprites[currentAnimFrameCount]->width * scale,
 		currentAnimation->sprites[currentAnimFrameCount]->height * scale
