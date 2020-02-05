@@ -171,10 +171,15 @@ void SetupMainMenuUI()
 
 	waitingForPlayersText = canvas.CreateText({ world.worldSize.x / 2 - 175 ,0 }, "Waiting For Players");
 
-	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 50.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ 600.f, 375.f }, { 65.f,35.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 80.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ 600.f, 375.f }, { 85.f,35.f }, true, SetupClient);
 	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableIPTextInput);
 	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 100.f }, { 200.f,40.f }, true, EnableNameTextInput);
+
+	hostButton->drawRect = true;
+	joinButton->drawRect = true;
+	ipTextInputButton->drawRect = true;
+	nameTextInputButton->drawRect = true;
 
 	hostText = canvas.CreateText({ 0,0 }, "Host", 1.0f, &hostButton->anchor);
 	joinText = canvas.CreateText({ 0,0 }, "Join", 1.0f, &joinButton->anchor);
@@ -183,10 +188,11 @@ void SetupMainMenuUI()
 
 	engSetInputTextPtr(&ipInputField->textString);
 
-	hostText->drawRect = true;
-	joinText->drawRect = true;
-	ipInputField->drawRect = true;
-	nameInputField->drawRect = true;
+	hostText->drawRect = false;
+	joinText->drawRect = false;
+	ipInputField->drawRect = false;
+	nameInputField->drawRect = false;
+
 }
 
 int main()
