@@ -2,17 +2,42 @@
 #include "SNEngine.h"
 #include <iomanip>
 #include <sstream>
+#include "SNSprite.h"
+#include "SNWorld.h"
 
 void SNUIElement::Draw()
 {
 	if (hidden)
 		return;
 
+	/*engSetColor(255, 0, 0);
+	engDrawLine(position, position + size);
+	engDrawPoint(position, 50);
+	engSetColor(0, 0, 0);*/
+
 	if (drawRect)
 	{
 		engSetColor(60, 60, 60);
 		engDrawRect(size.x, size.y, position.x, position.y);
 		engSetColor(0, 0, 0);
+	}
+
+	if (sprite != nullptr)
+	{
+		SDL_Rect dstRect;
+		dstRect.x = position.x;
+		dstRect.y = position.y;
+		dstRect.w = size.x;
+		dstRect.h = size.y;
+
+		/*engSetColor(0, 255, 0);
+		engDrawLine(position, position + size);
+		engDrawPoint(position, 50);
+		engSetColor(0, 0, 0);*/
+
+		//world->PlayAnimation(*world->fallAnim, position, 500, false, 3, 0);
+
+		engDrawSprite(sprite->sheetSourceRect, dstRect, sprite->texture);
 	}
 
 	if (!textString.empty())

@@ -1,5 +1,5 @@
 #include "SNFSMSPJumpSquatState.h"
-
+#include "SNFSMData.h"
 
 void SNFSMSPJumpSquatState::Enter(SNFSMData* fsmData)
 {

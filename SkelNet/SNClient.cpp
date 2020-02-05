@@ -118,7 +118,7 @@ bool SNClient::RecvData()
 				memcpy(string, dataBuffer + sizeof(flags), (sizeof(char) * 15) - sizeof(Uint8));
 				
 				world->simProxyNameText->UpdateText(string);
-				printf(string);
+				//printf(string);
 				return true;
 			} break;
 

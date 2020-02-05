@@ -68,16 +68,19 @@ public:
 	SNCamera mainCamera;
 
 	SNCanvas worldCanvas;
+
+	// Health Frames
 	SNUIElement* autoProxyHealthFrame;
 	SNUIElement* autoProxyHealthText;
 	SNUIElement* autoProxyStockText;
 	SNUIElement* autoProxyNameText;
+	SNUIElement* autoProxyPortrait;
 
 	SNUIElement* simProxyHealthFrame;
 	SNUIElement* simProxyHealthText;
 	SNUIElement* simProxyStockText;
 	SNUIElement* simProxyNameText;
-
+	SNUIElement* simProxyPortrait;
 
 	bool doStartup;
 	bool isServer;

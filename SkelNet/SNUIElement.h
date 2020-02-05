@@ -3,6 +3,9 @@
 #include "SNAnchor.h"
 #include <functional>
 
+class SNSprite;
+class SNWorld;
+
 class SNUIElement
 {
 public:
@@ -29,8 +32,11 @@ public:
 	float textScaleMultiplier = 1.0f;
 	bool isClickable;
 	bool drawRect;
+	SNSprite* sprite;
 
 	bool hidden = false;
+
+	SNWorld* world;
 
 	SNAnchor anchor;
 	Vector2 size;

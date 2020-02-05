@@ -41,12 +41,16 @@ void SNWorld::Setup()
 	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
 	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &autoProxyHealthFrame->anchor);
 	autoProxyNameText = worldCanvas.CreateText({ 70.f, autoProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 100.f, 100.f }, idleAnim->sprites[0], &autoProxyHealthFrame->anchor);
+	autoProxyPortrait->world = this;
 
 	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.x - 300.f, worldSize.y - 100.f }, { 200, 100 });
 	simProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &simProxyHealthFrame->anchor);
 	simProxyHealthText->SetRelativePosition({ -simProxyHealthText->size.x, 0 });
 	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &simProxyHealthFrame->anchor);
 	simProxyNameText = worldCanvas.CreateText({ 70.f, simProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 100.f, 100.f }, idleAnim->sprites[0], &simProxyHealthFrame->anchor);
+	simProxyPortrait->world = this;
 
 	// EVENTS
 	eventHandler.world = this;
