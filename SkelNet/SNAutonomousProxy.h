@@ -55,6 +55,8 @@ public:
 	bool sendTransformToggle;
 	bool flip;
 
+	bool inputEnabled = true;
+
 	int health = 1;
 	bool isInvulnerable = false;
 	float timer = 0.0f;

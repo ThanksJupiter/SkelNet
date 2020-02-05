@@ -71,18 +71,15 @@ public:
 	SNUIElement* autoProxyHealthFrame;
 	SNUIElement* autoProxyHealthText;
 	SNUIElement* autoProxyStockText;
-	SNUIElement* autoProxyNameText;
 
 	SNUIElement* simProxyHealthFrame;
 	SNUIElement* simProxyHealthText;
 	SNUIElement* simProxyStockText;
-	SNUIElement* simProxyNameText;
-
 
 	bool doStartup;
 	bool isServer;
 
-	bool waitingToStart = true;
+	bool bWaitingToStart = true;
 
 	float spawnDistanceX = 150.0f;
 	float spawnDistanceY = -300.0f;
@@ -111,7 +108,7 @@ public:
 
 	void StartGameEvent();
 	void RestartGameEvent();
-	//void RematchEvent();
-	//bool opponentWantsRematch = false;
+	void RematchEvent();
+	bool opponentWantsRematch = false;
 	void GameEndedEvent();
 };

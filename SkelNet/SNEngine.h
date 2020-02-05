@@ -66,5 +66,6 @@ std::string* engGetInputTextPtr();
 // Image loading
 SDL_Texture* engLoadTexture(const char* path);
 void engLoadAnimationsToWorld(SNWorld& world);
+void engSubscribeAnimationDelegates(SNWorld& world);
 void engSetSpriteRenderScale(float scale);
 float engGetSpriteRenderScale();

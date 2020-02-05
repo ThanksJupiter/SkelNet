@@ -40,6 +40,7 @@ SNParticleEffect* SNParticleSystem::StartParticleEffect(Vector2 pos, SNAnimation
 		newEffect->flipped = flipped;
 
 		newEffect->particleAnimator = SNAnimator();
+		newEffect->particleAnimator.world = world;
 		newEffect->particleAnimator.scale = scale;
 		particleEffects.push_back(newEffect);
 		newEffect->particleAnimator.SetCurrentAnimation(newEffect->particleAnimation);
@@ -52,13 +53,13 @@ void SNParticleSystem::UpdateParticles(float dt, SNCamera* cam)
 {
 	for (int i = 0; i < particleEffects.size(); i++)
 	{
-		if (!&particleEffects[i] || !&particleEffects[i]->particleAnimator)
+		if (!&particleEffects[i] || !&particleEffects[i]->particleAnimator || !cam)
 			continue;
 
 		particleEffects[i]->currentPlayDuration += dt;
 		if (particleEffects[i]->currentPlayDuration < particleEffects[i]->playDuration)
 		{
-			particleEffects[i]->particleAnimator.DrawAnimation(cam->MakePositionWithCam(particleEffects[i]->position), particleEffects[i]->flipped, dt, particleEffects[i]->rotation);
+			particleEffects[i]->particleAnimator.DrawAnimation(particleEffects[i]->position, particleEffects[i]->flipped, dt, particleEffects[i]->rotation);
 		}
 		else
 		{

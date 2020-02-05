@@ -28,6 +28,8 @@ bool waitingForPlayer = true;
 bool gameStarted = false;
 SNCanvas canvas;
 
+float startCountDown;
+
 #pragma region SetupUI
 
 SNUIElement* hostButton;
@@ -63,35 +65,42 @@ void EnableSetupUI(bool shouldDisplay)
 
 void SetupServer()
 {
-	SDL_StopTextInput();
-	world.server.Setup();
-	world.server.printErrors = false;
-	world.server.printDebug = false;
-	world.isServer = true;
-	world.SpawnAutonomousProxy(world);
-	world.SpawnSimulatedProxy(world);
-
-	EnableSetupUI(false);
+	if (!world.server.allreadySetUp)
+	{
+		SDL_StopTextInput();
+		world.server.Setup();
+		world.server.printErrors = false;
+		world.server.printDebug = false;
+		world.isServer = true;
+		world.SpawnAutonomousProxy(world);
+		world.SpawnSimulatedProxy(world);
+		EnableSetupUI(false);
+	}
 }
 
 void SetupClient()
 {
-	SDL_StopTextInput();
-	world.client.Setup(ipInputField->textString.c_str());
-	world.client.printErrors = false;
-	world.client.printDebug = false;
-	world.isServer = false;
-	world.SpawnAutonomousProxy(world);
-	world.SpawnSimulatedProxy(world);
-	waitingForPlayer = false;
+	if (world.client.Setup(ipInputField->textString.c_str()))
+	{
+		SDL_StopTextInput();
+		world.client.printErrors = false;
+		world.client.printDebug = false;
+		world.isServer = false;
+		world.SpawnAutonomousProxy(world);
+		world.SpawnSimulatedProxy(world);
+		waitingForPlayer = false;
 
-	EnableSetupUI(false);
+		EnableSetupUI(false);
+	}
 }
+
 
 void StartGame()
 {
 	if (!waitingForPlayer && !gameStarted)
 	{
+		world.particleSystem->StartParticleEffect({ 0, 0 }, world.countDownAnim, world.countDownAnim->duration, false, 6);
+
 		gameStarted = true;
 		waitingForPlayersText->isUsed = false;
 		waiting = false;
@@ -156,7 +165,7 @@ void SetupMainMenuUI()
 		startGameButton->hidden = true;
 
 		startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
-		startGameText->drawRect = true;
+		startGameText->drawRect = false;
 		startGameText->hidden = true;
 	}
 
@@ -283,16 +292,11 @@ int main()
 			{
 				startGameButton->hidden = false;
 				startGameText->hidden = false;
-				//startGameButton->isUsed = true;
-				//startGameText->isUsed = true;
 			}
 			else if (startGameButton && startGameText)
 			{
 				startGameButton->hidden = true;
 				startGameText->hidden = true;
-
-				//startGameButton->isUsed = false;
-				//startGameText->isUsed = false;
 			}
 		}
 
@@ -320,6 +324,16 @@ int main()
 			canvas.CheckInteraction();
 			canvas.Draw();
 
+			//countdown to start game
+			if (startCountDown <= 0.1f)
+			{
+				startCountDown += deltaTime;
+				world.autonomousProxy.inputEnabled = false;
+			}
+			else
+			{
+				world.autonomousProxy.inputEnabled = true;
+			}
 		}
 		else
 		{

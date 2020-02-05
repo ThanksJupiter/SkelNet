@@ -19,6 +19,10 @@ void SNFSMAPKnockbackState::Enter(SNFSMData* fsmData)
 	fsmData->autonomousProxy->TakeDamage();
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockbackAnim);
 
+	fsmData->world->particleSystem->StartParticleEffect(
+		fsmData->autonomousProxy->transform.GetPosition(),
+		fsmData->world->hitEffect01, fsmData->world->hitEffect01->duration, fsmData->autonomousProxy->transform.GetFacingRight());
+
 	std::string healthString = std::to_string(fsmData->autonomousProxy->health);
 	healthString.push_back('%');
 	fsmData->world->autoProxyHealthText->UpdateText(healthString);

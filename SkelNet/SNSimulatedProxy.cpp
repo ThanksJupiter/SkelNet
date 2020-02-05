@@ -50,9 +50,9 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	}
 
 	InitializeFSM();
-	flyBackDirection = { -1, -1 };
+	flyBackDirection = { -1, -2 };
 
-	currentStocks = 420;
+	currentStocks = 4;
 }
 
 void SNSimulatedProxy::Update(float dt)
@@ -81,7 +81,7 @@ void SNSimulatedProxy::Draw(float dt, SNCamera* cam)
 
 	engSetColor(0, 255, 255);
 
-	animator->DrawAnimation(cam->MakePositionWithCam(transform.GetPosition()), !transform.GetFacingRight(), dt);
+	animator->DrawAnimation(transform.GetPosition(), !transform.GetFacingRight(), dt);
 
 	engSetColor(0, 0, 0);
 }

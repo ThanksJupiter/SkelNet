@@ -9,7 +9,7 @@
 #include "SNAnimator.h"
 #include "SNServer.h"
 
-void SNClient::Setup(const char* ipAddress)
+bool SNClient::Setup(const char* ipAddress)
 {
 	SDLNet_Init();
 
@@ -18,18 +18,26 @@ void SNClient::Setup(const char* ipAddress)
 	if (!res && printErrors)
 	{
 		printf("Client Connect: %s\n", SDLNet_GetError());
+		return false;
 	}
 
 	tcpsock = SDLNet_TCP_Open(&ip);
 	if (!tcpsock && printErrors)
 	{
 		printf("Client Open: %s\n", SDLNet_GetError());
+		return false;
+	}
+	else if (!tcpsock)
+	{
+		return false;
 	}
 
 	printf("Client Setup!\n");
 
 	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 	SDLNet_TCP_AddSocket(socketSet, tcpsock);
+
+	return true;
 }
 
 bool SNClient::RecvData()

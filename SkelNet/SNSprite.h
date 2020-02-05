@@ -6,6 +6,7 @@
 #include "SNWorld.h"
 
 struct SDL_Texture;
+struct SNAnimation;
 
 class SNSprite
 {
@@ -18,6 +19,7 @@ public:
 	
 	bool shouldNotifyWhenPlayed = false;
 	std::function<void(SNWorld*)> OnAnimNotify;
+	SNAnimation* animation;
 	void Notify(SNWorld* world);
 
 	SDL_Rect sheetSourceRect;

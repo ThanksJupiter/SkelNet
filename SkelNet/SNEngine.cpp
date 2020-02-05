@@ -98,13 +98,17 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData jumpSheet = SpritesheetData("SN_Skel_Jump-Sheet.png", 3, 32, 32);
 	SpritesheetData knockbackSheet = SpritesheetData("SN_Skel_Knockback.png", 1, 32, 32);
 	SpritesheetData dashDustSheet = SpritesheetData("SN_SKel_Dash_Dust-Sheet.png", 8, 32, 32);
+	SpritesheetData runDustSheet = SpritesheetData("SN_SKel_Run_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData landingDustSheet = SpritesheetData("SN_Skel_Landing_Dust-Sheet.png", 8, 32, 32);
+	SpritesheetData coolDustSheet = SpritesheetData("SN_SKel_Cool_Dust-Sheet.png", 14, 32, 32);
 	SpritesheetData fallSheet = SpritesheetData("SN_Skel_Fall-Sheet.png", 4, 32, 32);
 	SpritesheetData knockedDownSheet = SpritesheetData("SN_Skel_Knockdown.png", 1, 32, 32);
 	SpritesheetData dustCloud01Sheet = SpritesheetData("SN_Skel_Dust_Cloud-Sheet.png", 9, 16, 16);
 	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Stop_02-Sheet.png", 4, 32, 32);
 	SpritesheetData teabagSheet = SpritesheetData("SN_Skel_T-Bag-Sheet.png", 6, 32, 32);
 	SpritesheetData deathShockwaveSheet = SpritesheetData("SN_Death_Effect_Shockwave_01-Sheet.png", 7, 128, 128);
+	SpritesheetData hitEffect01Sheet = SpritesheetData("SN_Hit_Effect_01-Sheet.png", 2, 32, 32);
+	SpritesheetData countDownSheet = SpritesheetData("SN_Game_Start_Countdown-Sheet.png", 4, 64, 32);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
@@ -113,13 +117,17 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* jumpSprites[3];
 	SNSprite* knockbackSprites[1];
 	SNSprite* dashDustSprites[8];
+	SNSprite* runDustSprites[8];
 	SNSprite* landingDustSprites[14];
+	SNSprite* coolDustSprites[14];
 	SNSprite* fallSprites[4];
 	SNSprite* knockedDownSprites[1];
 	SNSprite* dustCloud01Sprites[9];
 	SNSprite* turnAroundSprites[4];
 	SNSprite* teabagSprites[6];
 	SNSprite* deathShockwaveSprites[7];
+	SNSprite* hitEffect01Sprites[2];
+	SNSprite* countDownSprites[4];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
@@ -129,16 +137,32 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, 1);
 	world.knockbackAnim = knockbackSheet.CreateAnimation(knockbackSprites, 1);
 	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
+	world.runDustAnim = runDustSheet.CreateAnimation(runDustSprites, .05);
 	world.landingDustAnim = landingDustSheet.CreateAnimation(landingDustSprites, .05);
+	world.coolDustAnim = coolDustSheet.CreateAnimation(coolDustSprites, .05);
 	world.fallAnim = fallSheet.CreateAnimation(fallSprites, .15);
 	world.knockedDownAnim = knockedDownSheet.CreateAnimation(knockedDownSprites, 1);
 	world.dustCloud01Anim = dustCloud01Sheet.CreateAnimation(dustCloud01Sprites, .1);
 	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .15);
 	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
 	world.deathShockwave = deathShockwaveSheet.CreateAnimation(deathShockwaveSprites, .1);
+	world.hitEffect01 = hitEffect01Sheet.CreateAnimation(hitEffect01Sprites, .05);
+
+	world.countDownAnim = countDownSheet.CreateAnimation(countDownSprites, 1);
 
 	world.levelSprite = new SNSprite(256, 24, engLoadTexture("SN_Castle_Roof.png"), 0);
 	world.skelNetSprite = new SNSprite(256, 64, engLoadTexture("SN_Splash_Screen_Resize.png"), 0);
+
+	engSubscribeAnimationDelegates(world);
+}
+
+void engSubscribeAnimationDelegates(SNWorld& world)
+{
+	world.runAnim->sprites[0]->animation = world.runDustAnim;
+	world.runAnim->sprites[0]->shouldNotifyWhenPlayed = true;
+
+	world.runAnim->sprites[3]->animation = world.runDustAnim;
+	world.runAnim->sprites[3]->shouldNotifyWhenPlayed = true;
 }
 
 void engSetSpriteRenderScale(float scale)

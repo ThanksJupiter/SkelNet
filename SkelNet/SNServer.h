@@ -13,6 +13,7 @@ public:
 	void Setup();
 	void Close();
 	bool AcceptConnection();
+	bool allreadySetUp = false;
 
 	void SendData(SNTransformPacket* data);
 	void SendData(SNStatePacket* data);

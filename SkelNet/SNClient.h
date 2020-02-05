@@ -10,7 +10,7 @@ public:
 	static const int MAX_NUM_SOCKETS = 1;
 	static const int RECV_TIMEOUT_MS = 0;
 
-	void Setup(const char* ipAddress = "127.0.0.1");
+	bool Setup(const char* ipAddress = "127.0.0.1");
 	void Close();
 
 	void SendData(SNTransformPacket* data);
