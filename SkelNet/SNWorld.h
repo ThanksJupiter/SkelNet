@@ -96,6 +96,9 @@ public:
 	void Update(float dt);
 	void Draw(float dt);
 
+	void SetupUI();
+	void SetUIColors();
+
 	void SpawnAutonomousProxy(SNWorld& worldptr);
 	void SpawnSimulatedProxy(SNWorld& worldptr);
 	void SpawnFloor(Vector2 position, Vector2 size);

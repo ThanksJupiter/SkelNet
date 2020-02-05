@@ -37,6 +37,7 @@ void SNUIElement::Draw()
 
 		//world->PlayAnimation(*world->fallAnim, position, 500, false, 3, 0);
 
+		SDL_SetTextureColorMod(sprite->texture, tintR, tintG, tintB);
 		engDrawSprite(sprite->sheetSourceRect, dstRect, sprite->texture);
 	}
 

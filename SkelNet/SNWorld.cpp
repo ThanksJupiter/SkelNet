@@ -35,23 +35,6 @@ void SNWorld::Setup()
 	client.world = this;
 	server.world = this;
 
-	worldCanvas.Setup(worldSize, { 0, 0 });
-	autoProxyHealthFrame = worldCanvas.CreateRect({ 100.f, worldSize.y - 100.f }, { 200, 100 });
-	autoProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
-	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
-	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &autoProxyHealthFrame->anchor);
-	autoProxyNameText = worldCanvas.CreateText({ 70.f, autoProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &autoProxyHealthFrame->anchor);
-	autoProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 100.f, 100.f }, apAttackAnim->sprites[0], &autoProxyHealthFrame->anchor);
-	autoProxyPortrait->world = this;
-
-	simProxyHealthFrame = worldCanvas.CreateRect({ worldSize.x - 300.f, worldSize.y - 100.f }, { 200, 100 });
-	simProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &simProxyHealthFrame->anchor);
-	simProxyHealthText->SetRelativePosition({ -simProxyHealthText->size.x, 0 });
-	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &simProxyHealthFrame->anchor);
-	simProxyNameText = worldCanvas.CreateText({ 70.f, simProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &simProxyHealthFrame->anchor);
-	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 100.f, 100.f }, spAttackAnim->sprites[0], &simProxyHealthFrame->anchor);
-	simProxyPortrait->world = this;
-
 	// EVENTS
 	eventHandler.world = this;
 	eventHandler.CreateEvent(&SNWorld::StartGameEvent, START_GAME_EVENT);
@@ -105,7 +88,7 @@ void SNWorld::Update(float dt)
 	{
 		mainCamera.camScale -= .2f;
 	}
-	
+
 	if (engGetKeyDown(Key::G))
 	{
 		SNStringPacket packet;
@@ -221,8 +204,17 @@ void SNWorld::Draw(float dt)
 		//hitboxes[i].DrawDebug(&mainCamera);
 	}
 
-	if (engGetKey(Key::R))
+	if (engGetKey(Key::D))
+	{
+		autoProxyHealthFrame->DrawDebug();
+		simProxyHealthFrame->DrawDebug();
+		
+		autoProxyHealthFrame->anchor.DrawDebug(true);
+		simProxyHealthFrame->anchor.DrawDebug(true);
+	}
 
+
+	if (engGetKey(Key::R))
 	{
 		engSetColor(255, 0, 0);
 
@@ -242,6 +234,90 @@ void SNWorld::Draw(float dt)
 		engDrawLine(mainCamera.MakePositionWithCam(bottomRight), mainCamera.MakePositionWithCam(topRight));
 		engDrawLine(mainCamera.MakePositionWithCam(bottomRight), mainCamera.MakePositionWithCam(bottomLeft));
 		engSetColor(0, 0, 0);
+	}
+}
+
+void SNWorld::SetupUI()
+{
+	worldCanvas.Setup(worldSize, { 0, 0 });
+
+	autoProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
+	simProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
+
+
+	autoProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
+	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
+	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyNameText = worldCanvas.CreateText({ 70.f, autoProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[1], &autoProxyHealthFrame->anchor);
+	autoProxyPortrait->world = this;
+
+	simProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &simProxyHealthFrame->anchor);
+	simProxyHealthText->SetRelativePosition({ -simProxyHealthText->size.x, 0 });
+	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyNameText = worldCanvas.CreateText({ 70.f, simProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[0], &simProxyHealthFrame->anchor);
+	simProxyPortrait->world = this;
+}
+
+void SNWorld::SetUIColors()
+{
+
+	if (HasAuthority())
+	{
+		autoProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
+		simProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
+
+		autoProxyHealthFrame->anchor.UpdatePosition();
+		simProxyHealthFrame->anchor.UpdatePosition();
+		autoProxyHealthFrame->UpdatePosition();
+		simProxyHealthFrame->UpdatePosition();
+
+		simProxyHealthText->UpdatePosition();
+		simProxyStockText->UpdatePosition();
+		simProxyNameText->UpdatePosition();
+		simProxyPortrait->UpdatePosition();
+
+		autoProxyHealthText->UpdatePosition();
+		autoProxyStockText->UpdatePosition();
+		autoProxyNameText->UpdatePosition();
+		autoProxyPortrait->UpdatePosition();
+
+		autoProxyPortrait->tintR = 155;
+		autoProxyPortrait->tintG = 155;
+		autoProxyPortrait->tintB = 255;
+
+		simProxyPortrait->tintR = 255;
+		simProxyPortrait->tintG = 155;
+		simProxyPortrait->tintB = 155;
+	}
+	else
+	{
+		autoProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
+		simProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
+		
+		autoProxyHealthFrame->anchor.UpdatePosition();
+		simProxyHealthFrame->anchor.UpdatePosition();
+		autoProxyHealthFrame->UpdatePosition();
+		simProxyHealthFrame->UpdatePosition();
+
+		simProxyHealthText->UpdatePosition();
+		simProxyStockText->UpdatePosition();
+		simProxyNameText->UpdatePosition();
+		simProxyPortrait->UpdatePosition();
+
+		autoProxyHealthText->UpdatePosition();
+		autoProxyStockText->UpdatePosition();
+		autoProxyNameText->UpdatePosition();
+		autoProxyPortrait->UpdatePosition();
+
+		autoProxyPortrait->tintR = 255;
+		autoProxyPortrait->tintG = 155;
+		autoProxyPortrait->tintB = 155;
+
+		simProxyPortrait->tintR = 155;
+		simProxyPortrait->tintG = 155;
+		simProxyPortrait->tintB = 255;
 	}
 }
 

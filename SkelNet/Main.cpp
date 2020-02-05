@@ -130,6 +130,8 @@ void StartGame()
 		{
 			world.client.SendData(&packet);
 		}
+
+		world.SetUIColors();
 	}
 }
 
@@ -205,6 +207,7 @@ int main()
 
 	world.worldSize = { (float)engGetWidth(), (float)engGetHeight() };
 	world.Setup();
+	world.SetupUI();
 
 	world.SpawnFloor({ 0, 0 }, { 3, 3 });
 
@@ -294,7 +297,7 @@ int main()
 		{
 			waitingForPlayersText->UpdateText("Waiting to start");
 
-			if (world.isServer && startGameButton && startGameText)
+			if (world.HasAuthority() && startGameButton && startGameText)
 			{
 				startGameButton->hidden = false;
 				startGameText->hidden = false;
@@ -306,7 +309,7 @@ int main()
 			}
 		}
 
-		if (world.isServer)
+		if (world.HasAuthority())
 		{
 			world.waitingToStart = waiting;
 		}

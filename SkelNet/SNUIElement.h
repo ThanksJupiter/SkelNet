@@ -33,6 +33,10 @@ public:
 	bool isClickable;
 	bool drawRect;
 	SNSprite* sprite;
+	
+	int tintR = 255;
+	int tintG = 255;
+	int tintB = 255;
 
 	bool hidden = false;
 
