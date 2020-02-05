@@ -61,14 +61,17 @@ void EnableSetupUI(bool bShouldDisplay)
 
 void SetupServer()
 {
-	SDL_StopTextInput();
-	world.server.Setup();
-	world.server.printErrors = false;
-	world.server.printDebug = false;
-	world.isServer = true;
-	world.SpawnAutonomousProxy(world);
-	world.SpawnSimulatedProxy(world);
-	EnableSetupUI(false);
+	if (!world.server.allreadySetUp)
+	{
+		SDL_StopTextInput();
+		world.server.Setup();
+		world.server.printErrors = false;
+		world.server.printDebug = false;
+		world.isServer = true;
+		world.SpawnAutonomousProxy(world);
+		world.SpawnSimulatedProxy(world);
+		EnableSetupUI(false);
+	}
 }
 
 void SetupClient()

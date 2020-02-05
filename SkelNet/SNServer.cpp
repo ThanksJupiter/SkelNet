@@ -7,19 +7,23 @@
 
 void SNServer::Setup()
 {
-	SDLNet_Init();
-
-	SDLNet_ResolveHost(&ip, NULL, 6969);
-
-	server = SDLNet_TCP_Open(&ip);
-	if (!server && printErrors)
+	if (!allreadySetUp)
 	{
-		printf("Server Open: %s\n", SDLNet_GetError());
+		allreadySetUp = true;
+		SDLNet_Init();
+
+		SDLNet_ResolveHost(&ip, NULL, 6969);
+
+		server = SDLNet_TCP_Open(&ip);
+		if (!server && printErrors)
+		{
+			printf("Server Open: %s\n", SDLNet_GetError());
+		}
+
+		printf("Server Setup!\n");
+
+		socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 	}
-
-	printf("Server Setup!\n");
-
-	socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
 }
 
 bool SNServer::AcceptConnection()
@@ -219,6 +223,7 @@ void SNServer::SendData(SNEventPacket* data)
 
 void SNServer::Close()
 {
+	allreadySetUp = false;
 	SDLNet_FreeSocketSet(socketSet);
 	SDLNet_TCP_Close(client);
 }
