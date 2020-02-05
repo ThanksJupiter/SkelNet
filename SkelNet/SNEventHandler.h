@@ -6,6 +6,7 @@
 #define START_GAME_EVENT 2
 #define END_GAME_EVENT 3
 #define PLAYER_DIED_EVENT 4
+#define REMATCH_EVENT 5
 
 class SNWorld;
 

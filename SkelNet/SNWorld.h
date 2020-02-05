@@ -53,6 +53,7 @@ public:
 	SNAnimation* teabagAnim;
 	SNAnimation* deathShockwave;
 	SNAnimation* hitEffect01;
+	SNAnimation* laughSkelAnim;
 
 	SNAnimation* countDownAnim;
 
@@ -114,7 +115,7 @@ public:
 
 	void StartGameEvent();
 	void RestartGameEvent();
-	//void RematchEvent();
-	//bool opponentWantsRematch = false;
+	void RematchEvent();
+	bool opponentWantsRematch = false;
 	void GameEndedEvent();
 };

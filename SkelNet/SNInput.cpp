@@ -14,4 +14,6 @@ void SNInput::SetInput()
 	attack = engGetKeyDown(Key::X) || engGetButtonDown(GamepadButton::X);
 
 	taunt = engGetKeyDown(Key::T) || engGetDPadButtonDown(DPadButton::Down);
+
+	restart = engGetButtonDown(GamepadButton::Start) || engGetKeyDown(Key::U);
 }

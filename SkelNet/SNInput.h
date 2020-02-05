@@ -12,6 +12,8 @@ public:
 	bool attack = false;
 	bool taunt = false;
 
+	bool restart = false;
+
 	void SetInput();
 };
 
