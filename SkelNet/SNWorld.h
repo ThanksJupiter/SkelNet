@@ -45,6 +45,7 @@ public:
 	SNAnimation* dashDustAnim;
 	SNAnimation* runDustAnim;
 	SNAnimation* landingDustAnim;
+	SNAnimation* coolDustAnim;
 	SNAnimation* fallAnim;
 	SNAnimation* knockedDownAnim;
 	SNAnimation* dustCloud01Anim;

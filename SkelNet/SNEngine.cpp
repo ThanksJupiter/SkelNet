@@ -99,6 +99,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData dashDustSheet = SpritesheetData("SN_SKel_Dash_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData runDustSheet = SpritesheetData("SN_SKel_Run_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData landingDustSheet = SpritesheetData("SN_Skel_Landing_Dust-Sheet.png", 8, 32, 32);
+	SpritesheetData coolDustSheet = SpritesheetData("SN_SKel_Cool_Dust-Sheet.png", 14, 32, 32);
 	SpritesheetData fallSheet = SpritesheetData("SN_Skel_Fall-Sheet.png", 4, 32, 32);
 	SpritesheetData knockedDownSheet = SpritesheetData("SN_Skel_Knockdown.png", 1, 32, 32);
 	SpritesheetData dustCloud01Sheet = SpritesheetData("SN_Skel_Dust_Cloud-Sheet.png", 9, 16, 16);
@@ -116,6 +117,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* dashDustSprites[8];
 	SNSprite* runDustSprites[8];
 	SNSprite* landingDustSprites[14];
+	SNSprite* coolDustSprites[14];
 	SNSprite* fallSprites[4];
 	SNSprite* knockedDownSprites[1];
 	SNSprite* dustCloud01Sprites[9];
@@ -134,6 +136,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
 	world.runDustAnim = runDustSheet.CreateAnimation(runDustSprites, .05);
 	world.landingDustAnim = landingDustSheet.CreateAnimation(landingDustSprites, .05);
+	world.coolDustAnim = coolDustSheet.CreateAnimation(coolDustSprites, .05);
 	world.fallAnim = fallSheet.CreateAnimation(fallSprites, .15);
 	world.knockedDownAnim = knockedDownSheet.CreateAnimation(knockedDownSprites, 1);
 	world.dustCloud01Anim = dustCloud01Sheet.CreateAnimation(dustCloud01Sprites, .1);

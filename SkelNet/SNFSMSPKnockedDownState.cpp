@@ -10,7 +10,7 @@ void SNFSMSPKnockedDownState::Enter(SNFSMData* fsmData)
 
 	fsmData->world->particleSystem->StartParticleEffect(
 		fsmData->simulatedProxy->transform.GetPosition(),
-		fsmData->world->landingDustAnim, fsmData->world->landingDustAnim->duration, fsmData->simulatedProxy->transform.GetFacingRight());
+		fsmData->world->coolDustAnim, fsmData->world->coolDustAnim->duration, fsmData->simulatedProxy->transform.GetFacingRight());
 }
 
 void SNFSMSPKnockedDownState::Update(float dt, SNFSMData* fsmData)
