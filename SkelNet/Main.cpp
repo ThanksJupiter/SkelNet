@@ -92,6 +92,8 @@ void StartGame()
 {
 	if (!waitingForPlayer && !gameStarted)
 	{
+		world.particleSystem->StartParticleEffect({ 0, 0 }, world.countDownAnim, world.countDownAnim->duration, false, 6);
+
 		gameStarted = true;
 		waitingForPlayersText->isUsed = false;
 		waiting = false;
@@ -289,7 +291,7 @@ int main()
 			canvas.Draw();
 
 			//countdown to start game
-			if (startCountDown <= 3.0f)
+			if (startCountDown <= 0.1f)
 			{
 				startCountDown += deltaTime;
 				world.autonomousProxy.inputEnabled = false;
