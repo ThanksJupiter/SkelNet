@@ -66,23 +66,25 @@ void SetupServer()
 	world.isServer = true;
 	world.SpawnAutonomousProxy(world);
 	world.SpawnSimulatedProxy(world);
-
 	EnableSetupUI(false);
 }
 
 void SetupClient()
 {
-	SDL_StopTextInput();
-	world.client.Setup(engGetInputText().c_str());
-	world.client.printErrors = false;
-	world.client.printDebug = false;
-	world.isServer = false;
-	world.SpawnAutonomousProxy(world);
-	world.SpawnSimulatedProxy(world);
-	waitingForPlayer = false;
+	if (world.client.Setup(engGetInputText().c_str()))
+	{
+		SDL_StopTextInput();
+		world.client.printErrors = false;
+		world.client.printDebug = false;
+		world.isServer = false;
+		world.SpawnAutonomousProxy(world);
+		world.SpawnSimulatedProxy(world);
+		waitingForPlayer = false;
 
-	EnableSetupUI(false);
+		EnableSetupUI(false);
+	}
 }
+
 
 void StartGame()
 {
