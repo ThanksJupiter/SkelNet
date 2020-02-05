@@ -64,15 +64,18 @@ public:
 	SNUIElement* autoProxyHealthFrame;
 	SNUIElement* autoProxyHealthText;
 	SNUIElement* autoProxyStockText;
+	SNUIElement* autoProxyNameText;
 
 	SNUIElement* simProxyHealthFrame;
 	SNUIElement* simProxyHealthText;
 	SNUIElement* simProxyStockText;
+	SNUIElement* simProxyNameText;
+
 
 	bool doStartup;
 	bool isServer;
 
-	bool bWaitingToStart = true;
+	bool waitingToStart = true;
 
 	float spawnDistanceX = 150.0f;
 	float spawnDistanceY = -300.0f;

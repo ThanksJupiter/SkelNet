@@ -16,6 +16,7 @@ public:
 	void SendData(SNTransformPacket* data);
 	void SendData(SNStatePacket* data);
 	void SendData(SNEventPacket* data);
+	void SendData(SNStringPacket* data);
 
 	bool RecvData();
 	Uint8* InternalRecvData();

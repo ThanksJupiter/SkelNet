@@ -32,7 +32,8 @@ SNCanvas canvas;
 
 SNUIElement* hostButton;
 SNUIElement* joinButton;
-SNUIElement* textInputButton;
+SNUIElement* ipTextInputButton;
+SNUIElement* nameTextInputButton;
 
 SNUIElement* waitingForPlayersText;
 SNUIElement* startGameButton;
@@ -40,19 +41,22 @@ SNUIElement* startGameText;
 
 SNUIElement* hostText;
 SNUIElement* joinText;
-SNUIElement* inputField;
+SNUIElement* ipInputField;
+SNUIElement* nameInputField;
 
-void EnableSetupUI(bool bShouldDisplay)
+void EnableSetupUI(bool shouldDisplay)
 {
 	//button
-	hostButton->isUsed = bShouldDisplay;
-	joinButton->isUsed = bShouldDisplay;
-	textInputButton->isUsed = bShouldDisplay;
+	hostButton->isUsed = shouldDisplay;
+	joinButton->isUsed = shouldDisplay;
+	ipTextInputButton->isUsed = shouldDisplay;
+	nameTextInputButton->isUsed = shouldDisplay;
 
 	//text
-	hostText->isUsed = bShouldDisplay;
-	joinText->isUsed = bShouldDisplay;
-	inputField->isUsed = false;
+	hostText->isUsed = shouldDisplay;
+	joinText->isUsed = shouldDisplay;
+	ipInputField->isUsed = false;
+	nameInputField->isUsed = false;
 }
 
 #pragma endregion SetupUI
@@ -73,7 +77,7 @@ void SetupServer()
 void SetupClient()
 {
 	SDL_StopTextInput();
-	world.client.Setup(engGetInputText().c_str());
+	world.client.Setup(ipInputField->textString.c_str());
 	world.client.printErrors = false;
 	world.client.printDebug = false;
 	world.isServer = false;
@@ -99,7 +103,24 @@ void StartGame()
 			startGameText->isUsed = false;
 		}
 
-		world.StartGameEvent();
+		if (world.HasAuthority())
+		{
+			world.StartGameEvent();
+		}
+
+
+		world.autoProxyNameText->UpdateText(nameInputField->textString);
+		SNStringPacket packet;
+		packet.flag = STRING_FLAG;
+		packet.string = (char*)nameInputField->textString.c_str();
+		if (world.HasAuthority())
+		{
+			world.server.SendData(&packet);
+		}
+		else
+		{
+			world.client.SendData(&packet);
+		}
 	}
 }
 
@@ -108,10 +129,19 @@ void RestartGame()
 	world.RestartGameEvent();
 }
 
-void EnableTextInput()
+void EnableIPTextInput()
 {
 	//when clicked input field
-	engSetInputText("");
+	engSetInputTextPtr(&ipInputField->textString);
+	*engGetInputTextPtr() = "";
+	SDL_StartTextInput();
+}
+
+void EnableNameTextInput()
+{
+	//when clicked input field
+	engSetInputTextPtr(&nameInputField->textString);
+	*engGetInputTextPtr() = "";
 	SDL_StartTextInput();
 }
 
@@ -134,15 +164,20 @@ void SetupMainMenuUI()
 
 	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 50.f,30.f }, true, SetupServer);
 	joinButton = canvas.CreateButton({ 600.f, 375.f }, { 65.f,35.f }, true, SetupClient);
-	textInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableTextInput);
+	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableIPTextInput);
+	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 100.f }, { 200.f,40.f }, true, EnableNameTextInput);
 
 	hostText = canvas.CreateText({ 0,0 }, "Host", 1.0f, &hostButton->anchor);
 	joinText = canvas.CreateText({ 0,0 }, "Join", 1.0f, &joinButton->anchor);
-	inputField = canvas.CreateText({ 0,0 }, engGetInputText().c_str(), 1.0f, &textInputButton->anchor);
+	ipInputField = canvas.CreateText({ 0,0 }, "127.0.0.1", 1.0f, &ipTextInputButton->anchor);
+	nameInputField = canvas.CreateText({ 0,0 }, "Enter Name", 1.0f, &nameTextInputButton->anchor);
+
+	engSetInputTextPtr(&ipInputField->textString);
 
 	hostText->drawRect = true;
 	joinText->drawRect = true;
-	inputField->drawRect = true;
+	ipInputField->drawRect = true;
+	nameInputField->drawRect = true;
 }
 
 int main()
@@ -194,7 +229,8 @@ int main()
 			engDrawString({ 10, 10 }, "Client");
 		}
 
-		inputField->UpdateText(engGetInputText());
+		*engGetInputTextPtr() = engGetInputText();
+		//ipInputField->UpdateText(engGetInputText());
 
 		if (engGetKeyDown(Key::Return))
 		{
@@ -262,11 +298,11 @@ int main()
 
 		if (world.isServer)
 		{
-			world.bWaitingToStart = waiting;
+			world.waitingToStart = waiting;
 		}
 		else
 		{
-			waiting = world.bWaitingToStart;
+			waiting = world.waitingToStart;
 			if (!waiting && !waitingForPlayer && !gameStarted)
 			{
 				StartGame();
