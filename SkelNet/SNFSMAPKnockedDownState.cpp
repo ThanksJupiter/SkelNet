@@ -9,6 +9,10 @@
 void SNFSMAPKnockedDownState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->knockedDownAnim);
+
+	fsmData->world->particleSystem->StartParticleEffect(
+		fsmData->autonomousProxy->transform.GetPosition(),
+		fsmData->world->coolDustAnim, fsmData->world->coolDustAnim->duration, fsmData->autonomousProxy->transform.GetFacingRight());
 }
 
 void SNFSMAPKnockedDownState::Update(float dt, SNFSMData* fsmData)

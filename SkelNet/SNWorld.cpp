@@ -11,13 +11,19 @@
 #include "SNFloor.h"
 #include "SNFiniteStateMachine.h"
 
+void SNWorld::PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration, bool inFlipped, float inScale, float inRot)
+{
+	particleSystem->StartParticleEffect(inPos, &inAnim, inDuration, inFlipped, inScale, inRot);
+}
+
 void SNWorld::Setup()
 {
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
-	//audioManager->PlayMusicLoop(audioManager->midnaLament);
+	//audioManager->PlayMusicLoop(audioManager->midnaLament); 
 
 	particleSystem = new SNParticleSystem();
+	particleSystem->world = this;
 
 	trail = new SNTrail();
 	SNSprite* trailSprite = new SNSprite(32, 32, nullptr, 0);

@@ -43,13 +43,18 @@ public:
 	SNAnimation* jumpAnim;
 	SNAnimation* knockbackAnim;
 	SNAnimation* dashDustAnim;
+	SNAnimation* runDustAnim;
 	SNAnimation* landingDustAnim;
+	SNAnimation* coolDustAnim;
 	SNAnimation* fallAnim;
 	SNAnimation* knockedDownAnim;
 	SNAnimation* dustCloud01Anim;
 	SNAnimation* turnAroundAnim;
 	SNAnimation* teabagAnim;
 	SNAnimation* deathShockwave;
+	SNAnimation* hitEffect01;
+
+	void PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration, bool inFlipped, float inScale, float inRot);
 
 	SNSprite* levelSprite;
 	SNSprite* skelNetSprite;
