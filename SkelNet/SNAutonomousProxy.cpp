@@ -43,7 +43,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 
 	playerInput = new SNInput();
 	InitializeFSM();
-	flyBackDirection = { -1, -2 };
+	flyBackDirection = { -1.f, -1.2f };
 
 	currentStocks = 4;
 }
@@ -443,7 +443,7 @@ void SNAutonomousProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->whip_hit);
 	FlyBack();
-	health += 30;
+	health += 15;
 	printf("AutonomousProxy: Took Damage\n");
 }
 
