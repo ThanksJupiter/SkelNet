@@ -45,7 +45,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	InitializeFSM();
 	flyBackDirection = { -1.f, -1.2f };
 
-	currentStocks = 1;
+	currentStocks = maxStocks;
 }
 
 void SNAutonomousProxy::Draw(float dt, SNCamera* cam)

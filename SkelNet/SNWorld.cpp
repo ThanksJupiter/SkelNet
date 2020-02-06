@@ -208,7 +208,7 @@ void SNWorld::Draw(float dt)
 	{
 		autoProxyHealthFrame->DrawDebug();
 		simProxyHealthFrame->DrawDebug();
-		
+
 		autoProxyHealthFrame->anchor.DrawDebug(true);
 		simProxyHealthFrame->anchor.DrawDebug(true);
 	}
@@ -295,7 +295,7 @@ void SNWorld::SetUIColors()
 	{
 		autoProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
 		simProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
-		
+
 		autoProxyHealthFrame->anchor.UpdatePosition();
 		simProxyHealthFrame->anchor.UpdatePosition();
 		autoProxyHealthFrame->UpdatePosition();
@@ -467,51 +467,53 @@ void SNWorld::RespawnPlayerEvent()
 
 void SNWorld::RematchEvent()
 {
-	if (!opponentWantsRematch)
+	opponentWantsRematch = true;
+	
+	if (opponentWantsRematch && wantRematch)
 	{
-		if (HasAuthority())
-		{
-			SNEventPacket packet;
-			packet.flag = EVENT_FLAG;
-			packet.eventFlag = REMATCH_EVENT;
-			server.SendData(&packet);
-		}
-		else
-		{
-			SNEventPacket packet;
-			packet.flag = EVENT_FLAG;
-			packet.eventFlag = REMATCH_EVENT;
-			client.SendData(&packet);
-		}
-
-		// on receive this data, set some text to "eh they want rematch ey ok I wil do it, wait."
+		RestartGame();
 	}
-	else
+}
+
+void SNWorld::LocalRematchEvent()
+{
+	SNEventPacket packet;
+	packet.flag = EVENT_FLAG;
+	packet.eventFlag = REMATCH_EVENT;
+	server.SendData(&packet);
+
+	wantRematch = true;
+
+	if (opponentWantsRematch && wantRematch)
 	{
-		RespawnPlayerEvent();
+		RestartGame();
 	}
 }
 
 void SNWorld::RestartGame()
 {
-	//StartGameEvent();
-	//SpawnAutonomousProxy(*this);
-	//SpawnSimulatedProxy(*this);
-
 	printf("Game restarted!\n");
+	// TODO: Reset all values and whatnot
+	autonomousProxy.Reset();
+	simulatedProxy.Reset();
+	autonomousProxy.currentStocks = autonomousProxy.maxStocks;
+	simulatedProxy.currentStocks = simulatedProxy.maxStocks;
+	autonomousProxy.health = 1;
+	simulatedProxy.health = 1;
 }
 
 void SNWorld::GameEndedEvent()
 {
 	if (HasAuthority())
 	{
-		// Send End Game Event
 		SNEventPacket eventPacket;
 		eventPacket.flag = EVENT_FLAG;
 		eventPacket.eventFlag = END_GAME_EVENT;
 		server.SendData(&eventPacket);
 	}
 
-	// Do End Game Stuff
 	printf("Game Ended!\n");
+	// TODO: Display end screen, victory name and rematch button
+
+
 }

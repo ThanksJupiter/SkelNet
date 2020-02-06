@@ -119,7 +119,9 @@ public:
 	void StartGameEvent();
 	void RespawnPlayerEvent();
 	void RematchEvent();
+	void LocalRematchEvent();
 	void RestartGame();
 	bool opponentWantsRematch = false;
+	bool wantRematch = false;
 	void GameEndedEvent();
 };
