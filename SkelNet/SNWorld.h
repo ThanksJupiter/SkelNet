@@ -12,6 +12,7 @@
 #include "SNCamera.h"
 #include "SNEvent.h"
 #include "SNEventHandler.h"
+#include "SNCanvas.h"
 
 class SNTrail;
 class SNParticleSystem;

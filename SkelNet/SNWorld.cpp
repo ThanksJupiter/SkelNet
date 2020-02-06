@@ -10,18 +10,36 @@
 #include "SNMath.h"
 #include "SNFloor.h"
 #include "SNFiniteStateMachine.h"
+#include "SNUIElement.h"
 
 SNUIElement* rematchButton;
 SNUIElement* rematchText;
 
-void SetupUI()
-{
+SNWorld* thisWorld;
 
+void REMATCH()
+{
+	thisWorld->LocalRematchEvent();
 }
 
 void SNWorld::PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration, bool inFlipped, float inScale, float inRot)
 {
 	particleSystem->StartParticleEffect(inPos, &inAnim, inDuration, inFlipped, inScale, inRot);
+}
+
+void SNWorld::LocalRematchEvent()
+{
+	SNEventPacket packet;
+	packet.flag = EVENT_FLAG;
+	packet.eventFlag = REMATCH_EVENT;
+	server.SendData(&packet);
+
+	wantRematch = true;
+
+	if (opponentWantsRematch && wantRematch)
+	{
+		RestartGame();
+	}
 }
 
 void SNWorld::Setup()
@@ -49,6 +67,8 @@ void SNWorld::Setup()
 	eventHandler.CreateEvent(&SNWorld::RespawnPlayerEvent, RESPAWN_PLAYER_EVENT);
 	eventHandler.CreateEvent(&SNWorld::GameEndedEvent, END_GAME_EVENT);
 	eventHandler.CreateEvent(&SNWorld::RematchEvent, REMATCH_EVENT);
+
+	thisWorld = this;
 }
 
 void SNWorld::Update(float dt)
@@ -204,6 +224,7 @@ void SNWorld::Draw(float dt)
 	/* Draw Health Frames */
 	//worldCanvas.drawDebug = true;
 	worldCanvas.Draw();
+	worldCanvas.CheckInteraction();
 
 
 	/* DEBUG */
@@ -249,9 +270,13 @@ void SNWorld::SetupUI()
 {
 	worldCanvas.Setup(worldSize, { 0, 0 });
 
+	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 300 }, { 150,40.f }, true, REMATCH);
+	rematchText = worldCanvas.CreateText({ 0,0 }, "Rematch", 1.0f, &rematchButton->anchor);
+
+	rematchButton->drawRect = true;
+
 	autoProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 	simProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
-
 
 	autoProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
 	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
@@ -476,27 +501,13 @@ void SNWorld::RespawnPlayerEvent()
 void SNWorld::RematchEvent()
 {
 	opponentWantsRematch = true;
-	
-	if (opponentWantsRematch && wantRematch)
-	{
-		RestartGame();
-	}
-}
-
-void SNWorld::LocalRematchEvent()
-{
-	SNEventPacket packet;
-	packet.flag = EVENT_FLAG;
-	packet.eventFlag = REMATCH_EVENT;
-	server.SendData(&packet);
-
-	wantRematch = true;
 
 	if (opponentWantsRematch && wantRematch)
 	{
 		RestartGame();
 	}
 }
+
 
 void SNWorld::RestartGame()
 {
@@ -508,6 +519,9 @@ void SNWorld::RestartGame()
 	simulatedProxy.currentStocks = simulatedProxy.maxStocks;
 	autonomousProxy.health = 1;
 	simulatedProxy.health = 1;
+
+	opponentWantsRematch = false;
+	wantRematch = false;
 }
 
 void SNWorld::GameEndedEvent()
