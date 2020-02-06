@@ -90,6 +90,7 @@ public:
 	SNUIElement* rematchButton;
 	SNUIElement* rematchText;
 	SNUIElement* opponentWantsRematchText;
+	SNUIElement* winnerText;
 
 	bool doStartup;
 	bool isServer;

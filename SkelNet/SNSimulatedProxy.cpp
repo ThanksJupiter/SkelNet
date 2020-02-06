@@ -123,7 +123,6 @@ void SNSimulatedProxy::PlayAttackAnim()
 void SNSimulatedProxy::TakeDamage()
 {
 	world->audioManager->PlayChunkOnce(world->audioManager->punch);
-	//stateMachine->EnterState(KNOCKBACK_STATE);
 	FlyBack();
 	health += 15;
 	printf("SimulatedProxy: Took Damage\n");

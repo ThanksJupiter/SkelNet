@@ -248,8 +248,11 @@ int main()
 			engDrawString({ 10, 10 }, "Client");
 		}
 
-		*engGetInputTextPtr() = engGetInputText();
-		//ipInputField->UpdateText(engGetInputText());
+		if (engGetInputText().size() > 10)
+		{
+			engGetInputTextPtr()->pop_back();
+			printf(engGetInputText().c_str());
+		}
 
 		if (engGetKeyDown(Key::Return))
 		{
@@ -348,11 +351,11 @@ int main()
 		{
 			if (engGetKeyDown(Key::S) || engGetButtonDown(GamepadButton::B))
 			{
-				SetupServer();
+				//SetupServer();
 			}
 			if (engGetKeyDown(Key::C))
 			{
-				SetupClient();
+				//SetupClient();
 			}
 			SDL_Delay(.5f);
 		}

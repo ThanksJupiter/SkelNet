@@ -254,6 +254,10 @@ void SNWorld::SetupUI()
 	rematchButton->hidden = true;
 	rematchText->hidden = true;
 
+	winnerText = worldCanvas.CreateText({ worldSize.x / 2 , worldSize.y / 2 + 50.f }, "wins!", 3.0f);
+	winnerText->SetRelativePosition({ -winnerText->size.x / 2, 0 });
+	winnerText->hidden = true;
+
 	autoProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 	simProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 
@@ -270,6 +274,8 @@ void SNWorld::SetupUI()
 	simProxyNameText = worldCanvas.CreateText({ 70.f, simProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &simProxyHealthFrame->anchor);
 	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[0], &simProxyHealthFrame->anchor);
 	simProxyPortrait->world = this;
+
+	
 }
 
 void SNWorld::SetUIColors()
@@ -451,6 +457,14 @@ void SNWorld::RespawnPlayerEvent()
 		else
 		{
 			GameEndedEvent();
+
+			winnerText->hidden = false;
+			std::string nameWonString(autoProxyNameText->textString);
+			nameWonString.append(" wins!");
+			winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
+			winnerText->UpdateText(nameWonString);
+
+
 			printf("autonimus proximilian wonned! :D\n");
 		}
 	}
@@ -466,6 +480,13 @@ void SNWorld::RespawnPlayerEvent()
 		else
 		{
 			GameEndedEvent();
+
+			winnerText->hidden = false;
+			std::string nameWonString(simProxyNameText->textString);
+			nameWonString.append(" wins!");
+			winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
+			winnerText->UpdateText(nameWonString);
+
 			printf("simulensis proximilian wonned! :D\n");
 		}
 	}
@@ -532,7 +553,7 @@ void SNWorld::RestartGame()
 	rematchButton->hidden = true;
 	rematchText->hidden = true;
 	opponentWantsRematchText->hidden = true;
-
+	winnerText->hidden = true;
 }
 
 void SNWorld::GameEndedEvent()

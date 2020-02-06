@@ -53,7 +53,6 @@ bool SNServer::AcceptConnection()
 		}
 	}
 	return false;
-
 }
 
 bool SNServer::RecvData()
