@@ -103,6 +103,7 @@ public:
 	float slowmotionDivider = 2.f;
 	float cameraTargetPosY = 300.f;
 	float cameraTargetZoomWin = 4.0f;
+	float cameraDefaultZoom = 2.f;
 	bool cameraFollowWinner = false;
 	SNTransform* winnerTransform = nullptr;
 
