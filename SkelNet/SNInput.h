@@ -10,7 +10,8 @@ public:
 	bool jump = false;
 	bool jumpHeld = false;
 	bool attack = false;
-	bool taunt = false;
+	bool downTaunt = false;
+	bool upTaunt = false;
 
 	bool restart = false;
 

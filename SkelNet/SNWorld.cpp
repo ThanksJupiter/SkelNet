@@ -215,7 +215,6 @@ void SNWorld::Draw(float dt)
 		simProxyHealthFrame->anchor.DrawDebug(true);
 	}
 
-
 	if (engGetKey(Key::R))
 	{
 		engSetColor(255, 0, 0);

@@ -1,18 +1,18 @@
-#include "SNFSMAPTauntState.h"
+#include "SNFSMAPTeabagState.h"
 #include "SNFSMData.h"
 #include "SNWorld.h"
 #include "SNAnimator.h"
 #include "SNFSMData.h"
 #include "SNParticleSystem.h"
 
-void SNFSMAPTauntState::Enter(SNFSMData* fsmData)
+void SNFSMAPTeabagState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->teabagAnim);
 	timer = 0.0f;
 	hasPufferSoundPlayed = false;
 }
 
-void SNFSMAPTauntState::Update(float dt, SNFSMData* fsmData)
+void SNFSMAPTeabagState::Update(float dt, SNFSMData* fsmData)
 {
 	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	timer += dt;
@@ -33,7 +33,7 @@ void SNFSMAPTauntState::Update(float dt, SNFSMData* fsmData)
 	}
 }
 
-void SNFSMAPTauntState::Exit(SNFSMData* fsmData)
+void SNFSMAPTeabagState::Exit(SNFSMData* fsmData)
 {
 	
 }

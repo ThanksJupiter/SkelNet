@@ -9,12 +9,13 @@
 #include "SNFSMAPKnockedDownState.h"
 #include "SNFSMAPTurnAroundState.h"
 #include "SNDataPackets.h"
-#include "SNFSMAPTauntState.h"
+#include "SNFSMAPTeabagState.h"
 #include "SNFloor.h"
 #include "SNFSMAPJumpSquatState.h"
 #include "SNFSMAPLandState.h"
 #include "SNFSMAPDeathState.h"
 #include "SNFSMAPJumpAscendState.h"
+#include "SNFSMAPSmokeState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -241,11 +242,12 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[FALL_STATE] = new SNFSMAPFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMAPKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMAPTurnAroundState("Turn");
-	fsmData->availableStates[TAUNT_STATE] = new SNFSMAPTauntState("Taunt");
+	fsmData->availableStates[TEABAG_STATE] = new SNFSMAPTeabagState("Teabag");
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMAPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMAPLandState("Land");
 	fsmData->availableStates[DEATH_STATE] = new SNFSMAPDeathState("Death");
 	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMAPJumpAscendState("JumpAscend");
+	fsmData->availableStates[SMOKE_STATE] = new SNFSMAPSmokeState("Smoke");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

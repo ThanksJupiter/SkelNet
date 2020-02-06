@@ -55,6 +55,7 @@ public:
 	SNAnimation* dustCloud01Anim;
 	SNAnimation* turnAroundAnim;
 	SNAnimation* teabagAnim;
+	SNAnimation* smokeAnim;
 	SNAnimation* deathShockwave;
 	SNAnimation* hitEffect01;
 	SNAnimation* laughSkelAnim;

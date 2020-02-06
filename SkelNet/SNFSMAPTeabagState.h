@@ -2,10 +2,10 @@
 
 #include "SNFSMState.h"
 
-class SNFSMAPTauntState : public SNFSMState
+class SNFSMAPTeabagState : public SNFSMState
 {
 public:
-	SNFSMAPTauntState(const char* inName) : SNFSMState(inName) {}
+	SNFSMAPTeabagState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);
