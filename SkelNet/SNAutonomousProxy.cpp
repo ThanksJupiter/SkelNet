@@ -24,8 +24,8 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
 
-	stateText = canvas.CreateText({ 250, 200 }, "100%", 1.0f, nullptr, { -50, 0 });
-	spStateText = canvas.CreateText({ 250, 300 }, "100%", 1.0f, nullptr, { -50, 0 });
+	//stateText = canvas.CreateText({ 250, 200 }, "100%", 1.0f, nullptr, { -50, 0 });
+	//spStateText = canvas.CreateText({ 250, 300 }, "100%", 1.0f, nullptr, { -50, 0 });
 	//velocityText = canvas.CreateText({ 350, 350 }, "100%", 1.0f, nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
@@ -74,9 +74,9 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 	}
 
 	//engDrawString({100, 20}, )
-	stateText->UpdateText(stateMachine->currentState->stateName);
+	//stateText->UpdateText(stateMachine->currentState->stateName);
 	engSetTextColor(0, 255, 0);
-	spStateText->UpdateText(world->simulatedProxy.stateMachine->currentState->stateName);
+	//spStateText->UpdateText(world->simulatedProxy.stateMachine->currentState->stateName);
 	engSetTextColor(255, 255, 255);
 	//velocityText->UpdateText(transform.GetVelocity().y);
 
