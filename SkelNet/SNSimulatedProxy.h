@@ -54,6 +54,7 @@ public:
 
 	int health = 1;
 	Uint8 currentStocks = 0;
+	Uint8 maxStocks = 3;
 
 	SNWorld* world;
 

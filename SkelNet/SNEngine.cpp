@@ -22,6 +22,7 @@ SDL_Renderer* renderer;
 SDL_Window* window;
 SDL_Surface* image;
 SDL_Texture* texture;
+SDL_Rect viewport;
 
 const int WINDOW_WIDTH = 1920;
 const int WINDOW_HEIGHT = 1080;
@@ -67,6 +68,11 @@ void engInit()
 
 	image = IMG_Load("SN_Skel_Attack-Sheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
+	
+	viewport.x = 0;
+	viewport.y = 0;
+	viewport.w = WINDOW_WIDTH;
+	viewport.h = WINDOW_HEIGHT;
 
 	engGetJoystick();
 	axisStates[(unsigned int)GamepadAxis::LeftShoulder].value = -2.0f;
@@ -189,6 +195,8 @@ void engClose()
 
 void engRender()
 {
+	//SDL_RenderSetViewport(renderer, &viewport);
+	//SDL_RenderSetScale(renderer, 1.2, 1.2);
 	SDL_RenderPresent(renderer);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
 	SDL_RenderClear(renderer);

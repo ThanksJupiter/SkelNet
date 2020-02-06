@@ -12,7 +12,6 @@ const float PI = 3.14f;
 static int currentFrameNum = 1;
 static float spriteRenderScale = 1.0f;
 
-
 void engInit();
 void engClose();
 void engRender();
