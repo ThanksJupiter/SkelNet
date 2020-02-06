@@ -37,7 +37,7 @@ void SNWorld::Setup()
 	SNSprite* trailSprite = new SNSprite(32, 32, nullptr, 0);
 	trailSprite->texture = engLoadTexture("SN_Skel_Walk-Sheet.png");
 	trail->Setup({ 70,70 }, 5, 10, 10, 5, *trailSprite);
-	mainCamera.transform.SetPosition({ 0, 300 });
+	mainCamera.transform.SetPosition({ 0, -worldSize.y / 2 });
 	mainCamera.transform.SetScale(worldSize);
 
 	client.world = this;

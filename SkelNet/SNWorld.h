@@ -99,6 +99,7 @@ public:
 	bool waitingToStart = true;
 	bool gameEnded = false;
 	float slowmotionDivider = 2.f;
+	float cameraTargetPosY = 300.f;
 
 	float spawnDistanceX = 150.0f;
 	float spawnDistanceY = -300.0f;

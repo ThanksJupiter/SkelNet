@@ -340,6 +340,10 @@ int main()
 			//countdown to start game
 			if (startCountDown <= 3.0f)
 			{
+				float currentCamY = world.mainCamera.transform.GetPosition().y;
+				float stepDistance = currentCamY + deltaTime * (world.cameraTargetPosY - currentCamY);
+				world.mainCamera.transform.SetPosition({ world.mainCamera.transform.GetPosition().x , stepDistance });
+
 				startCountDown += deltaTime;
 				world.autonomousProxy.inputEnabled = false;
 				if (!chainSoundStarted)
@@ -368,17 +372,17 @@ int main()
 			}
 			SDL_Delay(.5f);
 		}
-}
+	}
 
-if (world.isServer)
-{
-	world.server.Close();
-}
-else
-{
-	world.client.Close();
-}
+	if (world.isServer)
+	{
+		world.server.Close();
+	}
+	else
+	{
+		world.client.Close();
+	}
 
-engClose();
-return 0;
+	engClose();
+	return 0;
 }
