@@ -14,6 +14,7 @@
 #include "SNFSMAPJumpSquatState.h"
 #include "SNFSMAPLandState.h"
 #include "SNFSMAPDeathState.h"
+#include "SNFSMAPJumpAscendState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -22,8 +23,8 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	anchor.SetAbsolutePosition(initPos);
 	canvas.Setup({ -100, -100 }, { transform.GetPosition().x - 50.f, transform.GetPosition().y }, &anchor);
 
-	//stateText = canvas.CreateText({ 250, 200 }, "100%", 1.0f, nullptr, { -50, 0 });
-	//spStateText = canvas.CreateText({ 250, 300 }, "100%", 1.0f, nullptr, { -50, 0 });
+	stateText = canvas.CreateText({ 250, 200 }, "100%", 1.0f, nullptr, { -50, 0 });
+	spStateText = canvas.CreateText({ 250, 300 }, "100%", 1.0f, nullptr, { -50, 0 });
 	//velocityText = canvas.CreateText({ 350, 350 }, "100%", 1.0f, nullptr, { -50, 0 });
 
 	animator = new SNAnimator();
@@ -72,9 +73,9 @@ void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
 	}
 
 	//engDrawString({100, 20}, )
-	//stateText->UpdateText(stateMachine->currentState->stateName);
+	stateText->UpdateText(stateMachine->currentState->stateName);
 	engSetTextColor(0, 255, 0);
-	//spStateText->UpdateText(world->simulatedProxy.stateMachine->currentState->stateName);
+	spStateText->UpdateText(world->simulatedProxy.stateMachine->currentState->stateName);
 	engSetTextColor(255, 255, 255);
 	//velocityText->UpdateText(transform.GetVelocity().y);
 
@@ -129,21 +130,23 @@ void SNAutonomousProxy::ForcesTimeIntegration(float dt)
 	transform.SetPreviousPosition(transform.GetPosition());
 
 	transform.SetVelocity(transform.GetVelocity() + transform.GetAcceleration() * dt);
+	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
 
-	// drag 
-	if (abs(transform.GetVelocity().x) > 60.0f)
+	if (!IsGrounded())
 	{
 		transform.SetVelocity(transform.GetVelocity() * (1 - dt * drag));
 	}
 	else
 	{
-		transform.SetVelocity({ 0.0f, transform.GetVelocity().y });
-	}
+		if (abs(transform.GetVelocity().x) > 60.0f)
+		{
+			transform.SetVelocity(transform.GetVelocity() * (1 - dt * drag));
+		}
+		else
+		{
+			transform.SetVelocity({ 0.0f, transform.GetVelocity().y });
+		}
 
-	transform.SetPosition(transform.GetPosition() + transform.GetVelocity() * dt);
-
-	if (IsGrounded())
-	{
 		transform.SetPosition({ transform.GetPosition().x, world->worldFloor.transform.GetPosition().y });
 		transform.SetVelocity({ transform.GetVelocity().x, 0 });
 	}
@@ -233,7 +236,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[WALK_STATE] = new SNFSMAPWalkState("Walk");
 	fsmData->availableStates[RUN_STATE] = new SNFSMAPRunState("Run");
 	fsmData->availableStates[ATTACK_STATE] = new SNFSMAPAttackState("Attack");
-	fsmData->availableStates[JUMP_STATE] = new SNFSMAPJumpState("Jump");
+	fsmData->availableStates[JUMP_START_STATE] = new SNFSMAPJumpStartState("JumpStart");
 	fsmData->availableStates[KNOCKBACK_STATE] = new SNFSMAPKnockbackState("Knockback");
 	fsmData->availableStates[FALL_STATE] = new SNFSMAPFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMAPKnockedDownState("KnockedDown");
@@ -242,6 +245,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMAPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMAPLandState("Land");
 	fsmData->availableStates[DEATH_STATE] = new SNFSMAPDeathState("Death");
+	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMAPJumpAscendState("JumpAscend");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

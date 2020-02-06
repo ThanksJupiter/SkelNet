@@ -41,6 +41,9 @@ public:
 	SNAnimation* apAttackAnim;
 	SNAnimation* walkAnim;
 	SNAnimation* jumpAnim;
+	SNAnimation* jumpSquatAnim;
+	SNAnimation* somersaultAnim;
+	SNAnimation* vortexDustAnim;
 	SNAnimation* knockbackAnim;
 	SNAnimation* dashDustAnim;
 	SNAnimation* runDustAnim;

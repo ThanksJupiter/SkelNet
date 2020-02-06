@@ -2,10 +2,10 @@
 
 #include "SNFSMState.h"
 
-class SNFSMSPJumpState : public SNFSMState
+class SNFSMSPJumpStartState : public SNFSMState
 {
 public:
-	SNFSMSPJumpState(const char* inName) : SNFSMState(inName) {}
+	SNFSMSPJumpStartState(const char* inName) : SNFSMState(inName) {}
 
 	void Enter(SNFSMData* fsmData);
 	void Update(float dt, SNFSMData* fsmData);
