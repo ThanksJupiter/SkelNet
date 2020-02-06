@@ -84,6 +84,10 @@ public:
 	SNUIElement* simProxyNameText;
 	SNUIElement* simProxyPortrait;
 
+	SNUIElement* rematchButton;
+	SNUIElement* rematchText;
+	SNUIElement* opponentWantsRematchText;
+
 	bool doStartup;
 	bool isServer;
 
