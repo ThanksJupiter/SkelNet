@@ -137,7 +137,7 @@ void StartGame()
 
 void RestartGame()
 {
-	world.RestartGameEvent();
+	world.RespawnPlayerEvent();
 }
 
 void EnableIPTextInput()

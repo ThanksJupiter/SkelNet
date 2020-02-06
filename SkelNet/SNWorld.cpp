@@ -38,7 +38,7 @@ void SNWorld::Setup()
 	// EVENTS
 	eventHandler.world = this;
 	eventHandler.CreateEvent(&SNWorld::StartGameEvent, START_GAME_EVENT);
-	eventHandler.CreateEvent(&SNWorld::RestartGameEvent, RESTART_GAME_EVENT);
+	eventHandler.CreateEvent(&SNWorld::RespawnPlayerEvent, RESPAWN_PLAYER_EVENT);
 	eventHandler.CreateEvent(&SNWorld::GameEndedEvent, END_GAME_EVENT);
 	eventHandler.CreateEvent(&SNWorld::RematchEvent, REMATCH_EVENT);
 }
@@ -57,7 +57,7 @@ void SNWorld::Update(float dt)
 	{
 		respawnTimerActive = false;
 		respawnTimer = 0.0f;
-		RestartGameEvent();
+		RespawnPlayerEvent();
 	}
 
 	Vector2 avgVector;
@@ -414,14 +414,14 @@ void SNWorld::StartGameEvent()
 	printf("Game Started!\n");
 }
 
-void SNWorld::RestartGameEvent()
+void SNWorld::RespawnPlayerEvent()
 {
 	if (HasAuthority())
 	{
 		// Send Reset Game Event
 		SNEventPacket eventPacket;
 		eventPacket.flag = EVENT_FLAG;
-		eventPacket.eventFlag = RESTART_GAME_EVENT;
+		eventPacket.eventFlag = RESPAWN_PLAYER_EVENT;
 		server.SendData(&eventPacket);
 	}
 
@@ -439,6 +439,7 @@ void SNWorld::RestartGameEvent()
 		else
 		{
 			//Todo: restart game
+			GameEndedEvent();
 			printf("autonimus proximilian wonned! :D\n");
 		}
 	}
@@ -458,6 +459,7 @@ void SNWorld::RestartGameEvent()
 		}
 		else
 		{
+			GameEndedEvent();
 			printf("simulensis proximilian wonned! :D\n");
 		}
 	}
@@ -486,8 +488,17 @@ void SNWorld::RematchEvent()
 	}
 	else
 	{
-		RestartGameEvent();
+		RespawnPlayerEvent();
 	}
+}
+
+void SNWorld::RestartGame()
+{
+	//StartGameEvent();
+	//SpawnAutonomousProxy(*this);
+	//SpawnSimulatedProxy(*this);
+
+	printf("Game restarted!\n");
 }
 
 void SNWorld::GameEndedEvent()

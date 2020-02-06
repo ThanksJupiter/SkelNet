@@ -2,7 +2,7 @@
 #include "SDL_stdinc.h"
 #include "SNEvent.h"
 
-#define RESTART_GAME_EVENT 1
+#define RESPAWN_PLAYER_EVENT 1
 #define START_GAME_EVENT 2
 #define END_GAME_EVENT 3
 #define PLAYER_DIED_EVENT 4

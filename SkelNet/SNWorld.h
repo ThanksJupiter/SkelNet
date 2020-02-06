@@ -117,8 +117,9 @@ public:
 	bool respawnTimerActive = false;
 
 	void StartGameEvent();
-	void RestartGameEvent();
+	void RespawnPlayerEvent();
 	void RematchEvent();
+	void RestartGame();
 	bool opponentWantsRematch = false;
 	void GameEndedEvent();
 };
