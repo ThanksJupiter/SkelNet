@@ -91,11 +91,14 @@ public:
 	SNUIElement* rematchButton;
 	SNUIElement* rematchText;
 	SNUIElement* opponentWantsRematchText;
+	SNUIElement* winnerText;
 
 	bool doStartup;
 	bool isServer;
 
 	bool waitingToStart = true;
+	bool gameEnded = false;
+	float slowmotionDivider = 2.f;
 
 	float spawnDistanceX = 150.0f;
 	float spawnDistanceY = -300.0f;
