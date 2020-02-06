@@ -19,6 +19,7 @@ void SNAudioManager::InitSounds()
 
 	if (!(punch = Mix_LoadWAV(punchPath)))
 	{
+		punch->volume = 75;
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 
@@ -56,6 +57,16 @@ void SNAudioManager::InitSounds()
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
+
+	if (!(platformLand = Mix_LoadWAV(platformLandPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+
+	if (!(chainSound = Mix_LoadWAV(chainPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
@@ -63,6 +74,19 @@ void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
 	if (Mix_PlayChannel(-1, chunk, 0) == -1)
 		printf("Mix_PlayChannel: %s\n", Mix_GetError());
 }
+
+void SNAudioManager::LoopChunk(Mix_Chunk* chunk)
+{
+	if (Mix_PlayChannel(-2, chunk, 0) == -1)
+		printf("Mix_LoopChunk: %s\n", Mix_GetError());
+}
+
+void SNAudioManager::StopLoopigChunk(Mix_Chunk* chunk)
+{
+	if (Mix_HaltChannel(-2) == -1)
+		printf("Mix_StopLoopigChunk: %s\n", Mix_GetError());
+}
+
 
 void SNAudioManager::PlayMusicLoop(Mix_Music* song)
 {
