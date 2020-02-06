@@ -11,6 +11,14 @@
 #include "SNFloor.h"
 #include "SNFiniteStateMachine.h"
 
+SNUIElement* rematchButton;
+SNUIElement* rematchText;
+
+void SetupUI()
+{
+
+}
+
 void SNWorld::PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration, bool inFlipped, float inScale, float inRot)
 {
 	particleSystem->StartParticleEffect(inPos, &inAnim, inDuration, inFlipped, inScale, inRot);

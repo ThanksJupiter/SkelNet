@@ -23,8 +23,8 @@ SDL_Window* window;
 SDL_Surface* image;
 SDL_Texture* texture;
 
-const int WINDOW_WIDTH = 1080;
-const int WINDOW_HEIGHT = 500;
+const int WINDOW_WIDTH = 1920;
+const int WINDOW_HEIGHT = 1080;
 
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
