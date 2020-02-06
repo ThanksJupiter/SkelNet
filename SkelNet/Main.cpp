@@ -163,7 +163,7 @@ void SetupMainMenuUI()
 
 	//Start game butt on
 	{
-		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 100 }, { 200,40.f }, true, StartGame);
+		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 250 }, { 200,40.f }, true, StartGame);
 		startGameButton->drawRect = true;
 		startGameButton->hidden = true;
 
@@ -174,19 +174,19 @@ void SetupMainMenuUI()
 
 	waitingForPlayersText = canvas.CreateText({ world.worldSize.x / 2 - 175 ,0 }, "Waiting For Players");
 
-	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 165, (world.worldSize.y / 2) + 100 }, { 80.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 100 }, { 85.f,35.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 190, (world.worldSize.y / 2) + 350 }, { 100.f,45.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 350 }, { 100.f,45.f }, true, SetupClient);
 
-	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableIPTextInput);
-	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 100.f }, { 200.f,40.f }, true, EnableNameTextInput);
+	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 150 }, { 200.f,40.f }, true, EnableIPTextInput);
+	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 220 }, { 200.f,40.f }, true, EnableNameTextInput);
 
 	hostButton->drawRect = true;
 	joinButton->drawRect = true;
 	ipTextInputButton->drawRect = true;
 	nameTextInputButton->drawRect = true;
 
-	hostText = canvas.CreateText({ 0,0 }, "Host", 1.0f, &hostButton->anchor);
-	joinText = canvas.CreateText({ 0,0 }, "Join", 1.0f, &joinButton->anchor);
+	hostText = canvas.CreateText({ 10, 8 }, "Host", 1.0f, &hostButton->anchor);
+	joinText = canvas.CreateText({ 10, 8 }, "Join", 1.0f, &joinButton->anchor);
 	ipInputField = canvas.CreateText({ 0,0 }, "127.0.0.1", 1.0f, &ipTextInputButton->anchor);
 	nameInputField = canvas.CreateText({ 0,0 }, "Enter Name", 1.0f, &nameTextInputButton->anchor);
 
