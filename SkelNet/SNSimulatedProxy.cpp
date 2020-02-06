@@ -21,6 +21,7 @@
 #include "SNFSMSPLandState.h"
 #include "SNFSMSPDeathState.h"
 #include "SNFSMSPJumpAscendState.h"
+#include "SNFSMSPSmokeState.h"
 
 void SNSimulatedProxy::DoAttack()
 {
@@ -218,11 +219,12 @@ void SNSimulatedProxy::InitializeFSM()
 	fsmData->availableStates[FALL_STATE] = new SNFSMSPFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMSPKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMSPTurnAroundState("Turn");
-	fsmData->availableStates[TAUNT_STATE] = new SNFSMSPTauntState("Taunt");
+	fsmData->availableStates[TEABAG_STATE] = new SNFSMSPTauntState("Teabag");
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMSPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMSPLandState("Land");
 	fsmData->availableStates[DEATH_STATE] = new SNFSMSPDeathState("Death");
 	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMSPJumpAscendState("JumpAscend");
+	fsmData->availableStates[SMOKE_STATE] = new SNFSMSPSmokeState("Smoke");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

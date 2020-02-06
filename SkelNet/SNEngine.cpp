@@ -109,6 +109,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData dustCloud01Sheet = SpritesheetData("SN_Skel_Dust_Cloud-Sheet.png", 9, 16, 16);
 	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Stop_02-Sheet.png", 4, 32, 32);
 	SpritesheetData teabagSheet = SpritesheetData("SN_Skel_T-Bag-Sheet.png", 6, 32, 32);
+	SpritesheetData smokeSheet = SpritesheetData("SN_Skel_Taunt_02-Sheet.png", 20, 64, 64);
 	SpritesheetData deathShockwaveSheet = SpritesheetData("SN_Death_Effect_Shockwave_01-Sheet.png", 7, 128, 128);
 	SpritesheetData hitEffect01Sheet = SpritesheetData("SN_Hit_Effect_01-Sheet.png", 2, 32, 32);
 	SpritesheetData countDownSheet = SpritesheetData("SN_Game_Start_Countdown-Sheet.png", 4, 64, 32);
@@ -132,6 +133,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* dustCloud01Sprites[9];
 	SNSprite* turnAroundSprites[4];
 	SNSprite* teabagSprites[6];
+	SNSprite* smokeSprites[20];
 	SNSprite* deathShockwaveSprites[7];
 	SNSprite* hitEffect01Sprites[2];
 	SNSprite* countDownSprites[4];
@@ -156,6 +158,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.dustCloud01Anim = dustCloud01Sheet.CreateAnimation(dustCloud01Sprites, .1);
 	world.turnAroundAnim = turnAroundsheet.CreateAnimation(turnAroundSprites, .15);
 	world.teabagAnim = teabagSheet.CreateAnimation(teabagSprites, .25);
+	world.smokeAnim = smokeSheet.CreateAnimation(smokeSprites, .15);
 	world.deathShockwave = deathShockwaveSheet.CreateAnimation(deathShockwaveSprites, .1);
 	world.hitEffect01 = hitEffect01Sheet.CreateAnimation(hitEffect01Sprites, .05);
 	world.laughSkelAnim = laughSkelSheet.CreateAnimation(laughSkelSprites, .1);

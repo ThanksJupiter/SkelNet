@@ -8,6 +8,9 @@
 void SNFSMAPIdleState::Enter(SNFSMData* fsmData)
 {
 	fsmData->autonomousProxy->animator->SetCurrentAnimation(fsmData->world->idleAnim);
+
+	fsmData->autonomousProxy->transform.SetAcceleration({ 0, 0 });
+	fsmData->autonomousProxy->transform.SetVelocity({ 0, 0 });
 }
 
 void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
@@ -39,9 +42,15 @@ void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
-	if (input->taunt)
+	if (input->downTaunt)
 	{
-		autoProxy->EnterState(TAUNT_STATE);
+		autoProxy->EnterState(TEABAG_STATE);
+		return;
+	}
+
+	if (input->upTaunt)
+	{
+		autoProxy->EnterState(SMOKE_STATE);
 		return;
 	}
 

@@ -32,9 +32,6 @@
     <ClCompile Include="SNFSMSPWalkState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
-    <ClCompile Include="SNFSMAPTauntState.cpp">
-      <Filter>StateMachine\APStates</Filter>
-    </ClCompile>
     <ClCompile Include="SNFSMSPAttackState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
@@ -117,6 +114,15 @@
     <ClCompile Include="SNFSMSPJumpAscendState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPTeabagState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMAPSmokeState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPSmokeState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -159,9 +165,6 @@
     </ClInclude>
     <ClInclude Include="SNFSMSPWalkState.h">
       <Filter>StateMachine\SPStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMAPTauntState.h">
-      <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMSPAttackState.h">
       <Filter>StateMachine\SPStates</Filter>
@@ -243,6 +246,15 @@
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMSPJumpAscendState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPTeabagState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPSmokeState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPSmokeState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
   </ItemGroup>

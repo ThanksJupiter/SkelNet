@@ -13,7 +13,8 @@ void SNInput::SetInput()
 
 	attack = engGetKeyDown(Key::X) || engGetButtonDown(GamepadButton::X);
 
-	taunt = engGetKeyDown(Key::T) || engGetDPadButtonDown(DPadButton::Down);
+	downTaunt = engGetKeyDown(Key::T) || engGetDPadButtonDown(DPadButton::Down);
+	upTaunt = engGetKeyDown(Key::R) || engGetDPadButtonDown(DPadButton::Up);
 
 	restart = engGetButtonDown(GamepadButton::Start) || engGetKeyDown(Key::U);
 }
