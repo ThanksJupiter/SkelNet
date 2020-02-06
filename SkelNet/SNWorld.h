@@ -66,6 +66,7 @@ public:
 	void PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration, bool inFlipped, float inScale, float inRot);
 
 	SNSprite* levelSprite;
+	SNSprite* ropeSprite;
 	SNSprite* skelNetSprite;
 	SNFloor worldFloor;
 

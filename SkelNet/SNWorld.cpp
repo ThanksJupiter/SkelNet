@@ -232,6 +232,18 @@ void SNWorld::Draw(float dt)
 
 	worldFloor.Draw();
 
+	Vector2 ropePos = mainCamera.MakePositionWithCam(worldFloor.transform.GetPosition());
+
+	SDL_Rect dstRect = 
+	{ 
+		ropePos.x,
+		ropePos.y - 234 * 3,
+		ropeSprite->width * 3,
+		ropeSprite->height * 3
+	};
+
+	engDrawSprite(ropeSprite->sheetSourceRect, dstRect, ropeSprite->texture);
+
 	trail->Draw(&mainCamera);
 
 	/* Draw Health Frames */
