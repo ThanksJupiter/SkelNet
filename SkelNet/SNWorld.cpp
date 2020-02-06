@@ -296,10 +296,10 @@ void SNWorld::SetupUI()
 {
 	worldCanvas.Setup(worldSize, { 0, 0 });
 
-	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 300 }, { 150,40.f }, true, REMATCH);
-	rematchText = worldCanvas.CreateText({ 0,0 }, "Rematch", 1.0f, &rematchButton->anchor);
+	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 380 }, { 150,45.f }, true, REMATCH);
+	rematchText = worldCanvas.CreateText({ 5,8 }, "Rematch", 1.0f, &rematchButton->anchor);
 
-	opponentWantsRematchText = worldCanvas.CreateText({ 0, 50 }, "Opponent Wants Rematch!", 1.0f, &rematchButton->anchor);
+	opponentWantsRematchText = worldCanvas.CreateText({ 45, 50 }, "Opponent Wants Rematch!", 1.0f, &rematchButton->anchor);
 	opponentWantsRematchText->SetRelativePosition({ -opponentWantsRematchText->size.x / 2, 0 });
 	opponentWantsRematchText->hidden = true;
 
