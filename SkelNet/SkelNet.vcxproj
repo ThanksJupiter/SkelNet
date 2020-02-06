@@ -142,6 +142,7 @@
     <ClCompile Include="SNEventHandler.cpp" />
     <ClCompile Include="SNFSMAPCrouchState.cpp" />
     <ClCompile Include="SNFSMAPDeathState.cpp" />
+    <ClCompile Include="SNFSMAPJumpAscendState.cpp" />
     <ClCompile Include="SNFSMAPJumpSquatState.cpp" />
     <ClCompile Include="SNFSMAPLandState.cpp" />
     <ClCompile Include="SNFSMAPTauntState.cpp" />
@@ -151,8 +152,9 @@
     <ClCompile Include="SNFSMSPDeathState.cpp" />
     <ClCompile Include="SNFSMSPFallState.cpp" />
     <ClCompile Include="SNFSMSPIdleState.cpp" />
+    <ClCompile Include="SNFSMSPJumpAscendState.cpp" />
     <ClCompile Include="SNFSMSPJumpSquatState.cpp" />
-    <ClCompile Include="SNFSMSPJumpState.cpp" />
+    <ClCompile Include="SNFSMSPJumpStartState.cpp" />
     <ClCompile Include="SNFSMSPKnockbackState.cpp" />
     <ClCompile Include="SNFSMSPKnockedDownState.cpp" />
     <ClCompile Include="SNFSMSPLandState.cpp" />
@@ -166,7 +168,7 @@
     <ClCompile Include="SNFiniteStateMachine.cpp" />
     <ClCompile Include="SNFSMAPAttackState.cpp" />
     <ClCompile Include="SNFSMAPIdleState.cpp" />
-    <ClCompile Include="SNFSMAPJumpState.cpp" />
+    <ClCompile Include="SNFSMAPJumpStartState.cpp" />
     <ClCompile Include="SNFSMAPKnockbackState.cpp" />
     <ClCompile Include="SNFSMAPRunState.cpp" />
     <ClCompile Include="SNFSMAPWalkState.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="SNEventHandler.h" />
     <ClInclude Include="SNFSMAPCrouchState.h" />
     <ClInclude Include="SNFSMAPDeathState.h" />
+    <ClInclude Include="SNFSMAPJumpAscendState.h" />
     <ClInclude Include="SNFSMAPJumpSquatState.h" />
     <ClInclude Include="SNFSMAPLandState.h" />
     <ClInclude Include="SNFSMAPTauntState.h" />
@@ -208,8 +211,9 @@
     <ClInclude Include="SNFSMSPDeathState.h" />
     <ClInclude Include="SNFSMSPFallState.h" />
     <ClInclude Include="SNFSMSPIdleState.h" />
+    <ClInclude Include="SNFSMSPJumpAscendState.h" />
     <ClInclude Include="SNFSMSPJumpSquatState.h" />
-    <ClInclude Include="SNFSMSPJumpState.h" />
+    <ClInclude Include="SNFSMSPJumpStartState.h" />
     <ClInclude Include="SNFSMSPKnockbackState.h" />
     <ClInclude Include="SNFSMSPKnockedDownState.h" />
     <ClInclude Include="SNFSMSPLandState.h" />
@@ -226,7 +230,7 @@
     <ClInclude Include="SNFSMAPAttackState.h" />
     <ClInclude Include="SNFSMData.h" />
     <ClInclude Include="SNFSMAPIdleState.h" />
-    <ClInclude Include="SNFSMAPJumpState.h" />
+    <ClInclude Include="SNFSMAPJumpStartState.h" />
     <ClInclude Include="SNFSMAPKnockbackState.h" />
     <ClInclude Include="SNFSMAPRunState.h" />
     <ClInclude Include="SNFSMState.h" />

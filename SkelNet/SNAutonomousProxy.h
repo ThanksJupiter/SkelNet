@@ -72,7 +72,7 @@ public:
 	float gravityMult = 20;
 	float fallGravityMult = 60;
 	float fastFallGravityMult = 35;
-	float airControlMult = .6f;
+	float airControlMult = .8f;
 	
 	float minFlyBack = 200.f;
 	Vector2 flyBackDirection;

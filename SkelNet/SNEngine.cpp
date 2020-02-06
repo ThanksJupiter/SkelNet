@@ -95,7 +95,10 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData walkSheet = SpritesheetData("SN_Skel_Walk-Sheet.png", 4, 32, 32);
 	SpritesheetData runSheet = SpritesheetData("SN_Skel_Run-Sheet.png", 6, 32, 32);
 	SpritesheetData attackSheet = SpritesheetData("SN_Skel_Attack-Sheet.png", 12, 100, 30);
-	SpritesheetData jumpSheet = SpritesheetData("SN_Skel_Jump-Sheet.png", 3, 32, 32);
+	SpritesheetData jumpSheet = SpritesheetData("SN_Skel_Jump_02-Sheet.png", 3, 32, 32);
+	SpritesheetData jumpSquatSheet = SpritesheetData("SN_Skel_Jump_Squat-Sheet.png", 2, 32, 32);
+	SpritesheetData somersaultSheet = SpritesheetData("SN_Skel_Somersault-Sheet.png", 4, 32, 32);
+	SpritesheetData vortexDustSheet = SpritesheetData("SN_Skel_Somersault_Vortex-Sheet.png", 4, 32, 32);
 	SpritesheetData knockbackSheet = SpritesheetData("SN_Skel_Knockback.png", 1, 32, 32);
 	SpritesheetData dashDustSheet = SpritesheetData("SN_SKel_Dash_Dust-Sheet.png", 8, 32, 32);
 	SpritesheetData runDustSheet = SpritesheetData("SN_SKel_Run_Dust-Sheet.png", 8, 32, 32);
@@ -116,6 +119,9 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* runSprites[6];
 	SNSprite* attackSprites[12];
 	SNSprite* jumpSprites[3];
+	SNSprite* jumpSquatSprites[2];
+	SNSprite* somersaultSprites[4];
+	SNSprite* vortexDustSprites[5];
 	SNSprite* knockbackSprites[1];
 	SNSprite* dashDustSprites[8];
 	SNSprite* runDustSprites[8];
@@ -136,7 +142,10 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.runAnim = runSheet.CreateAnimation(runSprites, .1);
 	world.spAttackAnim = attackSheet.CreateAnimation(attackSprites, .12);
 	world.apAttackAnim = attackSheet.CreateAnimation(attackSprites, .12);
-	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, 1);
+	world.jumpAnim = jumpSheet.CreateAnimation(jumpSprites, .15);
+	world.jumpSquatAnim = jumpSquatSheet.CreateAnimation(jumpSquatSprites, .06);
+	world.somersaultAnim = somersaultSheet.CreateAnimation(somersaultSprites, .08);
+	world.vortexDustAnim = vortexDustSheet.CreateAnimation(vortexDustSprites, .1);
 	world.knockbackAnim = knockbackSheet.CreateAnimation(knockbackSprites, 1);
 	world.dashDustAnim = dashDustSheet.CreateAnimation(dashDustSprites, .05);
 	world.runDustAnim = runDustSheet.CreateAnimation(runDustSprites, .05);
