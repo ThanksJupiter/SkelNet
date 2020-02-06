@@ -75,16 +75,46 @@ void SNWorld::Update(float dt)
 		RespawnPlayerEvent();
 	}
 
-	Vector2 avgVector;
-	avgVector = simulatedProxy.transform.GetPosition() + autonomousProxy.transform.GetPosition();
-	avgVector = -avgVector * 0.5f;
-	avgVector.y = mainCamera.transform.GetPosition().y;
-
-	if (avgVector.x + (mainCamera.transform.GetScale().x / 2) < deathDistance.x &&
-		avgVector.x - (mainCamera.transform.GetScale().x / 2) > -deathDistance.x)
+	if (gameEnded)
 	{
-		mainCamera.transform.SetPosition(avgVector);
+		float currentCamZoom = engGetRenderScale();
+		if (cameraTargetZoomWin - currentCamZoom >= 0.5f)
+		{
+			float zoomStep = currentCamZoom + dt * (cameraTargetZoomWin - currentCamZoom);
+			engSetRenderScale(zoomStep);
+		}
+
+		if (winnerTransform != nullptr)
+		{
+			Vector2 currentCamPos = mainCamera.transform.GetPosition();
+			Vector2 targetPos = winnerTransform->GetPosition();
+			targetPos.y -= 70.f;
+
+			Vector2 diffVector = (targetPos - currentCamPos);
+
+			float diff = std::sqrt(diffVector.x * diffVector.x + diffVector.y * diffVector.y);
+			if (std::abs(diff) >= 50.f)
+			{
+				Vector2 stepPos = currentCamPos * dt - targetPos * (1 - dt);
+				mainCamera.transform.SetPosition(stepPos * engGetRenderScale());
+			}
+		}
 	}
+	else
+	{
+		Vector2 avgVector;
+		avgVector = simulatedProxy.transform.GetPosition() + autonomousProxy.transform.GetPosition();
+		avgVector = -avgVector * 0.5f;
+		avgVector.y = mainCamera.transform.GetPosition().y;
+
+		if (avgVector.x + (mainCamera.transform.GetScale().x / 2) < deathDistance.x &&
+			avgVector.x - (mainCamera.transform.GetScale().x / 2) > -deathDistance.x)
+		{
+			mainCamera.transform.SetPosition(avgVector);
+		}
+	}
+
+
 
 	if (engGetKey(Key::I))
 	{
@@ -190,7 +220,7 @@ void SNWorld::Draw(float dt)
 		dt /= slowmotionDivider;
 	}
 
-	engSetSpriteRenderScale(mainCamera.camScale);
+	//engSetSpriteRenderScale(mainCamera.camScale);
 
 	simulatedProxy.Draw(dt, &mainCamera);
 	autonomousProxy.Draw(dt, &mainCamera);
@@ -209,6 +239,19 @@ void SNWorld::Draw(float dt)
 	worldCanvas.Draw();
 	worldCanvas.CheckInteraction();
 
+	/*if (gameEnded)
+	{
+		float currentCamZoom = engGetRenderScale();
+		float zoomStep = currentCamZoom + dt * (cameraTargetZoomWin - currentCamZoom);
+		engSetRenderScale(zoomStep);
+
+		if (winnerTransform != nullptr)
+		{
+			Vector2 currentCamPos = mainCamera.transform.GetPosition();
+			Vector2 stepPos = currentCamPos * dt + winnerTransform->GetPosition() * (1 - dt);
+			mainCamera.transform.SetPosition(stepPos);
+		}
+	}*/
 
 	/* DEBUG */
 	for (int i = 0; i < numHitboxes; ++i)
@@ -254,7 +297,7 @@ void SNWorld::SetupUI()
 
 	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 300 }, { 150,40.f }, true, REMATCH);
 	rematchText = worldCanvas.CreateText({ 0,0 }, "Rematch", 1.0f, &rematchButton->anchor);
-	
+
 	opponentWantsRematchText = worldCanvas.CreateText({ 0, 50 }, "Opponent Wants Rematch!", 1.0f, &rematchButton->anchor);
 	opponentWantsRematchText->SetRelativePosition({ -opponentWantsRematchText->size.x / 2, 0 });
 	opponentWantsRematchText->hidden = true;
@@ -284,7 +327,7 @@ void SNWorld::SetupUI()
 	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[0], &simProxyHealthFrame->anchor);
 	simProxyPortrait->world = this;
 
-	
+
 }
 
 void SNWorld::SetUIColors()
@@ -292,8 +335,8 @@ void SNWorld::SetUIColors()
 
 	if (HasAuthority())
 	{
-		autoProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
-		simProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
+		autoProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
+		simProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
 
 		autoProxyHealthFrame->anchor.UpdatePosition();
 		simProxyHealthFrame->anchor.UpdatePosition();
@@ -320,8 +363,8 @@ void SNWorld::SetUIColors()
 	}
 	else
 	{
-		autoProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
-		simProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
+		autoProxyHealthFrame->SetAnchorPosition({ 100.f, worldSize.y - 100.f });
+		simProxyHealthFrame->SetAnchorPosition({ worldSize.x - 300.f, worldSize.y - 100.f });
 
 		autoProxyHealthFrame->anchor.UpdatePosition();
 		simProxyHealthFrame->anchor.UpdatePosition();
@@ -359,12 +402,26 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 
 	if (HasAuthority())
 	{
+		autonomousProxy.transform.SetPosition({
+			autonomousProxy.transform.GetPosition().x + spawnDistanceX,
+			autonomousProxy.transform.GetPosition().y
+			});
+
+		autonomousProxy.transform.SetFacingRight(true);
+
 		autonomousProxy.animator->r = 155;
 		autonomousProxy.animator->g = 155;
 		autonomousProxy.animator->b = 255;
 	}
 	else
 	{
+		autonomousProxy.transform.SetPosition({
+			autonomousProxy.transform.GetPosition().x - spawnDistanceX,
+			autonomousProxy.transform.GetPosition().y
+			});
+
+		autonomousProxy.transform.SetFacingRight(false);
+
 		autonomousProxy.animator->r = 255;
 		autonomousProxy.animator->g = 155;
 		autonomousProxy.animator->b = 155;
@@ -379,14 +436,28 @@ void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 
 	simulatedProxy.Spawn(initPos, worldptr);
 
-	if (isServer)
+	if (HasAuthority())
 	{
+		simulatedProxy.transform.SetPosition({
+			simulatedProxy.transform.GetPosition().x - spawnDistanceX,
+			simulatedProxy.transform.GetPosition().y
+			});
+
+		simulatedProxy.transform.SetFacingRight(false);
+
 		simulatedProxy.animator->r = 255;
 		simulatedProxy.animator->g = 155;
 		simulatedProxy.animator->b = 155;
 	}
 	else
 	{
+		simulatedProxy.transform.SetPosition({
+			simulatedProxy.transform.GetPosition().x + spawnDistanceX,
+			simulatedProxy.transform.GetPosition().y
+			});
+
+		simulatedProxy.transform.SetFacingRight(true);
+
 		simulatedProxy.animator->r = 155;
 		simulatedProxy.animator->g = 155;
 		simulatedProxy.animator->b = 255;
@@ -472,7 +543,7 @@ void SNWorld::RespawnPlayerEvent()
 			nameWonString.append(" wins!");
 			winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
 			winnerText->UpdateText(nameWonString);
-
+			winnerTransform = &autonomousProxy.transform;
 
 			printf("autonimus proximilian wonned! :D\n");
 		}
@@ -495,6 +566,7 @@ void SNWorld::RespawnPlayerEvent()
 			nameWonString.append(" wins!");
 			winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
 			winnerText->UpdateText(nameWonString);
+			winnerTransform = &simulatedProxy.transform;
 
 			printf("simulensis proximilian wonned! :D\n");
 		}
@@ -553,7 +625,7 @@ void SNWorld::RestartGame()
 
 	opponentWantsRematch = false;
 	wantRematch = false;
-	
+
 	autoProxyHealthText->UpdateText("0%");
 	simProxyHealthText->UpdateText("0%");
 
@@ -565,7 +637,7 @@ void SNWorld::RestartGame()
 	rematchText->hidden = true;
 	opponentWantsRematchText->hidden = true;
 	winnerText->hidden = true;
-	
+
 }
 
 void SNWorld::GameEndedEvent()

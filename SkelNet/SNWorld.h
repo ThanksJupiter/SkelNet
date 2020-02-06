@@ -16,6 +16,7 @@
 
 class SNTrail;
 class SNParticleSystem;
+class SNTransform;
 
 class SNWorld
 {
@@ -100,6 +101,9 @@ public:
 	bool gameEnded = false;
 	float slowmotionDivider = 2.f;
 	float cameraTargetPosY = 300.f;
+	float cameraTargetZoomWin = 4.0f;
+	bool cameraFollowWinner = false;
+	SNTransform* winnerTransform = nullptr;
 
 	float spawnDistanceX = 150.0f;
 	float spawnDistanceY = -300.0f;
