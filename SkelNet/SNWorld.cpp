@@ -55,6 +55,11 @@ void SNWorld::Setup()
 
 void SNWorld::Update(float dt)
 {
+	if (gameEnded)
+	{
+		dt /= slowmotionDivider;
+	}
+
 	autonomousProxy.Update(dt);
 	simulatedProxy.Update(dt);
 
@@ -180,6 +185,11 @@ void SNWorld::Update(float dt)
 
 void SNWorld::Draw(float dt)
 {
+	if (gameEnded)
+	{
+		dt /= slowmotionDivider;
+	}
+
 	engSetSpriteRenderScale(mainCamera.camScale);
 
 	simulatedProxy.Draw(dt, &mainCamera);
@@ -531,6 +541,8 @@ void SNWorld::LocalRematchEvent()
 
 void SNWorld::RestartGame()
 {
+	gameEnded = false;
+
 	printf("Game restarted!\n");
 	autonomousProxy.Reset();
 	simulatedProxy.Reset();
@@ -553,6 +565,7 @@ void SNWorld::RestartGame()
 	rematchText->hidden = true;
 	opponentWantsRematchText->hidden = true;
 	winnerText->hidden = true;
+	
 }
 
 void SNWorld::GameEndedEvent()
@@ -567,6 +580,7 @@ void SNWorld::GameEndedEvent()
 	}
 
 	printf("Game Ended!\n");
+	gameEnded = true;
 
 	rematchButton->hidden = false;
 	rematchText->hidden = false;
