@@ -268,9 +268,8 @@ int main()
 			dstRect.w = world.skelNetSprite->width * 2;
 			dstRect.h = world.skelNetSprite->height * 2;
 
-			Vector2 pos = world.mainCamera.MakePositionWithCam({ (float)-dstRect.w / 2, (float)-dstRect.h });
-			dstRect.x = pos.x;
-			dstRect.y = pos.y;
+			dstRect.x = ((engGetWidth() / 2) - dstRect.w) / engGetRenderScale();
+			dstRect.y = ((engGetHeight() / 2) - dstRect.h) / engGetRenderScale();
 
 			engDrawSprite(world.skelNetSprite->sheetSourceRect, dstRect, world.skelNetSprite->texture);
 		}
