@@ -67,6 +67,7 @@ public:
 
 	SNSprite* levelSprite;
 	SNSprite* ropeSprite;
+	SNSprite* gameTextSprite;
 	SNSprite* skelNetSprite;
 	SNFloor worldFloor;
 
@@ -94,6 +95,7 @@ public:
 	SNUIElement* rematchText;
 	SNUIElement* opponentWantsRematchText;
 	SNUIElement* winnerText;
+	SNUIElement* gameText;
 
 	bool doStartup;
 	bool isServer;

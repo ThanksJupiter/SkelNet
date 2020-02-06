@@ -167,6 +167,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 
 	world.levelSprite = new SNSprite(256, 24, engLoadTexture("SN_Castle_Roof.png"), 0);
 	world.ropeSprite = new SNSprite(256, 256, engLoadTexture("SN_Castle_Roof_Double_Rope.png"), 0);
+	world.gameTextSprite = new SNSprite(64, 32, engLoadTexture("SN_Game_Finished_Text.png"), 0);
 	world.skelNetSprite = new SNSprite(256, 64, engLoadTexture("SN_Splash_Screen_Resize.png"), 0);
 
 	engSubscribeAnimationDelegates(world);

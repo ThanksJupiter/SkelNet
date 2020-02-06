@@ -221,8 +221,8 @@ void SNWorld::Draw(float dt)
 	if (gameEnded)
 	{
 		dt /= slowmotionDivider;
-	}
 
+	}
 	//engSetSpriteRenderScale(mainCamera.camScale);
 
 	simulatedProxy.Draw(dt, &mainCamera);
@@ -307,7 +307,7 @@ void SNWorld::SetupUI()
 	rematchButton->hidden = true;
 	rematchText->hidden = true;
 
-	winnerText = worldCanvas.CreateText({ worldSize.x / 2 , worldSize.y / 2 + 50.f }, "wins!", 3.0f);
+	winnerText = worldCanvas.CreateText({ worldSize.x / 2 , worldSize.y / 2 - 100.f }, "wins!", 3.0f);
 	winnerText->SetRelativePosition({ -winnerText->size.x / 2, 0 });
 	winnerText->hidden = true;
 
@@ -328,7 +328,14 @@ void SNWorld::SetupUI()
 	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[0], &simProxyHealthFrame->anchor);
 	simProxyPortrait->world = this;
 
+	Vector2 gameTextSize = worldSize / 2;
 
+	gameTextSize.x -= (gameTextSprite->width / 2) * 12;
+	gameTextSize.y -= (gameTextSprite->height / 2) * 12;
+	gameTextSize.y -= 250.0f;
+
+	gameText = worldCanvas.CreateImage(gameTextSize, { (float)gameTextSprite->width * 12, (float)gameTextSprite->height * 12 }, gameTextSprite);
+	gameText->hidden = true;
 }
 
 void SNWorld::SetUIColors()
@@ -634,7 +641,7 @@ void SNWorld::RestartGame()
 	rematchText->hidden = true;
 	opponentWantsRematchText->hidden = true;
 	winnerText->hidden = true;
-
+	gameText->hidden = true;
 }
 
 void SNWorld::GameEndedEvent()
@@ -652,4 +659,5 @@ void SNWorld::GameEndedEvent()
 
 	rematchButton->hidden = false;
 	rematchText->hidden = false;
+	gameText->hidden = false;
 }
