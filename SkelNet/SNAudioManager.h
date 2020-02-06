@@ -40,6 +40,6 @@ public:
 	void InitSounds();
 	void PlayChunkOnce(Mix_Chunk* chunk);
 	void LoopChunk(Mix_Chunk* chunk);
-	void StopLoopigChunk(Mix_Chunk* chunk);
+	void StopLoopigChunk();
 	void PlayMusicLoop(Mix_Music* song);
 };

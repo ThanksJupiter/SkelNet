@@ -29,6 +29,7 @@ bool gameStarted = false;
 SNCanvas canvas;
 
 float startCountDown;
+bool chainSoundStarted = false;
 
 #pragma region SetupUI
 
@@ -334,39 +335,47 @@ int main()
 			canvas.Draw();
 
 			//countdown to start game
-			if (startCountDown <= 0.1f)
+			if (startCountDown <= 3.1f)
 			{
 				startCountDown += deltaTime;
 				world.autonomousProxy.inputEnabled = false;
+				if (!chainSoundStarted)
+				{
+					chainSoundStarted = true;
+					world.audioManager->LoopChunk(world.audioManager->chainSound);
+				}
 			}
-			else
+			else if (chainSoundStarted == true)
 			{
+				chainSoundStarted = false;
+				world.audioManager->StopLoopigChunk();
+				world.audioManager->PlayChunkOnce(world.audioManager->platformLand);
 				world.autonomousProxy.inputEnabled = true;
 			}
 		}
 		else
 		{
-			if (engGetKeyDown(Key::S) || engGetButtonDown(GamepadButton::B))
-			{
-				SetupServer();
-			}
-			if (engGetKeyDown(Key::C))
-			{
-				SetupClient();
-			}
-			SDL_Delay(.5f);
+		if (engGetKeyDown(Key::S) || engGetButtonDown(GamepadButton::B))
+		{
+			SetupServer();
 		}
-	}
+		if (engGetKeyDown(Key::C))
+		{
+			SetupClient();
+		}
+		SDL_Delay(.5f);
+		}
+}
 
-	if (world.isServer)
-	{
-		world.server.Close();
-	}
-	else
-	{
-		world.client.Close();
-	}
+if (world.isServer)
+{
+	world.server.Close();
+}
+else
+{
+	world.client.Close();
+}
 
-	engClose();
-	return 0;
+engClose();
+return 0;
 }

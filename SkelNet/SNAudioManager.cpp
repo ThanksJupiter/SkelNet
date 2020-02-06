@@ -77,13 +77,13 @@ void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
 
 void SNAudioManager::LoopChunk(Mix_Chunk* chunk)
 {
-	if (Mix_PlayChannel(-2, chunk, 0) == -1)
+	if (Mix_PlayChannel(1, chunk, 0) == -1)
 		printf("Mix_LoopChunk: %s\n", Mix_GetError());
 }
 
-void SNAudioManager::StopLoopigChunk(Mix_Chunk* chunk)
+void SNAudioManager::StopLoopigChunk()
 {
-	if (Mix_HaltChannel(-2) == -1)
+	if (Mix_HaltChannel(1) == -1)
 		printf("Mix_StopLoopigChunk: %s\n", Mix_GetError());
 }
 
