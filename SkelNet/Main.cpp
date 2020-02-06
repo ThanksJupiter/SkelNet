@@ -137,7 +137,7 @@ void StartGame()
 
 void RestartGame()
 {
-	world.RestartGameEvent();
+	world.RespawnPlayerEvent();
 }
 
 void EnableIPTextInput()
@@ -162,7 +162,7 @@ void SetupMainMenuUI()
 
 	//Start game butt on
 	{
-		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, 400.f }, { 200,40.f }, true, StartGame);
+		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 100 }, { 200,40.f }, true, StartGame);
 		startGameButton->drawRect = true;
 		startGameButton->hidden = true;
 
@@ -173,8 +173,9 @@ void SetupMainMenuUI()
 
 	waitingForPlayersText = canvas.CreateText({ world.worldSize.x / 2 - 175 ,0 }, "Waiting For Players");
 
-	hostButton = canvas.CreateButton({ 400.f, 375.f }, { 80.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ 600.f, 375.f }, { 85.f,35.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 165, (world.worldSize.y / 2) + 100 }, { 80.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 100 }, { 85.f,35.f }, true, SetupClient);
+
 	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableIPTextInput);
 	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 100.f }, { 200.f,40.f }, true, EnableNameTextInput);
 
@@ -268,9 +269,8 @@ int main()
 			dstRect.w = world.skelNetSprite->width * 2;
 			dstRect.h = world.skelNetSprite->height * 2;
 
-			Vector2 pos = world.mainCamera.MakePositionWithCam({ (float)-dstRect.w / 2, (float)-dstRect.h });
-			dstRect.x = pos.x;
-			dstRect.y = pos.y;
+			dstRect.x = ((engGetWidth() / 2) - dstRect.w) / engGetRenderScale();
+			dstRect.y = ((engGetHeight() / 2) - dstRect.h) / engGetRenderScale();
 
 			engDrawSprite(world.skelNetSprite->sheetSourceRect, dstRect, world.skelNetSprite->texture);
 		}

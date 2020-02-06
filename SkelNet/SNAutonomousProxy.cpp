@@ -46,7 +46,7 @@ void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 	InitializeFSM();
 	flyBackDirection = { -1.f, -1.2f };
 
-	currentStocks = 10;
+	currentStocks = maxStocks;
 }
 
 void SNAutonomousProxy::Draw(float dt, SNCamera* cam)
@@ -380,7 +380,7 @@ void SNAutonomousProxy::CheckInput(float dt)
 {
 	if (playerInput->restart)
 	{
-		world->RestartGameEvent();
+		world->RespawnPlayerEvent();
 	}
 
 	if (inputEnabled)

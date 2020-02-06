@@ -53,7 +53,7 @@ void SNSimulatedProxy::Spawn(Vector2 initPos, SNWorld& world)
 	InitializeFSM();
 	flyBackDirection = { -1.f, -1.2f };
 
-	currentStocks = 10;
+	currentStocks = maxStocks;
 }
 
 void SNSimulatedProxy::Update(float dt)

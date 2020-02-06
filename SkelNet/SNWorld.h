@@ -12,6 +12,7 @@
 #include "SNCamera.h"
 #include "SNEvent.h"
 #include "SNEventHandler.h"
+#include "SNCanvas.h"
 
 class SNTrail;
 class SNParticleSystem;
@@ -86,6 +87,10 @@ public:
 	SNUIElement* simProxyNameText;
 	SNUIElement* simProxyPortrait;
 
+	SNUIElement* rematchButton;
+	SNUIElement* rematchText;
+	SNUIElement* opponentWantsRematchText;
+
 	bool doStartup;
 	bool isServer;
 
@@ -120,8 +125,11 @@ public:
 	bool respawnTimerActive = false;
 
 	void StartGameEvent();
-	void RestartGameEvent();
+	void RespawnPlayerEvent();
 	void RematchEvent();
+	void LocalRematchEvent();
+	void RestartGame();
 	bool opponentWantsRematch = false;
+	bool wantRematch = false;
 	void GameEndedEvent();
 };

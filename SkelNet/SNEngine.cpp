@@ -23,8 +23,8 @@ SDL_Window* window;
 SDL_Surface* image;
 SDL_Texture* texture;
 
-const int WINDOW_WIDTH = 1080;
-const int WINDOW_HEIGHT = 500;
+const int WINDOW_WIDTH = 1920;
+const int WINDOW_HEIGHT = 1080;
 
 SDL_Event event;
 const Uint8* state = SDL_GetKeyboardState(NULL);
@@ -198,6 +198,7 @@ void engClose()
 
 void engRender()
 {
+	SDL_RenderSetScale(renderer, renderScale, renderScale);
 	SDL_RenderPresent(renderer);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
 	SDL_RenderClear(renderer);
@@ -219,27 +220,21 @@ void engUpdate()
 			{
 				AxisState& state = axisStates[e.jaxis.axis];
 				state.value = (float)e.jaxis.value / 32767;
-			}
-
-			break;
+			} break;
 
 			case SDL_JOYBUTTONDOWN:
 			{
 				InputState& state = buttonStates[e.jbutton.button];
 				state.pressed = true;
 				state.frameNum = currentFrameNum;
-			}
-
-			break;
+			} break;
 
 			case SDL_JOYBUTTONUP:
 			{
 				InputState& state = buttonStates[e.jbutton.button];
 				state.pressed = false;
 				state.frameNum = currentFrameNum;
-			}
-
-			break;
+			} break;	
 
 			case SDL_JOYHATMOTION:
 			{
@@ -330,6 +325,16 @@ int engGetHeight()
 int engGetWidth()
 {
 	return WINDOW_WIDTH;
+}
+
+void engSetRenderScale(float newScale)
+{
+	renderScale = newScale;
+}
+
+float engGetRenderScale()
+{
+	return renderScale;
 }
 
 int engGetFrameNum()

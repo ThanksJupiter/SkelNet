@@ -62,6 +62,7 @@ public:
 	float timer = 0.0f;
 	float regainVulnerabilityDelay = 2.0f;
 	Uint8 currentStocks = 0;
+	Uint8 maxStocks = 3;
 
 	float accelerationSpeed = 270.0f;
 	float minVelocitySpeed = 50.0f;
