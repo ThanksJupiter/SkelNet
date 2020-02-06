@@ -335,7 +335,7 @@ int main()
 			canvas.Draw();
 
 			//countdown to start game
-			if (startCountDown <= 3.1f)
+			if (startCountDown <= 3.0f)
 			{
 				startCountDown += deltaTime;
 				world.autonomousProxy.inputEnabled = false;
