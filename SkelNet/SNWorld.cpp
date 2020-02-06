@@ -26,6 +26,8 @@ void SNWorld::PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration
 
 void SNWorld::Setup()
 {
+	engSetRenderScale(cameraDefaultZoom);
+
 	audioManager = new SNAudioManager;
 	audioManager->InitSounds();
 	//audioManager->PlayMusicLoop(audioManager->midnaLament); 
@@ -96,6 +98,7 @@ void SNWorld::Update(float dt)
 			if (std::abs(diff) >= 50.f)
 			{
 				Vector2 stepPos = currentCamPos * dt - targetPos * (1 - dt);
+
 				mainCamera.transform.SetPosition(stepPos * engGetRenderScale());
 			}
 		}
@@ -107,8 +110,8 @@ void SNWorld::Update(float dt)
 		avgVector = -avgVector * 0.5f;
 		avgVector.y = mainCamera.transform.GetPosition().y;
 
-		if (avgVector.x + (mainCamera.transform.GetScale().x / 2) < deathDistance.x &&
-			avgVector.x - (mainCamera.transform.GetScale().x / 2) > -deathDistance.x)
+		if (avgVector.x + ((mainCamera.transform.GetScale().x / engGetRenderScale()) / 2) < deathDistance.x &&
+			avgVector.x - ((mainCamera.transform.GetScale().x / engGetRenderScale()) / 2) > -deathDistance.x)
 		{
 			mainCamera.transform.SetPosition(avgVector);
 		}
@@ -238,20 +241,6 @@ void SNWorld::Draw(float dt)
 	//worldCanvas.drawDebug = true;
 	worldCanvas.Draw();
 	worldCanvas.CheckInteraction();
-
-	/*if (gameEnded)
-	{
-		float currentCamZoom = engGetRenderScale();
-		float zoomStep = currentCamZoom + dt * (cameraTargetZoomWin - currentCamZoom);
-		engSetRenderScale(zoomStep);
-
-		if (winnerTransform != nullptr)
-		{
-			Vector2 currentCamPos = mainCamera.transform.GetPosition();
-			Vector2 stepPos = currentCamPos * dt + winnerTransform->GetPosition() * (1 - dt);
-			mainCamera.transform.SetPosition(stepPos);
-		}
-	}*/
 
 	/* DEBUG */
 	for (int i = 0; i < numHitboxes; ++i)
@@ -608,6 +597,8 @@ void SNWorld::LocalRematchEvent()
 void SNWorld::RestartGame()
 {
 	gameEnded = false;
+	engSetRenderScale(cameraDefaultZoom);
+	mainCamera.transform.SetPosition({ 0, cameraTargetPosY });
 
 	printf("Game restarted!\n");
 	autonomousProxy.Reset();
@@ -636,7 +627,6 @@ void SNWorld::RestartGame()
 
 void SNWorld::GameEndedEvent()
 {
-	// TODO: Display end screen, victory name and rematch button
 	if (HasAuthority())
 	{
 		SNEventPacket eventPacket;
