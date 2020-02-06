@@ -450,7 +450,6 @@ void SNWorld::RespawnPlayerEvent()
 		}
 		else
 		{
-			//Todo: restart game
 			GameEndedEvent();
 			printf("autonimus proximilian wonned! :D\n");
 		}
@@ -463,11 +462,6 @@ void SNWorld::RespawnPlayerEvent()
 			printf("respawn autoprox, remaining stocks: %i\n", autonomousProxy.currentStocks);
 			autonomousProxy.isInvulnerable = true;
 			autonomousProxy.Reset();
-
-			if (!HasAuthority())
-			{
-				autonomousProxy.EnterState(FALL_STATE);
-			}
 		}
 		else
 		{
@@ -518,7 +512,6 @@ void SNWorld::LocalRematchEvent()
 void SNWorld::RestartGame()
 {
 	printf("Game restarted!\n");
-	// TODO: Reset all values and whatnot
 	autonomousProxy.Reset();
 	simulatedProxy.Reset();
 	autonomousProxy.currentStocks = autonomousProxy.maxStocks;
