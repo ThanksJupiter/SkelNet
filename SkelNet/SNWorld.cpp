@@ -402,10 +402,7 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 
 	if (HasAuthority())
 	{
-		autonomousProxy.transform.SetPosition({
-			autonomousProxy.transform.GetPosition().x + spawnDistanceX,
-			autonomousProxy.transform.GetPosition().y
-			});
+		autonomousProxy.transform.SetPosition({ spawnDistanceX, 0 });
 
 		autonomousProxy.transform.SetFacingRight(true);
 
@@ -415,10 +412,7 @@ void SNWorld::SpawnAutonomousProxy(SNWorld& worldptr)
 	}
 	else
 	{
-		autonomousProxy.transform.SetPosition({
-			autonomousProxy.transform.GetPosition().x - spawnDistanceX,
-			autonomousProxy.transform.GetPosition().y
-			});
+		autonomousProxy.transform.SetPosition({ -spawnDistanceX, 0 });
 
 		autonomousProxy.transform.SetFacingRight(false);
 
@@ -438,10 +432,7 @@ void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 
 	if (HasAuthority())
 	{
-		simulatedProxy.transform.SetPosition({
-			simulatedProxy.transform.GetPosition().x - spawnDistanceX,
-			simulatedProxy.transform.GetPosition().y
-			});
+		simulatedProxy.transform.SetPosition({ -spawnDistanceX, 0 });
 
 		simulatedProxy.transform.SetFacingRight(false);
 
@@ -451,10 +442,7 @@ void SNWorld::SpawnSimulatedProxy(SNWorld& worldptr)
 	}
 	else
 	{
-		simulatedProxy.transform.SetPosition({
-			simulatedProxy.transform.GetPosition().x + spawnDistanceX,
-			simulatedProxy.transform.GetPosition().y
-			});
+		simulatedProxy.transform.SetPosition({ spawnDistanceX, 0 });
 
 		simulatedProxy.transform.SetFacingRight(true);
 
@@ -536,16 +524,19 @@ void SNWorld::RespawnPlayerEvent()
 		}
 		else
 		{
-			GameEndedEvent();
+			if (!gameEnded)
+			{
+				GameEndedEvent();
 
-			winnerText->hidden = false;
-			std::string nameWonString(autoProxyNameText->textString);
-			nameWonString.append(" wins!");
-			winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
-			winnerText->UpdateText(nameWonString);
-			winnerTransform = &autonomousProxy.transform;
+				winnerText->hidden = false;
+				std::string nameWonString(autoProxyNameText->textString);
+				nameWonString.append(" wins!");
+				winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
+				winnerText->UpdateText(nameWonString);
+				winnerTransform = &autonomousProxy.transform;
 
-			printf("autonimus proximilian wonned! :D\n");
+				printf("autonimus proximilian wonned! :D\n");
+			}
 		}
 	}
 
@@ -559,16 +550,19 @@ void SNWorld::RespawnPlayerEvent()
 		}
 		else
 		{
-			GameEndedEvent();
+			if (!gameEnded)
+			{
+				GameEndedEvent();
 
-			winnerText->hidden = false;
-			std::string nameWonString(simProxyNameText->textString);
-			nameWonString.append(" wins!");
-			winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
-			winnerText->UpdateText(nameWonString);
-			winnerTransform = &simulatedProxy.transform;
+				winnerText->hidden = false;
+				std::string nameWonString(simProxyNameText->textString);
+				nameWonString.append(" wins!");
+				winnerText->SetRelativePosition({ -(engGetTextSize(nameWonString.c_str()).x * 3.f) / 2, 0 });
+				winnerText->UpdateText(nameWonString);
+				winnerTransform = &simulatedProxy.transform;
 
-			printf("simulensis proximilian wonned! :D\n");
+				printf("simulensis proximilian wonned! :D\n");
+			}
 		}
 	}
 }
