@@ -10,32 +10,23 @@ void SNUIElement::Draw()
 	if (hidden)
 		return;
 
-	/*engSetColor(255, 0, 0);
-	engDrawLine(position, position + size);
-	engDrawPoint(position, 50);
-	engSetColor(0, 0, 0);*/
+	Vector2 newPos = position / engGetRenderScale();
+	Vector2 newSize = size / engGetRenderScale();
 
 	if (drawRect)
 	{
 		engSetColor(60, 60, 60);
-		engDrawRect(size.x, size.y, position.x, position.y);
+		engDrawRect(newSize.x, newSize.y, newPos.x, newPos.y);
 		engSetColor(0, 0, 0);
 	}
 
 	if (sprite != nullptr)
 	{
 		SDL_Rect dstRect;
-		dstRect.x = position.x;
-		dstRect.y = position.y;
-		dstRect.w = size.x;
-		dstRect.h = size.y;
-
-		/*engSetColor(0, 255, 0);
-		engDrawLine(position, position + size);
-		engDrawPoint(position, 50);
-		engSetColor(0, 0, 0);*/
-
-		//world->PlayAnimation(*world->fallAnim, position, 500, false, 3, 0);
+		dstRect.x = newPos.x;
+		dstRect.y = newPos.y;
+		dstRect.w = newSize.x;
+		dstRect.h = newSize.y;
 
 		SDL_SetTextureColorMod(sprite->texture, tintR, tintG, tintB);
 		engDrawSprite(sprite->sheetSourceRect, dstRect, sprite->texture);
@@ -43,7 +34,7 @@ void SNUIElement::Draw()
 
 	if (!textString.empty())
 	{
-		engDrawString(position, textString.c_str(), textScaleMultiplier);
+		engDrawString(newPos, textString.c_str(), textScaleMultiplier / engGetRenderScale());
 	}
 }
 

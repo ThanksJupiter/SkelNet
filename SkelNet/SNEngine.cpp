@@ -22,7 +22,6 @@ SDL_Renderer* renderer;
 SDL_Window* window;
 SDL_Surface* image;
 SDL_Texture* texture;
-SDL_Rect viewport;
 
 const int WINDOW_WIDTH = 1920;
 const int WINDOW_HEIGHT = 1080;
@@ -68,11 +67,6 @@ void engInit()
 
 	image = IMG_Load("SN_Skel_Attack-Sheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
-	
-	viewport.x = 0;
-	viewport.y = 0;
-	viewport.w = WINDOW_WIDTH;
-	viewport.h = WINDOW_HEIGHT;
 
 	engGetJoystick();
 	axisStates[(unsigned int)GamepadAxis::LeftShoulder].value = -2.0f;
@@ -195,8 +189,7 @@ void engClose()
 
 void engRender()
 {
-	//SDL_RenderSetViewport(renderer, &viewport);
-	//SDL_RenderSetScale(renderer, 1.2, 1.2);
+	SDL_RenderSetScale(renderer, renderScale, renderScale);
 	SDL_RenderPresent(renderer);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
 	SDL_RenderClear(renderer);
@@ -218,27 +211,21 @@ void engUpdate()
 			{
 				AxisState& state = axisStates[e.jaxis.axis];
 				state.value = (float)e.jaxis.value / 32767;
-			}
-
-			break;
+			} break;
 
 			case SDL_JOYBUTTONDOWN:
 			{
 				InputState& state = buttonStates[e.jbutton.button];
 				state.pressed = true;
 				state.frameNum = currentFrameNum;
-			}
-
-			break;
+			} break;
 
 			case SDL_JOYBUTTONUP:
 			{
 				InputState& state = buttonStates[e.jbutton.button];
 				state.pressed = false;
 				state.frameNum = currentFrameNum;
-			}
-
-			break;
+			} break;	
 
 			case SDL_JOYHATMOTION:
 			{
@@ -329,6 +316,16 @@ int engGetHeight()
 int engGetWidth()
 {
 	return WINDOW_WIDTH;
+}
+
+void engSetRenderScale(float newScale)
+{
+	renderScale = newScale;
+}
+
+float engGetRenderScale()
+{
+	return renderScale;
 }
 
 int engGetFrameNum()

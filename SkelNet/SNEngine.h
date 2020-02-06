@@ -11,6 +11,7 @@ class SNWorld;
 const float PI = 3.14f;
 static int currentFrameNum = 1;
 static float spriteRenderScale = 1.0f;
+static float renderScale = 2.0f;
 
 void engInit();
 void engClose();
@@ -20,6 +21,8 @@ bool engShouldQuit();
 
 int engGetHeight();
 int engGetWidth();
+void engSetRenderScale(float newScale);
+float engGetRenderScale();
 
 int engGetFrameNum();
 
