@@ -12,9 +12,6 @@
 #include "SNFiniteStateMachine.h"
 #include "SNUIElement.h"
 
-SNUIElement* rematchButton;
-SNUIElement* rematchText;
-
 SNWorld* thisWorld;
 
 void REMATCH()
@@ -25,21 +22,6 @@ void REMATCH()
 void SNWorld::PlayAnimation(SNAnimation& inAnim, Vector2 inPos, float inDuration, bool inFlipped, float inScale, float inRot)
 {
 	particleSystem->StartParticleEffect(inPos, &inAnim, inDuration, inFlipped, inScale, inRot);
-}
-
-void SNWorld::LocalRematchEvent()
-{
-	SNEventPacket packet;
-	packet.flag = EVENT_FLAG;
-	packet.eventFlag = REMATCH_EVENT;
-	server.SendData(&packet);
-
-	wantRematch = true;
-
-	if (opponentWantsRematch && wantRematch)
-	{
-		RestartGame();
-	}
 }
 
 void SNWorld::Setup()
@@ -263,22 +245,28 @@ void SNWorld::SetupUI()
 
 	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 300 }, { 150,40.f }, true, REMATCH);
 	rematchText = worldCanvas.CreateText({ 0,0 }, "Rematch", 1.0f, &rematchButton->anchor);
+	
+	opponentWantsRematchText = worldCanvas.CreateText({ 0, 50 }, "Opponent Wants Rematch!", 1.0f, &rematchButton->anchor);
+	opponentWantsRematchText->SetRelativePosition({ -opponentWantsRematchText->size.x / 2, 0 });
+	opponentWantsRematchText->hidden = true;
 
 	rematchButton->drawRect = true;
+	rematchButton->hidden = true;
+	rematchText->hidden = true;
 
 	autoProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 	simProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 
 	autoProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &autoProxyHealthFrame->anchor);
 	autoProxyHealthText->SetRelativePosition({ -autoProxyHealthText->size.x, 0 });
-	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &autoProxyHealthFrame->anchor);
+	autoProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &autoProxyHealthFrame->anchor);
 	autoProxyNameText = worldCanvas.CreateText({ 70.f, autoProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &autoProxyHealthFrame->anchor);
 	autoProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[1], &autoProxyHealthFrame->anchor);
 	autoProxyPortrait->world = this;
 
 	simProxyHealthText = worldCanvas.CreateText({ 200.f, 0.f }, "0%", 2.0f, &simProxyHealthFrame->anchor);
 	simProxyHealthText->SetRelativePosition({ -simProxyHealthText->size.x, 0 });
-	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "4", 1.0f, &simProxyHealthFrame->anchor);
+	simProxyStockText = worldCanvas.CreateText({ 0, 70.f }, "3", 1.0f, &simProxyHealthFrame->anchor);
 	simProxyNameText = worldCanvas.CreateText({ 70.f, simProxyHealthFrame->size.y - 50.f }, "name", 1.0f, &simProxyHealthFrame->anchor);
 	simProxyPortrait = worldCanvas.CreateImage({ 0, 0 }, { 70.f, 70.f }, laughSkelAnim->sprites[0], &simProxyHealthFrame->anchor);
 	simProxyPortrait->world = this;
@@ -491,6 +479,10 @@ void SNWorld::RespawnPlayerEvent()
 
 void SNWorld::RematchEvent()
 {
+	opponentWantsRematchText->hidden = false;
+
+	printf("rematch event!\n");
+
 	opponentWantsRematch = true;
 
 	if (opponentWantsRematch && wantRematch)
@@ -499,6 +491,29 @@ void SNWorld::RematchEvent()
 	}
 }
 
+void SNWorld::LocalRematchEvent()
+{
+	printf("rematch event sent!\n");
+
+	SNEventPacket packet;
+	packet.flag = EVENT_FLAG;
+	packet.eventFlag = REMATCH_EVENT;
+	if (HasAuthority())
+	{
+		server.SendData(&packet);
+	}
+	else
+	{
+		client.SendData(&packet);
+	}
+
+	wantRematch = true;
+
+	if (opponentWantsRematch && wantRematch)
+	{
+		RestartGame();
+	}
+}
 
 void SNWorld::RestartGame()
 {
@@ -513,10 +528,23 @@ void SNWorld::RestartGame()
 
 	opponentWantsRematch = false;
 	wantRematch = false;
+	
+	autoProxyHealthText->UpdateText("0%");
+	simProxyHealthText->UpdateText("0%");
+
+	autoProxyStockText->UpdateText(autonomousProxy.maxStocks);
+	simProxyStockText->UpdateText(simulatedProxy.maxStocks);
+
+
+	rematchButton->hidden = true;
+	rematchText->hidden = true;
+	opponentWantsRematchText->hidden = true;
+
 }
 
 void SNWorld::GameEndedEvent()
 {
+	// TODO: Display end screen, victory name and rematch button
 	if (HasAuthority())
 	{
 		SNEventPacket eventPacket;
@@ -526,7 +554,7 @@ void SNWorld::GameEndedEvent()
 	}
 
 	printf("Game Ended!\n");
-	// TODO: Display end screen, victory name and rematch button
 
-
+	rematchButton->hidden = false;
+	rematchText->hidden = false;
 }

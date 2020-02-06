@@ -173,8 +173,9 @@ void SetupMainMenuUI()
 
 	waitingForPlayersText = canvas.CreateText({ world.worldSize.x / 2 - 175 ,0 }, "Waiting For Players");
 
-	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 150, (world.worldSize.y / 2) + 100 }, { 80.f,30.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 90,  (world.worldSize.y / 2) + 100 }, { 85.f,35.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 165, (world.worldSize.y / 2) + 100 }, { 80.f,30.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 100 }, { 85.f,35.f }, true, SetupClient);
+
 	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 50.f }, { 200.f,40.f }, true, EnableIPTextInput);
 	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, 100.f }, { 200.f,40.f }, true, EnableNameTextInput);
 
