@@ -81,20 +81,11 @@ void SNWorld::Update(float dt)
 
 	if (engGetKey(Key::I))
 	{
-		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, 1 }));
+		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, 2 }));
 	}
 	if (engGetKey(Key::K))
 	{
-		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, -1 }));
-	}
-
-	if (engGetKeyDown(Key::U))
-	{
-		mainCamera.camScale += .2f;
-	}
-	if (engGetKeyDown(Key::O))
-	{
-		mainCamera.camScale -= .2f;
+		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, -2 }));
 	}
 
 	if (engGetKeyDown(Key::G))
