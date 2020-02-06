@@ -462,11 +462,6 @@ void SNWorld::RespawnPlayerEvent()
 			printf("respawn autoprox, remaining stocks: %i\n", autonomousProxy.currentStocks);
 			autonomousProxy.isInvulnerable = true;
 			autonomousProxy.Reset();
-
-			if (!HasAuthority())
-			{
-				autonomousProxy.EnterState(FALL_STATE);
-			}
 		}
 		else
 		{
