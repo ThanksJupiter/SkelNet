@@ -123,6 +123,10 @@
     <ClCompile Include="SNFSMSPSmokeState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPDootState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPDootState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -257,6 +261,10 @@
     <ClInclude Include="SNFSMSPSmokeState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
+    <ClInclude Include="SNFSMAPDootState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPDootState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />
