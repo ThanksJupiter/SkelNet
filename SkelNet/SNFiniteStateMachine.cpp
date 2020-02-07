@@ -20,6 +20,7 @@ void SNFiniteStateMachine::EnterState(Uint8 newState)
 		currentState->Exit(fsmData);
 	}
 	// TODO: Save NewState as Uint8 for comparisons instead of comparing states
+	previousStateIndex = currentStateIndex;
 	currentStateIndex = newState;
 
 	currentState = fsmData->availableStates[newState];

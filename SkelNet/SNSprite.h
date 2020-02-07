@@ -7,6 +7,7 @@
 
 struct SDL_Texture;
 struct SNAnimation;
+struct Mix_Chunk;
 
 class SNSprite
 {
@@ -18,9 +19,12 @@ public:
 	int height;
 	
 	bool shouldNotifyWhenPlayed = false;
+	bool shouldPlaySound = false;
 	std::function<void(SNWorld*)> OnAnimNotify;
+	Mix_Chunk* audio;
 	SNAnimation* animation;
 	void Notify(SNWorld* world);
+	void PlaySound(SNWorld* world);
 
 	SDL_Rect sheetSourceRect;
 	SDL_Texture* texture;

@@ -110,7 +110,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData turnAroundsheet = SpritesheetData("SN_Skel_Dash_Stop_02-Sheet.png", 4, 32, 32);
 	SpritesheetData teabagSheet = SpritesheetData("SN_Skel_T-Bag-Sheet.png", 6, 32, 32);
 	SpritesheetData smokeSheet = SpritesheetData("SN_Skel_Taunt_02-Sheet.png", 20, 64, 64);
-	SpritesheetData dootSheet = SpritesheetData("SN_Skel_Doot_01-Sheet.png", 13, 32, 32);
+	SpritesheetData dootSheet = SpritesheetData("SN_Skel_Doot_01-Sheet.png", 17, 32, 32);
 	SpritesheetData deathShockwaveSheet = SpritesheetData("SN_Death_Effect_Shockwave_01-Sheet.png", 7, 128, 128);
 	SpritesheetData hitEffect01Sheet = SpritesheetData("SN_Hit_Effect_01-Sheet.png", 2, 32, 32);
 	SpritesheetData countDownSheet = SpritesheetData("SN_Game_Start_Countdown-Sheet.png", 4, 64, 32);
@@ -135,7 +135,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* turnAroundSprites[4];
 	SNSprite* teabagSprites[6];
 	SNSprite* smokeSprites[20];
-	SNSprite* dootSprites[13];
+	SNSprite* dootSprites[17];
 	SNSprite* deathShockwaveSprites[7];
 	SNSprite* hitEffect01Sprites[2];
 	SNSprite* countDownSprites[4];
@@ -193,6 +193,12 @@ void engSetSpriteRenderScale(float scale)
 float engGetSpriteRenderScale()
 {
 	return spriteRenderScale;
+}
+
+void engSetAudioDelegates(SNWorld& world)
+{
+	world.dootAnim->sprites[9]->shouldPlaySound = true;
+	world.dootAnim->sprites[9]->audio = world.audioManager->dootSound1;
 }
 
 void engClose()

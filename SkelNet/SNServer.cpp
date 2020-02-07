@@ -325,6 +325,7 @@ void SNServer::SendData(SNDootPacket* data)
 
 	memcpy(buffer + offset, &data->dootFlag, sizeof(Uint8));
 
+	SDL_Delay(10);
 	SDLNet_TCP_Send(client, buffer, 4);
 }
 

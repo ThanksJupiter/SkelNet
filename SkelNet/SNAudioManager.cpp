@@ -85,29 +85,29 @@ void SNAudioManager::InitSounds()
 	}
 	chainSound->volume = 128;
 
-	if (!(dootSound = Mix_LoadWAV(dootPath)))
+	if (!(dootSound1 = Mix_LoadWAV(dootPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound1->volume = 105;
 
 	if (!(dootSound2 = Mix_LoadWAV(dootPath2)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105; 
+	dootSound1->volume = 105; 
 
 	if (!(dootSound3 = Mix_LoadWAV(dootPath3)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound1->volume = 105;
 
 	if (!(dootSound4 = Mix_LoadWAV(dootPath4)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound1->volume = 105;
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
