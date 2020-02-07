@@ -238,7 +238,7 @@ int main()
 
 		if (world.isServer)
 		{
-			engDrawString({ 10, 10 }, "Server");
+			//engDrawString({ 10, 10 }, "Server");
 			if (world.server.AcceptConnection())
 			{
 				waitingForPlayer = false;
@@ -246,7 +246,7 @@ int main()
 		}
 		else
 		{
-			engDrawString({ 10, 10 }, "Client");
+			//engDrawString({ 10, 10 }, "Client");
 		}
 
 		if (engGetInputText().size() > 10)
@@ -260,10 +260,10 @@ int main()
 			SDL_StopTextInput();
 		}
 
-		if (engGetKeyDown(Key::D))
+		/*if (engGetKeyDown(Key::D))
 		{
 			canvas.drawDebug = !canvas.drawDebug;
-		}
+		}*/
 
 #pragma region StartScreen
 

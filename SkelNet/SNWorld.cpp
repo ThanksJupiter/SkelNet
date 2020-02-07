@@ -120,16 +120,16 @@ void SNWorld::Update(float dt)
 
 
 
-	if (engGetKey(Key::I))
+	/*if (engGetKey(Key::I))
 	{
 		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, 2 }));
 	}
 	if (engGetKey(Key::K))
 	{
 		mainCamera.transform.SetPosition(TranslateVector(mainCamera.transform.GetPosition(), { 0, -2 }));
-	}
+	}*/
 
-	if (engGetKeyDown(Key::G))
+	/*if (engGetKeyDown(Key::G))
 	{
 		SNStringPacket packet;
 		packet.flag = STRING_FLAG;
@@ -148,7 +148,7 @@ void SNWorld::Update(float dt)
 	if (engGetKeyDown(Key::H))
 	{
 		GameEndedEvent();
-	}
+	}*/
 
 	for (int i = 0; i < numHitboxes; ++i)
 	{
@@ -261,16 +261,16 @@ void SNWorld::Draw(float dt)
 		//hitboxes[i].DrawDebug(&mainCamera);
 	}
 
-	if (engGetKey(Key::D))
+	/*if (engGetKey(Key::D))
 	{
 		autoProxyHealthFrame->DrawDebug();
 		simProxyHealthFrame->DrawDebug();
 
 		autoProxyHealthFrame->anchor.DrawDebug(true);
 		simProxyHealthFrame->anchor.DrawDebug(true);
-	}
+	}*/
 
-	if (engGetKey(Key::R))
+	/*if (engGetKey(Key::R))
 	{
 		engSetColor(255, 0, 0);
 
@@ -290,7 +290,7 @@ void SNWorld::Draw(float dt)
 		engDrawLine(mainCamera.MakePositionWithCam(bottomRight), mainCamera.MakePositionWithCam(topRight));
 		engDrawLine(mainCamera.MakePositionWithCam(bottomRight), mainCamera.MakePositionWithCam(bottomLeft));
 		engSetColor(0, 0, 0);
-	}
+	}*/
 }
 
 void SNWorld::SetupUI()
