@@ -26,6 +26,7 @@ public:
 	Mix_Chunk* land;
 	Mix_Chunk* chainSound;
 	Mix_Chunk* platformLand;
+	Mix_Chunk* dootSound;
 	Mix_Music* midnaLament;
 
 	const char* whip_startPath = "Whip_StartUp.wav";
@@ -36,10 +37,11 @@ public:
 	const char* midnaLamentPath = "Midnas_Lament_-_Twilight_Princess_8-Bit.mp3";
 	const char* chainPath = "ChainsRatteling.wav";
 	const char* platformLandPath = "PlatformLanded.wav";
+	const char* dootPath = "Doot.wav";
 
 	void InitSounds();
 	void PlayChunkOnce(Mix_Chunk* chunk);
-	void LoopChunk(Mix_Chunk* chunk);
-	void StopLoopigChunk();
+	void LoopChunk(Mix_Chunk* chunk, int channel);
+	void StopLoopigChunk(int channel);
 	void PlayMusicLoop(Mix_Music* song);
 };
