@@ -71,3 +71,6 @@ void engLoadAnimationsToWorld(SNWorld& world);
 void engSubscribeAnimationDelegates(SNWorld& world);
 void engSetSpriteRenderScale(float scale);
 float engGetSpriteRenderScale();
+
+// Audio
+void engSetAudioDelegates(SNWorld& world);

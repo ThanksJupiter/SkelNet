@@ -26,7 +26,7 @@ public:
 	Mix_Chunk* land;
 	Mix_Chunk* chainSound;
 	Mix_Chunk* platformLand;
-	Mix_Chunk* dootSound;
+	Mix_Chunk* dootSound1;
 	Mix_Chunk* dootSound2;
 	Mix_Chunk* dootSound3;
 	Mix_Chunk* dootSound4;

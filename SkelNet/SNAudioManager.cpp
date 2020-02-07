@@ -92,12 +92,11 @@ void SNAudioManager::InitSounds()
 	chainSound->volume = 128;
 
 	//Doot
-
-	if (!(dootSound = Mix_LoadWAV(dootPath)))
+	if (!(dootSound1 = Mix_LoadWAV(dootPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound1->volume = 105;
 
 	if (!(dootSound2 = Mix_LoadWAV(dootPath2)))
 	{
@@ -116,7 +115,7 @@ void SNAudioManager::InitSounds()
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	dootSound4->volume = 105;
-		
+
 	//Death
 
 	if (!(deathSound = Mix_LoadWAV(deathPath)))

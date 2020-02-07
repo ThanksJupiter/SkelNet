@@ -11,4 +11,7 @@ public:
 
 	float timer = 0.0f;
 	float dootDuration = 1.5f;
+	bool reDoot = false;
+
+	SNDootPacket packet;
 };

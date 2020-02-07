@@ -10,6 +10,7 @@ class SNWorld;
 class SNAnimator;
 class SNFiniteStateMachine;
 struct SNFSMData;
+struct Mix_Chunk;
 
 class SNSimulatedProxy
 {
@@ -36,6 +37,7 @@ public:
 	void DoAttack();
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;
+	Mix_Chunk* nextDootSound;
 
 	SNTransform transform;
 

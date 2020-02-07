@@ -37,6 +37,7 @@ public:
 
 	SNFSMState* currentState;
 	Uint8 currentStateIndex;
+	Uint8 previousStateIndex;
 	SNFSMData* fsmData;
 
 	SNFSMState* availableStates[MAX_FSM_STATES];
