@@ -15,13 +15,13 @@ void SNFSMSPSmokeState::Enter(SNFSMData* fsmData)
 
 void SNFSMSPSmokeState::Update(float dt, SNFSMData* fsmData)
 {
-	timer += dt;
+	/*timer += dt;
 
 	if (timer >= pufferDelay && !hasSmokeSoundPlayed)
 	{
 		fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->smokeThrowSound);
 		hasSmokeSoundPlayed = true;
-	}
+	}*/
 }
 
 void SNFSMSPSmokeState::Exit(SNFSMData* fsmData)

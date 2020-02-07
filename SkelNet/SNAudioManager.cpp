@@ -140,6 +140,24 @@ void SNAudioManager::InitSounds()
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	gameVoiceSound->volume = 115;
+
+	if (!(cigLand = Mix_LoadWAV(cigLandPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	cigLand->volume = 115;
+
+	if (!(cigLight = Mix_LoadWAV(cigLightPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	cigLight->volume = 115;
+
+	if (!(inhale = Mix_LoadWAV(inhalePath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	inhale->volume = 115;
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk, int channel)

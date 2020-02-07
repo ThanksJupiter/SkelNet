@@ -163,7 +163,7 @@
     <ClCompile Include="SNFSMSPLandState.cpp" />
     <ClCompile Include="SNFSMSPRunState.cpp" />
     <ClCompile Include="SNFSMSPSmokeState.cpp" />
-    <ClCompile Include="SNFSMSPTauntState.cpp" />
+    <ClCompile Include="SNFSMSPTeabagState.cpp" />
     <ClCompile Include="SNFSMSPTurnAroundState.cpp" />
     <ClCompile Include="SNFSMSPWalkState.cpp" />
     <ClCompile Include="SNFSMAPTurnAroundState.cpp" />
@@ -226,7 +226,7 @@
     <ClInclude Include="SNFSMSPLandState.h" />
     <ClInclude Include="SNFSMSPRunState.h" />
     <ClInclude Include="SNFSMSPSmokeState.h" />
-    <ClInclude Include="SNFSMSPTauntState.h" />
+    <ClInclude Include="SNFSMSPTeabagState.h" />
     <ClInclude Include="SNFSMSPTurnAroundState.h" />
     <ClInclude Include="SNFSMSPWalkState.h" />
     <ClInclude Include="SNFSMAPTurnAroundState.h" />

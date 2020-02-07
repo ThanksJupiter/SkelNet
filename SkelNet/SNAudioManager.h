@@ -30,6 +30,9 @@ public:
 	Mix_Chunk* dootSound2;
 	Mix_Chunk* dootSound3;
 	Mix_Chunk* dootSound4;
+	Mix_Chunk* cigLand;
+	Mix_Chunk* cigLight;
+	Mix_Chunk* inhale;
 
 	Mix_Music* midnaLament;
 	Mix_Chunk* deathExplosionSound;
@@ -49,6 +52,9 @@ public:
 	const char* dootPath2 = "Doot2.wav";
 	const char* dootPath3 = "Doot3.wav";
 	const char* dootPath4 = "Doot4.wav";
+	const char* cigLandPath = "CigLand.wav";
+	const char* cigLightPath = "CigLight.wav";
+	const char* inhalePath = "Inhale.wav";
 
 	const char* deathExplosionPath = "Death.wav";
 	const char* smokeThrowPath = "SmokeThrow.wav";

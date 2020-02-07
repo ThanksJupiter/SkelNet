@@ -199,7 +199,19 @@ void engSetAudioDelegates(SNWorld& world)
 {
 	world.dootAnim->sprites[9]->shouldPlaySound = true;
 	world.dootAnim->sprites[9]->audio = world.audioManager->dootSound1;
-	world.dootAnim->sprites[9]->audioChannel = 5;
+	world.dootAnim->sprites[9]->audioChannel = world.HasAuthority()? 5 : 6;
+
+	world.smokeAnim->sprites[4]->shouldPlaySound = true;
+	world.smokeAnim->sprites[4]->audio = world.audioManager->cigLight;
+	world.smokeAnim->sprites[4]->audioChannel = 7;
+
+	world.smokeAnim->sprites[7]->shouldPlaySound = true;
+	world.smokeAnim->sprites[7]->audio = world.audioManager->inhale;
+	world.smokeAnim->sprites[7]->audioChannel = 7;
+
+	world.smokeAnim->sprites[14]->shouldPlaySound = true;
+	world.smokeAnim->sprites[14]->audio = world.audioManager->cigLand;
+	world.smokeAnim->sprites[14]->audioChannel = 7;
 }
 
 void engClose()

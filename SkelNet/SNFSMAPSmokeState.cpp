@@ -17,11 +17,11 @@ void SNFSMAPSmokeState::Update(float dt, SNFSMData* fsmData)
 {
 	timer += dt;
 
-	if (timer >= pufferDelay && !hasSmokeSoundPlayed)
+	/*if (timer >= pufferDelay && !hasSmokeSoundPlayed)
 	{
 		fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->smokeThrowSound);
 		hasSmokeSoundPlayed = true;
-	}
+	}*/
 
 	if (timer >= tauntDuration)
 	{

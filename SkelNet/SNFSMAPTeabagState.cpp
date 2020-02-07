@@ -14,11 +14,11 @@ void SNFSMAPTeabagState::Enter(SNFSMData* fsmData)
 
 void SNFSMAPTeabagState::Update(float dt, SNFSMData* fsmData)
 {
-	SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 	timer += dt;
 
 	if (timer >= tauntDuration)
 	{
+		SNAutonomousProxy* autoProxy = fsmData->autonomousProxy;
 		autoProxy->EnterState(IDLE_STATE);
 	}
 
