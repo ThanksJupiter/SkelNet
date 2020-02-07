@@ -71,6 +71,14 @@ public:
 	bool didHit;
 	
 	void Reset();
+
+
+	// DEBUG
+	Vector2 startPos;
+	Vector2 endPos;
+	float dist;
+	Uint8 startHealth;
+	Uint8 endHealth;
 };
 
 

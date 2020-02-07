@@ -124,10 +124,16 @@ void SNSimulatedProxy::PlayAttackAnim()
 
 void SNSimulatedProxy::TakeDamage()
 {
+	startPos = transform.GetPosition();
+	startHealth = health;
+
+
 	world->audioManager->PlayChunkOnce(world->audioManager->whip_hit);
 	FlyBack();
 	health += 15;
 	printf("SimulatedProxy: Took Damage\n");
+
+	endHealth = health;
 
 	if (world->HasAuthority())
 	{
