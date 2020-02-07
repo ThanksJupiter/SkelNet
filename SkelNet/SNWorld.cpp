@@ -655,6 +655,8 @@ void SNWorld::GameEndedEvent()
 		server.SendData(&eventPacket);
 	}
 
+	audioManager->PlayChunkOnce(audioManager->gameVoiceSound);
+
 	printf("Game Ended!\n");
 	gameEnded = true;
 
