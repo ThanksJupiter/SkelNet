@@ -27,6 +27,9 @@ public:
 	Mix_Chunk* chainSound;
 	Mix_Chunk* platformLand;
 	Mix_Chunk* dootSound;
+	Mix_Chunk* dootSound2;
+	Mix_Chunk* dootSound3;
+	Mix_Chunk* dootSound4;
 	Mix_Music* midnaLament;
 
 	const char* whip_startPath = "Whip_StartUp.wav";
@@ -38,6 +41,9 @@ public:
 	const char* chainPath = "ChainsRatteling.wav";
 	const char* platformLandPath = "PlatformLanded.wav";
 	const char* dootPath = "Doot.wav";
+	const char* dootPath2 = "Doot2.wav";
+	const char* dootPath3 = "Doot3.wav";
+	const char* dootPath4 = "Doot4.wav";
 
 	void InitSounds();
 	void PlayChunkOnce(Mix_Chunk* chunk);

@@ -176,7 +176,7 @@ void SetupMainMenuUI()
 
 	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 190, (world.worldSize.y / 2) + 350 }, { 135.f,60.f }, true, SetupServer);
 	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 350 }, { 135.f,60.f }, true, SetupClient);
-
+	
 	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 150 }, { 250.f,50.f }, true, EnableIPTextInput);
 	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 220 }, { 250.f,50.f }, true, EnableNameTextInput);
 
