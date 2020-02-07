@@ -18,6 +18,8 @@ void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 		fsmData->world->deathShockwave->frameCount * fsmData->world->deathShockwave->nextFrameDelay,
 		false, 6, 0);
 
+	fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->deathSound);
+
 	if (fsmData->autonomousProxy->currentStocks > 0)
 	{
 		fsmData->autonomousProxy->currentStocks--;

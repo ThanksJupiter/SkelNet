@@ -12,5 +12,5 @@ public:
 	float timer = 0.0f;
 	float tauntDuration = 6 * .25;
 	float pufferDelay = 3 * .25;
-	bool hasPufferSoundPlayed = false;
+	bool hasSmokeSoundPlayed = false;
 };

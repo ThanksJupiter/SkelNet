@@ -108,6 +108,18 @@ void SNAudioManager::InitSounds()
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	dootSound1->volume = 105;
+
+	if (!(deathSound = Mix_LoadWAV(deathPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	deathSound->volume = 105;
+
+	if (!(smokeThrowSound = Mix_LoadWAV(smokeThrowPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	smokeThrowSound->volume = 105;
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk, int channel)
