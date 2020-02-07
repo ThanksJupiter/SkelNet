@@ -10,6 +10,9 @@
 
 #define STRING_FLAG 5
 
+#define AP_HEALTH_FLAG 6
+#define SP_HEALTH_FLAG 7
+
 struct SNTransformPacket
 {
 	Uint8 flag;
@@ -35,4 +38,11 @@ struct SNStringPacket
 {
 	Uint8 flag;
 	char* string;
+};
+
+struct SNHealthPacket
+{
+	Uint8 flag;
+	Uint8 health;
+	Uint8 stocks;
 };

@@ -127,6 +127,16 @@ void SNSimulatedProxy::TakeDamage()
 	FlyBack();
 	health += 15;
 	printf("SimulatedProxy: Took Damage\n");
+
+	if (world->HasAuthority())
+	{
+		SNHealthPacket healthPacket;
+		healthPacket.flag = AP_HEALTH_FLAG;
+		healthPacket.health = health;
+		healthPacket.stocks = currentStocks;
+
+		world->server.SendData(&healthPacket);
+	}
 }
 
 void SNSimulatedProxy::FlyBack()
@@ -142,6 +152,12 @@ void SNSimulatedProxy::FlyBack()
 	transform.SetPosition({ transform.GetPosition().x, transform.GetPosition().y - 5 });
 
 	transform.SetVelocity(newFlyback);
+}
+
+void SNSimulatedProxy::SetHealthAndStocks(Uint8 newHealth, Uint8 newStocks)
+{
+	health = newHealth;
+	currentStocks = newStocks;
 }
 
 bool SNSimulatedProxy::isGrounded()

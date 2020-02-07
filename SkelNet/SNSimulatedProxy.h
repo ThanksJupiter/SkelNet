@@ -24,6 +24,7 @@ public:
 	void PlayAttackAnim();
 	void TakeDamage();
 	void FlyBack();
+	void SetHealthAndStocks(Uint8 newHealth, Uint8 newStocks);
 	bool isGrounded();
 
 	void SetAnimation(int index);
@@ -52,7 +53,7 @@ public:
 	float timer = 0.0f;
 	float regainVulnerabilityDelay = 2.0f;
 
-	int health = 1;
+	Uint8 health = 1;
 	Uint8 currentStocks = 0;
 	Uint8 maxStocks = 3;
 

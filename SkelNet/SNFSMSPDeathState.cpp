@@ -21,6 +21,16 @@ void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 	if (fsmData->simulatedProxy->currentStocks > 0)
 	{
 		fsmData->simulatedProxy->currentStocks--;
+
+		if (fsmData->world->HasAuthority())
+		{
+			SNHealthPacket healthPacket;
+			healthPacket.flag = SP_HEALTH_FLAG;
+			healthPacket.health = fsmData->simulatedProxy->health;
+			healthPacket.stocks = fsmData->simulatedProxy->currentStocks;
+
+			fsmData->world->server.SendData(&healthPacket);
+		}
 	}
 	fsmData->simulatedProxy->health = 0.f;
 	fsmData->world->simProxyHealthText->UpdateText("0%");

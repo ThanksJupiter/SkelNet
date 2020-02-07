@@ -21,6 +21,15 @@ void SNFSMAPDeathState::Enter(SNFSMData* fsmData)
 	if (fsmData->autonomousProxy->currentStocks > 0)
 	{
 		fsmData->autonomousProxy->currentStocks--;
+		if (fsmData->world->HasAuthority())
+		{
+			SNHealthPacket healthPacket;
+			healthPacket.flag = AP_HEALTH_FLAG;
+			healthPacket.health = fsmData->autonomousProxy->health;
+			healthPacket.stocks = fsmData->autonomousProxy->currentStocks;
+
+			fsmData->world->server.SendData(&healthPacket);
+		}
 	}
 
 	fsmData->autonomousProxy->health = 0.f;

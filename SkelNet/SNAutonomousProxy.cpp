@@ -171,6 +171,12 @@ void SNAutonomousProxy::FlyBack()
 	transform.SetVelocity(newFlyback);
 }
 
+void SNAutonomousProxy::SetHealthAndStocks(Uint8 newHealth, Uint8 newStocks)
+{
+	health = newHealth;
+	currentStocks = newStocks;
+}
+
 void SNAutonomousProxy::Reset()
 {
 	if (world->HasAuthority())
@@ -456,6 +462,16 @@ void SNAutonomousProxy::TakeDamage()
 	FlyBack();
 	health += 15;
 	printf("AutonomousProxy: Took Damage\n");
+
+	if (world->HasAuthority())
+	{
+		SNHealthPacket healthPacket;
+		healthPacket.flag = SP_HEALTH_FLAG;
+		healthPacket.health = health;
+		healthPacket.stocks = currentStocks;
+
+		world->server.SendData(&healthPacket);
+	}
 }
 
 void SNAutonomousProxy::DoAttack()
