@@ -16,7 +16,7 @@
 #include "SNFSMSPFallState.h"
 #include "SNFSMSPKnockedDownState.h"
 #include "SNFSMSPTurnAroundState.h"
-#include "SNFSMSPTauntState.h"
+#include "SNFSMSPTeabagState.h"
 #include "SNFSMSPJumpSquatState.h"
 #include "SNFSMSPLandState.h"
 #include "SNFSMSPDeathState.h"
@@ -265,7 +265,7 @@ void SNSimulatedProxy::InitializeFSM()
 	fsmData->availableStates[FALL_STATE] = new SNFSMSPFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMSPKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMSPTurnAroundState("Turn");
-	fsmData->availableStates[TEABAG_STATE] = new SNFSMSPTauntState("Teabag");
+	fsmData->availableStates[TEABAG_STATE] = new SNFSMSPTeabagState("Teabag");
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMSPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMSPLandState("Land");
 	fsmData->availableStates[DEATH_STATE] = new SNFSMSPDeathState("Death");
