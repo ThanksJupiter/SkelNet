@@ -238,8 +238,8 @@ void SNWorld::Draw(float dt)
 
 	Vector2 ropePos = mainCamera.MakePositionWithCam(worldFloor.transform.GetPosition());
 
-	SDL_Rect dstRect = 
-	{ 
+	SDL_Rect dstRect =
+	{
 		ropePos.x,
 		ropePos.y - 234 * 3,
 		ropeSprite->width * 3,
@@ -310,7 +310,7 @@ void SNWorld::SetupUI()
 
 	winnerText = worldCanvas.CreateText({ worldSize.x / 2 , worldSize.y / 2 - 100.f }, "wins!", 3.0f);
 	winnerText->SetRelativePosition({ -winnerText->size.x / 2, 0 });
-	winnerText->hidden = true; 
+	winnerText->hidden = true;
 
 	autoProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 	simProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
@@ -573,6 +573,19 @@ void SNWorld::RespawnPlayerEvent()
 				printf("simulensis proximilian wonned! :D\n");
 			}
 		}
+	}
+
+	if (HasAuthority())
+	{
+		SNHealthPacket healthPacket;
+		healthPacket.flag = HEALTH_FLAG;
+		healthPacket.serverHealth = autonomousProxy.health;
+		healthPacket.serverStocks = autonomousProxy.currentStocks;
+		healthPacket.clientHealth = simulatedProxy.health;
+		healthPacket.clientStocks = simulatedProxy.currentStocks;
+
+		server.SendData(&healthPacket);
+
 	}
 }
 
