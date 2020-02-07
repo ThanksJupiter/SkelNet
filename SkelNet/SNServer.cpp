@@ -245,6 +245,7 @@ void SNServer::SendData(SNEventPacket* data)
 
 	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
 
+	SDL_Delay(10);
 	SDLNet_TCP_Send(client, buffer, 4);
 }
 
