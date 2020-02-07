@@ -25,9 +25,11 @@ void SNFSMSPDeathState::Enter(SNFSMData* fsmData)
 		if (fsmData->world->HasAuthority())
 		{
 			SNHealthPacket healthPacket;
-			healthPacket.flag = SP_HEALTH_FLAG;
-			healthPacket.health = fsmData->simulatedProxy->health;
-			healthPacket.stocks = fsmData->simulatedProxy->currentStocks;
+			healthPacket.flag = HEALTH_FLAG;
+			healthPacket.serverHealth = fsmData->world->autonomousProxy.health;
+			healthPacket.serverStocks = fsmData->world->autonomousProxy.currentStocks;
+			healthPacket.clientHealth = fsmData->world->simulatedProxy.health;
+			healthPacket.clientStocks = fsmData->world->simulatedProxy.currentStocks;
 
 			fsmData->world->server.SendData(&healthPacket);
 		}

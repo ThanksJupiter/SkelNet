@@ -10,10 +10,9 @@
 
 #define STRING_FLAG 5
 
-#define AP_HEALTH_FLAG 6
-#define SP_HEALTH_FLAG 7
+#define HEALTH_FLAG 6
 
-#define DOOT_FLAG 8
+#define DOOT_FLAG 7
 
 struct SNTransformPacket
 {
@@ -45,8 +44,10 @@ struct SNStringPacket
 struct SNHealthPacket
 {
 	Uint8 flag;
-	Uint8 health;
-	Uint8 stocks;
+	Uint8 serverHealth;
+	Uint8 serverStocks;
+	Uint8 clientHealth;
+	Uint8 clientStocks;
 };
 
 struct SNDootPacket

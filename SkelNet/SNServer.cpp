@@ -130,24 +130,6 @@ bool SNServer::RecvData()
 				return true;
 			} break;
 
-			case AP_HEALTH_FLAG: {
-				Uint8 health;
-				Uint8 stocks;
-				memcpy(&health, dataBuffer + sizeof(flags), sizeof(Uint8));
-				memcpy(&stocks, dataBuffer + sizeof(flags) + sizeof(Uint8), sizeof(Uint8));
-				world->autonomousProxy.SetHealthAndStocks(health, stocks);
-				return true;
-			} break;
-
-			case SP_HEALTH_FLAG: {
-				Uint8 health;
-				Uint8 stocks;
-				memcpy(&health, dataBuffer + sizeof(flags), sizeof(Uint8));
-				memcpy(&stocks, dataBuffer + sizeof(flags) + sizeof(Uint8), sizeof(Uint8));
-				world->simulatedProxy.SetHealthAndStocks(health, stocks);
-				return true;
-			} break;
-
 			case DOOT_FLAG: {
 				Uint8 dootFlag;
 				memcpy(&dootFlag, dataBuffer + sizeof(flags), sizeof(Uint8));
@@ -199,18 +181,6 @@ Uint8* SNServer::InternalRecvData()
 		case STRING_FLAG: {
 			Uint8 retData[15];
 			memcpy(retData, recvData, 15 * sizeof(Uint8));
-			return retData;
-		}
-
-		case AP_HEALTH_FLAG: {
-			Uint8 retData[5];
-			memcpy(retData, recvData, 5 * sizeof(Uint8));
-			return retData;
-		}
-
-		case SP_HEALTH_FLAG: {
-			Uint8 retData[5];
-			memcpy(retData, recvData, 5 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -299,18 +269,24 @@ void SNServer::SendData(SNHealthPacket* data)
 	if (client == nullptr)
 		return;
 
-	Uint8 buffer[5];
+	Uint8 buffer[10];
 	int offset = 0;
 	memcpy(buffer, &data->flag, sizeof(Uint8));
 	offset += sizeof(Uint8);
 
-	memcpy(buffer + offset, &data->health, sizeof(Uint8));
+	memcpy(buffer + offset, &data->serverHealth, sizeof(Uint8));
 	offset += sizeof(Uint8);
 
-	memcpy(buffer + offset, &data->stocks, sizeof(Uint8));
+	memcpy(buffer + offset, &data->serverStocks, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->clientHealth, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->clientStocks, sizeof(Uint8));
 
 	SDL_Delay(10);
-	SDLNet_TCP_Send(client, buffer, 5);
+	SDLNet_TCP_Send(client, buffer, 10);
 }
 
 void SNServer::SendData(SNDootPacket* data)

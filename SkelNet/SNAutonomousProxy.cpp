@@ -468,9 +468,11 @@ void SNAutonomousProxy::TakeDamage()
 	if (world->HasAuthority())
 	{
 		SNHealthPacket healthPacket;
-		healthPacket.flag = SP_HEALTH_FLAG;
-		healthPacket.health = health;
-		healthPacket.stocks = currentStocks;
+		healthPacket.flag = HEALTH_FLAG;
+		healthPacket.serverHealth = health;
+		healthPacket.serverStocks = currentStocks;
+		healthPacket.clientHealth = world->simulatedProxy.health;
+		healthPacket.clientStocks = world->simulatedProxy.currentStocks;
 
 		world->server.SendData(&healthPacket);
 	}

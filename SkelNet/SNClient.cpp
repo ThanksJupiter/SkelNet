@@ -122,21 +122,19 @@ bool SNClient::RecvData()
 				return true;
 			} break;
 
-			case AP_HEALTH_FLAG: {
-				Uint8 health;
-				Uint8 stocks;
-				memcpy(&health, dataBuffer + sizeof(flags), sizeof(Uint8));
-				memcpy(&stocks, dataBuffer + sizeof(flags) + sizeof(Uint8), sizeof(Uint8));
-				world->autonomousProxy.SetHealthAndStocks(health, stocks);
-				return true;
-			} break;
+			case HEALTH_FLAG: {
+				Uint8 serverHealth;
+				Uint8 serverStocks;
+				Uint8 clientHealth;
+				Uint8 clientStocks;
+				memcpy(&serverHealth, dataBuffer + sizeof(flags), sizeof(Uint8));
+				memcpy(&serverStocks, dataBuffer + sizeof(flags) + sizeof(Uint8), sizeof(Uint8));
+				memcpy(&clientHealth, dataBuffer + sizeof(flags) + (sizeof(Uint8) * 2), sizeof(Uint8));
+				memcpy(&clientStocks, dataBuffer + sizeof(flags) + (sizeof(Uint8) * 3), sizeof(Uint8));
 
-			case SP_HEALTH_FLAG: {
-				Uint8 health;
-				Uint8 stocks;
-				memcpy(&health, dataBuffer + sizeof(flags), sizeof(Uint8));
-				memcpy(&stocks, dataBuffer + sizeof(flags) + sizeof(Uint8), sizeof(Uint8));
-				world->simulatedProxy.SetHealthAndStocks(health, stocks);
+				// Autonomous proxy is client
+				world->autonomousProxy.SetHealthAndStocks(clientHealth, clientStocks);
+				world->simulatedProxy.SetHealthAndStocks(serverHealth, serverStocks);
 				return true;
 			} break;
 
@@ -200,15 +198,9 @@ Uint8* SNClient::InternalRecvData()
 			return retData;
 		}
 
-		case AP_HEALTH_FLAG: {
-			Uint8 retData[5];
-			memcpy(retData, recvData, 5 * sizeof(Uint8));
-			return retData;
-		}
-
-		case SP_HEALTH_FLAG: {
-			Uint8 retData[5];
-			memcpy(retData, recvData, 5 * sizeof(Uint8));
+		case HEALTH_FLAG: {
+			Uint8 retData[10];
+			memcpy(retData, recvData, 10 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -290,25 +282,6 @@ void SNClient::SendData(SNStringPacket* data)
 
 	SDL_Delay(10);
 	SDLNet_TCP_Send(tcpsock, buffer, 15);
-}
-
-void SNClient::SendData(SNHealthPacket* data)
-{
-	if (tcpsock == nullptr)
-		return;
-
-	Uint8 buffer[5];
-	int offset = 0;
-	memcpy(buffer, &data->flag, sizeof(Uint8));
-	offset += sizeof(Uint8);
-
-	memcpy(buffer + offset, &data->health, sizeof(Uint8));
-	offset += sizeof(Uint8);
-
-	memcpy(buffer + offset, &data->stocks, sizeof(Uint8));
-
-	SDL_Delay(10);
-	SDLNet_TCP_Send(tcpsock, buffer, 5);
 }
 
 void SNClient::SendData(SNDootPacket* data)
