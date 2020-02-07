@@ -32,7 +32,7 @@ public:
 	Mix_Chunk* dootSound4;
 
 	Mix_Music* midnaLament;
-	Mix_Chunk* deathSound;
+	Mix_Chunk* deathExplosionSound;
 	Mix_Chunk* smokeThrowSound; 
 	Mix_Chunk* deathSound;
 	Mix_Chunk* gameVoiceSound;

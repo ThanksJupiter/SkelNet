@@ -117,13 +117,17 @@ void SNAudioManager::InitSounds()
 	dootSound4->volume = 105;
 
 	//Death
-
 	if (!(deathSound = Mix_LoadWAV(deathPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	deathSound->volume = 105;
-
+	
+	if (!(deathExplosionSound = Mix_LoadWAV(deathExplosionPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	deathExplosionSound->volume = 105;
 
 	if (!(smokeThrowSound = Mix_LoadWAV(smokeThrowPath)))
 	{
@@ -136,7 +140,6 @@ void SNAudioManager::InitSounds()
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	gameVoiceSound->volume = 115;
-
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk, int channel)
