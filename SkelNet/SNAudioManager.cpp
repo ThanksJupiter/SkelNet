@@ -26,6 +26,8 @@ void SNAudioManager::InitSounds()
 
 	//Chunks
 
+	//Attacks
+
 	if (!(punch = Mix_LoadWAV(punchPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
@@ -56,6 +58,8 @@ void SNAudioManager::InitSounds()
 	}
 	whip_miss->volume = 35;
 
+	//Movement
+
 	if (!(jump = Mix_LoadWAV(jumpPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
@@ -67,6 +71,8 @@ void SNAudioManager::InitSounds()
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	land->volume = 128;
+
+	//Platform
 
 	if (!(platformLand = Mix_LoadWAV(platformLandPath)))
 	{
@@ -85,6 +91,8 @@ void SNAudioManager::InitSounds()
 	}
 	chainSound->volume = 128;
 
+	//Doot
+
 	if (!(dootSound = Mix_LoadWAV(dootPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
@@ -95,19 +103,27 @@ void SNAudioManager::InitSounds()
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105; 
+	dootSound2->volume = 105;
 
 	if (!(dootSound3 = Mix_LoadWAV(dootPath3)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound3->volume = 105;
 
 	if (!(dootSound4 = Mix_LoadWAV(dootPath4)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound4->volume = 105;
+		
+	//Death
+
+	if (!(deathSound = Mix_LoadWAV(deathPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	deathSound->volume = 105;
 }
 
 void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk, int channel)
