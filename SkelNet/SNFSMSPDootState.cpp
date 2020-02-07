@@ -5,15 +5,22 @@
 
 void SNFSMSPDootState::Enter(SNFSMData* fsmData)
 {
-	fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->dootAnim);
+	if (fsmData->stateMachine->previousStateIndex == DOOT_STATE)
+	{
+		fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->dootAnim, 9);
+	}
+	else
+	{
+		fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->dootAnim);
+	}
 }
 
 void SNFSMSPDootState::Update(float dt, SNFSMData* fsmData)
 {
-
+	
 }
 
 void SNFSMSPDootState::Exit(SNFSMData* fsmData)
 {
-
+	
 }

@@ -229,7 +229,26 @@ void SNSimulatedProxy::SetState(Uint8 index)
 
 void SNSimulatedProxy::PlayDoot(Uint8 dootFlag)
 {
-	// TODO: play doot
+	switch (dootFlag)
+	{
+		case 0:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound1;
+			break;
+
+		case 1:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound2;
+			break;
+
+		case 2:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound3;
+			break;
+
+		case 3:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound4;
+			break;
+	}
+
+	SetState(DOOT_STATE);
 }
 
 void SNSimulatedProxy::InitializeFSM()

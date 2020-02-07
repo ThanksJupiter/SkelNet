@@ -37,6 +37,12 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 					rotation);
 			}
 
+			if (currentAnimation->sprites[currentAnimFrameCount]->shouldPlaySound)
+			{
+				world->audioManager->StopChannel(currentAnimation->sprites[currentAnimFrameCount]->audioChannel);
+				currentAnimation->sprites[currentAnimFrameCount]->PlaySound(world);
+			}
+
 			currentAnimFrameCount++;
 		}
 		else
@@ -121,5 +127,11 @@ void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot)
 	}
 
 	currentAnimFrameCount = 0;
+	currentAnimation = inAnim;
+}
+
+void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, int startFrame)
+{
+	currentAnimFrameCount = startFrame;
 	currentAnimation = inAnim;
 }

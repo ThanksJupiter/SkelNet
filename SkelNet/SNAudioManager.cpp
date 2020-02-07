@@ -26,6 +26,8 @@ void SNAudioManager::InitSounds()
 
 	//Chunks
 
+	//Attacks
+
 	if (!(punch = Mix_LoadWAV(punchPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
@@ -56,6 +58,8 @@ void SNAudioManager::InitSounds()
 	}
 	whip_miss->volume = 35;
 
+	//Movement
+
 	if (!(jump = Mix_LoadWAV(jumpPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
@@ -67,6 +71,8 @@ void SNAudioManager::InitSounds()
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
 	land->volume = 128;
+
+	//Platform
 
 	if (!(platformLand = Mix_LoadWAV(platformLandPath)))
 	{
@@ -85,17 +91,43 @@ void SNAudioManager::InitSounds()
 	}
 	chainSound->volume = 128;
 
-	if (!(dootSound = Mix_LoadWAV(dootPath)))
+	//Doot
+	if (!(dootSound1 = Mix_LoadWAV(dootPath)))
 	{
 		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
 	}
-	dootSound->volume = 105;
+	dootSound1->volume = 105;
 
+	if (!(dootSound2 = Mix_LoadWAV(dootPath2)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	dootSound2->volume = 105;
+
+	if (!(dootSound3 = Mix_LoadWAV(dootPath3)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	dootSound3->volume = 105;
+
+	if (!(dootSound4 = Mix_LoadWAV(dootPath4)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	dootSound4->volume = 105;
+
+	//Death
+
+	if (!(deathSound = Mix_LoadWAV(deathPath)))
+	{
+		fprintf(stderr, "Unable to Find audio source: %s\n", Mix_GetError()); exit(1);
+	}
+	deathSound->volume = 105;
 }
 
-void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
+void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk, int channel)
 {
-	if (Mix_PlayChannel(-1, chunk, 0) == -1)
+	if (Mix_PlayChannel(channel, chunk, 0) == -1)
 		printf("Mix_PlayChannel: %s\n", Mix_GetError());
 }
 
@@ -105,7 +137,7 @@ void SNAudioManager::LoopChunk(Mix_Chunk* chunk, int channel)
 		printf("Mix_LoopChunk: %s\n", Mix_GetError());
 }
 
-void SNAudioManager::StopLoopigChunk(int channel)
+void SNAudioManager::StopChannel(int channel)
 {
 	if (Mix_HaltChannel(1) == -1)
 		printf("Mix_StopLoopigChunk: %s\n", Mix_GetError());
