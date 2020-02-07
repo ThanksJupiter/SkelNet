@@ -178,11 +178,11 @@ void engLoadAnimationsToWorld(SNWorld& world)
 
 void engSubscribeAnimationDelegates(SNWorld& world)
 {
-	world.runAnim->sprites[0]->animation = world.runDustAnim;
 	world.runAnim->sprites[0]->shouldNotifyWhenPlayed = true;
+	world.runAnim->sprites[0]->animation = world.runDustAnim;
 
-	world.runAnim->sprites[3]->animation = world.runDustAnim;
 	world.runAnim->sprites[3]->shouldNotifyWhenPlayed = true;
+	world.runAnim->sprites[3]->animation = world.runDustAnim;
 }
 
 void engSetSpriteRenderScale(float scale)
@@ -197,21 +197,32 @@ float engGetSpriteRenderScale()
 
 void engSetAudioDelegates(SNWorld& world)
 {
+	// doot
 	world.dootAnim->sprites[9]->shouldPlaySound = true;
 	world.dootAnim->sprites[9]->audio = world.audioManager->dootSound1;
 	world.dootAnim->sprites[9]->audioChannel = world.HasAuthority()? 5 : 6;
 
+	// smoke taunt
 	world.smokeAnim->sprites[4]->shouldPlaySound = true;
 	world.smokeAnim->sprites[4]->audio = world.audioManager->cigLight;
-	world.smokeAnim->sprites[4]->audioChannel = 7;
+	world.smokeAnim->sprites[4]->audioChannel = -1;
 
 	world.smokeAnim->sprites[7]->shouldPlaySound = true;
 	world.smokeAnim->sprites[7]->audio = world.audioManager->inhale;
-	world.smokeAnim->sprites[7]->audioChannel = 7;
+	world.smokeAnim->sprites[7]->audioChannel = -1;
 
 	world.smokeAnim->sprites[14]->shouldPlaySound = true;
 	world.smokeAnim->sprites[14]->audio = world.audioManager->cigLand;
-	world.smokeAnim->sprites[14]->audioChannel = 7;
+	world.smokeAnim->sprites[14]->audioChannel = -1;
+
+	// run
+	/*world.runAnim->sprites[2]->shouldPlaySound = true;
+	world.runAnim->sprites[2]->audio = world.audioManager->land;
+	world.runAnim->sprites[2]->audioChannel = -1;
+
+	world.runAnim->sprites[5]->shouldPlaySound = true;
+	world.runAnim->sprites[5]->audio = world.audioManager->land;
+	world.runAnim->sprites[5]->audioChannel = -1;*/
 }
 
 void engClose()
