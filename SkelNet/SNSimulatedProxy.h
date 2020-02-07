@@ -29,6 +29,7 @@ public:
 
 	void SetAnimation(int index);
 	void SetState(Uint8 index);
+	void PlayDoot(Uint8 dootFlag);
 
 	void InitializeFSM();
 

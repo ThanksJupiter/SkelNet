@@ -140,6 +140,13 @@ bool SNClient::RecvData()
 				return true;
 			} break;
 
+			case DOOT_FLAG: {
+				Uint8 dootFlag;
+				memcpy(&dootFlag, dataBuffer + sizeof(flags), sizeof(Uint8));
+				world->simulatedProxy.PlayDoot(dootFlag);
+				return true;
+			} break;
+
 			default:
 				return false;
 				break;
@@ -202,6 +209,12 @@ Uint8* SNClient::InternalRecvData()
 		case SP_HEALTH_FLAG: {
 			Uint8 retData[5];
 			memcpy(retData, recvData, 5 * sizeof(Uint8));
+			return retData;
+		}
+
+		case DOOT_FLAG: {
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -296,6 +309,21 @@ void SNClient::SendData(SNHealthPacket* data)
 
 	SDL_Delay(10);
 	SDLNet_TCP_Send(tcpsock, buffer, 5);
+}
+
+void SNClient::SendData(SNDootPacket* data)
+{
+	if (tcpsock == nullptr)
+		return;
+
+	Uint8 buffer[4];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->dootFlag, sizeof(Uint8));
+
+	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
 void SNClient::Close()
