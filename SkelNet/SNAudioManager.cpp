@@ -110,9 +110,9 @@ void SNAudioManager::InitSounds()
 	dootSound->volume = 105;
 }
 
-void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk)
+void SNAudioManager::PlayChunkOnce(Mix_Chunk* chunk, int channel)
 {
-	if (Mix_PlayChannel(-1, chunk, 0) == -1)
+	if (Mix_PlayChannel(channel, chunk, 0) == -1)
 		printf("Mix_PlayChannel: %s\n", Mix_GetError());
 }
 
@@ -122,7 +122,7 @@ void SNAudioManager::LoopChunk(Mix_Chunk* chunk, int channel)
 		printf("Mix_LoopChunk: %s\n", Mix_GetError());
 }
 
-void SNAudioManager::StopLoopigChunk(int channel)
+void SNAudioManager::StopChannel(int channel)
 {
 	if (Mix_HaltChannel(1) == -1)
 		printf("Mix_StopLoopigChunk: %s\n", Mix_GetError());

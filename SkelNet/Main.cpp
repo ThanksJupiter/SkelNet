@@ -355,7 +355,7 @@ int main()
 			else if (chainSoundStarted == true)
 			{
 				chainSoundStarted = false;
-				world.audioManager->StopLoopigChunk(2);
+				world.audioManager->StopChannel(2);
 				world.audioManager->PlayChunkOnce(world.audioManager->platformLand);
 				world.autonomousProxy.inputEnabled = true;
 			}
