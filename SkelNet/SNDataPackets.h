@@ -13,6 +13,8 @@
 #define AP_HEALTH_FLAG 6
 #define SP_HEALTH_FLAG 7
 
+#define DOOT_FLAG 8
+
 struct SNTransformPacket
 {
 	Uint8 flag;
@@ -45,4 +47,10 @@ struct SNHealthPacket
 	Uint8 flag;
 	Uint8 health;
 	Uint8 stocks;
+};
+
+struct SNDootPacket
+{
+	Uint8 flag;
+	Uint8 dootFlag;
 };

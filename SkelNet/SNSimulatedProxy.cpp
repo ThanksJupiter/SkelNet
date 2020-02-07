@@ -221,6 +221,11 @@ void SNSimulatedProxy::SetState(Uint8 index)
 	stateMachine->EnterState(index);
 }
 
+void SNSimulatedProxy::PlayDoot(Uint8 dootFlag)
+{
+	// TODO: play doot
+}
+
 void SNSimulatedProxy::InitializeFSM()
 {
 	fsmData = new SNFSMData(
