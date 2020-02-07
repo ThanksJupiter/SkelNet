@@ -163,11 +163,11 @@ void SetupMainMenuUI()
 
 	//Start game butt on
 	{
-		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 250 }, { 200,40.f }, true, StartGame);
+		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 250 }, { 250,50.f }, true, StartGame);
 		startGameButton->drawRect = true;
 		startGameButton->hidden = true;
 
-		startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
+		startGameText = canvas.CreateText({ 25, 10 }, "Start Game", 1.0f, &startGameButton->anchor);
 		startGameText->drawRect = false;
 		startGameText->hidden = true;
 	}
