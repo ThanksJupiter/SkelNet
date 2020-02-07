@@ -46,8 +46,8 @@ public:
 	const char* dootPath4 = "Doot4.wav";
 
 	void InitSounds();
-	void PlayChunkOnce(Mix_Chunk* chunk);
+	void PlayChunkOnce(Mix_Chunk* chunk, int channel = -1);
 	void LoopChunk(Mix_Chunk* chunk, int channel);
-	void StopLoopigChunk(int channel);
+	void StopChannel(int channel);
 	void PlayMusicLoop(Mix_Music* song);
 };
