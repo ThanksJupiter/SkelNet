@@ -30,9 +30,15 @@ public:
 	Mix_Chunk* dootSound2;
 	Mix_Chunk* dootSound3;
 	Mix_Chunk* dootSound4;
+	Mix_Chunk* cigLand;
+	Mix_Chunk* cigLight;
+	Mix_Chunk* inhale;
+
+	Mix_Music* midnaLament;
+	Mix_Chunk* deathExplosionSound;
+	Mix_Chunk* smokeThrowSound; 
 	Mix_Chunk* deathSound;
 	Mix_Chunk* gameVoiceSound;
-	Mix_Music* midnaLament; 
 
 	const char* whip_startPath = "Whip_StartUp.wav";
 	const char* whip_hitPath = "Whip_Hit.wav";
@@ -46,8 +52,16 @@ public:
 	const char* dootPath2 = "Doot2.wav";
 	const char* dootPath3 = "Doot3.wav";
 	const char* dootPath4 = "Doot4.wav";
+	const char* cigLandPath = "CigLand.wav";
+	const char* cigLightPath = "CigLight.wav";
+	const char* inhalePath = "Inhale.wav";
+
+	const char* deathExplosionPath = "Death.wav";
+	const char* smokeThrowPath = "SmokeThrow.wav";
+
 	const char* deathPath = "DeathSound.wav";
 	const char* gameVoicePath = "GAME.mp3";
+
 
 	void InitSounds();
 	void PlayChunkOnce(Mix_Chunk* chunk, int channel = -1);

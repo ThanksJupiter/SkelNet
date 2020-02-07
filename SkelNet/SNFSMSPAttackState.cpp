@@ -5,9 +5,11 @@
 
 void SNFSMSPAttackState::Enter(SNFSMData* fsmData)
 {
+	fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->spAttackAnim);
 	timer = 0.f;
 	hit = false;
-	fsmData->simulatedProxy->animator->SetCurrentAnimation(fsmData->world->spAttackAnim);
+	hasMissSoundPlayed = false;
+	hasStartSoundPlayed = false;
 }
 
 void SNFSMSPAttackState::Update(float dt, SNFSMData* fsmData)
@@ -18,6 +20,18 @@ void SNFSMSPAttackState::Update(float dt, SNFSMData* fsmData)
 	{
 		hit = true;
 		fsmData->simulatedProxy->DoAttack();
+	}
+
+	if (timer >= startupSoundDelay && !hasStartSoundPlayed)
+	{
+		fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->whip_start);
+		hasStartSoundPlayed = true;
+	}
+
+	if (timer >= missSoundDelay && !hasMissSoundPlayed)
+	{
+		fsmData->world->audioManager->PlayChunkOnce(fsmData->world->audioManager->whip_miss);
+		hasMissSoundPlayed = true;
 	}
 }
 
