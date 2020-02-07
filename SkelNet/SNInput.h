@@ -12,6 +12,8 @@ public:
 	bool attack = false;
 	bool downTaunt = false;
 	bool upTaunt = false;
+	bool rightTaunt = false;
+	bool leftTaunt = false;
 
 	bool restart = false;
 

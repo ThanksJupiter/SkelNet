@@ -54,6 +54,12 @@ void SNFSMAPIdleState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
+	if (input->rightTaunt)
+	{
+		autoProxy->EnterState(DOOT_STATE);
+		return;
+	}
+
 	autoProxy->ForcesTimeIntegration(dt);
 
 	/*if (autoProxy->IsGrounded())
