@@ -24,6 +24,7 @@ public:
 	Mix_Chunk* audio;
 	SNAnimation* animation;
 	void Notify(SNWorld* world);
+	int audioChannel = 69;
 	void PlaySound(SNWorld* world);
 
 	SDL_Rect sheetSourceRect;

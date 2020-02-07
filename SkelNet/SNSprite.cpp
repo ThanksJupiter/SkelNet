@@ -18,5 +18,5 @@ void SNSprite::Notify(SNWorld* world)
 
 void SNSprite::PlaySound(SNWorld* world)
 {
-	world->audioManager->PlayChunkOnce(audio);
+	world->audioManager->PlayChunkOnce(audio, audioChannel);
 }

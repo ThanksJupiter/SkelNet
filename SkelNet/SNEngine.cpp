@@ -199,6 +199,7 @@ void engSetAudioDelegates(SNWorld& world)
 {
 	world.dootAnim->sprites[9]->shouldPlaySound = true;
 	world.dootAnim->sprites[9]->audio = world.audioManager->dootSound1;
+	world.dootAnim->sprites[9]->audioChannel = 5;
 }
 
 void engClose()

@@ -39,6 +39,7 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 
 			if (currentAnimation->sprites[currentAnimFrameCount]->shouldPlaySound)
 			{
+				world->audioManager->StopChannel(currentAnimation->sprites[currentAnimFrameCount]->audioChannel);
 				currentAnimation->sprites[currentAnimFrameCount]->PlaySound(world);
 			}
 
