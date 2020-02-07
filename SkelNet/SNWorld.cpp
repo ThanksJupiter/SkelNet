@@ -296,11 +296,11 @@ void SNWorld::SetupUI()
 {
 	worldCanvas.Setup(worldSize, { 0, 0 });
 
-	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 380 }, { 150,45.f }, true, REMATCH);
-	rematchText = worldCanvas.CreateText({ 5,8 }, "Rematch", 1.0f, &rematchButton->anchor);
+	rematchButton = worldCanvas.CreateButton({ worldSize.x / 2 - 100, (worldSize.y / 2) + 380 }, { 175,60.f }, true, REMATCH);
+	rematchText = worldCanvas.CreateText({ 13,13 }, "Rematch", 1.0f, &rematchButton->anchor);
 
 	opponentWantsRematchText = worldCanvas.CreateText({ 45, 50 }, "Opponent Wants Rematch!", 1.0f, &rematchButton->anchor);
-	opponentWantsRematchText->SetRelativePosition({ -opponentWantsRematchText->size.x / 2, 0 });
+	opponentWantsRematchText->SetRelativePosition({ -opponentWantsRematchText->size.x / 2 + 45, 0 });
 	opponentWantsRematchText->hidden = true;
 
 	rematchButton->drawRect = true;
@@ -309,7 +309,7 @@ void SNWorld::SetupUI()
 
 	winnerText = worldCanvas.CreateText({ worldSize.x / 2 , worldSize.y / 2 - 100.f }, "wins!", 3.0f);
 	winnerText->SetRelativePosition({ -winnerText->size.x / 2, 0 });
-	winnerText->hidden = true;
+	winnerText->hidden = true; 
 
 	autoProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });
 	simProxyHealthFrame = worldCanvas.CreateRect({ 0, 0 }, { 200, 100 });

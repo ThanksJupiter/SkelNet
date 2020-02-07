@@ -163,32 +163,32 @@ void SetupMainMenuUI()
 
 	//Start game butt on
 	{
-		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 250 }, { 200,40.f }, true, StartGame);
+		startGameButton = canvas.CreateButton({ world.worldSize.x / 2 - 100, (world.worldSize.y / 2) + 250 }, { 250,50.f }, true, StartGame);
 		startGameButton->drawRect = true;
 		startGameButton->hidden = true;
 
-		startGameText = canvas.CreateText({ 0,0 }, "Start Game", 1.0f, &startGameButton->anchor);
+		startGameText = canvas.CreateText({ 25, 10 }, "Start Game", 1.0f, &startGameButton->anchor);
 		startGameText->drawRect = false;
 		startGameText->hidden = true;
 	}
 
 	waitingForPlayersText = canvas.CreateText({ world.worldSize.x / 2 - 175 ,0 }, "Waiting For Players");
 
-	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 190, (world.worldSize.y / 2) + 350 }, { 100.f,45.f }, true, SetupServer);
-	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 350 }, { 100.f,45.f }, true, SetupClient);
+	hostButton = canvas.CreateButton({ (world.worldSize.x / 2) - 190, (world.worldSize.y / 2) + 350 }, { 135.f,60.f }, true, SetupServer);
+	joinButton = canvas.CreateButton({ (world.worldSize.x / 2) + 125, (world.worldSize.y / 2) + 350 }, { 135.f,60.f }, true, SetupClient);
 
-	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 150 }, { 200.f,40.f }, true, EnableIPTextInput);
-	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 220 }, { 200.f,40.f }, true, EnableNameTextInput);
+	ipTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 150 }, { 250.f,50.f }, true, EnableIPTextInput);
+	nameTextInputButton = canvas.CreateButton({ (world.worldSize.x / 2) - 85, (world.worldSize.y / 2) + 220 }, { 250.f,50.f }, true, EnableNameTextInput);
 
 	hostButton->drawRect = true;
 	joinButton->drawRect = true;
 	ipTextInputButton->drawRect = true;
 	nameTextInputButton->drawRect = true;
 
-	hostText = canvas.CreateText({ 10, 8 }, "Host", 1.0f, &hostButton->anchor);
-	joinText = canvas.CreateText({ 10, 8 }, "Join", 1.0f, &joinButton->anchor);
-	ipInputField = canvas.CreateText({ 0,0 }, "127.0.0.1", 1.0f, &ipTextInputButton->anchor);
-	nameInputField = canvas.CreateText({ 0,0 }, "Enter Name", 1.0f, &nameTextInputButton->anchor);
+	hostText = canvas.CreateText({ 26, 15 }, "Host", 1.0f, &hostButton->anchor);
+	joinText = canvas.CreateText({ 24, 15 }, "Join", 1.0f, &joinButton->anchor);
+	ipInputField = canvas.CreateText({ 31,10 }, "127.0.0.1", 1.0f, &ipTextInputButton->anchor);
+	nameInputField = canvas.CreateText({ 24,10 }, "Enter Name", 1.0f, &nameTextInputButton->anchor);
 
 	engSetInputTextPtr(&ipInputField->textString);
 
@@ -349,13 +349,13 @@ int main()
 				if (!chainSoundStarted)
 				{
 					chainSoundStarted = true;
-					world.audioManager->LoopChunk(world.audioManager->chainSound);
+					world.audioManager->LoopChunk(world.audioManager->chainSound, 2);
 				}
 			}
 			else if (chainSoundStarted == true)
 			{
 				chainSoundStarted = false;
-				world.audioManager->StopLoopigChunk();
+				world.audioManager->StopLoopigChunk(2);
 				world.audioManager->PlayChunkOnce(world.audioManager->platformLand);
 				world.autonomousProxy.inputEnabled = true;
 			}

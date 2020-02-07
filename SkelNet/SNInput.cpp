@@ -15,6 +15,8 @@ void SNInput::SetInput()
 
 	downTaunt = engGetKeyDown(Key::T) || engGetDPadButtonDown(DPadButton::Down);
 	upTaunt = engGetKeyDown(Key::R) || engGetDPadButtonDown(DPadButton::Up);
+	rightTaunt = engGetKeyDown(Key::F) || engGetDPadButtonDown(DPadButton::Right);
+	leftTaunt = engGetDPadButtonDown(DPadButton::Left);
 
 	restart = engGetButtonDown(GamepadButton::Start) || engGetKeyDown(Key::U);
 }
