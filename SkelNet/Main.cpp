@@ -249,7 +249,7 @@ int main()
 			//engDrawString({ 10, 10 }, "Client");
 		}
 
-		if (engGetInputText().size() > 10)
+		if (engGetInputText().size() > 14)
 		{
 			engGetInputTextPtr()->pop_back();
 			printf(engGetInputText().c_str());
