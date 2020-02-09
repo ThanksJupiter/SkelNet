@@ -47,9 +47,6 @@
     <ClCompile Include="SNFSMSPKnockedDownState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
-    <ClCompile Include="SNFSMSPTauntState.cpp">
-      <Filter>StateMachine\SPStates</Filter>
-    </ClCompile>
     <ClCompile Include="SNFSMSPTurnAroundState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
@@ -123,6 +120,13 @@
     <ClCompile Include="SNFSMSPSmokeState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPDootState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPDootState.cpp" />
+    <ClCompile Include="SNFSMSPTeabagState.cpp">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -179,9 +183,6 @@
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMSPKnockedDownState.h">
-      <Filter>StateMachine\SPStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SNFSMSPTauntState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMSPTurnAroundState.h">
@@ -255,6 +256,13 @@
       <Filter>StateMachine\APStates</Filter>
     </ClInclude>
     <ClInclude Include="SNFSMSPSmokeState.h">
+      <Filter>StateMachine\SPStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMAPDootState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPDootState.h" />
+    <ClInclude Include="SNFSMSPTeabagState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
   </ItemGroup>

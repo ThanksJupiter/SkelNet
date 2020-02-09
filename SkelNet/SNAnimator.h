@@ -54,4 +54,5 @@ public:
 	void IncrementOneFrame();
 	void DrawAnimation(Vector2 position, bool flipped, float dt, float angle = 0);
 	void SetCurrentAnimation(SNAnimation* inAnim, bool oneShot = false);
+	void SetCurrentAnimation(SNAnimation* inAnim, int startFrame);
 };

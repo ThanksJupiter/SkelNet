@@ -16,12 +16,13 @@
 #include "SNFSMSPFallState.h"
 #include "SNFSMSPKnockedDownState.h"
 #include "SNFSMSPTurnAroundState.h"
-#include "SNFSMSPTauntState.h"
+#include "SNFSMSPTeabagState.h"
 #include "SNFSMSPJumpSquatState.h"
 #include "SNFSMSPLandState.h"
 #include "SNFSMSPDeathState.h"
 #include "SNFSMSPJumpAscendState.h"
 #include "SNFSMSPSmokeState.h"
+#include "SNFSMSPDootState.h"
 
 void SNSimulatedProxy::DoAttack()
 {
@@ -123,10 +124,28 @@ void SNSimulatedProxy::PlayAttackAnim()
 
 void SNSimulatedProxy::TakeDamage()
 {
+	startPos = transform.GetPosition();
+	startHealth = health;
+
+
 	world->audioManager->PlayChunkOnce(world->audioManager->whip_hit);
 	FlyBack();
 	health += 15;
 	printf("SimulatedProxy: Took Damage\n");
+
+	endHealth = health;
+
+	if (world->HasAuthority())
+	{
+		SNHealthPacket healthPacket;
+		healthPacket.flag = HEALTH_FLAG;
+		healthPacket.serverHealth = world->autonomousProxy.health;
+		healthPacket.serverStocks = world->autonomousProxy.currentStocks;
+		healthPacket.clientHealth = health;
+		healthPacket.clientStocks = currentStocks;
+
+		world->server.SendData(&healthPacket);
+	}
 }
 
 void SNSimulatedProxy::FlyBack()
@@ -142,6 +161,12 @@ void SNSimulatedProxy::FlyBack()
 	transform.SetPosition({ transform.GetPosition().x, transform.GetPosition().y - 5 });
 
 	transform.SetVelocity(newFlyback);
+}
+
+void SNSimulatedProxy::SetHealthAndStocks(Uint8 newHealth, Uint8 newStocks)
+{
+	health = newHealth;
+	currentStocks = newStocks;
 }
 
 bool SNSimulatedProxy::isGrounded()
@@ -204,6 +229,30 @@ void SNSimulatedProxy::SetState(Uint8 index)
 	stateMachine->EnterState(index);
 }
 
+void SNSimulatedProxy::PlayDoot(Uint8 dootFlag)
+{
+	switch (dootFlag)
+	{
+		case 0:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound1;
+			break;
+
+		case 1:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound2;
+			break;
+
+		case 2:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound3;
+			break;
+
+		case 3:
+			world->dootAnim->sprites[9]->audio = world->audioManager->dootSound4;
+			break;
+	}
+
+	SetState(DOOT_STATE);
+}
+
 void SNSimulatedProxy::InitializeFSM()
 {
 	fsmData = new SNFSMData(
@@ -218,12 +267,13 @@ void SNSimulatedProxy::InitializeFSM()
 	fsmData->availableStates[FALL_STATE] = new SNFSMSPFallState("Fall");
 	fsmData->availableStates[KNOCKDOWN_STATE] = new SNFSMSPKnockedDownState("KnockedDown");
 	fsmData->availableStates[TURNAROUND_STATE] = new SNFSMSPTurnAroundState("Turn");
-	fsmData->availableStates[TEABAG_STATE] = new SNFSMSPTauntState("Teabag");
+	fsmData->availableStates[TEABAG_STATE] = new SNFSMSPTeabagState("Teabag");
 	fsmData->availableStates[JUMPSQUAT_STATE] = new SNFSMSPJumpSquatState("JumpSquat");
 	fsmData->availableStates[LAND_STATE] = new SNFSMSPLandState("Land");
 	fsmData->availableStates[DEATH_STATE] = new SNFSMSPDeathState("Death");
 	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMSPJumpAscendState("JumpAscend");
 	fsmData->availableStates[SMOKE_STATE] = new SNFSMSPSmokeState("Smoke");
+	fsmData->availableStates[DOOT_STATE] = new SNFSMSPDootState("Doot");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

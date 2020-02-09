@@ -16,6 +16,7 @@
 #include "SNFSMAPDeathState.h"
 #include "SNFSMAPJumpAscendState.h"
 #include "SNFSMAPSmokeState.h"
+#include "SNFSMAPDootState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -171,6 +172,12 @@ void SNAutonomousProxy::FlyBack()
 	transform.SetVelocity(newFlyback);
 }
 
+void SNAutonomousProxy::SetHealthAndStocks(Uint8 newHealth, Uint8 newStocks)
+{
+	health = newHealth;
+	currentStocks = newStocks;
+}
+
 void SNAutonomousProxy::Reset()
 {
 	if (world->HasAuthority())
@@ -248,6 +255,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[DEATH_STATE] = new SNFSMAPDeathState("Death");
 	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMAPJumpAscendState("JumpAscend");
 	fsmData->availableStates[SMOKE_STATE] = new SNFSMAPSmokeState("Smoke");
+	fsmData->availableStates[DOOT_STATE] = new SNFSMAPDootState("Doot");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;
@@ -456,6 +464,18 @@ void SNAutonomousProxy::TakeDamage()
 	FlyBack();
 	health += 15;
 	printf("AutonomousProxy: Took Damage\n");
+
+	if (world->HasAuthority())
+	{
+		SNHealthPacket healthPacket;
+		healthPacket.flag = HEALTH_FLAG;
+		healthPacket.serverHealth = health;
+		healthPacket.serverStocks = currentStocks;
+		healthPacket.clientHealth = world->simulatedProxy.health;
+		healthPacket.clientStocks = world->simulatedProxy.currentStocks;
+
+		world->server.SendData(&healthPacket);
+	}
 }
 
 void SNAutonomousProxy::DoAttack()

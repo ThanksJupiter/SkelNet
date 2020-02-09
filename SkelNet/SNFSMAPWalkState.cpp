@@ -90,6 +90,24 @@ void SNFSMAPWalkState::Update(float dt, SNFSMData* fsmData)
 		return;
 	}
 
+	if (input->downTaunt)
+	{
+		autoProxy->EnterState(TEABAG_STATE);
+		return;
+	}
+
+	if (input->upTaunt)
+	{
+		autoProxy->EnterState(SMOKE_STATE);
+		return;
+	}
+
+	if (input->rightTaunt)
+	{
+		autoProxy->EnterState(DOOT_STATE);
+		return;
+	}
+
 	autoProxy->ForcesTimeIntegration(dt);
 }
 

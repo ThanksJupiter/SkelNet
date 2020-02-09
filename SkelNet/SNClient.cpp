@@ -122,6 +122,29 @@ bool SNClient::RecvData()
 				return true;
 			} break;
 
+			case HEALTH_FLAG: {
+				Uint8 serverHealth;
+				Uint8 serverStocks;
+				Uint8 clientHealth;
+				Uint8 clientStocks;
+				memcpy(&serverHealth, dataBuffer + sizeof(flags), sizeof(Uint8));
+				memcpy(&serverStocks, dataBuffer + sizeof(flags) + sizeof(Uint8), sizeof(Uint8));
+				memcpy(&clientHealth, dataBuffer + sizeof(flags) + (sizeof(Uint8) * 2), sizeof(Uint8));
+				memcpy(&clientStocks, dataBuffer + sizeof(flags) + (sizeof(Uint8) * 3), sizeof(Uint8));
+
+				// Autonomous proxy is client
+				world->autonomousProxy.SetHealthAndStocks(clientHealth, clientStocks);
+				world->simulatedProxy.SetHealthAndStocks(serverHealth, serverStocks);
+				return true;
+			} break;
+
+			case DOOT_FLAG: {
+				Uint8 dootFlag;
+				memcpy(&dootFlag, dataBuffer + sizeof(flags), sizeof(Uint8));
+				world->simulatedProxy.PlayDoot(dootFlag);
+				return true;
+			} break;
+
 			default:
 				return false;
 				break;
@@ -172,6 +195,18 @@ Uint8* SNClient::InternalRecvData()
 		case STRING_FLAG: {
 			Uint8 retData[15];
 			memcpy(retData, recvData, 15 * sizeof(Uint8));
+			return retData;
+		}
+
+		case HEALTH_FLAG: {
+			Uint8 retData[10];
+			memcpy(retData, recvData, 10 * sizeof(Uint8));
+			return retData;
+		}
+
+		case DOOT_FLAG: {
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -230,6 +265,7 @@ void SNClient::SendData(SNEventPacket* data)
 
 	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
 
+	SDL_Delay(10);
 	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
@@ -245,7 +281,24 @@ void SNClient::SendData(SNStringPacket* data)
 
 	memcpy(buffer + offset, data->string, (sizeof(char) * 15) - sizeof(Uint8));
 
+	SDL_Delay(10);
 	SDLNet_TCP_Send(tcpsock, buffer, 15);
+}
+
+void SNClient::SendData(SNDootPacket* data)
+{
+	if (tcpsock == nullptr)
+		return;
+
+	Uint8 buffer[4];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->dootFlag, sizeof(Uint8));
+
+	SDL_Delay(10);
+	SDLNet_TCP_Send(tcpsock, buffer, 4);
 }
 
 void SNClient::Close()

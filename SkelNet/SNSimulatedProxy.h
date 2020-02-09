@@ -10,6 +10,7 @@ class SNWorld;
 class SNAnimator;
 class SNFiniteStateMachine;
 struct SNFSMData;
+struct Mix_Chunk;
 
 class SNSimulatedProxy
 {
@@ -24,16 +25,19 @@ public:
 	void PlayAttackAnim();
 	void TakeDamage();
 	void FlyBack();
+	void SetHealthAndStocks(Uint8 newHealth, Uint8 newStocks);
 	bool isGrounded();
 
 	void SetAnimation(int index);
 	void SetState(Uint8 index);
+	void PlayDoot(Uint8 dootFlag);
 
 	void InitializeFSM();
 
 	void DoAttack();
 	SNFiniteStateMachine* stateMachine;
 	SNFSMData* fsmData;
+	Mix_Chunk* nextDootSound;
 
 	SNTransform transform;
 
@@ -52,7 +56,7 @@ public:
 	float timer = 0.0f;
 	float regainVulnerabilityDelay = 2.0f;
 
-	int health = 1;
+	Uint8 health = 1;
 	Uint8 currentStocks = 0;
 	Uint8 maxStocks = 3;
 
@@ -67,6 +71,14 @@ public:
 	bool didHit;
 	
 	void Reset();
+
+
+	// DEBUG
+	Vector2 startPos;
+	Vector2 endPos;
+	float dist;
+	Uint8 startHealth;
+	Uint8 endHealth;
 };
 
 

@@ -130,6 +130,13 @@ bool SNServer::RecvData()
 				return true;
 			} break;
 
+			case DOOT_FLAG: {
+				Uint8 dootFlag;
+				memcpy(&dootFlag, dataBuffer + sizeof(flags), sizeof(Uint8));
+				world->simulatedProxy.PlayDoot(dootFlag);
+				return true;
+			} break;
+
 			default:
 				return false;
 				break;
@@ -174,6 +181,12 @@ Uint8* SNServer::InternalRecvData()
 		case STRING_FLAG: {
 			Uint8 retData[15];
 			memcpy(retData, recvData, 15 * sizeof(Uint8));
+			return retData;
+		}
+
+		case DOOT_FLAG: {
+			Uint8 retData[4];
+			memcpy(retData, recvData, 4 * sizeof(Uint8));
 			return retData;
 		}
 
@@ -232,6 +245,7 @@ void SNServer::SendData(SNEventPacket* data)
 
 	memcpy(buffer + offset, &data->eventFlag, sizeof(Uint8));
 
+	SDL_Delay(10);
 	SDLNet_TCP_Send(client, buffer, 4);
 }
 
@@ -249,6 +263,47 @@ void SNServer::SendData(SNStringPacket* data)
 
 	SDL_Delay(10);
 	SDLNet_TCP_Send(client, buffer, 15);
+}
+
+void SNServer::SendData(SNHealthPacket* data)
+{
+	if (client == nullptr)
+		return;
+
+	Uint8 buffer[10];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->serverHealth, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->serverStocks, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->clientHealth, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->clientStocks, sizeof(Uint8));
+
+	SDL_Delay(10);
+	SDLNet_TCP_Send(client, buffer, 10);
+}
+
+void SNServer::SendData(SNDootPacket* data)
+{
+	if (client == nullptr)
+		return;
+
+	Uint8 buffer[4];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->dootFlag, sizeof(Uint8));
+
+	SDL_Delay(10);
+	SDLNet_TCP_Send(client, buffer, 4);
 }
 
 void SNServer::Close()

@@ -11,17 +11,18 @@
 
 SNAnimator::SNAnimator()
 {
-	
+
 }
 
 void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float angle)
 {
 	timer += dt;
 	rotation = angle;
+
 	if (timer > currentAnimation->nextFrameDelay)
 	{
 		timer = 0.0;
-		
+
 		if (currentAnimFrameCount < currentAnimation->frameCount - 1)
 		{
 			if (currentAnimation->sprites[currentAnimFrameCount]->shouldNotifyWhenPlayed)
@@ -35,6 +36,21 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 					flipped,
 					scale,
 					rotation);
+			}
+
+			printf("current anim frame: %i\n", currentAnimFrameCount);
+			if (currentAnimation->sprites[currentAnimFrameCount]->shouldPlaySound)
+			{
+				if (currentAnimFrameCount == 5)
+				{
+					printf("xd");
+				}
+
+				if (currentAnimation->sprites[currentAnimFrameCount]->audioChannel >= 0)
+				{
+					world->audioManager->StopChannel(currentAnimation->sprites[currentAnimFrameCount]->audioChannel);
+				}
+				currentAnimation->sprites[currentAnimFrameCount]->PlaySound(world);
 			}
 
 			currentAnimFrameCount++;
@@ -52,16 +68,16 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 	}
 
 	int width = currentAnimation->sprites[currentAnimFrameCount]->width;
-	SDL_Rect sourceRect = 
-	{ 
-		0, 
+	SDL_Rect sourceRect =
+	{
+		0,
 		currentAnimation->sprites[currentAnimFrameCount]->height * currentAnimFrameCount,
-		currentAnimation->sprites[currentAnimFrameCount]->width, 
-		currentAnimation->sprites[currentAnimFrameCount]->height 
+		currentAnimation->sprites[currentAnimFrameCount]->width,
+		currentAnimation->sprites[currentAnimFrameCount]->height
 	};
 
-	SDL_Rect destinationRect = 
-	{ 
+	SDL_Rect destinationRect =
+	{
 		// position
 		world->mainCamera.MakePositionWithCam(position).x - (currentAnimation->sprites[currentAnimFrameCount]->width * scale) / 2,
 		world->mainCamera.MakePositionWithCam(position).y - currentAnimation->sprites[currentAnimFrameCount]->height * scale,
@@ -73,7 +89,7 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 	SDL_SetTextureColorMod(currentAnimation->sprites[currentAnimFrameCount]->texture,
 		r, g, b);
 
-	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation, {destinationRect.w / 2, destinationRect.h - 40});
+	engDrawSprite(sourceRect, destinationRect, currentAnimation->sprites[currentAnimFrameCount]->texture, flipped, rotation, { destinationRect.w / 2, destinationRect.h - 40 });
 }
 
 void SNAnimator::DrawAnimation(Vector2 position, bool flipped)
@@ -121,5 +137,11 @@ void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, bool oneShot)
 	}
 
 	currentAnimFrameCount = 0;
+	currentAnimation = inAnim;
+}
+
+void SNAnimator::SetCurrentAnimation(SNAnimation* inAnim, int startFrame)
+{
+	currentAnimFrameCount = startFrame;
 	currentAnimation = inAnim;
 }
