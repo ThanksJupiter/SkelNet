@@ -38,14 +38,8 @@ void SNAnimator::DrawAnimation(Vector2 position, bool flipped, float dt, float a
 					rotation);
 			}
 
-			printf("current anim frame: %i\n", currentAnimFrameCount);
 			if (currentAnimation->sprites[currentAnimFrameCount]->shouldPlaySound)
 			{
-				if (currentAnimFrameCount == 5)
-				{
-					printf("xd");
-				}
-
 				if (currentAnimation->sprites[currentAnimFrameCount]->audioChannel >= 0)
 				{
 					world->audioManager->StopChannel(currentAnimation->sprites[currentAnimFrameCount]->audioChannel);
