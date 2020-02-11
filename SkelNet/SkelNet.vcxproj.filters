@@ -127,6 +127,10 @@
     <ClCompile Include="SNFSMSPTeabagState.cpp">
       <Filter>StateMachine\SPStates</Filter>
     </ClCompile>
+    <ClCompile Include="SNFSMAPDashAttackState.cpp">
+      <Filter>StateMachine\APStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SNFSMSPDashAttackState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationBehaviour.h" />
@@ -265,6 +269,10 @@
     <ClInclude Include="SNFSMSPTeabagState.h">
       <Filter>StateMachine\SPStates</Filter>
     </ClInclude>
+    <ClInclude Include="SNFSMAPDashAttackState.h">
+      <Filter>StateMachine\APStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SNFSMSPDashAttackState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="libjpeg-9.dll" />

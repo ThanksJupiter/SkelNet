@@ -115,6 +115,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SpritesheetData hitEffect01Sheet = SpritesheetData("SN_Hit_Effect_01-Sheet.png", 2, 32, 32);
 	SpritesheetData countDownSheet = SpritesheetData("SN_Game_Start_Countdown-Sheet.png", 4, 64, 32);
 	SpritesheetData laughSkelSheet = SpritesheetData("SN_Laugh_Skel_Portrait-Sheet.png", 3, 32, 32);
+	SpritesheetData dashTackleSheet = SpritesheetData("SN_Skel_Dash_Tackle_02-Sheet.png", 7, 32, 32);
 
 	SNSprite* idleSprites[4];
 	SNSprite* walkSprites[4];
@@ -140,6 +141,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	SNSprite* hitEffect01Sprites[2];
 	SNSprite* countDownSprites[4];
 	SNSprite* laughSkelSprites[3];
+	SNSprite* dashTackleSprites[7];
 
 	world.idleAnim = idleSheet.CreateAnimation(idleSprites, .25);
 	world.walkAnim = walkSheet.CreateAnimation(walkSprites, .15);
@@ -165,6 +167,7 @@ void engLoadAnimationsToWorld(SNWorld& world)
 	world.deathShockwave = deathShockwaveSheet.CreateAnimation(deathShockwaveSprites, .1);
 	world.hitEffect01 = hitEffect01Sheet.CreateAnimation(hitEffect01Sprites, .05);
 	world.laughSkelAnim = laughSkelSheet.CreateAnimation(laughSkelSprites, .1);
+	world.dashTackleAnim = dashTackleSheet.CreateAnimation(dashTackleSprites, .1);
 
 	world.countDownAnim = countDownSheet.CreateAnimation(countDownSprites, 1);
 

@@ -23,6 +23,7 @@
 #include "SNFSMSPJumpAscendState.h"
 #include "SNFSMSPSmokeState.h"
 #include "SNFSMSPDootState.h"
+#include "SNFSMSPDashAttackState.h"
 
 void SNSimulatedProxy::DoAttack()
 {
@@ -274,6 +275,7 @@ void SNSimulatedProxy::InitializeFSM()
 	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMSPJumpAscendState("JumpAscend");
 	fsmData->availableStates[SMOKE_STATE] = new SNFSMSPSmokeState("Smoke");
 	fsmData->availableStates[DOOT_STATE] = new SNFSMSPDootState("Doot");
+	fsmData->availableStates[DASH_ATTACK_STATE] = new SNFSMSPDashAttackState("DashAttack");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

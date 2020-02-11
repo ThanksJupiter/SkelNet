@@ -61,7 +61,7 @@ void SNFSMAPRunState::Update(float dt, SNFSMData* fsmData)
 
 	if (input->attack)
 	{
-		autoProxy->EnterState(ATTACK_STATE);
+		autoProxy->EnterState(DASH_ATTACK_STATE);
 		return;
 	}
 

@@ -61,6 +61,7 @@ public:
 	SNAnimation* deathShockwave;
 	SNAnimation* hitEffect01;
 	SNAnimation* laughSkelAnim;
+	SNAnimation* dashTackleAnim;
 
 	SNAnimation* countDownAnim;
 

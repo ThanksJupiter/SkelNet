@@ -17,6 +17,7 @@
 #include "SNFSMAPJumpAscendState.h"
 #include "SNFSMAPSmokeState.h"
 #include "SNFSMAPDootState.h"
+#include "SNFSMAPDashAttackState.h"
 
 void SNAutonomousProxy::Spawn(Vector2 initPos, SNWorld& world)
 {
@@ -256,6 +257,7 @@ void SNAutonomousProxy::InitializeFSM()
 	fsmData->availableStates[JUMP_ASCEND_STATE] = new SNFSMAPJumpAscendState("JumpAscend");
 	fsmData->availableStates[SMOKE_STATE] = new SNFSMAPSmokeState("Smoke");
 	fsmData->availableStates[DOOT_STATE] = new SNFSMAPDootState("Doot");
+	fsmData->availableStates[DASH_ATTACK_STATE] = new SNFSMAPDashAttackState("DashAttack");
 
 	stateMachine = new SNFiniteStateMachine(fsmData);
 	fsmData->stateMachine = stateMachine;

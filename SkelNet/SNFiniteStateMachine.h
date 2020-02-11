@@ -8,7 +8,7 @@
 #include "SNFSMAPKnockbackState.h"
 #include "SNFSMAPFallState.h"
 
-#define MAX_FSM_STATES 16
+#define MAX_FSM_STATES 17
 
 #define IDLE_STATE 0
 #define WALK_STATE 1
@@ -26,6 +26,7 @@
 #define JUMP_ASCEND_STATE 13
 #define SMOKE_STATE 14
 #define DOOT_STATE 15
+#define DASH_ATTACK_STATE 16
 
 class SNFSMState;
 struct SNFSMData;

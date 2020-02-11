@@ -141,6 +141,7 @@
     <ClCompile Include="SNEvent.cpp" />
     <ClCompile Include="SNEventHandler.cpp" />
     <ClCompile Include="SNFSMAPCrouchState.cpp" />
+    <ClCompile Include="SNFSMAPDashAttackState.cpp" />
     <ClCompile Include="SNFSMAPDeathState.cpp" />
     <ClCompile Include="SNFSMAPDootState.cpp" />
     <ClCompile Include="SNFSMAPJumpAscendState.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="SNFSMAPFallState.cpp" />
     <ClCompile Include="SNFSMAPKnockedDownState.cpp" />
     <ClCompile Include="SNFSMSPAttackState.cpp" />
+    <ClCompile Include="SNFSMSPDashAttackState.cpp" />
     <ClCompile Include="SNFSMSPDeathState.cpp" />
     <ClCompile Include="SNFSMSPDootState.cpp" />
     <ClCompile Include="SNFSMSPFallState.cpp" />
@@ -204,6 +206,7 @@
     <ClInclude Include="SNEvent.h" />
     <ClInclude Include="SNEventHandler.h" />
     <ClInclude Include="SNFSMAPCrouchState.h" />
+    <ClInclude Include="SNFSMAPDashAttackState.h" />
     <ClInclude Include="SNFSMAPDeathState.h" />
     <ClInclude Include="SNFSMAPDootState.h" />
     <ClInclude Include="SNFSMAPJumpAscendState.h" />
@@ -214,6 +217,7 @@
     <ClInclude Include="SNFSMAPFallState.h" />
     <ClInclude Include="SNFSMAPKnockedDownState.h" />
     <ClInclude Include="SNFSMSPAttackState.h" />
+    <ClInclude Include="SNFSMSPDashAttackState.h" />
     <ClInclude Include="SNFSMSPDeathState.h" />
     <ClInclude Include="SNFSMSPDootState.h" />
     <ClInclude Include="SNFSMSPFallState.h" />
