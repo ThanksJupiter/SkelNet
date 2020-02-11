@@ -364,6 +364,20 @@ void SNAutonomousProxy::SendTransformData()
 	}
 }
 
+void SNAutonomousProxy::SendInputData()
+{
+	SNInputPacket inputPacket;
+	inputPacket.flag = TRANSFORM_FLAG;
+	inputPacket.inputX = engGetJoystickAxis(GamepadAxis::LeftStickX, 1);
+	inputPacket.inputY = engGetJoystickAxis(GamepadAxis::LeftStickX, 1);
+	inputPacket.inputFlag
+		= engGetButtonDown(GamepadButton::Y, 1) ? INPUT_JUMP : 0
+		| engGetButtonDown(GamepadButton::X, 1) ? INPUT_ATTACK : 0
+		| engGetButtonDown(GamepadButton::X, 1) ? INPUT_JUMP_HELD : 0;
+
+	world->server.SendData(&inputPacket);
+}
+
 void SNAutonomousProxy::SetPosition(Vector2 newPosition)
 {
 	transform.SetPosition(newPosition);

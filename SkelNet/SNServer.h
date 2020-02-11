@@ -21,7 +21,7 @@ public:
 	void SendData(SNStringPacket* data);
 	void SendData(SNHealthPacket* data);
 	void SendData(SNDootPacket* data);
-
+	void SendData(SNInputPacket* data);
 	bool RecvData();
 	Uint8* InternalRecvData();
 

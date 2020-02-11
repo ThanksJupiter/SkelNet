@@ -17,6 +17,7 @@
 #include "SNWorld.h"
 #include "SDL_joystick.h"
 #include <string>
+#include "SNInput.h"
 
 SDL_Renderer* renderer;
 SDL_Window* window;
@@ -32,24 +33,14 @@ bool quit = false;
 
 std::string* currentText = nullptr;
 
-struct InputState
-{
-	bool pressed;
-	int frameNum;
-};
 static InputState keyStates[(unsigned int)Key::MAX];
-static InputState buttonStates[unsigned int(GamepadButton::MAX)];
 
 static InputState mouseStates[3];
 
 const float STICK_AXIS_DEADZONE = .18f;
 const float SHOULDER_AXIS_DEADZONE = 0.005f;
-struct AxisState
-{
-	float value;
-};
-static AxisState axisStates[(unsigned int)GamepadAxis::MAX];
-static InputState dpadStates[(unsigned int)DPadButton::MAX];
+
+SNInputStatesSet inputSets[2];
 
 void engInit()
 {
@@ -68,9 +59,9 @@ void engInit()
 	image = IMG_Load("SN_Skel_Attack-Sheet.png");
 	texture = SDL_CreateTextureFromSurface(renderer, image);
 
-	engGetJoystick();
-	axisStates[(unsigned int)GamepadAxis::LeftShoulder].value = -2.0f;
-	axisStates[(unsigned int)GamepadAxis::RightShoulder].value = -2.0f;
+	//engGetJoystick(0);
+	inputSets[0].axisStates[(unsigned int)GamepadAxis::LeftShoulder].value = -2.0f;
+	inputSets[1].axisStates[(unsigned int)GamepadAxis::RightShoulder].value = -2.0f;
 
 	//intialize Text (frames)
 	TTF_Init();
@@ -79,6 +70,8 @@ void engInit()
 	if (!(standardFont = TTF_OpenFont("bin/joystixmonospace.ttf", 24))) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 	}
+
+	SDL_RaiseWindow(window);
 }
 
 SDL_Texture* engLoadTexture(const char* path)
@@ -256,20 +249,20 @@ void engUpdate()
 		{
 			case SDL_JOYAXISMOTION:
 			{
-				AxisState& state = axisStates[e.jaxis.axis];
+				AxisState& state = inputSets[e.jaxis.which].axisStates[e.jaxis.axis];
 				state.value = (float)e.jaxis.value / 32767;
 			} break;
 
 			case SDL_JOYBUTTONDOWN:
 			{
-				InputState& state = buttonStates[e.jbutton.button];
+				InputState& state = inputSets[e.jbutton.which].buttonStates[e.jbutton.button];
 				state.pressed = true;
 				state.frameNum = currentFrameNum;
 			} break;
 
 			case SDL_JOYBUTTONUP:
 			{
-				InputState& state = buttonStates[e.jbutton.button];
+				InputState& state = inputSets[e.jbutton.which].buttonStates[e.jbutton.button];
 				state.pressed = false;
 				state.frameNum = currentFrameNum;
 			} break;	
@@ -279,7 +272,7 @@ void engUpdate()
 				int hatValue = e.jhat.value;
 				if (hatValue != (int)DPadButton::None)
 				{
-					InputState& state = dpadStates[hatValue];
+					InputState& state = inputSets[e.jhat.which].dpadStates[hatValue];
 					state.pressed = true;
 					state.frameNum = currentFrameNum;
 				}
@@ -287,7 +280,7 @@ void engUpdate()
 				{
 					for (int i = 0; i < (int)DPadButton::MAX; i++)
 					{
-						InputState& state = dpadStates[i];
+						InputState& state = inputSets[e.jhat.which].dpadStates[i];
 						state.pressed = false;
 						state.frameNum = currentFrameNum;
 					}
@@ -498,46 +491,46 @@ bool engGetMouseButtonDown(MouseButton inButton)
 	return state.pressed && state.frameNum == currentFrameNum;
 }
 
-SDL_Joystick* engGetJoystick()
+SDL_Joystick* engGetJoystick(int index, SNWorld& world)
 {
 	SDL_JoystickEventState(SDL_ENABLE);
 
-	SDL_Joystick* joystick = SDL_JoystickOpen(0);
+	SDL_Joystick* joystick = SDL_JoystickOpen(index);
 
 	return joystick;
 }
 
-bool engGetButton(GamepadButton inButton)
+bool engGetButton(GamepadButton inButton, int index)
 {
-	return buttonStates[(int)inButton].pressed;
+	return inputSets[index].buttonStates[(int)inButton].pressed;
 }
 
-bool engGetButtonDown(GamepadButton inButton)
+bool engGetButtonDown(GamepadButton inButton, int index)
 {
-	InputState& state = buttonStates[(int)inButton];
+	InputState& state = inputSets[index].buttonStates[(int)inButton];
 	return state.pressed && state.frameNum == currentFrameNum;
 }
 
-float engGetJoystickAxis(GamepadAxis inAxis)
+float engGetJoystickAxis(GamepadAxis inAxis, int index)
 {
-	float r = axisStates[(int) inAxis].value;
+	float r = inputSets[index].axisStates[(int)inAxis].value;
 	return (r > STICK_AXIS_DEADZONE || r < -STICK_AXIS_DEADZONE) ? r : 0;
 }
 
-float engGetShoulderAxis(GamepadAxis inAxis)
+float engGetShoulderAxis(GamepadAxis inAxis, int index)
 {
-	float r = axisStates[(int)inAxis].value;
+	float r = inputSets[index].axisStates[(int)inAxis].value;
 	return r > SHOULDER_AXIS_DEADZONE - 1 ? (r / 2) + 0.5f : 0;
 }
 
-bool engGetDPadButton(DPadButton inButton)
+bool engGetDPadButton(DPadButton inButton, int index)
 {
-	return dpadStates[(int)inButton].pressed;
+	return inputSets[index].dpadStates[(int)inButton].pressed;
 }
 
-bool engGetDPadButtonDown(DPadButton inButton)
+bool engGetDPadButtonDown(DPadButton inButton, int index)
 {
-	InputState& state = dpadStates[(int)inButton];
+	InputState& state = inputSets[index].dpadStates[(int)inButton];
 	return state.pressed && state.frameNum == currentFrameNum;
 }
 

@@ -8,6 +8,8 @@
 #include "SNSimulatedProxy.h"
 #include "SNAnimator.h"
 #include "SNServer.h"
+#include "SNEngine.h"
+#include "SNInput.h"
 
 bool SNClient::Setup(const char* ipAddress)
 {
@@ -143,6 +145,23 @@ bool SNClient::RecvData()
 				memcpy(&dootFlag, dataBuffer + sizeof(flags), sizeof(Uint8));
 				world->simulatedProxy.PlayDoot(dootFlag);
 				return true;
+			} break;
+
+			case INPUT_FLAG: {
+				Uint8 inputFlag;
+				int16_t posX;
+				int16_t posY;
+
+				memcpy(&inputFlag, dataBuffer + sizeof(flags), sizeof(Uint8));
+				memcpy(&posX, dataBuffer + sizeof(Uint8) + sizeof(int8_t), sizeof(int16_t));
+				memcpy(&posY, dataBuffer + sizeof(Uint8) + sizeof(int8_t) + sizeof(int16_t), sizeof(int16_t));
+
+				world->autonomousProxy.playerInput->attack = inputFlag == INPUT_ATTACK;
+				world->autonomousProxy.playerInput->jump = inputFlag == INPUT_JUMP;
+				world->autonomousProxy.playerInput->jumpHeld = inputFlag == INPUT_JUMP_HELD;
+				world->autonomousProxy.playerInput->leftStickDirection.x = posX;
+				world->autonomousProxy.playerInput->leftStickDirection.y = posY;
+
 			} break;
 
 			default:

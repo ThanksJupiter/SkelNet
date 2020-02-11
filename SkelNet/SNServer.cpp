@@ -4,6 +4,7 @@
 #include <string.h>
 #include "SNWorld.h"
 #include "SNAnimator.h"
+#include "SNEngine.h"
 
 void SNServer::Setup()
 {
@@ -23,6 +24,9 @@ void SNServer::Setup()
 		printf("Server Setup!\n");
 
 		socketSet = SDLNet_AllocSocketSet(MAX_NUM_SOCKETS);
+
+		engGetJoystick(0);
+		engGetJoystick(1);
 	}
 }
 
@@ -304,6 +308,30 @@ void SNServer::SendData(SNDootPacket* data)
 
 	SDL_Delay(10);
 	SDLNet_TCP_Send(client, buffer, 4);
+}
+
+void SNServer::SendData(SNInputPacket* data)
+{
+	if (client == nullptr)
+		return;
+
+	if (client == nullptr)
+		return;
+
+	Uint8 buffer[20];
+	int offset = 0;
+	memcpy(buffer, &data->flag, sizeof(Uint8));
+	offset += sizeof(Uint8);
+
+	memcpy(buffer + offset, &data->inputFlag, sizeof(int8_t));
+	offset += sizeof(int8_t);
+
+	memcpy(buffer + offset, &data->inputX, sizeof(int16_t));
+	offset += sizeof(int16_t);
+
+	memcpy(buffer + offset, &data->inputY, sizeof(int16_t));
+
+	SDLNet_TCP_Send(client, buffer, 20);
 }
 
 void SNServer::Close()

@@ -362,7 +362,7 @@ int main()
 		}
 		else
 		{
-			if (engGetKeyDown(Key::S) || engGetButtonDown(GamepadButton::B))
+			if (engGetKeyDown(Key::S) || engGetButtonDown(GamepadButton::B, 0))
 			{
 				//SetupServer();
 			}

@@ -20,6 +20,7 @@ public:
 
 	void UpdatePosition(float dt);
 	void SendTransformData();
+	void SendInputData();
 	void SetPosition(Vector2 newPosition);
 	bool IsGrounded();
 

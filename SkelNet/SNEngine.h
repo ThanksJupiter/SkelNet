@@ -48,14 +48,13 @@ bool engGetKeyDown(Key inKey);
 Vector2 engGetMousePosition();
 bool engGetMouseButton(MouseButton inButton);
 bool engGetMouseButtonDown(MouseButton inButton);
-SDL_Joystick* engGetJoystick();
-bool engGetButton(GamepadButton inButton);
-bool engGetButtonDown(GamepadButton inButton);
-float engGetJoystickAxis(GamepadAxis inAxis);
-float engGetShoulderAxis(GamepadAxis inAxis);
-bool engGetDPadButton(DPadButton inButton);
-bool engGetDPadButtonDown(DPadButton inButton);
-
+SDL_Joystick* engGetJoystick(int index);
+bool engGetButton(GamepadButton inButton, int index);
+bool engGetButtonDown(GamepadButton inButton, int index);
+float engGetJoystickAxis(GamepadAxis inAxis, int index);
+float engGetShoulderAxis(GamepadAxis inAxis, int index);
+bool engGetDPadButton(DPadButton inButton, int index);
+bool engGetDPadButtonDown(DPadButton inButton, int index);
 // Text 
 void engSetTextColor(Uint8 red, Uint8 green, Uint8 blue);
 void engDrawString(Vector2 position, const char* string, float scaleMultiplier = 1.f);

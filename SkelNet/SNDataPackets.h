@@ -14,6 +14,8 @@
 
 #define DOOT_FLAG 7
 
+#define INPUT_FLAG 8
+
 struct SNTransformPacket
 {
 	Uint8 flag;
@@ -54,4 +56,13 @@ struct SNDootPacket
 {
 	Uint8 flag;
 	Uint8 dootFlag;
+};
+
+struct SNInputPacket
+{
+	Uint8 flag;
+
+	Uint8 inputFlag;
+	int16_t inputX;
+	int16_t inputY;
 };
