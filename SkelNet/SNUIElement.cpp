@@ -4,6 +4,7 @@
 #include <sstream>
 #include "SNSprite.h"
 #include "SNWorld.h"
+#include <cmath>
 
 void SNUIElement::Draw()
 {
