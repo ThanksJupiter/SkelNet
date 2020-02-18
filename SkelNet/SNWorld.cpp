@@ -3,6 +3,7 @@
 #include "SNDataPacket.h"
 #include <math.h>
 #include <vector>
+#include <string>
 #include "SNAnimator.h"
 #include "SNFlags.h"
 #include "SNTrailRenderer.h"
@@ -11,7 +12,7 @@
 #include "SNFloor.h"
 #include "SNFiniteStateMachine.h"
 #include "SNUIElement.h"
-#include <string>
+#include <cmath>
 
 SNWorld* thisWorld;
 

@@ -2,6 +2,7 @@
 #include "Vector.h"
 #include "SNAnchor.h"
 #include <functional>
+#include <string>
 
 class SNSprite;
 class SNWorld;
