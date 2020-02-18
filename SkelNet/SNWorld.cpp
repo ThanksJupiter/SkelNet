@@ -11,6 +11,7 @@
 #include "SNFloor.h"
 #include "SNFiniteStateMachine.h"
 #include "SNUIElement.h"
+#include <string>
 
 SNWorld* thisWorld;
 
